@@ -5,25 +5,25 @@
   
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>基于注解的Spring多数据源配置和使用 | Hexo</title>
+  <link rel="dns-prefetch" href="https://ljd0620.github.io">
+  <title>基于注解的Spring多数据源配置和使用 | INCEPTION</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="description" content="前一段时间研究了一下spring多数据源的配置和使用，为了后期从多个数据源拉取数据定时进行数据分析和报表统计做准备。由于之前做过的项目都是单数据源的，没有遇到这种场景，所以也一直没有去了解过如何配置多数据源。 后来发现其实基于spring来配置和使用多数据源还是比较简单的，因为spring框架已经预留了这样的接口可以方便数据源的切换。 先看一下spring获取数据源的源码： 可以看到Abstrac">
-<meta name="keywords" content="Spring,多数据源,Java">
+<meta name="keywords" content="Java,Spring,多数据源">
 <meta property="og:type" content="article">
 <meta property="og:title" content="基于注解的Spring多数据源配置和使用">
-<meta property="og:url" content="http://yoursite.com/2019/02/15/基于注解的Spring多数据源配置和使用/index.html">
-<meta property="og:site_name" content="Hexo">
+<meta property="og:url" content="https://ljd0620.github.io/2019/02/15/基于注解的Spring多数据源配置和使用/index.html">
+<meta property="og:site_name" content="INCEPTION">
 <meta property="og:description" content="前一段时间研究了一下spring多数据源的配置和使用，为了后期从多个数据源拉取数据定时进行数据分析和报表统计做准备。由于之前做过的项目都是单数据源的，没有遇到这种场景，所以也一直没有去了解过如何配置多数据源。 后来发现其实基于spring来配置和使用多数据源还是比较简单的，因为spring框架已经预留了这样的接口可以方便数据源的切换。 先看一下spring获取数据源的源码： 可以看到Abstrac">
 <meta property="og:locale" content="default">
-<meta property="og:image" content="http://yoursite.com/images/1.jpg">
-<meta property="og:updated_time" content="2019-02-15T07:05:03.069Z">
+<meta property="og:image" content="https://ljd0620.github.io/images/1.jpg">
+<meta property="og:updated_time" content="2019-02-15T07:24:31.854Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="基于注解的Spring多数据源配置和使用">
 <meta name="twitter:description" content="前一段时间研究了一下spring多数据源的配置和使用，为了后期从多个数据源拉取数据定时进行数据分析和报表统计做准备。由于之前做过的项目都是单数据源的，没有遇到这种场景，所以也一直没有去了解过如何配置多数据源。 后来发现其实基于spring来配置和使用多数据源还是比较简单的，因为spring框架已经预留了这样的接口可以方便数据源的切换。 先看一下spring获取数据源的源码： 可以看到Abstrac">
-<meta name="twitter:image" content="http://yoursite.com/images/1.jpg">
+<meta name="twitter:image" content="https://ljd0620.github.io/images/1.jpg">
   
-    <link rel="alternative" href="/atom.xml" title="Hexo" type="application/atom+xml">
+    <link rel="alternative" href="/atom.xml" title="INCEPTION" type="application/atom+xml">
   
   
     <link rel="icon" href="/favicon.png">
@@ -53,7 +53,7 @@
 			<img src="/img/avatar.jpeg" class="js-avatar">
 		</a>
 		<hgroup>
-		  <h1 class="header-author"><a href="/">Liujiduo</a></h1>
+		  <h1 class="header-author"><a href="/">Jared</a></h1>
 		</hgroup>
 		
 
@@ -62,7 +62,7 @@
 			
 				<li><a href="/">主页</a></li>
 	        
-				<li><a href="/tags/随笔/">随笔</a></li>
+				<li><a href="/categories/随笔/">随笔</a></li>
 	        
 			</ul>
 		</nav>
@@ -73,10 +73,6 @@
     			
             
     			
-    			<a q-on="click: openSlider(e, 'friends')" href="javascript:void(0)">友链</a>
-    			
-            
-    			
     			<a q-on="click: openSlider(e, 'aboutme')" href="javascript:void(0)">关于我</a>
     			
             
@@ -84,13 +80,13 @@
 		<nav class="header-nav">
 			<div class="social">
 				
-					<a class="github" target="_blank" href="#" title="github"><i class="icon-github"></i></a>
+					<a class="github" target="_blank" href="https://github.com/ljd0620" title="github"><i class="icon-github"></i></a>
 		        
 					<a class="weibo" target="_blank" href="#" title="weibo"><i class="icon-weibo"></i></a>
 		        
-					<a class="rss" target="_blank" href="#" title="rss"><i class="icon-rss"></i></a>
-		        
 					<a class="zhihu" target="_blank" href="#" title="zhihu"><i class="icon-zhihu"></i></a>
+		        
+					<a class="mail" target="_blank" href="mailto:975336234@qq.com" title="mail"><i class="icon-mail"></i></a>
 		        
 			</div>
 		</nav>
@@ -111,7 +107,7 @@
 				<img src="/img/avatar.jpeg" class="js-avatar">
 			</div>
 			<hgroup>
-			  <h1 class="header-author js-header-author">Liujiduo</h1>
+			  <h1 class="header-author js-header-author">Jared</h1>
 			</hgroup>
 			
 			
@@ -125,13 +121,13 @@
 			<nav class="header-nav">
 				<div class="social">
 					
-						<a class="github" target="_blank" href="#" title="github"><i class="icon-github"></i></a>
+						<a class="github" target="_blank" href="https://github.com/ljd0620" title="github"><i class="icon-github"></i></a>
 			        
 						<a class="weibo" target="_blank" href="#" title="weibo"><i class="icon-weibo"></i></a>
 			        
-						<a class="rss" target="_blank" href="#" title="rss"><i class="icon-rss"></i></a>
-			        
 						<a class="zhihu" target="_blank" href="#" title="zhihu"><i class="icon-zhihu"></i></a>
+			        
+						<a class="mail" target="_blank" href="mailto:975336234@qq.com" title="mail"><i class="icon-mail"></i></a>
 			        
 				</div>
 			</nav>
@@ -142,7 +138,7 @@
 				
 					<li style="width: 50%"><a href="/">主页</a></li>
 		        
-					<li style="width: 50%"><a href="/tags/随笔/">随笔</a></li>
+					<li style="width: 50%"><a href="/categories/随笔/">随笔</a></li>
 		        
 				</ul>
 			</nav>
@@ -206,9 +202,19 @@
             <span class="tooltip-content">
               <span class="tooltip-text">
                 <span class="tooltip-inner">
-                  <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你请我吃糖果<i class="icon icon-quo-right"></i></p>
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>请我喝咖啡？<i class="icon icon-quo-right"></i></p>
                   <div class="reward-box">
                     
+                    <div class="reward-box-item">
+                      <img class="reward-img" src="/img/alipay.jpeg">
+                      <span class="reward-type">支付宝</span>
+                    </div>
+                    
+                    
+                    <div class="reward-box-item">
+                      <img class="reward-img" src="/img/weixin.jpeg">
+                      <span class="reward-type">微信</span>
+                    </div>
                     
                   </div>
                 </span>
@@ -227,15 +233,15 @@
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">Java</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
         			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">Spring</a>
         		</li>
       		 
         		<li class="article-tag-list-item">
         			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">多数据源</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">Java</a>
         		</li>
       		
 		</ul>
@@ -247,7 +253,7 @@
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="/categories/日积月累/" class="article-tag-list-link color5">日积月累</a>
+        			<a href="/categories/随笔/" class="article-tag-list-link color3">随笔</a>
         		</li>
       		
 		</ul>
@@ -257,57 +263,6 @@
       
 
       
-        
-<div class="share-btn share-icons tooltip-left">
-  <div class="tooltip tooltip-east">
-    <span class="tooltip-item">
-      <a href="javascript:;" class="share-sns share-outer">
-        <i class="icon icon-share"></i>
-      </a>
-    </span>
-    <span class="tooltip-content">
-      <div class="share-wrap">
-        <div class="share-icons">
-          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
-            <i class="icon icon-weibo"></i>
-          </a>
-          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
-            <i class="icon icon-weixin"></i>
-          </a>
-          <a class="qq share-sns" href="javascript:;" data-type="qq">
-            <i class="icon icon-qq"></i>
-          </a>
-          <a class="douban share-sns" href="javascript:;" data-type="douban">
-            <i class="icon icon-douban"></i>
-          </a>
-          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
-            <i class="icon icon-qzone"></i>
-          </a>
-          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
-            <i class="icon icon-facebook"></i>
-          </a>
-          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
-            <i class="icon icon-twitter"></i>
-          </a>
-          <a class="google share-sns" href="javascript:;" data-type="google">
-            <i class="icon icon-google"></i>
-          </a>
-        </div>
-      </div>
-    </span>
-  </div>
-</div>
-
-<div class="page-modal wx-share js-wx-box">
-    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
-    <p>扫一扫，分享到微信</p>
-    <div class="wx-qrcode">
-      <img src="http://s.jiathis.com/qrcode.php?url=http://yoursite.com/2019/02/15/基于注解的Spring多数据源配置和使用/" alt="微信分享二维码">
-    </div>
-</div>
-
-<div class="mask js-mask"></div>
-      
       <div class="clearfix"></div>
     </div>
   </div>
@@ -316,11 +271,15 @@
   
 <nav id="article-nav">
   
-  
-    <a href="/2019/02/15/基于xml的Spring多数据源配置和使用/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">基于xml的Spring多数据源配置和使用</div>
-      <i class="icon-circle-right"></i>
+    <a href="/2019/02/15/基于xml的Spring多数据源配置和使用/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          基于xml的Spring多数据源配置和使用
+        
+      </div>
     </a>
+  
   
 </nav>
 
@@ -343,14 +302,15 @@
   <div class="outer">
     <div id="footer-info">
     	<div class="footer-left">
-    		&copy; 2019 Liujiduo
+    		&copy; 2019 Jared All rights reserved.
     	</div>
       	<div class="footer-right">
-      		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
+      		<!--<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten-->
       	</div>
     </div>
   </div>
 </footer>
+
     </div>
     <script>
 	var yiliaConfig = {
@@ -383,25 +343,17 @@
       
       
     
-      
-      
-      
-    
     
 
     <ul style="width: 70%">
     
     
       
-      <li style="width: 33.333333333333336%" q-on="click: openSlider(e, 'innerArchive')"><a href="javascript:void(0)" q-class="active:innerArchive">所有文章</a></li>
+      <li style="width: 50%" q-on="click: openSlider(e, 'innerArchive')"><a href="javascript:void(0)" q-class="active:innerArchive">所有文章</a></li>
       
         
       
-      <li style="width: 33.333333333333336%" q-on="click: openSlider(e, 'friends')"><a href="javascript:void(0)" q-class="active:friends">友链</a></li>
-      
-        
-      
-      <li style="width: 33.333333333333336%" q-on="click: openSlider(e, 'aboutme')"><a href="javascript:void(0)" q-class="active:aboutme">关于我</a></li>
+      <li style="width: 50%" q-on="click: openSlider(e, 'aboutme')"><a href="javascript:void(0)" q-class="active:aboutme">关于我</a></li>
       
         
     </ul>
@@ -422,15 +374,15 @@
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">Java</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">Spring</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">多数据源</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">Java</a>
               </li>
             
             <div class="clearfix"></div>
@@ -476,26 +428,6 @@
     	</section>
     
 
-    
-    	<section class="tools-section tools-section-friends" q-show="friends">
-  		
-        <ul class="search-ul">
-          
-            <li class="search-li">
-              <a href="http://localhost:4000/" target="_blank" class="search-title"><i class="icon-quo-left icon"></i>友情链接1</a>
-            </li>
-          
-            <li class="search-li">
-              <a href="http://localhost:4000/" target="_blank" class="search-title"><i class="icon-quo-left icon"></i>友情链接2</a>
-            </li>
-          
-            <li class="search-li">
-              <a href="http://localhost:4000/" target="_blank" class="search-title"><i class="icon-quo-left icon"></i>友情链接3</a>
-            </li>
-          
-        </ul>
-  		
-    	</section>
     
 
     

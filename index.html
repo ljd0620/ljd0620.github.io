@@ -5,18 +5,18 @@
   
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Hexo</title>
+  <link rel="dns-prefetch" href="https://ljd0620.github.io">
+  <title>INCEPTION</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta property="og:type" content="website">
-<meta property="og:title" content="Hexo">
-<meta property="og:url" content="http://yoursite.com/index.html">
-<meta property="og:site_name" content="Hexo">
+<meta property="og:title" content="INCEPTION">
+<meta property="og:url" content="https://ljd0620.github.io/index.html">
+<meta property="og:site_name" content="INCEPTION">
 <meta property="og:locale" content="default">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Hexo">
+<meta name="twitter:title" content="INCEPTION">
   
-    <link rel="alternative" href="/atom.xml" title="Hexo" type="application/atom+xml">
+    <link rel="alternative" href="/atom.xml" title="INCEPTION" type="application/atom+xml">
   
   
     <link rel="icon" href="/favicon.png">
@@ -46,7 +46,7 @@
 			<img src="/img/avatar.jpeg" class="js-avatar">
 		</a>
 		<hgroup>
-		  <h1 class="header-author"><a href="/">Liujiduo</a></h1>
+		  <h1 class="header-author"><a href="/">Jared</a></h1>
 		</hgroup>
 		
 
@@ -55,7 +55,7 @@
 			
 				<li><a href="/">主页</a></li>
 	        
-				<li><a href="/tags/随笔/">随笔</a></li>
+				<li><a href="/categories/随笔/">随笔</a></li>
 	        
 			</ul>
 		</nav>
@@ -66,10 +66,6 @@
     			
             
     			
-    			<a q-on="click: openSlider(e, 'friends')" href="javascript:void(0)">友链</a>
-    			
-            
-    			
     			<a q-on="click: openSlider(e, 'aboutme')" href="javascript:void(0)">关于我</a>
     			
             
@@ -77,13 +73,13 @@
 		<nav class="header-nav">
 			<div class="social">
 				
-					<a class="github" target="_blank" href="#" title="github"><i class="icon-github"></i></a>
+					<a class="github" target="_blank" href="https://github.com/ljd0620" title="github"><i class="icon-github"></i></a>
 		        
 					<a class="weibo" target="_blank" href="#" title="weibo"><i class="icon-weibo"></i></a>
 		        
-					<a class="rss" target="_blank" href="#" title="rss"><i class="icon-rss"></i></a>
-		        
 					<a class="zhihu" target="_blank" href="#" title="zhihu"><i class="icon-zhihu"></i></a>
+		        
+					<a class="mail" target="_blank" href="mailto:975336234@qq.com" title="mail"><i class="icon-mail"></i></a>
 		        
 			</div>
 		</nav>
@@ -104,7 +100,7 @@
 				<img src="/img/avatar.jpeg" class="js-avatar">
 			</div>
 			<hgroup>
-			  <h1 class="header-author js-header-author">Liujiduo</h1>
+			  <h1 class="header-author js-header-author">Jared</h1>
 			</hgroup>
 			
 			
@@ -118,13 +114,13 @@
 			<nav class="header-nav">
 				<div class="social">
 					
-						<a class="github" target="_blank" href="#" title="github"><i class="icon-github"></i></a>
+						<a class="github" target="_blank" href="https://github.com/ljd0620" title="github"><i class="icon-github"></i></a>
 			        
 						<a class="weibo" target="_blank" href="#" title="weibo"><i class="icon-weibo"></i></a>
 			        
-						<a class="rss" target="_blank" href="#" title="rss"><i class="icon-rss"></i></a>
-			        
 						<a class="zhihu" target="_blank" href="#" title="zhihu"><i class="icon-zhihu"></i></a>
+			        
+						<a class="mail" target="_blank" href="mailto:975336234@qq.com" title="mail"><i class="icon-mail"></i></a>
 			        
 				</div>
 			</nav>
@@ -135,7 +131,7 @@
 				
 					<li style="width: 50%"><a href="/">主页</a></li>
 		        
-					<li style="width: 50%"><a href="/tags/随笔/">随笔</a></li>
+					<li style="width: 50%"><a href="/categories/随笔/">随笔</a></li>
 		        
 				</ul>
 			</nav>
@@ -151,6 +147,91 @@
           </div>
           <div id="js-content" class="content-ll">
             
+  
+    <article id="post-基于xml的Spring多数据源配置和使用" class="article article-type-post  article-index" itemscope="" itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/02/15/基于xml的Spring多数据源配置和使用/">基于xml的Spring多数据源配置和使用</a>
+    </h1>
+  
+
+        
+        <a href="/2019/02/15/基于xml的Spring多数据源配置和使用/" class="archive-article-date">
+  	<time datetime="2019-02-15T07:01:37.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-02-15</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>上一篇写了《基于注解的Spring多数据源配置和使用》，通过在类或者方法上添加<code>@DataSource</code>注解就可以指定某个数据源。这种方式的优点是控制粒度细，也更灵活。但是当有些时候项目分模块开发，可能某一个模块只访问同一个数据源，这种场景下如果使用注解的话就要在这个模块下的所有dao接口都增加注解<code>@DataSource</code>，就会显得繁琐。</p>
+<p>如果能直接在配置文件中一次性配置好，不用在每个类都添加注解岂不是更好？当然也是可以的。<br>首先，再创建一个AOP切面<code>DataSourceAspect2</code>，代码如下：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">DataSourceAspect2</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 设置数据源dataSource1</span></span><br><span class="line"><span class="comment">     * </span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> point</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setDataSource1</span><span class="params">(JoinPoint point)</span> </span>&#123;</span><br><span class="line">        DynamicDataSourceHolder.setDataSource(<span class="string">"dataSource1"</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 设置数据源dataSource2</span></span><br><span class="line"><span class="comment">     * </span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> point</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setDataSource2</span><span class="params">(JoinPoint point)</span> </span>&#123;</span><br><span class="line">        DynamicDataSourceHolder.setDataSource(<span class="string">"dataSource1"</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>然后，配置这个切面的bean和拦截规则，xml配置如下：<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">"dataSourceAspect2"</span> <span class="attr">class</span>=<span class="string">"com.test.context.datasource.DataSourceAspect2"</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">aop:config</span>&gt;</span>  </span><br><span class="line">    <span class="tag">&lt;<span class="name">aop:aspect</span> <span class="attr">ref</span>=<span class="string">"dataSourceAspect2"</span>&gt;</span> </span><br><span class="line">        <span class="comment">&lt;!-- 拦截ds1模块下的所有方法 --&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">aop:pointcut</span> <span class="attr">id</span>=<span class="string">"dataSource1Pointcut"</span> <span class="attr">expression</span>=<span class="string">"execution(* com.test.ds1.*.*(..))"</span> /&gt;</span></span><br><span class="line">        <span class="comment">&lt;!-- 拦截ds2模块下的所有方法 --&gt;</span>        </span><br><span class="line">        <span class="tag">&lt;<span class="name">aop:pointcut</span> <span class="attr">id</span>=<span class="string">" dataSource2Pointcut"</span> <span class="attr">expression</span>=<span class="string">"execution(* com.test.ds2.*.*(..))"</span> /&gt;</span> </span><br><span class="line">        <span class="comment">&lt;!-- 拦截到ds1模块后，在方法执行前先调用DataSourceAspect2里的setDataSource1设置数据源标识为dataSource1 --&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">aop:before</span> <span class="attr">pointcut-ref</span>=<span class="string">"dataSource1Pointcut"</span> <span class="attr">method</span>=<span class="string">"setDataSource1"</span> /&gt;</span> </span><br><span class="line">        <span class="comment">&lt;!-- 拦截到ds2模块后，在方法执行前先调用DataSourceAspect2里的setDataSource2设置数据源标识为dataSource2 --&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">aop:before</span> <span class="attr">pointcut-ref</span>=<span class="string">"dataSource1Pointcut"</span> <span class="attr">method</span>=<span class="string">"setDataSource2"</span> /&gt;</span>  </span><br><span class="line">    <span class="tag">&lt;/<span class="name">aop:aspect</span>&gt;</span>  </span><br><span class="line"><span class="tag">&lt;/<span class="name">aop:config</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>这样配置好之后，每个模块下的dao就只访问指定的数据源了。以后如果再增加数据源<code>dataSource3</code>，则在<code>DataSourceAspect2</code>类里增加一个方法<code>setDataSource3(JoinPoint point)</code>，并在上面的配置中增加类似的拦截规则就可以了。</p>
+<p>假如使用了xml的方式配置了ds1模块使用数据源<code>dataSource1</code>了，而ds1模块下的某个方法a又需要访问数据源<code>dataSource2</code>，这时可以单独在a上使用注解<code>@DataSource</code>指定数据源。也就是说注解和xml配置两种方式可以同时使用（但不建议这样），至于两者哪个的优先级更高，可以通过配置<code>aop:aspect</code>里的<code>order</code>参数进行指定。</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">Java</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">Spring</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">多数据源</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/随笔/" class="article-tag-list-link color3">随笔</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/02/15/基于xml的Spring多数据源配置和使用/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
   
     <article id="post-基于注解的Spring多数据源配置和使用" class="article article-type-post  article-index" itemscope="" itemprop="blogPost">
   <div class="article-inner">
@@ -201,15 +282,15 @@
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">Java</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
         			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">Spring</a>
         		</li>
       		 
         		<li class="article-tag-list-item">
         			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">多数据源</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">Java</a>
         		</li>
       		
 		</ul>
@@ -221,7 +302,7 @@
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="/categories/日积月累/" class="article-tag-list-link color5">日积月累</a>
+        			<a href="/categories/随笔/" class="article-tag-list-link color3">随笔</a>
         		</li>
       		
 		</ul>
@@ -231,91 +312,6 @@
       
         <p class="article-more-link">
           <a class="article-more-a" href="/2019/02/15/基于注解的Spring多数据源配置和使用/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-  
-    <article id="post-基于xml的Spring多数据源配置和使用" class="article article-type-post  article-index" itemscope="" itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/02/15/基于xml的Spring多数据源配置和使用/">基于xml的Spring多数据源配置和使用</a>
-    </h1>
-  
-
-        
-        <a href="/2019/02/15/基于xml的Spring多数据源配置和使用/" class="archive-article-date">
-  	<time datetime="2019-02-15T07:01:37.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-02-15</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>上一篇写了《基于注解的Spring多数据源配置和使用》，通过在类或者方法上添加<code>@DataSource</code>注解就可以指定某个数据源。这种方式的优点是控制粒度细，也更灵活。但是当有些时候项目分模块开发，可能某一个模块只访问同一个数据源，这种场景下如果使用注解的话就要在这个模块下的所有dao接口都增加注解<code>@DataSource</code>，就会显得繁琐。</p>
-<p>如果能直接在配置文件中一次性配置好，不用在每个类都添加注解岂不是更好？当然也是可以的。<br>首先，再创建一个AOP切面<code>DataSourceAspect2</code>，代码如下：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">DataSourceAspect2</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 设置数据源dataSource1</span></span><br><span class="line"><span class="comment">     * </span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> point</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setDataSource1</span><span class="params">(JoinPoint point)</span> </span>&#123;</span><br><span class="line">        DynamicDataSourceHolder.setDataSource(<span class="string">"dataSource1"</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 设置数据源dataSource2</span></span><br><span class="line"><span class="comment">     * </span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> point</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setDataSource2</span><span class="params">(JoinPoint point)</span> </span>&#123;</span><br><span class="line">        DynamicDataSourceHolder.setDataSource(<span class="string">"dataSource1"</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>然后，配置这个切面的bean和拦截规则，xml配置如下：<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">"dataSourceAspect2"</span> <span class="attr">class</span>=<span class="string">"com.test.context.datasource.DataSourceAspect2"</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">aop:config</span>&gt;</span>  </span><br><span class="line">    <span class="tag">&lt;<span class="name">aop:aspect</span> <span class="attr">ref</span>=<span class="string">"dataSourceAspect2"</span>&gt;</span> </span><br><span class="line">        <span class="comment">&lt;!-- 拦截ds1模块下的所有方法 --&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">aop:pointcut</span> <span class="attr">id</span>=<span class="string">"dataSource1Pointcut"</span> <span class="attr">expression</span>=<span class="string">"execution(* com.test.ds1.*.*(..))"</span> /&gt;</span></span><br><span class="line">        <span class="comment">&lt;!-- 拦截ds2模块下的所有方法 --&gt;</span>        </span><br><span class="line">        <span class="tag">&lt;<span class="name">aop:pointcut</span> <span class="attr">id</span>=<span class="string">" dataSource2Pointcut"</span> <span class="attr">expression</span>=<span class="string">"execution(* com.test.ds2.*.*(..))"</span> /&gt;</span> </span><br><span class="line">        <span class="comment">&lt;!-- 拦截到ds1模块后，在方法执行前先调用DataSourceAspect2里的setDataSource1设置数据源标识为dataSource1 --&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">aop:before</span> <span class="attr">pointcut-ref</span>=<span class="string">"dataSource1Pointcut"</span> <span class="attr">method</span>=<span class="string">"setDataSource1"</span> /&gt;</span> </span><br><span class="line">        <span class="comment">&lt;!-- 拦截到ds2模块后，在方法执行前先调用DataSourceAspect2里的setDataSource2设置数据源标识为dataSource2 --&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">aop:before</span> <span class="attr">pointcut-ref</span>=<span class="string">"dataSource1Pointcut"</span> <span class="attr">method</span>=<span class="string">"setDataSource2"</span> /&gt;</span>  </span><br><span class="line">    <span class="tag">&lt;/<span class="name">aop:aspect</span>&gt;</span>  </span><br><span class="line"><span class="tag">&lt;/<span class="name">aop:config</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
-<p>这样配置好之后，每个模块下的dao就只访问指定的数据源了。以后如果再增加数据源<code>dataSource3</code>，则在<code>DataSourceAspect2</code>类里增加一个方法<code>setDataSource3(JoinPoint point)</code>，并在上面的配置中增加类似的拦截规则就可以了。</p>
-<p>假如使用了xml的方式配置了ds1模块使用数据源<code>dataSource1</code>了，而ds1模块下的某个方法a又需要访问数据源<code>dataSource2</code>，这时可以单独在a上使用注解<code>@DataSource</code>指定数据源。也就是说注解和xml配置两种方式可以同时使用（但不建议这样），至于两者哪个的优先级更高，可以通过配置<code>aop:aspect</code>里的<code>order</code>参数进行指定。</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">Spring</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">多数据源</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">Java</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/日积月累/" class="article-tag-list-link color5">日积月累</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/02/15/基于xml的Spring多数据源配置和使用/">展开全文 >></a>
         </p>
       
 
@@ -343,14 +339,15 @@
   <div class="outer">
     <div id="footer-info">
     	<div class="footer-left">
-    		&copy; 2019 Liujiduo
+    		&copy; 2019 Jared All rights reserved.
     	</div>
       	<div class="footer-right">
-      		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
+      		<!--<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten-->
       	</div>
     </div>
   </div>
 </footer>
+
     </div>
     <script>
 	var yiliaConfig = {
@@ -383,25 +380,17 @@
       
       
     
-      
-      
-      
-    
     
 
     <ul style="width: 70%">
     
     
       
-      <li style="width: 33.333333333333336%" q-on="click: openSlider(e, 'innerArchive')"><a href="javascript:void(0)" q-class="active:innerArchive">所有文章</a></li>
+      <li style="width: 50%" q-on="click: openSlider(e, 'innerArchive')"><a href="javascript:void(0)" q-class="active:innerArchive">所有文章</a></li>
       
         
       
-      <li style="width: 33.333333333333336%" q-on="click: openSlider(e, 'friends')"><a href="javascript:void(0)" q-class="active:friends">友链</a></li>
-      
-        
-      
-      <li style="width: 33.333333333333336%" q-on="click: openSlider(e, 'aboutme')"><a href="javascript:void(0)" q-class="active:aboutme">关于我</a></li>
+      <li style="width: 50%" q-on="click: openSlider(e, 'aboutme')"><a href="javascript:void(0)" q-class="active:aboutme">关于我</a></li>
       
         
     </ul>
@@ -422,15 +411,15 @@
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">Java</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">Spring</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">多数据源</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">Java</a>
               </li>
             
             <div class="clearfix"></div>
@@ -476,26 +465,6 @@
     	</section>
     
 
-    
-    	<section class="tools-section tools-section-friends" q-show="friends">
-  		
-        <ul class="search-ul">
-          
-            <li class="search-li">
-              <a href="http://localhost:4000/" target="_blank" class="search-title"><i class="icon-quo-left icon"></i>友情链接1</a>
-            </li>
-          
-            <li class="search-li">
-              <a href="http://localhost:4000/" target="_blank" class="search-title"><i class="icon-quo-left icon"></i>友情链接2</a>
-            </li>
-          
-            <li class="search-li">
-              <a href="http://localhost:4000/" target="_blank" class="search-title"><i class="icon-quo-left icon"></i>友情链接3</a>
-            </li>
-          
-        </ul>
-  		
-    	</section>
     
 
     
