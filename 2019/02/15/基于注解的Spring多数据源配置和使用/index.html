@@ -17,7 +17,7 @@
 <meta property="og:description" content="前一段时间研究了一下spring多数据源的配置和使用，为了后期从多个数据源拉取数据定时进行数据分析和报表统计做准备。由于之前做过的项目都是单数据源的，没有遇到这种场景，所以也一直没有去了解过如何配置多数据源。 后来发现其实基于spring来配置和使用多数据源还是比较简单的，因为spring框架已经预留了这样的接口可以方便数据源的切换。 先看一下spring获取数据源的源码： 可以看到Abstrac">
 <meta property="og:locale" content="default">
 <meta property="og:image" content="https://ljd0620.github.io/images/1.jpg">
-<meta property="og:updated_time" content="2019-02-15T07:24:31.854Z">
+<meta property="og:updated_time" content="2019-02-15T08:07:47.792Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="基于注解的Spring多数据源配置和使用">
 <meta name="twitter:description" content="前一段时间研究了一下spring多数据源的配置和使用，为了后期从多个数据源拉取数据定时进行数据分析和报表统计做准备。由于之前做过的项目都是单数据源的，没有遇到这种场景，所以也一直没有去了解过如何配置多数据源。 后来发现其实基于spring来配置和使用多数据源还是比较简单的，因为spring框架已经预留了这样的接口可以方便数据源的切换。 先看一下spring获取数据源的源码： 可以看到Abstrac">
@@ -372,6 +372,26 @@
             <input type="checkbox" q-on="click:toggleTag(e)" q-attr="checked:showTags">
           </label>
           <ul class="article-tag-list" q-show="showTags">
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">MySQL</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">Galera</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">集群部署</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">Nginx</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">负载均衡</a>
+              </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">Java</a>
