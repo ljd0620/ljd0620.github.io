@@ -6,15 +6,35 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link rel="dns-prefetch" href="https://ljd0620.github.io">
-  <title>Tag: 负载均衡 | INCEPTION</title>
+  <title>Linux下MySQL Galera集群搭建过程 | INCEPTION</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="INCEPTION">
-<meta property="og:url" content="https://ljd0620.github.io/tags/负载均衡/index.html">
+  <meta name="description" content="MariaDB介绍 MariaDB是开源社区维护的一个MySQL分支，由MySQL的创始人Michael Widenius主导开发，采用GPL授权许可证。MariaDB的目的是完全兼容MySQL，包括API和命令行，使之能轻松成为MySQL的代替品。详细介绍请参考链接：http://mariadb.org/（官网） Galera Cluster介绍 Galera Cluster是基于MySQL/I">
+<meta name="keywords" content="MySQL,Galera,集群部署">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Linux下MySQL Galera集群搭建过程">
+<meta property="og:url" content="https://ljd0620.github.io/2016/02/01/Linux下MySQL-Galera集群搭建过程/index.html">
 <meta property="og:site_name" content="INCEPTION">
+<meta property="og:description" content="MariaDB介绍 MariaDB是开源社区维护的一个MySQL分支，由MySQL的创始人Michael Widenius主导开发，采用GPL授权许可证。MariaDB的目的是完全兼容MySQL，包括API和命令行，使之能轻松成为MySQL的代替品。详细介绍请参考链接：http://mariadb.org/（官网） Galera Cluster介绍 Galera Cluster是基于MySQL/I">
 <meta property="og:locale" content="default">
+<meta property="og:image" content="https://ljd0620.github.io/images/1-1.jpg">
+<meta property="og:image" content="https://ljd0620.github.io/images/2.jpg">
+<meta property="og:image" content="https://ljd0620.github.io/images/3.jpg">
+<meta property="og:image" content="https://ljd0620.github.io/images/4.jpg">
+<meta property="og:image" content="https://ljd0620.github.io/images/5.jpg">
+<meta property="og:image" content="https://ljd0620.github.io/images/6.jpg">
+<meta property="og:image" content="https://ljd0620.github.io/images/7.jpg">
+<meta property="og:image" content="https://ljd0620.github.io/images/8.jpg">
+<meta property="og:image" content="https://ljd0620.github.io/images/9.jpg">
+<meta property="og:image" content="https://ljd0620.github.io/images/10.jpg">
+<meta property="og:image" content="https://ljd0620.github.io/images/11.jpg">
+<meta property="og:image" content="https://ljd0620.github.io/images/12.jpg">
+<meta property="og:image" content="https://ljd0620.github.io/images/13.jpg">
+<meta property="og:image" content="https://ljd0620.github.io/images/14.jpg">
+<meta property="og:updated_time" content="2019-02-17T08:01:28.249Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="INCEPTION">
+<meta name="twitter:title" content="Linux下MySQL Galera集群搭建过程">
+<meta name="twitter:description" content="MariaDB介绍 MariaDB是开源社区维护的一个MySQL分支，由MySQL的创始人Michael Widenius主导开发，采用GPL授权许可证。MariaDB的目的是完全兼容MySQL，包括API和命令行，使之能轻松成为MySQL的代替品。详细介绍请参考链接：http://mariadb.org/（官网） Galera Cluster介绍 Galera Cluster是基于MySQL/I">
+<meta name="twitter:image" content="https://ljd0620.github.io/images/1-1.jpg">
   
     <link rel="alternative" href="/atom.xml" title="INCEPTION" type="application/atom+xml">
   
@@ -146,52 +166,177 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="post-Linux下MySQL-Galera集群搭建过程" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2016" class="archive-year">2016</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2016/02/04/Nginx负载均衡配置/" class="archive-article-date">
-  	<time datetime="2016-02-04T08:13:33.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2016-02-04</time>
-</a>
-        </div>
-    	 
+      <header class="article-header">
+        
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2016/02/04/Nginx负载均衡配置/">Nginx负载均衡配置</a>
+    <h1 class="article-title" itemprop="name">
+      Linux下MySQL Galera集群搭建过程
     </h1>
   
 
-        <div class="article-info info-on-right">
-          
+        
+        <a href="/2016/02/01/Linux下MySQL-Galera集群搭建过程/" class="archive-article-date">
+  	<time datetime="2016-02-01T08:09:03.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2016-02-01</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><strong>MariaDB介绍</strong></p>
+<p>MariaDB是开源社区维护的一个MySQL分支，由MySQL的创始人Michael Widenius主导开发，采用GPL授权许可证。<br>MariaDB的目的是完全兼容MySQL，包括API和命令行，使之能轻松成为MySQL的代替品。<br>详细介绍请参考链接：<a href="http://baike.baidu.com/link?url=dFJ-My-I52YFc1mx26K804LPwZrcEWCwB4IqfA4-soYx6295BZLIe7bEFgOtt3CWZ8AYpkp1P342L4S-R4x4CK" target="_blank" rel="noopener">http://mariadb.org/（官网）</a></p>
+<p><strong>Galera Cluster介绍</strong></p>
+<p>Galera Cluster是基于MySQL/InnoDB二次开发而成的一个支持“多主同步”的数据库主从集群，具有高可用，易于扩展等特点。<br>详细介绍请参考链接：<a href="http://www.gpfeng.com/?p=603&amp;utm_source=tuicool&amp;utm_medium=referral" target="_blank" rel="noopener">http://galeracluster.com/（官网）</a><br>本文使用的Linux发行版：CentOS6.7 <a href="https://wiki.centos.org/Download" target="_blank" rel="noopener">下载地址</a></p>
+<p> <strong>1. 添加yum源</strong></p>
+<figure class="highlight autoit"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root<span class="symbol">@localhost</span> ~]<span class="meta"># vi /etc/yum.repos.d/CentOS-MariaDB.repo</span></span><br></pre></td></tr></table></figure>
+<p>添加如下几行：<br><figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="section">[mariadb]</span></span><br><span class="line"><span class="attr">name</span> = MariaDB</span><br><span class="line"><span class="attr">baseurl</span> = http://yum.mariadb.org/<span class="number">5.5</span>/rhel6-amd64</span><br><span class="line"><span class="attr">gpgkey</span> = https://yum.mariadb.org/RPM-GPG-KEY-MariaDB</span><br><span class="line"><span class="attr">gpgcheck</span> = <span class="number">1</span></span><br></pre></td></tr></table></figure></p>
+<p><img src="/images/1-1.jpg" alt="1"></p>
+<p><strong>2. 安装mariadb galera软件包</strong></p>
+<figure class="highlight autoit"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root<span class="symbol">@localhost</span> ~]<span class="meta"># yum install MariaDB-Galera-server MariaDB-client galera</span></span><br></pre></td></tr></table></figure>
+<p><img src="/images/2.jpg" alt="2"></p>
+<p><img src="/images/3.jpg" alt="3"></p>
+<p><strong>3. 修改防火墙配置</strong></p>
+<figure class="highlight autoit"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root<span class="symbol">@localhost</span> ~]<span class="meta"># vi /etc/sysconfig/iptables</span></span><br></pre></td></tr></table></figure>
+<p>添加如下几行：<br><figure class="highlight pf"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">-A INPUT -m <span class="keyword">state</span> --state NEW -m tcp -p tcp --dport <span class="number">3306</span> -j ACCEPT</span><br><span class="line">-A INPUT -m <span class="keyword">state</span> --state NEW -m tcp -p tcp --dport <span class="number">4444</span> -j ACCEPT</span><br><span class="line">-A INPUT -m <span class="keyword">state</span> --state NEW -m tcp -p tcp --dport <span class="number">4567</span> -j ACCEPT</span><br><span class="line">-A INPUT -m <span class="keyword">state</span> --state NEW -m tcp -p tcp --dport <span class="number">4568</span> -j ACCEPT</span><br></pre></td></tr></table></figure></p>
+<p><img src="/images/4.jpg" alt="4"></p>
+<p><strong>4. 重启防火墙功能</strong></p>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]#<span class="built_in"> service </span>iptables restart</span><br></pre></td></tr></table></figure>
+<p><img src="/images/5.jpg" alt="5"></p>
+<p><strong>5. 安装selinux管理工具</strong></p>
+<figure class="highlight autoit"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root<span class="symbol">@localhost</span> ~]<span class="meta"># yum provides /usr/sbin/semanage</span></span><br><span class="line">[root<span class="symbol">@localhost</span> ~]<span class="meta"># yum -y install policycoreutils-python</span></span><br></pre></td></tr></table></figure>
+<p><img src="/images/6.jpg" alt="6"></p>
+<p><strong>6. 修改selinux安全策略</strong></p>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]# semanage<span class="built_in"> port </span>-a -t mysqld_port_t -p tcp 4567</span><br><span class="line">[root@localhost ~]# semanage<span class="built_in"> port </span>-a -t mysqld_port_t -p tcp 4568</span><br><span class="line">[root@localhost ~]# semanage permissive -a mysqld_t</span><br></pre></td></tr></table></figure>
+<p><img src="/images/7.jpg" alt="7"></p>
+<p><strong>7. 启动mysql服务</strong></p>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]#<span class="built_in"> service </span>mysql start</span><br></pre></td></tr></table></figure>
+<p><strong>8. 执行mysql安全设置</strong></p>
+<figure class="highlight autoit"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root<span class="symbol">@localhost</span> ~]<span class="meta"># mysql_secure_installation</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>先设置root账户密码，再一直“y”下去即可</p>
+</blockquote>
+<p><img src="/images/8.jpg" alt="8"></p>
+<p><img src="/images/9.jpg" alt="9"></p>
+<p><strong>9. 创建用于节点同步的账号</strong></p>
+<figure class="highlight livescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]<span class="comment"># mysql -uroot -p</span></span><br><span class="line">MariaDB [(none)]&gt; grant usage <span class="literal">on</span> *.* <span class="keyword">to</span> sst@<span class="string">'%'</span> identified <span class="keyword">by</span> <span class="string">'123456'</span>;</span><br><span class="line">MariaDB [(none)]&gt; flush privileges;</span><br></pre></td></tr></table></figure>
+<p><strong>10. 修改mysql默认字符集</strong></p>
+<figure class="highlight gams"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">MariaDB [(none)]&gt; show <span class="keyword">variables</span> like <span class="comment">'character%'</span>;</span><br><span class="line">MariaDB [(none)]&gt; <span class="keyword">set</span> character_set_server <span class="comment">= utf8</span>;</span><br><span class="line">MariaDB [(none)]&gt; <span class="keyword">set</span> character_set_database <span class="comment">= utf8</span>;</span><br></pre></td></tr></table></figure>
+<p><strong>11. 修改集群节点配置</strong></p>
+<figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]# <span class="keyword">cp</span> /usr/share/mysql/wsrep.<span class="keyword">cnf</span> /etc/my.<span class="keyword">cnf</span>.d/</span><br><span class="line">[root@localhost ~]# <span class="keyword">vi</span> /etc/my.<span class="keyword">cnf</span>.d/wsrep.<span class="keyword">cnf</span></span><br></pre></td></tr></table></figure>
+<p>修改如下几行：<br><figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">wsrep_provider=/usr/lib64/galera/libgalera_smm.so</span><br><span class="line">wsrep_cluster_address=<span class="string">"gcomm://"</span>    <span class="comment">#集群节点N的地址（注意把前面的"#"删掉！）</span></span><br><span class="line">wsrep_sst_auth=sst:123456    <span class="comment">#节点N的数据库账户和密码</span></span><br></pre></td></tr></table></figure></p>
+<blockquote>
+<p><code>&quot;gcomm://&quot;</code>是特殊的地址，仅仅是galera cluster初始化启动时候使用。<br>如果集群启动以后，我们关闭了第一个节点，那么再次启动的时候必须先修改<code>&quot;gcomm://&quot;</code>为其他节点的集群地址，例如<code>wsrep_cluster_address=&quot;gcomm://192.168.0.152&quot;</code>。</p>
+</blockquote>
+<p>检查<code>/etc/my.cnf</code>中有没有<code>!includedir /etc/my.cnf.d/</code>这一行，没有则添加。<br><figure class="highlight autoit"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root<span class="symbol">@localhost</span> ~]<span class="meta"># vi /etc/my.cnf</span></span><br></pre></td></tr></table></figure></p>
+<p><img src="/images/10.jpg" alt="10"></p>
+<p>到这里，第1个节点的配置就完成了，然后在另一台主机上按照步骤1~11配置第2个节点，只需修改节点2的<code>wsrep_cluster_address</code>为节点1的IP即可，以此类。</p>
+<p><strong>12. 启动集群节点</strong></p>
+<ul>
+<li>检查mysql进程：<code>[root@localhost ~]# ps aux|grep mysql</code></li>
+<li>停止mysql服务：<code>[root@localhost ~]# service mysql stop</code></li>
+<li>启动第1个节点：<code>[root@localhost ~]# service mysql bootstrap</code></li>
+</ul>
+<p><img src="/images/11.jpg" alt="11"></p>
+<ul>
+<li>启动第2、3、…个节点：<code>[root@localhost ~]# service mysql start</code></li>
+</ul>
+<p><img src="/images/12.jpg" alt="12"></p>
+<blockquote>
+<p>注意：启动mysql之前先检查一下服务是否已经启动，不要重复启动，如果无法停止当前mysql服务则手动kill掉mysql的进程</p>
+</blockquote>
+<p><strong>13. 检查集群运行状态</strong></p>
+<figure class="highlight nsis"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]<span class="comment"># mysql -uroot -p</span></span><br><span class="line">MariaDB [(<span class="literal">none</span>)]&gt; <span class="literal">show</span> status like <span class="string">'wsrep%'</span><span class="comment">;</span></span><br></pre></td></tr></table></figure>
+<p>如果<code>wsrep_connected=ON</code>且<code>wsrep_ready=ON</code>则说明节点成功接入集群。</p>
+<p><img src="/images/13.jpg" alt="13"></p>
+<p><img src="/images/14.jpg" alt="14"></p>
+<p><strong>14. 配置集群的仲裁节点</strong></p>
+<p>对于只有2个节点的galera cluster和其他集群软件一样，需要面对极端情况下的“脑裂”状态。为了避免这种问题，galera引入了“arbitrator(仲裁人)”。“仲裁人”节点上没有数据，它在集群中的作用就是在集群发生分裂时进行仲裁，集群中可以有多个“仲裁人”节点。<br>将“仲裁人”节点加入集群的方法很简单，运行如下命令即可:<br><figure class="highlight coffeescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]<span class="comment"># garbd -a gcomm://&lt;节点IP&gt; -g my_wsrep_cluster -d</span></span><br></pre></td></tr></table></figure></p>
+<blockquote>
+<p>参数说明：<br>-a 集群地址<br>-g 集群名称<br>-d 以daemon模式运行</p>
+</blockquote>
+<p><strong>15. 检查数据库是否符合要求</strong></p>
+<p>部署到集群之前，建议先检查数据库是否符合galera的要求，比如存储引擎必须是innodb、数据表必须有主键等，否则记录将不会在多台复制。<br>选择指定的数据库，执行以下SQL输出不符合要求的表及其原因，根据相应的原因修改即可：<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="keyword">distinct</span> <span class="keyword">concat</span>( t.table_schema, <span class="string">'.'</span>, t.table_name ) <span class="keyword">as</span> tbl, t. <span class="keyword">engine</span>, </span><br><span class="line">    <span class="keyword">if</span> ( <span class="keyword">isnull</span>(c.constraint_name), <span class="string">'nopk'</span>, <span class="string">''</span> ) <span class="keyword">as</span> nopk, </span><br><span class="line">    <span class="keyword">if</span> ( s.index_type = <span class="string">'fulltext'</span>, <span class="string">'fulltext'</span>, <span class="string">''</span> ) <span class="keyword">as</span> ftidx, </span><br><span class="line">    <span class="keyword">if</span> ( s.index_type = <span class="string">'spatial'</span>, <span class="string">'spatial'</span>, <span class="string">''</span> ) <span class="keyword">as</span> gisidx </span><br><span class="line"><span class="keyword">from</span> information_schema. <span class="keyword">tables</span> <span class="keyword">as</span> t </span><br><span class="line"><span class="keyword">left</span> <span class="keyword">join</span> information_schema.key_column_usage <span class="keyword">as</span> c </span><br><span class="line"><span class="keyword">on</span> ( t.table_schema = c.constraint_schema <span class="keyword">and</span> t.table_name = c.table_name <span class="keyword">and</span> c.constraint_name = <span class="string">'primary'</span> ) </span><br><span class="line"><span class="keyword">left</span> <span class="keyword">join</span> information_schema.statistics <span class="keyword">as</span> s </span><br><span class="line"><span class="keyword">on</span> ( t.table_schema = s.table_schema <span class="keyword">and</span> t.table_name = s.table_name <span class="keyword">and</span> s.index_type <span class="keyword">in</span> (<span class="string">'fulltext'</span>, <span class="string">'spatial'</span>)) </span><br><span class="line"><span class="keyword">where</span> t.table_schema <span class="keyword">not</span> <span class="keyword">in</span> ( <span class="string">'information_schema'</span>, <span class="string">'performance_schema'</span>, <span class="string">'mysql'</span> ) <span class="keyword">and</span> t.table_type = <span class="string">'base table'</span> </span><br><span class="line"><span class="keyword">and</span> ( t.engine &lt;&gt; <span class="string">'innodb'</span> <span class="keyword">or</span> c.constraint_name <span class="keyword">is</span> <span class="literal">null</span> <span class="keyword">or</span> s.index_type <span class="keyword">in</span> (<span class="string">'fulltext'</span>, <span class="string">'spatial'</span>)) </span><br><span class="line"><span class="keyword">order</span> <span class="keyword">by</span> t.table_schema, t.table_name;</span><br></pre></td></tr></table></figure></p>
+<p> <strong>16. 常见问题</strong></p>
+<ol>
+<li>启动mysql时出错：SST in progress, setting sleep higher. ERROR!<ol>
+<li>确保本机已安装rsync：<code>[root@localhost ~]# yum list|grep rsync</code></li>
+<li>确保已允许galera sst使用的端口4444、4567、4568通过防火墙并重启防火墙功能</li>
+<li>确保selinux已对端口4444开放权限：<code>[root@localhost ~]# semanage port -a -t mysqld_port_t -p tcp 4444</code></li>
+</ol>
+</li>
+<li>查看galera集群状态时<code>wsrep_connected</code>和<code>wsrep_ready</code>的值均为<code>OFF</code>！<ol>
+<li>打开<code>/etc/my.cnf.d/wsrep.cnf</code>文件，找到<code>wsrep_cluster_address=&quot;gcomm://&quot;</code>这一行</li>
+<li>检查前面是否有”#”，如果有则删掉并重启mysql</li>
+</ol>
+</li>
+</ol>
+<p><strong>17. 参考资料</strong></p>
+<p><a href="http://blog.sina.com.cn/s/blog_53b13d950102uxpx.html" target="_blank" rel="noopener">http://blog.sina.com.cn/s/blog_53b13d950102uxpx.html</a></p>
+<p><a href="http://blog.163.com/ji_1006/blog/static/1061234120141121512960/" target="_blank" rel="noopener">http://blog.163.com/ji_1006/blog/static/1061234120141121512960/</a></p>
+<p><a href="http://xmgu2008.blog.163.com/blog/static/139122380201402510394701/" target="_blank" rel="noopener">http://xmgu2008.blog.163.com/blog/static/139122380201402510394701/</a></p>
+<p><a href="https://mariadb.com/kb/en/mariadb/yum/#installing-mariadb-galera-cluster-with-yum" target="_blank" rel="noopener">https://mariadb.com/kb/en/mariadb/yum/#installing-mariadb-galera-cluster-with-yum</a></p>
+
+      
+
+      
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>请我喝咖啡？<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    <div class="reward-box-item">
+                      <img class="reward-img" src="/img/alipay.png">
+                      <span class="reward-type">支付宝</span>
+                    </div>
+                    
+                    
+                    <div class="reward-box-item">
+                      <img class="reward-img" src="/img/weixin.png">
+                      <span class="reward-type">微信</span>
+                    </div>
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
+        </div>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags icon"></i>
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">Nginx</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">MySQL</a>
         		</li>
       		 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">负载均衡</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">Galera</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">集群部署</a>
         		</li>
       		
 		</ul>
 	</div>
 
-          
+      
 	<div class="article-category tagcloud">
 		<i class="icon-book icon"></i>
 		<ul class="article-tag-list">
@@ -204,70 +349,44 @@
 	</div>
 
 
-        </div>
-        <div class="clearfix"></div>
-    </header>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2016/01/10/Linux下Nginx-Tomcat负载均衡和动静分离配置要点/" class="archive-article-date">
-  	<time datetime="2016-01-10T08:05:21.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2016-01-10</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2016/01/10/Linux下Nginx-Tomcat负载均衡和动静分离配置要点/">Linux下Nginx+Tomcat负载均衡和动静分离配置要点</a>
-    </h1>
-  
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">Nginx</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">负载均衡</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/随笔/" class="article-tag-list-link color3">随笔</a>
-        		</li>
-      		
-		</ul>
-	</div>
+  
+<nav id="article-nav">
+  
+    <a href="/2016/02/04/Nginx负载均衡配置/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          Nginx负载均衡配置
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2016/01/10/Linux下Nginx-Tomcat负载均衡和动静分离配置要点/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Linux下Nginx+Tomcat负载均衡和动静分离配置要点</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
 
 
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
+
+
+
+
   
-  
-    </div></section>
+    <div class="duoshuo"></div>
   
 
-    
+
 
 
           </div>
@@ -291,9 +410,9 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
+		isPost: true,
 		isArchive: false,
-		isTag: true,
+		isTag: false,
 		isCategory: false,
 		open_in_new: false,
 		root: "/",

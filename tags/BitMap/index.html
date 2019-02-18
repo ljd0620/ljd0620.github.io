@@ -6,20 +6,15 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link rel="dns-prefetch" href="https://ljd0620.github.io">
-  <title>Linux下Nginx+Tomcat负载均衡和动静分离配置要点 | INCEPTION</title>
+  <title>Tag: BitMap | INCEPTION</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="本文使用的Linux发行版：CentOS6.7 下载地址 一、安装Nginx 下载源：wget http://nginx.org/packages/centos/6/noarch/RPMS/nginx-release-centos-6-0.el6.ngx.noarch.rpm 安装源：yum install nginx-release-centos-6-0.el6.ngx.noarch.rpm">
-<meta name="keywords" content="Nginx,负载均衡">
-<meta property="og:type" content="article">
-<meta property="og:title" content="Linux下Nginx+Tomcat负载均衡和动静分离配置要点">
-<meta property="og:url" content="https://ljd0620.github.io/2019/02/15/Linux下Nginx-Tomcat负载均衡和动静分离配置要点/index.html">
+  <meta property="og:type" content="website">
+<meta property="og:title" content="INCEPTION">
+<meta property="og:url" content="https://ljd0620.github.io/tags/BitMap/index.html">
 <meta property="og:site_name" content="INCEPTION">
-<meta property="og:description" content="本文使用的Linux发行版：CentOS6.7 下载地址 一、安装Nginx 下载源：wget http://nginx.org/packages/centos/6/noarch/RPMS/nginx-release-centos-6-0.el6.ngx.noarch.rpm 安装源：yum install nginx-release-centos-6-0.el6.ngx.noarch.rpm">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2019-02-15T09:17:49.885Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Linux下Nginx+Tomcat负载均衡和动静分离配置要点">
-<meta name="twitter:description" content="本文使用的Linux发行版：CentOS6.7 下载地址 一、安装Nginx 下载源：wget http://nginx.org/packages/centos/6/noarch/RPMS/nginx-release-centos-6-0.el6.ngx.noarch.rpm 安装源：yum install nginx-release-centos-6-0.el6.ngx.noarch.rpm">
+<meta name="twitter:title" content="INCEPTION">
   
     <link rel="alternative" href="/atom.xml" title="INCEPTION" type="application/atom+xml">
   
@@ -151,113 +146,52 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-Linux下Nginx-Tomcat负载均衡和动静分离配置要点" class="article article-type-post " itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
+            
   
-    <h1 class="article-title" itemprop="name">
-      Linux下Nginx+Tomcat负载均衡和动静分离配置要点
+  
+    
+    
+      
+      
+      <section class="archives-wrap">
+        <div class="archive-year-wrap">
+          <a href="/archives/2019" class="archive-year">2019</a>
+        </div>
+        <div class="archives">
+    
+    <article class="archive-article archive-type-post">
+  <div class="archive-article-inner">
+    <header class="archive-article-header">
+      	<div class="article-meta">
+	      	<a href="/2019/02/17/基于Redis-BitMap实现用户签到功能/" class="archive-article-date">
+  	<time datetime="2019-02-17T07:53:47.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-02-17</time>
+</a>
+        </div>
+    	 
+  
+    <h1 itemprop="name">
+      <a class="archive-article-title" href="/2019/02/17/基于Redis-BitMap实现用户签到功能/">基于Redis BitMap实现用户签到功能</a>
     </h1>
   
 
-        
-        <a href="/2019/02/15/Linux下Nginx-Tomcat负载均衡和动静分离配置要点/" class="archive-article-date">
-  	<time datetime="2019-02-15T08:05:21.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-02-15</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>本文使用的Linux发行版：CentOS6.7 <a href="https://wiki.centos.org/Download" target="_blank" rel="noopener">下载地址</a></p>
-<p><strong>一、安装Nginx</strong></p>
-<p>下载源：<code>wget http://nginx.org/packages/centos/6/noarch/RPMS/nginx-release-centos-6-0.el6.ngx.noarch.rpm</code></p>
-<p>安装源：<code>yum install nginx-release-centos-6-0.el6.ngx.noarch.rpm</code></p>
-<p>安装Nginx：<code>yum install nginx</code></p>
-<p>启动Nginx服务：<code>service nginx start</code></p>
-<p>停止Nginx服务：<code>service nginx stop</code></p>
-<p>查看Nginx运行状态：<code>service nginx status</code></p>
-<p>检查Nginx配置文件：<code>nginx -t</code></p>
-<p>服务运行中重新加载配置：<code>nginx -s reload</code></p>
-<p>添加Nginx服务自启动：<code>chkconfig nginx on</code></p>
-<p><strong>二、修改防火墙规则</strong></p>
-<p>修改Nginx所在主机的防火墙配置：<code>vi /etc/sysconfig/iptables</code>，将nginx使用的端口80添加到允许列表中：</p>
-<pre><code>-A INPUT -m state --state NEW -m tcp -p tcp --dport 80 -j ACCEPT
-</code></pre><p>修改Tomcat所在主机的防火墙配置：<code>vi /etc/sysconfig/iptables</code>，将tomcat使用的端口8080添加到允许列表中：</p>
-<pre><code>-A INPUT -m state --state NEW -m tcp -p tcp --dport 8080 -j ACCEPT
-</code></pre><p>如果主机上有多个tomcat的话，则按此规则添加多条，修改对应的端口号即可。<br>保存后重启防火墙：<code>service iptables restart</code></p>
-<p><strong>三、Tomcat负载均衡配置</strong></p>
-<p>Nginx启动时默认加载配置文件<code>/etc/nginx/nginx.conf</code>，而<code>nginx.conf</code>里会引用<code>/etc/nginx/conf.d</code>目录里的所有.conf文件。</p>
-<p>因此可以将自己定制的一些配置写到单独.conf文件里，只要文件放在<code>/etc/nginx/conf.d</code>这个目录里即可，方便维护。</p>
-<p>创建tomcats.conf：<code>vi /etc/nginx/conf.d/tomcats.conf</code>，内容如下：<br><figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">upstream</span> tomcats &#123;</span><br><span class="line">    ip_hash;</span><br><span class="line">    <span class="attribute">server</span> <span class="number">192.168.0.251:8080</span>;</span><br><span class="line">    <span class="attribute">server</span> <span class="number">192.168.0.251:8081</span>;</span><br><span class="line">    <span class="attribute">server</span> <span class="number">192.168.0.251:8082</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>修改default.conf：<code>vi /etc/nginx/conf.d/default.conf</code>，修改如下：<br><figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#注释原有的配置</span></span><br><span class="line"><span class="comment">#location / &#123;</span></span><br><span class="line"><span class="comment">#    root   /usr/share/nginx/html;</span></span><br><span class="line"><span class="comment">#    index  index.html index.htm;</span></span><br><span class="line"><span class="comment">#&#125;</span></span><br><span class="line"><span class="comment">#新增配置默认将请求转发到tomcats.conf配置的upstream进行处理</span></span><br><span class="line"><span class="attribute">location</span> / &#123;</span><br><span class="line">    <span class="attribute">proxy_set_header</span> Host <span class="variable">$host</span>;</span><br><span class="line">    <span class="attribute">proxy_set_header</span> X-Real-IP <span class="variable">$remote_addr</span>;</span><br><span class="line">    <span class="attribute">proxy_set_header</span> REMOTE-HOST <span class="variable">$remote_addr</span>;</span><br><span class="line">    <span class="attribute">proxy_set_header</span> X-Forwarded-For <span class="variable">$proxy_add_x_forwarded_for</span>;</span><br><span class="line">    <span class="attribute">proxy_pass</span> http://tomcats; <span class="comment">#与tomcats.conf里配置的upstream同名</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>保存后重新加载配置：<code>nginx -s reload</code></p>
-<p><strong>四、静态资源分离配置</strong></p>
-<p>修改default.conf：<code>vi /etc/nginx/conf.d/default.conf</code>，添加如下配置：<br><figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#所有js,css相关的静态资源文件的请求由Nginx处理</span></span><br><span class="line"><span class="attribute">location</span> ~.*\.(js|css)$ &#123;</span><br><span class="line">    <span class="attribute">root</span>    /opt/static-resources; <span class="comment">#指定文件路径</span></span><br><span class="line">    <span class="attribute">expires</span>     <span class="number">12h</span>; <span class="comment">#过期时间为12小时</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">#所有图片等多媒体相关静态资源文件的请求由Nginx处理</span></span><br><span class="line"><span class="attribute">location</span> ~.*\.(html|jpg|jpeg|png|bmp|gif|ico|mp3|mid|wma|mp4|swf|flv|rar|zip|txt|doc|ppt|xls|pdf)$ &#123;</span><br><span class="line">    <span class="attribute">root</span>    /opt/static-resources; <span class="comment">#指定文件路径</span></span><br><span class="line">    <span class="attribute">expires</span>     <span class="number">7d</span>; <span class="comment">#过期时间为7天</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p><strong>五、修改SELinux安全规则</strong></p>
-<p>如果访问Nginx时出现502 Bad Gateway错误，则可能是Nginx主机上的SELinux限制了其使用http访问权限引起的，输入命令<code>setsebool -P httpd_can_network_connect 1</code>开启权限即可。</p>
-<p>文件<code>/etc/nginx/nginx.conf</code>完整配置如下：<br><figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">user</span>  nginx;</span><br><span class="line"><span class="attribute">worker_processes</span>  auto;</span><br><span class="line"></span><br><span class="line"><span class="attribute">error_log</span>  /var/log/nginx/error.log <span class="literal">warn</span>;</span><br><span class="line"><span class="attribute">pid</span>        /var/run/nginx.pid;</span><br><span class="line"><span class="attribute">worker_rlimit_nofile</span>    <span class="number">100000</span>;</span><br><span class="line"></span><br><span class="line"><span class="section">events</span> &#123;</span><br><span class="line">    <span class="attribute">use</span> <span class="literal">epoll</span>;</span><br><span class="line">    <span class="attribute">multi_accept</span> <span class="literal">on</span>; </span><br><span class="line">    <span class="attribute">worker_connections</span>  <span class="number">1024</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="section">http</span> &#123;</span><br><span class="line">    <span class="attribute">include</span>       /etc/nginx/mime.types;</span><br><span class="line">    <span class="attribute">default_type</span>  application/octet-stream;</span><br><span class="line"></span><br><span class="line">    <span class="comment">#log_format  main  '$remote_addr - $remote_user [$time_local] "$request" '</span></span><br><span class="line">    <span class="comment">#                  '$status $body_bytes_sent "$http_referer" '</span></span><br><span class="line">    <span class="comment">#                  '"$http_user_agent" "$http_x_forwarded_for"';</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">#access_log  /var/log/nginx/access.log  main;</span></span><br><span class="line"></span><br><span class="line">    <span class="attribute">sendfile</span>        <span class="literal">on</span>;</span><br><span class="line">    <span class="attribute">server_tokens</span> <span class="literal">off</span>;</span><br><span class="line">    <span class="comment">#tcp_nopush     on;</span></span><br><span class="line"></span><br><span class="line">    <span class="attribute">keepalive_timeout</span>  <span class="number">65</span>;</span><br><span class="line"></span><br><span class="line">    <span class="attribute">gzip</span> <span class="literal">on</span>;</span><br><span class="line">    <span class="attribute">gzip_disable</span> <span class="string">"msie6"</span>;</span><br><span class="line">    <span class="attribute">gzip_static</span> <span class="literal">on</span>;</span><br><span class="line">    <span class="attribute">gzip_proxied</span> any;</span><br><span class="line">    <span class="attribute">gzip_min_length</span> <span class="number">1000</span>;</span><br><span class="line">    <span class="attribute">gzip_comp_level</span> <span class="number">4</span>;</span><br><span class="line">    <span class="attribute">gzip_types</span> text/plain text/css application/json application/x-javascript text/xml application/xml application/xml+rss text/javascript;</span><br><span class="line"></span><br><span class="line">    <span class="attribute">include</span> /etc/nginx/conf.d/<span class="regexp">*.conf</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>文件<code>/etc/nginx/conf.d/default.conf</code>完整配置如下：<br><figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br></pre></td><td class="code"><pre><span class="line"><span class="section">server</span> &#123;</span><br><span class="line">    <span class="attribute">listen</span>       <span class="number">80</span>;</span><br><span class="line">    <span class="attribute">server_name</span>  localhost;</span><br><span class="line"></span><br><span class="line">    <span class="comment">#charset koi8-r;</span></span><br><span class="line">    <span class="comment">#access_log  /var/log/nginx/log/host.access.log  main;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">#location / &#123;</span></span><br><span class="line">    <span class="comment">#    root   /usr/share/nginx/html;</span></span><br><span class="line">    <span class="comment">#    index  index.html index.htm;</span></span><br><span class="line">    <span class="comment">#&#125;</span></span><br><span class="line"></span><br><span class="line">    <span class="attribute">location</span> / &#123;</span><br><span class="line">        <span class="attribute">proxy_set_header</span> Host <span class="variable">$host</span>;</span><br><span class="line">        <span class="attribute">proxy_set_header</span> X-Real-IP <span class="variable">$remote_addr</span>;</span><br><span class="line">        <span class="attribute">proxy_set_header</span> REMOTE-HOST <span class="variable">$remote_addr</span>;</span><br><span class="line">        <span class="attribute">proxy_set_header</span> X-Forwarded-For <span class="variable">$proxy_add_x_forwarded_for</span>;</span><br><span class="line">        <span class="attribute">proxy_pass</span> http://web_servers;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="attribute">location</span> ~.*\.(js|css)$ &#123;</span><br><span class="line">        <span class="attribute">root</span>    /opt/static-resources;</span><br><span class="line">        <span class="attribute">expires</span>     <span class="number">12h</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="attribute">location</span> ~.*\.(html|jpg|jpeg|png|bmp|gif|ico|mp3|mid|wma|mp4|swf|flv|rar|zip|txt|doc|ppt|xls|pdf)$ &#123;</span><br><span class="line">        <span class="attribute">root</span>    /opt/static-resources;</span><br><span class="line">        <span class="attribute">expires</span>     <span class="number">7d</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">#error_page  404              /404.html;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># redirect server error pages to the static page /50x.html</span></span><br><span class="line">    <span class="comment">#</span></span><br><span class="line">    <span class="attribute">error_page</span>   <span class="number">500</span> <span class="number">502</span> <span class="number">503</span> <span class="number">504</span>  /50x.html;</span><br><span class="line">    <span class="attribute">location</span> = /50x.html &#123;</span><br><span class="line">        <span class="attribute">root</span>   /usr/share/nginx/html;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment"># proxy the PHP scripts to Apache listening on 127.0.0.1:80</span></span><br><span class="line">    <span class="comment">#</span></span><br><span class="line">    <span class="comment">#location ~ \.php$ &#123;</span></span><br><span class="line">    <span class="comment">#    proxy_pass   http://127.0.0.1;</span></span><br><span class="line">    <span class="comment">#&#125;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># pass the PHP scripts to FastCGI server listening on 127.0.0.1:9000</span></span><br><span class="line">    <span class="comment">#</span></span><br><span class="line">    <span class="comment">#location ~ \.php$ &#123;</span></span><br><span class="line">    <span class="comment">#    root           html;</span></span><br><span class="line">    <span class="comment">#    fastcgi_pass   127.0.0.1:9000;</span></span><br><span class="line">    <span class="comment">#    fastcgi_index  index.php;</span></span><br><span class="line">    <span class="comment">#    fastcgi_param  SCRIPT_FILENAME  /scripts$fastcgi_script_name;</span></span><br><span class="line">    <span class="comment">#    include        fastcgi_params;</span></span><br><span class="line">    <span class="comment">#&#125;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># deny access to .htaccess files, if Apache's document root</span></span><br><span class="line">    <span class="comment"># concurs with nginx's one</span></span><br><span class="line">    <span class="comment">#</span></span><br><span class="line">    <span class="comment">#location ~ /\.ht &#123;</span></span><br><span class="line">    <span class="comment">#    deny  all;</span></span><br><span class="line">    <span class="comment">#&#125;</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<blockquote>
-<p>温馨提示：如果执行命令时没有root权限，请在命令前面加上<code>sudo</code>执行。</p>
-</blockquote>
-
-      
-
-      
-        <div class="page-reward">
-          <a href="javascript:;" class="page-reward-btn tooltip-top">
-            <div class="tooltip tooltip-east">
-            <span class="tooltip-item">
-              赏
-            </span>
-            <span class="tooltip-content">
-              <span class="tooltip-text">
-                <span class="tooltip-inner">
-                  <p class="reward-p"><i class="icon icon-quo-left"></i>请我喝咖啡？<i class="icon icon-quo-right"></i></p>
-                  <div class="reward-box">
-                    
-                    <div class="reward-box-item">
-                      <img class="reward-img" src="/img/alipay.png">
-                      <span class="reward-type">支付宝</span>
-                    </div>
-                    
-                    
-                    <div class="reward-box-item">
-                      <img class="reward-img" src="/img/weixin.png">
-                      <span class="reward-type">微信</span>
-                    </div>
-                    
-                  </div>
-                </span>
-              </span>
-            </span>
-          </div>
-          </a>
-        </div>
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
+        <div class="article-info info-on-right">
+          
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags icon"></i>
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">Nginx</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">Redis</a>
         		</li>
       		 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">负载均衡</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">BitMap</a>
         		</li>
       		
 		</ul>
 	</div>
 
-      
+          
 	<div class="article-category tagcloud">
 		<i class="icon-book icon"></i>
 		<ul class="article-tag-list">
@@ -270,44 +204,17 @@
 	</div>
 
 
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
+        </div>
+        <div class="clearfix"></div>
+    </header>
   </div>
 </article>
-
-  
-<nav id="article-nav">
-  
-    <a href="/2019/02/15/Linux下MySQL-Galera集群搭建过程/" id="article-nav-newer" class="article-nav-link-wrap">
-      <i class="icon-circle-left"></i>
-      <div class="article-nav-title">
-        
-          Linux下MySQL Galera集群搭建过程
-        
-      </div>
-    </a>
   
   
-    <a href="/2019/02/15/基于xml的Spring多数据源配置和使用/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">基于xml的Spring多数据源配置和使用</div>
-      <i class="icon-circle-right"></i>
-    </a>
-  
-</nav>
-
-
-
-
-
-
-  
-    <div class="duoshuo"></div>
+    </div></section>
   
 
-
+    
 
 
           </div>
@@ -331,9 +238,9 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: true,
+		isPost: false,
 		isArchive: false,
-		isTag: false,
+		isTag: true,
 		isCategory: false,
 		open_in_new: false,
 		root: "/",
@@ -406,6 +313,14 @@
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">负载均衡</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">Redis</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">BitMap</a>
               </li>
              
               <li class="article-tag-list-item">
