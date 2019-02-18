@@ -148,39 +148,37 @@
           <div id="js-content" class="content-ll">
             
   
-    <article id="post-基于Redis-BitMap实现用户签到功能" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+    <article id="post-基于Redis位图实现的用户签到功能" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2019/02/17/基于Redis-BitMap实现用户签到功能/">基于Redis BitMap实现用户签到功能</a>
+      <a class="article-title" href="/2019/02/18/基于Redis位图实现的用户签到功能/">基于Redis位图实现的用户签到功能</a>
     </h1>
   
 
         
-        <a href="/2019/02/17/基于Redis-BitMap实现用户签到功能/" class="archive-article-date">
-  	<time datetime="2019-02-17T07:53:47.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-02-17</time>
+        <a href="/2019/02/18/基于Redis位图实现的用户签到功能/" class="archive-article-date">
+  	<time datetime="2019-02-18T07:35:02.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-02-18</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h3 id="业务场景"><a href="#业务场景" class="headerlink" title="业务场景"></a>业务场景</h3><ol>
-<li>第1天签到送1积分，第2天送2积分，第3天送3积分，以此类推。</li>
+        <h3 id="场景需求"><a href="#场景需求" class="headerlink" title="场景需求"></a>场景需求</h3><p>适用场景如签到送积分、签到领取奖励等，大致需求如下：</p>
+<ul>
+<li>签到1天送1积分，连续签到2天送2积分，3天送3积分，3天以上均送3积分等。</li>
 <li>如果连续签到中断，则重置计数，每月初重置计数。</li>
-<li>查看用户某个月的签到次数。</li>
+<li>当月签到满3天领取奖励1，满5天领取奖励2，满7天领取奖励3……等等。</li>
+<li>显示用户某个月的签到次数和首次签到日期。</li>
 <li>在日历控件上展示用户每月签到情况，可以切换年月显示……等等。</li>
-</ol>
-<h3 id="实现思路"><a href="#实现思路" class="headerlink" title="实现思路"></a>实现思路</h3><ol>
-<li>考虑到每月初需要重置签到次数，因为每个用户每个月存一条数据。</li>
-<li>Redis键的格式为<code>u:sign:ID:YYYYMM</code>，值为BitMap(位图)，长度为4个字节共32位（最多31天）。</li>
-<li>BitMap的每一位代表一天的签到情况，1表示1已签到，0表示未签到。</li>
-</ol>
+</ul>
+<h3 id="设计思路"><a href="#设计思路" class="headerlink" title="设计思路"></a>设计思路</h3>
         
-          <a class="article-more-a" href="/2019/02/17/基于Redis-BitMap实现用户签到功能/#more">阅读全文 >></a>
+          <a class="article-more-a" href="/2019/02/18/基于Redis位图实现的用户签到功能/#more">阅读全文 >></a>
         
       
 
@@ -712,6 +710,14 @@
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">Nginx</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">负载均衡</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">MySQL</a>
               </li>
              
@@ -724,22 +730,6 @@
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">Nginx</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">负载均衡</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">Redis</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">BitMap</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">Java</a>
               </li>
              
@@ -749,6 +739,14 @@
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">多数据源</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">Redis</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">BitMap</a>
               </li>
             
             <div class="clearfix"></div>
