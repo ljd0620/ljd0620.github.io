@@ -6,15 +6,24 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link rel="dns-prefetch" href="https://ljd0620.github.io">
-  <title>Archives: 2016 | INCEPTION</title>
+  <title>快速部署tomcat项目的Shell脚本 | INCEPTION</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="INCEPTION">
-<meta property="og:url" content="https://ljd0620.github.io/archives/2016/index.html">
+  <meta name="description" content="为了做集群测试，在每台机器上装了3个tomcat，每次发布项目的时候都要反复敲一些命令，重启tomcat之前先检查tomcat进程有没有停掉，没有还要手动kill该进程。 发布次数多了，操作就比较繁琐了，索性写个脚本一键发布，省时省力^_^。 把deploy.sh和restart.sh分别拷贝到3个tomcat的bin目录下，再用chmod +x给这两个脚本赋上可执行权限。 一键发布命令：./de">
+<meta name="keywords" content="Tomcat,Shell">
+<meta property="og:type" content="article">
+<meta property="og:title" content="快速部署tomcat项目的Shell脚本">
+<meta property="og:url" content="https://ljd0620.github.io/2015/11/19/快速部署tomcat项目的Shell脚本/index.html">
 <meta property="og:site_name" content="INCEPTION">
+<meta property="og:description" content="为了做集群测试，在每台机器上装了3个tomcat，每次发布项目的时候都要反复敲一些命令，重启tomcat之前先检查tomcat进程有没有停掉，没有还要手动kill该进程。 发布次数多了，操作就比较繁琐了，索性写个脚本一键发布，省时省力^_^。 把deploy.sh和restart.sh分别拷贝到3个tomcat的bin目录下，再用chmod +x给这两个脚本赋上可执行权限。 一键发布命令：./de">
 <meta property="og:locale" content="default">
+<meta property="og:image" content="https://ljd0620.github.io/images/1-2.jpg">
+<meta property="og:image" content="https://ljd0620.github.io/images/2-1.jpg">
+<meta property="og:image" content="https://ljd0620.github.io/images/3-1.jpg">
+<meta property="og:updated_time" content="2019-02-19T02:13:33.265Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="INCEPTION">
+<meta name="twitter:title" content="快速部署tomcat项目的Shell脚本">
+<meta name="twitter:description" content="为了做集群测试，在每台机器上装了3个tomcat，每次发布项目的时候都要反复敲一些命令，重启tomcat之前先检查tomcat进程有没有停掉，没有还要手动kill该进程。 发布次数多了，操作就比较繁琐了，索性写个脚本一键发布，省时省力^_^。 把deploy.sh和restart.sh分别拷贝到3个tomcat的bin目录下，再用chmod +x给这两个脚本赋上可执行权限。 一键发布命令：./de">
+<meta name="twitter:image" content="https://ljd0620.github.io/images/1-2.jpg">
   
     <link rel="alternative" href="/atom.xml" title="INCEPTION" type="application/atom+xml">
   
@@ -146,52 +155,95 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="post-快速部署tomcat项目的Shell脚本" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      快速部署tomcat项目的Shell脚本
+    </h1>
+  
+
+        
+        <a href="/2015/11/19/快速部署tomcat项目的Shell脚本/" class="archive-article-date">
+  	<time datetime="2015-11-19T02:10:09.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2015-11-19</time>
+</a>
+        
+      </header>
     
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>为了做集群测试，在每台机器上装了3个tomcat，每次发布项目的时候都要反复敲一些命令，重启tomcat之前先检查tomcat进程有没有停掉，没有还要手动kill该进程。</p>
+<p>发布次数多了，操作就比较繁琐了，索性写个脚本一键发布，省时省力^_^。</p>
+<p>把<code>deploy.sh</code>和<code>restart.sh</code>分别拷贝到3个tomcat的bin目录下，再用<code>chmod +x</code>给这两个脚本赋上可执行权限。</p>
+<p>一键发布命令：<code>./deploy.sh</code> 项目war包    例如：<code>./deploy.sh /home/test.war</code><br>说明：<code>deploy.sh</code>会先清空tomcat下的<code>ROOT</code>目录，再将指定的war包加压至<code>ROOT</code>目录，最后执行<code>restart.sh</code>重启tomcat。</p>
+<p>代码如下：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#!/bin/sh</span></span><br><span class="line"></span><br><span class="line">war=<span class="variable">$1</span></span><br><span class="line">bin=$(<span class="built_in">cd</span> `dirname <span class="variable">$0</span>`; <span class="built_in">pwd</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> [ ! -n <span class="string">"<span class="variable">$&#123;war&#125;</span>"</span> ]; <span class="keyword">then</span></span><br><span class="line">    <span class="built_in">echo</span> <span class="string">"***Usage: <span class="variable">$0</span> [project.war]"</span></span><br><span class="line">    <span class="built_in">exit</span> 0</span><br><span class="line"><span class="keyword">fi</span></span><br><span class="line"><span class="keyword">if</span> [ ! -f <span class="string">"<span class="variable">$&#123;war&#125;</span>"</span> ]; <span class="keyword">then</span></span><br><span class="line">    <span class="built_in">echo</span> <span class="string">"***Error: <span class="variable">$&#123;war&#125;</span> does not exist."</span></span><br><span class="line">    <span class="built_in">exit</span> 0</span><br><span class="line"><span class="keyword">fi</span></span><br><span class="line"><span class="keyword">if</span> [ ! <span class="string">"<span class="variable">$&#123;war##*.&#125;</span>"</span> = <span class="string">"war"</span> ]; <span class="keyword">then</span></span><br><span class="line">    <span class="built_in">echo</span> <span class="string">"***Error: <span class="variable">$&#123;war&#125;</span> is not a war file."</span></span><br><span class="line">    <span class="built_in">exit</span> 0</span><br><span class="line"><span class="keyword">fi</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">echo</span> <span class="string">"Deploy <span class="variable">$&#123;war##*/&#125;</span>..."</span></span><br><span class="line">rm -rf <span class="variable">$&#123;bin&#125;</span>/../webapps/ROOT/ &amp;&amp; unzip -qo <span class="variable">$&#123;war&#125;</span> -d <span class="variable">$&#123;bin&#125;</span>/../webapps/ROOT/</span><br><span class="line">rm -rf <span class="variable">$&#123;bin&#125;</span>/../work/Catalina/localhost/</span><br><span class="line"><span class="built_in">echo</span> <span class="string">"Restart tomcat..."</span></span><br><span class="line"><span class="built_in">exec</span> <span class="variable">$&#123;bin&#125;</span>/restart.sh</span><br></pre></td></tr></table></figure>
+<p>如需重启tomcat则使用命令：<code>./restart.sh</code> 或 <code>./restart.sh -v</code> （参数-v表示启动时打印tomcat启动日志）</p>
+<p>说明：<code>restart.sh</code>是用来重启tomcat的，如果tomcat没有启动则直接启动，如果已经启动就先shutdown再启动，如果shutdown之后3s没有停掉tomcat进程，则kill掉原来的进程再启动。</p>
+<p>代码如下：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#!/bin/sh</span></span><br><span class="line"></span><br><span class="line">bin=$(<span class="built_in">cd</span> `dirname <span class="variable">$0</span>`; <span class="built_in">pwd</span>)</span><br><span class="line">pid=`ps aux | grep tomcat | grep -v grep | grep -v restart | grep <span class="variable">$&#123;bin&#125;</span> | awk <span class="string">'&#123;print $2&#125;'</span>`</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> [ -n <span class="string">"<span class="variable">$&#123;pid&#125;</span>"</span> ]; <span class="keyword">then</span></span><br><span class="line">    <span class="built_in">echo</span> <span class="string">"Shutdown..."</span></span><br><span class="line">    sh <span class="variable">$&#123;bin&#125;</span>/shutdown.sh</span><br><span class="line">    sleep 3</span><br><span class="line"></span><br><span class="line">    pid=`ps aux | grep tomcat | grep -v grep | grep -v restart | grep <span class="variable">$&#123;bin&#125;</span> | awk <span class="string">'&#123;print $2&#125;'</span>`</span><br><span class="line">    <span class="keyword">if</span> [ -n <span class="string">"<span class="variable">$&#123;pid&#125;</span>"</span> ]; <span class="keyword">then</span></span><br><span class="line">        <span class="built_in">kill</span> -9 <span class="variable">$&#123;pid&#125;</span></span><br><span class="line">        sleep 1</span><br><span class="line">    <span class="keyword">fi</span></span><br><span class="line"><span class="keyword">fi</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">echo</span> <span class="string">"Startup..."</span></span><br><span class="line">sh <span class="variable">$&#123;bin&#125;</span>/startup.sh</span><br><span class="line"><span class="keyword">if</span> [ <span class="string">"<span class="variable">$1</span>"</span> = <span class="string">"-v"</span> ]; <span class="keyword">then</span></span><br><span class="line">    tail -f <span class="variable">$&#123;bin&#125;</span>/../logs/catalina.out</span><br><span class="line"><span class="keyword">fi</span></span><br></pre></td></tr></table></figure>
+<p>本人用的是CentOS，3个tomcat分别在/opt/apache-tomcat-7.0.65/下的8080/8081/8082子目录下，监听8080/8081/8082端口。运行截图如下：<br><img src="/images/1-2.jpg" alt="1"></p>
+<p><img src="/images/2-1.jpg" alt="2"></p>
+<p><img src="/images/3-1.jpg" alt="3"></p>
+<p>最后在浏览器里输入 <a href="http://localhost:8080" target="_blank" rel="noopener">http://localhost:8080</a> 即可访问。</p>
+
+      
+
+      
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>请我喝咖啡？<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    <div class="reward-box-item">
+                      <img class="reward-img" src="/img/alipay.png">
+                      <span class="reward-type">支付宝</span>
+                    </div>
+                    
+                    
+                    <div class="reward-box-item">
+                      <img class="reward-img" src="/img/weixin.png">
+                      <span class="reward-type">微信</span>
+                    </div>
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
+        </div>
+      
+    </div>
+    <div class="article-info article-info-index">
       
       
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2016" class="archive-year">2016</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2016/02/04/Nginx负载均衡配置/" class="archive-article-date">
-  	<time datetime="2016-02-04T08:13:33.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2016-02-04</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2016/02/04/Nginx负载均衡配置/">Nginx负载均衡配置</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags icon"></i>
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">Nginx</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">Tomcat</a>
         		</li>
       		 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">负载均衡</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">Shell</a>
         		</li>
       		
 		</ul>
 	</div>
 
-          
+      
 	<div class="article-category tagcloud">
 		<i class="icon-book icon"></i>
 		<ul class="article-tag-list">
@@ -204,127 +256,39 @@
 	</div>
 
 
-        </div>
-        <div class="clearfix"></div>
-    </header>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2016/02/01/Linux下MySQL-Galera集群搭建过程/" class="archive-article-date">
-  	<time datetime="2016-02-01T08:09:03.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2016-02-01</time>
-</a>
-        </div>
-    	 
+<nav id="article-nav">
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2016/02/01/Linux下MySQL-Galera集群搭建过程/">Linux下MySQL Galera集群搭建过程</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">MySQL</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">Galera</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">集群部署</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/随笔/" class="article-tag-list-link color3">随笔</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2016/01/10/Linux下Nginx-Tomcat负载均衡和动静分离配置要点/" class="archive-article-date">
-  	<time datetime="2016-01-10T08:05:21.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2016-01-10</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2016/01/10/Linux下Nginx-Tomcat负载均衡和动静分离配置要点/">Linux下Nginx+Tomcat负载均衡和动静分离配置要点</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">Nginx</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">负载均衡</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/随笔/" class="article-tag-list-link color3">随笔</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
+    <a href="/2015/12/26/基于注解的Spring多数据源配置和使用/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          基于注解的Spring多数据源配置和使用
+        
+      </div>
+    </a>
   
   
-    </div></section>
+</nav>
+
+
+
+
+
+
+  
+    <div class="duoshuo"></div>
   
 
-    
+
 
 
           </div>
@@ -348,8 +312,8 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,

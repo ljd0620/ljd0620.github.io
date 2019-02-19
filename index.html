@@ -628,6 +628,84 @@
 
 
   
+    <article id="post-快速部署tomcat项目的Shell脚本" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2015/11/19/快速部署tomcat项目的Shell脚本/">快速部署tomcat项目的Shell脚本</a>
+    </h1>
+  
+
+        
+        <a href="/2015/11/19/快速部署tomcat项目的Shell脚本/" class="archive-article-date">
+  	<time datetime="2015-11-19T02:10:09.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2015-11-19</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>为了做集群测试，在每台机器上装了3个tomcat，每次发布项目的时候都要反复敲一些命令，重启tomcat之前先检查tomcat进程有没有停掉，没有还要手动kill该进程。</p>
+<p>发布次数多了，操作就比较繁琐了，索性写个脚本一键发布，省时省力^_^。</p>
+<p>把<code>deploy.sh</code>和<code>restart.sh</code>分别拷贝到3个tomcat的bin目录下，再用<code>chmod +x</code>给这两个脚本赋上可执行权限。</p>
+<p>一键发布命令：<code>./deploy.sh</code> 项目war包    例如：<code>./deploy.sh /home/test.war</code><br>说明：<code>deploy.sh</code>会先清空tomcat下的<code>ROOT</code>目录，再将指定的war包加压至<code>ROOT</code>目录，最后执行<code>restart.sh</code>重启tomcat。</p>
+        
+          <a class="article-more-a" href="/2015/11/19/快速部署tomcat项目的Shell脚本/#more">阅读全文 >></a>
+        
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">Tomcat</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">Shell</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/随笔/" class="article-tag-list-link color3">随笔</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+  
   
 
 
@@ -710,15 +788,15 @@
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">Java</a>
+                <a href="javascript:void(0)" class="js-tag color1">MySQL</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">Spring</a>
+                <a href="javascript:void(0)" class="js-tag color2">Galera</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">多数据源</a>
+                <a href="javascript:void(0)" class="js-tag color5">集群部署</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -730,15 +808,23 @@
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">MySQL</a>
+                <a href="javascript:void(0)" class="js-tag color2">Tomcat</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">Galera</a>
+                <a href="javascript:void(0)" class="js-tag color1">Shell</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">集群部署</a>
+                <a href="javascript:void(0)" class="js-tag color5">Java</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">Spring</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">多数据源</a>
               </li>
              
               <li class="article-tag-list-item">
