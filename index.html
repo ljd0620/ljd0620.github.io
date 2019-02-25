@@ -161,13 +161,13 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2019/02/25/Redis实现限流器Lua脚本/">Redis实现限流器Lua脚本</a>
+      <a class="article-title" href="/2019/02/24/Redis实现限流器Lua脚本/">Redis实现限流器Lua脚本</a>
     </h1>
   
 
         
-        <a href="/2019/02/25/Redis实现限流器Lua脚本/" class="archive-article-date">
-  	<time datetime="2019-02-25T03:18:26.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-02-25</time>
+        <a href="/2019/02/24/Redis实现限流器Lua脚本/" class="archive-article-date">
+  	<time datetime="2019-02-24T03:18:26.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-02-24</time>
 </a>
         
       </header>
@@ -177,7 +177,7 @@
         <h3 id="算法原理"><a href="#算法原理" class="headerlink" title="算法原理"></a>算法原理</h3><p>系统以恒定的速率产生令牌，然后把令牌放到令牌桶中，令牌桶有一个容量，当令牌桶满了的时候，再向其中放入的令牌会被丢弃；当想要处理一个请求的时候，需要从令牌桶中取出一个令牌，如果此时令牌桶中没有令牌，则拒绝该请求。</p>
 <h3 id="数据结构"><a href="#数据结构" class="headerlink" title="数据结构"></a>数据结构</h3><p>采用Hash结构存储，字段定义如下：</p>
         
-          <a class="article-more-a" href="/2019/02/25/Redis实现限流器Lua脚本/#more">阅读全文 >></a>
+          <a class="article-more-a" href="/2019/02/24/Redis实现限流器Lua脚本/#more">阅读全文 >></a>
         
       
 
@@ -249,13 +249,13 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2019/02/25/Redis实现分布式锁Lua脚本/">Redis实现分布式锁Lua脚本</a>
+      <a class="article-title" href="/2019/02/24/Redis实现分布式锁Lua脚本/">Redis实现分布式锁Lua脚本</a>
     </h1>
   
 
         
-        <a href="/2019/02/25/Redis实现分布式锁Lua脚本/" class="archive-article-date">
-  	<time datetime="2019-02-25T03:17:11.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-02-25</time>
+        <a href="/2019/02/24/Redis实现分布式锁Lua脚本/" class="archive-article-date">
+  	<time datetime="2019-02-24T03:17:11.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-02-24</time>
 </a>
         
       </header>
@@ -265,7 +265,7 @@
         <h3 id="简单锁"><a href="#简单锁" class="headerlink" title="简单锁"></a>简单锁</h3><p>采用键值对存储，键是锁的标识，值是全局唯一值（如uuid）。</p>
 <h4 id="获取锁"><a href="#获取锁" class="headerlink" title="获取锁"></a>获取锁</h4><figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- lua in redis</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">local</span> key = KEYS[<span class="number">1</span>] <span class="comment">-- 锁标识</span></span><br><span class="line"><span class="keyword">local</span> value = ARGV[<span class="number">1</span>] <span class="comment">-- 全局唯一值</span></span><br><span class="line"><span class="keyword">local</span> ttl = <span class="built_in">tonumber</span>(ARGV[<span class="number">2</span>]) <span class="keyword">or</span> <span class="number">0</span> <span class="comment">-- 过期时间，默认不过期</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> (redis.call(<span class="string">'setnx'</span>, key, value) == <span class="number">1</span>) <span class="keyword">then</span></span><br><span class="line">    <span class="keyword">if</span> (ttl &gt; <span class="number">0</span>) <span class="keyword">then</span></span><br><span class="line">        redis.call(<span class="string">'expire'</span>, key, ttl)</span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line">    <span class="keyword">return</span> <span class="number">1</span></span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">return</span> <span class="number">0</span></span><br></pre></td></tr></table></figure>
         
-          <a class="article-more-a" href="/2019/02/25/Redis实现分布式锁Lua脚本/#more">阅读全文 >></a>
+          <a class="article-more-a" href="/2019/02/24/Redis实现分布式锁Lua脚本/#more">阅读全文 >></a>
         
       
 
