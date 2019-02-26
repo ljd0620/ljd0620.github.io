@@ -16,7 +16,7 @@
 <meta property="og:site_name" content="INCEPTION">
 <meta property="og:description" content="场景需求适用场景如签到送积分、签到领取奖励等，大致需求如下：  签到1天送1积分，连续签到2天送2积分，3天送3积分，3天以上均送3积分等。 如果连续签到中断，则重置计数，每月初重置计数。 当月签到满3天领取奖励1，满5天领取奖励2，满7天领取奖励3……等等。 显示用户某个月的签到次数和首次签到时间。 在日历控件上展示用户每月签到情况，可以切换年月显示……等等。  设计思路">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2019-02-25T08:42:39.020Z">
+<meta property="og:updated_time" content="2019-02-26T03:07:22.151Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="基于Redis位图实现用户签到功能">
 <meta name="twitter:description" content="场景需求适用场景如签到送积分、签到领取奖励等，大致需求如下：  签到1天送1积分，连续签到2天送2积分，3天送3积分，3天以上均送3积分等。 如果连续签到中断，则重置计数，每月初重置计数。 当月签到满3天领取奖励1，满5天领取奖励2，满7天领取奖励3……等等。 显示用户某个月的签到次数和首次签到时间。 在日历控件上展示用户每月签到情况，可以切换年月显示……等等。  设计思路">
@@ -326,21 +326,23 @@
   
 
   
-  <div id="gitment-ctn"></div> 
-<link rel="stylesheet" href="//imsun.github.io/gitment/style/default.css">
-<script src="//imsun.github.io/gitment/dist/gitment.browser.js"></script>
+  <div id="gitalk-container"></div>
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+<script src="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
 <script>
-var gitment = new Gitment({
-  id: "基于Redis位图实现用户签到功能",
-  owner: 'ljd0620',
+var gitalk = new Gitalk({
+  clientID: 'fc7dad5434c0ed1c882f',
+  clientSecret: '44b0625b9b6f993457cf88d5ddaf2a055124f51a',
   repo: 'ljd0620.github.io',
-  oauth: {
-    client_id: 'fc7dad5434c0ed1c882f',
-    client_secret: '44b0625b9b6f993457cf88d5ddaf2a055124f51a',
-  },
+  owner: 'ljd0620',
+  admin: ['ljd0620'],
+  id: '基于Redis位图实现用户签到功能',      // Ensure uniqueness and length less than 50
+  distractionFreeMode: false  // Facebook-like distraction free mode
 })
-gitment.render('gitment-ctn')
+gitalk.render('gitalk-container')
 </script>
+  
+
   
 
 

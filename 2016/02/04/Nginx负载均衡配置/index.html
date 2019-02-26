@@ -16,7 +16,7 @@
 <meta property="og:site_name" content="INCEPTION">
 <meta property="og:description" content="1234567891011121314151617181920212223242526272829303132333435363738394041424344454647484950515253545556575859606162636465666768697071727374757677787980#设定http服务器，利用它的反向代理功能提供负载均衡支持http &amp;#123;    #设定mi">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2019-02-17T08:01:39.648Z">
+<meta property="og:updated_time" content="2019-02-26T03:06:59.829Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Nginx负载均衡配置">
 <meta name="twitter:description" content="1234567891011121314151617181920212223242526272829303132333435363738394041424344454647484950515253545556575859606162636465666768697071727374757677787980#设定http服务器，利用它的反向代理功能提供负载均衡支持http &amp;#123;    #设定mi">
@@ -301,21 +301,23 @@
   
 
   
-  <div id="gitment-ctn"></div> 
-<link rel="stylesheet" href="//imsun.github.io/gitment/style/default.css">
-<script src="//imsun.github.io/gitment/dist/gitment.browser.js"></script>
+  <div id="gitalk-container"></div>
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+<script src="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
 <script>
-var gitment = new Gitment({
-  id: "Nginx负载均衡配置",
-  owner: 'ljd0620',
+var gitalk = new Gitalk({
+  clientID: 'fc7dad5434c0ed1c882f',
+  clientSecret: '44b0625b9b6f993457cf88d5ddaf2a055124f51a',
   repo: 'ljd0620.github.io',
-  oauth: {
-    client_id: 'fc7dad5434c0ed1c882f',
-    client_secret: '44b0625b9b6f993457cf88d5ddaf2a055124f51a',
-  },
+  owner: 'ljd0620',
+  admin: ['ljd0620'],
+  id: 'Nginx负载均衡配置',      // Ensure uniqueness and length less than 50
+  distractionFreeMode: false  // Facebook-like distraction free mode
 })
-gitment.render('gitment-ctn')
+gitalk.render('gitalk-container')
 </script>
+  
+
   
 
 

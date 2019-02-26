@@ -17,7 +17,7 @@
 <meta property="og:description" content="前一段时间研究了一下spring多数据源的配置和使用，为了后期从多个数据源拉取数据定时进行数据分析和报表统计做准备。由于之前做过的项目都是单数据源的，没有遇到这种场景，所以也一直没有去了解过如何配置多数据源。 后来发现其实基于spring来配置和使用多数据源还是比较简单的，因为spring框架已经预留了这样的接口可以方便数据源的切换。 先看一下spring获取数据源的源码： 可以看到Abstrac">
 <meta property="og:locale" content="default">
 <meta property="og:image" content="https://ljd0620.github.io/images/1.jpg">
-<meta property="og:updated_time" content="2019-02-17T08:00:47.694Z">
+<meta property="og:updated_time" content="2019-02-26T03:07:37.703Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="基于注解的Spring多数据源配置和使用">
 <meta name="twitter:description" content="前一段时间研究了一下spring多数据源的配置和使用，为了后期从多个数据源拉取数据定时进行数据分析和报表统计做准备。由于之前做过的项目都是单数据源的，没有遇到这种场景，所以也一直没有去了解过如何配置多数据源。 后来发现其实基于spring来配置和使用多数据源还是比较简单的，因为spring框架已经预留了这样的接口可以方便数据源的切换。 先看一下spring获取数据源的源码： 可以看到Abstrac">
@@ -322,21 +322,23 @@
   
 
   
-  <div id="gitment-ctn"></div> 
-<link rel="stylesheet" href="//imsun.github.io/gitment/style/default.css">
-<script src="//imsun.github.io/gitment/dist/gitment.browser.js"></script>
+  <div id="gitalk-container"></div>
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+<script src="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
 <script>
-var gitment = new Gitment({
-  id: "基于注解的Spring多数据源配置和使用",
-  owner: 'ljd0620',
+var gitalk = new Gitalk({
+  clientID: 'fc7dad5434c0ed1c882f',
+  clientSecret: '44b0625b9b6f993457cf88d5ddaf2a055124f51a',
   repo: 'ljd0620.github.io',
-  oauth: {
-    client_id: 'fc7dad5434c0ed1c882f',
-    client_secret: '44b0625b9b6f993457cf88d5ddaf2a055124f51a',
-  },
+  owner: 'ljd0620',
+  admin: ['ljd0620'],
+  id: '基于注解的Spring多数据源配置和使用',      // Ensure uniqueness and length less than 50
+  distractionFreeMode: false  // Facebook-like distraction free mode
 })
-gitment.render('gitment-ctn')
+gitalk.render('gitalk-container')
 </script>
+  
+
   
 
 

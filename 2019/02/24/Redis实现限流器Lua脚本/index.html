@@ -16,7 +16,7 @@
 <meta property="og:site_name" content="INCEPTION">
 <meta property="og:description" content="算法原理系统以恒定的速率产生令牌，然后把令牌放到令牌桶中，令牌桶有一个容量，当令牌桶满了的时候，再向其中放入的令牌会被丢弃；当想要处理一个请求的时候，需要从令牌桶中取出一个令牌，如果此时令牌桶中没有令牌，则拒绝该请求。 数据结构采用Hash结构存储，字段定义如下：">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2019-02-25T09:45:08.642Z">
+<meta property="og:updated_time" content="2019-02-26T03:07:15.005Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Redis实现限流器Lua脚本">
 <meta name="twitter:description" content="算法原理系统以恒定的速率产生令牌，然后把令牌放到令牌桶中，令牌桶有一个容量，当令牌桶满了的时候，再向其中放入的令牌会被丢弃；当想要处理一个请求的时候，需要从令牌桶中取出一个令牌，如果此时令牌桶中没有令牌，则拒绝该请求。 数据结构采用Hash结构存储，字段定义如下：">
@@ -333,21 +333,23 @@
   
 
   
-  <div id="gitment-ctn"></div> 
-<link rel="stylesheet" href="//imsun.github.io/gitment/style/default.css">
-<script src="//imsun.github.io/gitment/dist/gitment.browser.js"></script>
+  <div id="gitalk-container"></div>
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+<script src="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
 <script>
-var gitment = new Gitment({
-  id: "Redis实现限流器Lua脚本",
-  owner: 'ljd0620',
+var gitalk = new Gitalk({
+  clientID: 'fc7dad5434c0ed1c882f',
+  clientSecret: '44b0625b9b6f993457cf88d5ddaf2a055124f51a',
   repo: 'ljd0620.github.io',
-  oauth: {
-    client_id: 'fc7dad5434c0ed1c882f',
-    client_secret: '44b0625b9b6f993457cf88d5ddaf2a055124f51a',
-  },
+  owner: 'ljd0620',
+  admin: ['ljd0620'],
+  id: 'Redis实现限流器Lua脚本',      // Ensure uniqueness and length less than 50
+  distractionFreeMode: false  // Facebook-like distraction free mode
 })
-gitment.render('gitment-ctn')
+gitalk.render('gitalk-container')
 </script>
+  
+
   
 
 

@@ -16,7 +16,7 @@
 <meta property="og:site_name" content="INCEPTION">
 <meta property="og:description" content="本文使用的Linux发行版：CentOS6.7 下载地址 一、安装Nginx 下载源：wget http://nginx.org/packages/centos/6/noarch/RPMS/nginx-release-centos-6-0.el6.ngx.noarch.rpm 安装源：yum install nginx-release-centos-6-0.el6.ngx.noarch.rpm">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2019-02-17T08:01:07.550Z">
+<meta property="og:updated_time" content="2019-02-26T03:06:49.084Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Linux下Nginx+Tomcat负载均衡和动静分离配置要点">
 <meta name="twitter:description" content="本文使用的Linux发行版：CentOS6.7 下载地址 一、安装Nginx 下载源：wget http://nginx.org/packages/centos/6/noarch/RPMS/nginx-release-centos-6-0.el6.ngx.noarch.rpm 安装源：yum install nginx-release-centos-6-0.el6.ngx.noarch.rpm">
@@ -332,21 +332,23 @@
   
 
   
-  <div id="gitment-ctn"></div> 
-<link rel="stylesheet" href="//imsun.github.io/gitment/style/default.css">
-<script src="//imsun.github.io/gitment/dist/gitment.browser.js"></script>
+  <div id="gitalk-container"></div>
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+<script src="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
 <script>
-var gitment = new Gitment({
-  id: "Linux下Nginx+Tomcat负载均衡和动静分离配置要点",
-  owner: 'ljd0620',
+var gitalk = new Gitalk({
+  clientID: 'fc7dad5434c0ed1c882f',
+  clientSecret: '44b0625b9b6f993457cf88d5ddaf2a055124f51a',
   repo: 'ljd0620.github.io',
-  oauth: {
-    client_id: 'fc7dad5434c0ed1c882f',
-    client_secret: '44b0625b9b6f993457cf88d5ddaf2a055124f51a',
-  },
+  owner: 'ljd0620',
+  admin: ['ljd0620'],
+  id: 'Linux下Nginx+Tomcat负载均衡和动静分离配置要点',      // Ensure uniqueness and length less than 50
+  distractionFreeMode: false  // Facebook-like distraction free mode
 })
-gitment.render('gitment-ctn')
+gitalk.render('gitalk-container')
 </script>
+  
+
   
 
 

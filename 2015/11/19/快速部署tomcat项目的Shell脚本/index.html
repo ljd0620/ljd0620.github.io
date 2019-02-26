@@ -19,7 +19,7 @@
 <meta property="og:image" content="https://ljd0620.github.io/images/1-2.jpg">
 <meta property="og:image" content="https://ljd0620.github.io/images/2-1.jpg">
 <meta property="og:image" content="https://ljd0620.github.io/images/3-1.jpg">
-<meta property="og:updated_time" content="2019-02-19T02:13:33.265Z">
+<meta property="og:updated_time" content="2019-02-26T03:07:49.405Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="快速部署tomcat项目的Shell脚本">
 <meta name="twitter:description" content="为了做集群测试，在每台机器上装了3个tomcat，每次发布项目的时候都要反复敲一些命令，重启tomcat之前先检查tomcat进程有没有停掉，没有还要手动kill该进程。 发布次数多了，操作就比较繁琐了，索性写个脚本一键发布，省时省力^_^。 把deploy.sh和restart.sh分别拷贝到3个tomcat的bin目录下，再用chmod +x给这两个脚本赋上可执行权限。 一键发布命令：./de">
@@ -313,21 +313,23 @@
   
 
   
-  <div id="gitment-ctn"></div> 
-<link rel="stylesheet" href="//imsun.github.io/gitment/style/default.css">
-<script src="//imsun.github.io/gitment/dist/gitment.browser.js"></script>
+  <div id="gitalk-container"></div>
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+<script src="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
 <script>
-var gitment = new Gitment({
-  id: "快速部署tomcat项目的Shell脚本",
-  owner: 'ljd0620',
+var gitalk = new Gitalk({
+  clientID: 'fc7dad5434c0ed1c882f',
+  clientSecret: '44b0625b9b6f993457cf88d5ddaf2a055124f51a',
   repo: 'ljd0620.github.io',
-  oauth: {
-    client_id: 'fc7dad5434c0ed1c882f',
-    client_secret: '44b0625b9b6f993457cf88d5ddaf2a055124f51a',
-  },
+  owner: 'ljd0620',
+  admin: ['ljd0620'],
+  id: '快速部署tomcat项目的Shell脚本',      // Ensure uniqueness and length less than 50
+  distractionFreeMode: false  // Facebook-like distraction free mode
 })
-gitment.render('gitment-ctn')
+gitalk.render('gitalk-container')
 </script>
+  
+
   
 
 

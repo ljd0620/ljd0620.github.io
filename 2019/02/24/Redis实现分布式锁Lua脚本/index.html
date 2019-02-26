@@ -16,7 +16,7 @@
 <meta property="og:site_name" content="INCEPTION">
 <meta property="og:description" content="简单锁采用键值对存储，键是锁的标识，值是全局唯一值（如uuid）。 获取锁1234567891011121314-- lua in redislocal key = KEYS[1] -- 锁标识local value = ARGV[1] -- 全局唯一值local ttl = tonumber(ARGV[2]) or 0 -- 过期时间，默认不过期if (redis.call(&apos;setnx&apos;, k">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2019-02-25T09:45:03.488Z">
+<meta property="og:updated_time" content="2019-02-26T03:07:06.662Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Redis实现分布式锁Lua脚本">
 <meta name="twitter:description" content="简单锁采用键值对存储，键是锁的标识，值是全局唯一值（如uuid）。 获取锁1234567891011121314-- lua in redislocal key = KEYS[1] -- 锁标识local value = ARGV[1] -- 全局唯一值local ttl = tonumber(ARGV[2]) or 0 -- 过期时间，默认不过期if (redis.call(&apos;setnx&apos;, k">
@@ -315,21 +315,23 @@
   
 
   
-  <div id="gitment-ctn"></div> 
-<link rel="stylesheet" href="//imsun.github.io/gitment/style/default.css">
-<script src="//imsun.github.io/gitment/dist/gitment.browser.js"></script>
+  <div id="gitalk-container"></div>
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+<script src="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
 <script>
-var gitment = new Gitment({
-  id: "Redis实现分布式锁Lua脚本",
-  owner: 'ljd0620',
+var gitalk = new Gitalk({
+  clientID: 'fc7dad5434c0ed1c882f',
+  clientSecret: '44b0625b9b6f993457cf88d5ddaf2a055124f51a',
   repo: 'ljd0620.github.io',
-  oauth: {
-    client_id: 'fc7dad5434c0ed1c882f',
-    client_secret: '44b0625b9b6f993457cf88d5ddaf2a055124f51a',
-  },
+  owner: 'ljd0620',
+  admin: ['ljd0620'],
+  id: 'Redis实现分布式锁Lua脚本',      // Ensure uniqueness and length less than 50
+  distractionFreeMode: false  // Facebook-like distraction free mode
 })
-gitment.render('gitment-ctn')
+gitalk.render('gitalk-container')
 </script>
+  
+
   
 
 
