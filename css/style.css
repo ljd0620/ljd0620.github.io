@@ -161,7 +161,7 @@ hr.small {
   background-color: #808080;
   background-position: center center;
   background-attachment: scroll;
-  margin-bottom: 50px;
+  margin-bottom: 5px;
 }
 .intro-header .site-heading,
 .intro-header .post-heading,
@@ -498,6 +498,9 @@ article .container .row table td,
 article .container .row table th {
   padding: 4px 10px;
   border: 1px solid #eee;
+}
+article .container .row .gt-header-controls-tip {
+  display: none;
 }
 figure.highlight {
   background: #eee;

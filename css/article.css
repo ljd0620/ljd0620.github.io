@@ -56,6 +56,9 @@ article .container .row table th {
   padding: 4px 10px;
   border: 1px solid #eee;
 }
+article .container .row .gt-header-controls-tip {
+  display: none;
+}
 figure.highlight {
   background: #eee;
   border: 1px solid color-border;
