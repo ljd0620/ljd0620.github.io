@@ -6,15 +6,20 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link rel="dns-prefetch" href="https://ljd0620.github.io">
-  <title>Archives: 2016/2 | INCEPTION</title>
+  <title>Nginx负载均衡配置 | INCEPTION</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="INCEPTION">
-<meta property="og:url" content="https://ljd0620.github.io/archives/2016/02/index.html">
+  <meta name="description" content="1234567891011121314151617181920212223242526272829303132333435363738394041424344454647484950515253545556575859606162636465666768697071727374757677787980#设定http服务器，利用它的反向代理功能提供负载均衡支持http &amp;#123;    #设定mi">
+<meta name="keywords" content="Nginx,负载均衡">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Nginx负载均衡配置">
+<meta property="og:url" content="https://ljd0620.github.io/2015/11/20/Nginx负载均衡配置/index.html">
 <meta property="og:site_name" content="INCEPTION">
+<meta property="og:description" content="1234567891011121314151617181920212223242526272829303132333435363738394041424344454647484950515253545556575859606162636465666768697071727374757677787980#设定http服务器，利用它的反向代理功能提供负载均衡支持http &amp;#123;    #设定mi">
 <meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2019-03-11T07:55:40.666Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="INCEPTION">
+<meta name="twitter:title" content="Nginx负载均衡配置">
+<meta name="twitter:description" content="1234567891011121314151617181920212223242526272829303132333435363738394041424344454647484950515253545556575859606162636465666768697071727374757677787980#设定http服务器，利用它的反向代理功能提供负载均衡支持http &amp;#123;    #设定mi">
   
     <link rel="alternative" href="/atom.xml" title="INCEPTION" type="application/atom+xml">
   
@@ -148,56 +153,51 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="post-Nginx负载均衡配置" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2016" class="archive-year">2016</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2016/02/01/Linux下MySQL-Galera集群搭建过程/" class="archive-article-date">
-  	<time datetime="2016-02-01T08:09:03.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2016-02-01</time>
-</a>
-        </div>
-    	 
+      <header class="article-header">
+        
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2016/02/01/Linux下MySQL-Galera集群搭建过程/">Linux下MySQL Galera集群搭建过程</a>
+    <h1 class="article-title" itemprop="name">
+      Nginx负载均衡配置
     </h1>
   
 
-        <div class="article-info info-on-right">
-          
+        
+        <a href="/2015/11/20/Nginx负载均衡配置/" class="archive-article-date">
+  	<time datetime="2015-11-20T08:13:33.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2015-11-20</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">#设定http服务器，利用它的反向代理功能提供负载均衡支持</span></span><br><span class="line"><span class="section">http</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">#设定mime类型,类型由mime.type文件定义</span></span><br><span class="line">    <span class="attribute">include</span>             /etc/nginx/mime.types;</span><br><span class="line">    <span class="attribute">default_type</span>    application/octet-stream;</span><br><span class="line"></span><br><span class="line">    <span class="comment">#设定日志格式</span></span><br><span class="line">    <span class="attribute">access_log</span>        /var/log/nginx/access.log;</span><br><span class="line"></span><br><span class="line">    <span class="comment">#省略上文有的一些配置节点</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">#设定负载均衡的服务器列表</span></span><br><span class="line">    <span class="attribute">upstream</span> mysvr &#123;</span><br><span class="line">        <span class="comment">#weigth参数表示权值，权值越高被分配到的几率越大</span></span><br><span class="line">        <span class="attribute">server</span> <span class="number">192</span>.<span class="number">168</span>.<span class="number">8</span>.1x:<span class="number">3128</span> weight=<span class="number">5</span>;</span><br><span class="line">        <span class="comment">#本机上的Squid开启3128端口,不是必须要squid</span></span><br><span class="line">        <span class="attribute">server</span> <span class="number">192</span>.<span class="number">168</span>.<span class="number">8</span>.2x:<span class="number">80</span>    weight=<span class="number">1</span>;</span><br><span class="line">        <span class="attribute">server</span> <span class="number">192</span>.<span class="number">168</span>.<span class="number">8</span>.3x:<span class="number">80</span>    weight=<span class="number">6</span>;</span><br><span class="line">    &#125;</span><br><span class="line">        </span><br><span class="line">    <span class="attribute">upstream</span> mysvr2 &#123;</span><br><span class="line">        <span class="comment">#weigth参数表示权值，权值越高被分配到的几率越大</span></span><br><span class="line">        <span class="attribute">server</span> <span class="number">192</span>.<span class="number">168</span>.<span class="number">8</span>.x:<span class="number">80</span>    weight=<span class="number">1</span>;</span><br><span class="line">        <span class="attribute">server</span> <span class="number">192</span>.<span class="number">168</span>.<span class="number">8</span>.x:<span class="number">80</span>    weight=<span class="number">6</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">#第一个虚拟服务器</span></span><br><span class="line">    <span class="section">server</span> &#123;</span><br><span class="line">        <span class="comment">#侦听192.168.8.x的80端口</span></span><br><span class="line">        <span class="attribute">listen</span>             <span class="number">80</span>;</span><br><span class="line">        <span class="attribute">server_name</span>    <span class="number">192</span>.<span class="number">168</span>.<span class="number">8</span>.x;</span><br><span class="line"></span><br><span class="line">        <span class="comment">#对aspx后缀的进行负载均衡请求</span></span><br><span class="line">        <span class="attribute">location</span> <span class="regexp">~ .*.aspx$</span> &#123;</span><br><span class="line">            <span class="comment">#定义服务器的默认网站根目录位置</span></span><br><span class="line">            <span class="attribute">root</span>     /root; </span><br><span class="line">            <span class="comment">#定义首页索引文件的名称</span></span><br><span class="line">            <span class="attribute">index</span> index.php index.html index.htm;</span><br><span class="line">            </span><br><span class="line">            <span class="comment">#请求转向mysvr 定义的服务器列表</span></span><br><span class="line">            <span class="attribute">proxy_pass</span>    http://mysvr ;</span><br><span class="line"></span><br><span class="line">            <span class="comment">#以下是一些反向代理的配置可删除.</span></span><br><span class="line"></span><br><span class="line">            <span class="attribute">proxy_redirect</span> <span class="literal">off</span>;</span><br><span class="line"></span><br><span class="line">            <span class="comment">#后端的Web服务器可以通过X-Forwarded-For获取用户真实IP</span></span><br><span class="line">            <span class="attribute">proxy_set_header</span> Host <span class="variable">$host</span>;</span><br><span class="line">            <span class="attribute">proxy_set_header</span> X-Real-IP <span class="variable">$remote_addr</span>;</span><br><span class="line">            <span class="attribute">proxy_set_header</span> X-Forwarded-For <span class="variable">$proxy_add_x_forwarded_for</span>;</span><br><span class="line"></span><br><span class="line">            <span class="comment">#允许客户端请求的最大单文件字节数</span></span><br><span class="line">            <span class="attribute">client_max_body_size</span> <span class="number">10m</span>; </span><br><span class="line"></span><br><span class="line">            <span class="comment">#缓冲区代理缓冲用户端请求的最大字节数，</span></span><br><span class="line">            <span class="attribute">client_body_buffer_size</span> <span class="number">128k</span>;</span><br><span class="line"></span><br><span class="line">            <span class="comment">#nginx跟后端服务器连接超时时间(代理连接超时)</span></span><br><span class="line">            <span class="attribute">proxy_connect_timeout</span> <span class="number">90</span>;</span><br><span class="line"></span><br><span class="line">            <span class="comment">#连接成功后，后端服务器响应时间(代理接收超时)</span></span><br><span class="line">            <span class="attribute">proxy_read_timeout</span> <span class="number">90</span>;</span><br><span class="line"></span><br><span class="line">            <span class="comment">#设置代理服务器（nginx）保存用户头信息的缓冲区大小</span></span><br><span class="line">            <span class="attribute">proxy_buffer_size</span> <span class="number">4k</span>;</span><br><span class="line"></span><br><span class="line">            <span class="comment">#proxy_buffers缓冲区，网页平均在32k以下的话，这样设置</span></span><br><span class="line">            <span class="attribute">proxy_buffers</span> <span class="number">4</span> <span class="number">32k</span>;</span><br><span class="line"></span><br><span class="line">            <span class="comment">#高负荷下缓冲大小（proxy_buffers*2）</span></span><br><span class="line">            <span class="attribute">proxy_busy_buffers_size</span> <span class="number">64k</span>; </span><br><span class="line"></span><br><span class="line">            <span class="comment">#设定缓存文件夹大小，大于这个值，将从upstream服务器传</span></span><br><span class="line">            <span class="attribute">proxy_temp_file_write_size</span> <span class="number">64k</span>;    </span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags icon"></i>
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">MySQL</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">Nginx</a>
         		</li>
       		 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">Galera</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">集群部署</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">负载均衡</a>
         		</li>
       		
 		</ul>
 	</div>
 
-          
+      
 	<div class="article-category tagcloud">
 		<i class="icon-book icon"></i>
 		<ul class="article-tag-list">
@@ -210,17 +210,80 @@
 	</div>
 
 
-        </div>
-        <div class="clearfix"></div>
-    </header>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
+  
+<nav id="article-nav">
+  
+    <a href="/2015/12/26/基于注解的Spring多数据源配置和使用/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          基于注解的Spring多数据源配置和使用
+        
+      </div>
+    </a>
   
   
-    </div></section>
+    <a href="/2015/11/19/快速部署tomcat项目的Shell脚本/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">快速部署tomcat项目的Shell脚本</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+  
+  
   
 
-    
+  
+
+  
+
+  
+  <div id="gitment-ctn"></div> 
+<link rel="stylesheet" href="//imsun.github.io/gitment/style/default.css">
+<script src="//imsun.github.io/gitment/dist/gitment.browser.js"></script>
+<script>
+var gitment = new Gitment({
+  id: 'Nginx负载均衡配置',
+  owner: 'ljd0620',
+  repo: 'ljd0620.github.io',
+  oauth: {
+    client_id: 'fc7dad5434c0ed1c882f',
+    client_secret: '44b0625b9b6f993457cf88d5ddaf2a055124f51a',
+  },
+})
+gitment.render('gitment-ctn')
+</script>
+  
+
+  
 
 
           </div>
@@ -243,8 +306,8 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,
