@@ -1,0 +1,239 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="format-detection" content="telephone=no"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black"><link rel="icon" href="/images/icons/favicon.ico?v=2.8.0" type="image/png" sizes="16x16"><link rel="icon" href="/images/icons/favicon.ico?v=2.8.0" type="image/png" sizes="32x32"><meta name="description" content="Go语言channel原理及用法">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Go语言channel原理及用法">
+<meta property="og:url" content="https://ljd0620.github.io/2025/02/19/Go%E8%AF%AD%E8%A8%80channel%E5%8E%9F%E7%90%86%E5%8F%8A%E7%94%A8%E6%B3%95/index.html">
+<meta property="og:site_name" content="Just Do IT.">
+<meta property="og:description" content="Go语言channel原理及用法">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2025-02-19T08:06:56.000Z">
+<meta property="article:modified_time" content="2025-03-19T08:07:52.375Z">
+<meta property="article:author" content="Liujiduo">
+<meta property="article:tag" content="Go">
+<meta name="twitter:card" content="summary"><title>Go语言channel原理及用法 | Just Do IT.</title><link ref="canonical" href="https://ljd0620.github.io/2025/02/19/Go%E8%AF%AD%E8%A8%80channel%E5%8E%9F%E7%90%86%E5%8F%8A%E7%94%A8%E6%B3%95/"><link rel="alternate" href="/atom.xml" type="application/atom+xml"><link rel="dns-prefetch" href="https://cdn.jsdelivr.net"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.12.1/css/all.min.css" type="text/css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" type="text/css"><link rel="stylesheet" href="/css/index.css?v=2.8.0"><script>var Stun = window.Stun || {};
+var CONFIG = {
+  root: '/',
+  algolia: undefined,
+  assistSearch: undefined,
+  fontIcon: {"prompt":{"success":"fas fa-check-circle","info":"fas fa-arrow-circle-right","warning":"fas fa-exclamation-circle","error":"fas fa-times-circle"},"copyBtn":"fas fa-copy"},
+  sidebar: {"offsetTop":"20px","tocMaxDepth":6},
+  header: {"enable":true,"showOnPost":true,"scrollDownIcon":false},
+  postWidget: {"endText":true},
+  nightMode: {"enable":true},
+  back2top: {"enable":true},
+  codeblock: {"style":"carbon","highlight":"light","wordWrap":false},
+  reward: false,
+  fancybox: true,
+  zoomImage: {"gapAside":"20px"},
+  galleryWaterfall: undefined,
+  lazyload: false,
+  pjax: undefined,
+  externalLink: {"icon":{"enable":true,"name":"fas fa-external-link-alt"}},
+  shortcuts: undefined,
+  prompt: {"copyButton":"复制","copySuccess":"复制成功","copyError":"复制失败"},
+  sourcePath: {"js":"js","css":"css","images":"images"},
+};
+
+window.CONFIG = CONFIG;</script><meta name="generator" content="Hexo 7.3.0"></head><body><div class="container" id="container"><header class="header" id="header"><div class="header-inner"><nav class="header-nav header-nav--fixed"><div class="header-nav-inner"><div class="header-nav-menubtn"><i class="fas fa-bars"></i></div><div class="header-nav-menu"><div class="header-nav-menu-item"><a class="header-nav-menu-item__link" href="/"><span class="header-nav-menu-item__icon"><i class="fas fa-home"></i></span><span class="header-nav-menu-item__text">首页</span></a></div><div class="header-nav-menu-item"><a class="header-nav-menu-item__link" href="/archives/"><span class="header-nav-menu-item__icon"><i class="fas fa-folder-open"></i></span><span class="header-nav-menu-item__text">归档</span></a></div><div class="header-nav-menu-item"><a class="header-nav-menu-item__link" href="/categories/"><span class="header-nav-menu-item__icon"><i class="fas fa-layer-group"></i></span><span class="header-nav-menu-item__text">分类</span></a></div><div class="header-nav-menu-item"><a class="header-nav-menu-item__link" href="/tags/"><span class="header-nav-menu-item__icon"><i class="fas fa-tags"></i></span><span class="header-nav-menu-item__text">标签</span></a></div><div class="header-nav-menu-item"><a class="header-nav-menu-item__link" href="/about/"><span class="header-nav-menu-item__icon"><i class="fas fa-user"></i></span><span class="header-nav-menu-item__text">关于</span></a></div></div><div class="header-nav-mode"><div class="mode"><div class="mode-track"><span class="mode-track-moon"></span><span class="mode-track-sun"></span></div><div class="mode-thumb"></div></div></div></div></nav><div class="header-banner"><div class="header-banner-info"><div class="header-banner-info__title">Just Do IT.</div><div class="header-banner-info__subtitle">一个程序员的自我修养</div></div></div></div></header><main class="main" id="main"><div class="main-inner"><div class="content-wrap" id="content-wrap"><div class="content" id="content"><!-- Just used to judge whether it is an article page--><div id="is-post"></div><div class="post"><header class="post-header"><h1 class="post-title">Go语言channel原理及用法</h1><div class="post-meta"><span class="post-meta-item post-meta-item--createtime"><span class="post-meta-item__icon"><i class="far fa-calendar-plus"></i></span><span class="post-meta-item__info">发表于</span><span class="post-meta-item__value">2025-02-19</span></span><span class="post-meta-item post-meta-item--updatetime"><span class="post-meta-item__icon"><i class="far fa-calendar-check"></i></span><span class="post-meta-item__info">更新于</span><span class="post-meta-item__value">2025-03-19</span></span><span class="post-meta-item post-meta-item--wordcount"><span class="post-meta-item__icon"><i class="far fa-file-word"></i></span><span class="post-meta-item__info">字数统计</span><span class="post-meta-item__value">1.2k</span></span><span class="post-meta-item post-meta-item--readtime"><span class="post-meta-item__icon"><i class="far fa-clock"></i></span><span class="post-meta-item__info">阅读时长</span><span class="post-meta-item__value">10分</span></span></div></header><div class="post-body"><p>Go语言的<code>channel</code>是其并发编程的核心组件之一，用于在<code>goroutine</code>之间安全地传递数据。以下是<code>channel</code>的原理、用法及最佳实践：</p>
+<hr>
+
+        <h3 id="一、Channel-原理"   >
+          <a href="#一、Channel-原理" class="heading-link"><i class="fas fa-link"></i></a><a href="#一、Channel-原理" class="headerlink" title="一、Channel 原理"></a><strong>一、Channel 原理</strong></h3>
+      
+        <h4 id="1-数据结构"   >
+          <a href="#1-数据结构" class="heading-link"><i class="fas fa-link"></i></a><a href="#1-数据结构" class="headerlink" title="1. 数据结构"></a><strong>1. 数据结构</strong></h4>
+      <ul>
+<li><strong>底层实现</strong>：<code>channel</code>是一个环形队列（circular buffer），包含以下字段：<ul>
+<li><code>buf</code>：存储数据的缓冲区（有缓冲<code>channel</code>）。</li>
+<li><code>sendx</code>、<code>recvx</code>：发送和接收的索引。</li>
+<li><code>lock</code>：互斥锁，保护<code>channel</code>的并发访问。</li>
+<li><code>sendq</code>、<code>recvq</code>：等待发送和接收的<code>goroutine</code>队列。</li>
+</ul>
+</li>
+</ul>
+
+        <h4 id="2-同步机制"   >
+          <a href="#2-同步机制" class="heading-link"><i class="fas fa-link"></i></a><a href="#2-同步机制" class="headerlink" title="2. 同步机制"></a><strong>2. 同步机制</strong></h4>
+      <ul>
+<li><strong>无缓冲<code>channel</code></strong>：发送和接收操作必须同时准备好，否则会阻塞。</li>
+<li><strong>有缓冲<code>channel</code></strong>：缓冲区未满时发送不阻塞，缓冲区非空时接收不阻塞。</li>
+</ul>
+
+        <h4 id="3-调度行为"   >
+          <a href="#3-调度行为" class="heading-link"><i class="fas fa-link"></i></a><a href="#3-调度行为" class="headerlink" title="3. 调度行为"></a><strong>3. 调度行为</strong></h4>
+      <ul>
+<li><strong>阻塞与唤醒</strong>：<ul>
+<li>当<code>channel</code>操作阻塞时，<code>goroutine</code>会被放入等待队列。</li>
+<li>当条件满足时（如缓冲区有空位或数据到达），<code>goroutine</code>会被唤醒。</li>
+</ul>
+</li>
+</ul>
+<hr>
+
+        <h3 id="二、Channel-基础用法"   >
+          <a href="#二、Channel-基础用法" class="heading-link"><i class="fas fa-link"></i></a><a href="#二、Channel-基础用法" class="headerlink" title="二、Channel 基础用法"></a><strong>二、Channel 基础用法</strong></h3>
+      
+        <h4 id="1-创建-Channel"   >
+          <a href="#1-创建-Channel" class="heading-link"><i class="fas fa-link"></i></a><a href="#1-创建-Channel" class="headerlink" title="1. 创建 Channel"></a><strong>1. 创建 Channel</strong></h4>
+      <ul>
+<li><strong>无缓冲<code>channel</code></strong>：<figure class="highlight go"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ch := <span class="built_in">make</span>(<span class="keyword">chan</span> <span class="type">int</span>)</span><br></pre></td></tr></table></div></figure></li>
+<li><strong>有缓冲<code>channel</code></strong>：<figure class="highlight go"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ch := <span class="built_in">make</span>(<span class="keyword">chan</span> <span class="type">int</span>, <span class="number">3</span>) <span class="comment">// 缓冲区大小为3</span></span><br></pre></td></tr></table></div></figure></li>
+</ul>
+
+        <h4 id="2-发送与接收"   >
+          <a href="#2-发送与接收" class="heading-link"><i class="fas fa-link"></i></a><a href="#2-发送与接收" class="headerlink" title="2. 发送与接收"></a><strong>2. 发送与接收</strong></h4>
+      <ul>
+<li><strong>发送数据</strong>：<figure class="highlight go"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ch &lt;- <span class="number">42</span> <span class="comment">// 发送数据</span></span><br></pre></td></tr></table></div></figure></li>
+<li><strong>接收数据</strong>：<figure class="highlight go"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">value := &lt;-ch <span class="comment">// 接收数据</span></span><br></pre></td></tr></table></div></figure></li>
+</ul>
+
+        <h4 id="3-关闭-Channel"   >
+          <a href="#3-关闭-Channel" class="heading-link"><i class="fas fa-link"></i></a><a href="#3-关闭-Channel" class="headerlink" title="3. 关闭 Channel"></a><strong>3. 关闭 Channel</strong></h4>
+      <ul>
+<li><strong>关闭<code>channel</code></strong>：<figure class="highlight go"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">close</span>(ch)</span><br></pre></td></tr></table></div></figure></li>
+<li><strong>检测关闭</strong>：<figure class="highlight go"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">value, ok := &lt;-ch</span><br><span class="line"><span class="keyword">if</span> !ok &#123;</span><br><span class="line">    fmt.Println(<span class="string">&quot;Channel closed&quot;</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></div></figure></li>
+</ul>
+
+        <h4 id="4-示例：生产者-消费者模型"   >
+          <a href="#4-示例：生产者-消费者模型" class="heading-link"><i class="fas fa-link"></i></a><a href="#4-示例：生产者-消费者模型" class="headerlink" title="4. 示例：生产者-消费者模型"></a><strong>4. 示例：生产者-消费者模型</strong></h4>
+      <figure class="highlight go"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">producer</span><span class="params">(ch <span class="keyword">chan</span>&lt;- <span class="type">int</span>)</span></span> &#123;</span><br><span class="line">    <span class="keyword">for</span> i := <span class="number">0</span>; i &lt; <span class="number">5</span>; i++ &#123;</span><br><span class="line">        ch &lt;- i</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">close</span>(ch)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">consumer</span><span class="params">(ch &lt;-<span class="keyword">chan</span> <span class="type">int</span>)</span></span> &#123;</span><br><span class="line">    <span class="keyword">for</span> value := <span class="keyword">range</span> ch &#123;</span><br><span class="line">        fmt.Println(<span class="string">&quot;Received:&quot;</span>, value)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">    ch := <span class="built_in">make</span>(<span class="keyword">chan</span> <span class="type">int</span>)</span><br><span class="line">    <span class="keyword">go</span> producer(ch)</span><br><span class="line">    consumer(ch)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></div></figure>
+
+<hr>
+
+        <h3 id="三、Channel-高级用法"   >
+          <a href="#三、Channel-高级用法" class="heading-link"><i class="fas fa-link"></i></a><a href="#三、Channel-高级用法" class="headerlink" title="三、Channel 高级用法"></a><strong>三、Channel 高级用法</strong></h3>
+      
+        <h4 id="1-Select-多路复用"   >
+          <a href="#1-Select-多路复用" class="heading-link"><i class="fas fa-link"></i></a><a href="#1-Select-多路复用" class="headerlink" title="1. Select 多路复用"></a><strong>1. Select 多路复用</strong></h4>
+      <p>监听多个<code>channel</code>操作：</p>
+<figure class="highlight go"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">    ch1 := <span class="built_in">make</span>(<span class="keyword">chan</span> <span class="type">string</span>)</span><br><span class="line">    ch2 := <span class="built_in">make</span>(<span class="keyword">chan</span> <span class="type">string</span>)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">go</span> <span class="function"><span class="keyword">func</span><span class="params">()</span></span> &#123; ch1 &lt;- <span class="string">&quot;from ch1&quot;</span> &#125;()</span><br><span class="line">    <span class="keyword">go</span> <span class="function"><span class="keyword">func</span><span class="params">()</span></span> &#123; ch2 &lt;- <span class="string">&quot;from ch2&quot;</span> &#125;()</span><br><span class="line"></span><br><span class="line">    <span class="keyword">select</span> &#123;</span><br><span class="line">    <span class="keyword">case</span> msg := &lt;-ch1:</span><br><span class="line">        fmt.Println(msg)</span><br><span class="line">    <span class="keyword">case</span> msg := &lt;-ch2:</span><br><span class="line">        fmt.Println(msg)</span><br><span class="line">    <span class="keyword">case</span> &lt;-time.After(time.Second): <span class="comment">// 超时控制</span></span><br><span class="line">        fmt.Println(<span class="string">&quot;timeout&quot;</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></div></figure>
+
+
+        <h4 id="2-单向-Channel"   >
+          <a href="#2-单向-Channel" class="heading-link"><i class="fas fa-link"></i></a><a href="#2-单向-Channel" class="headerlink" title="2. 单向 Channel"></a><strong>2. 单向 Channel</strong></h4>
+      <p>限制<code>channel</code>的发送或接收方向：</p>
+<figure class="highlight go"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">producer</span><span class="params">(ch <span class="keyword">chan</span>&lt;- <span class="type">int</span>)</span></span> &#123;</span><br><span class="line">    <span class="keyword">for</span> i := <span class="number">0</span>; i &lt; <span class="number">5</span>; i++ &#123;</span><br><span class="line">        ch &lt;- i</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">close</span>(ch)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">consumer</span><span class="params">(ch &lt;-<span class="keyword">chan</span> <span class="type">int</span>)</span></span> &#123;</span><br><span class="line">    <span class="keyword">for</span> value := <span class="keyword">range</span> ch &#123;</span><br><span class="line">        fmt.Println(<span class="string">&quot;Received:&quot;</span>, value)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></div></figure>
+
+
+        <h4 id="3-带缓冲-Channel-的容量与长度"   >
+          <a href="#3-带缓冲-Channel-的容量与长度" class="heading-link"><i class="fas fa-link"></i></a><a href="#3-带缓冲-Channel-的容量与长度" class="headerlink" title="3. 带缓冲 Channel 的容量与长度"></a><strong>3. 带缓冲 Channel 的容量与长度</strong></h4>
+      <ul>
+<li><strong>容量</strong>：<code>cap(ch)</code>返回<code>channel</code>的缓冲区大小。</li>
+<li><strong>长度</strong>：<code>len(ch)</code>返回当前缓冲区中的数据量。</li>
+</ul>
+<figure class="highlight go"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">    ch := <span class="built_in">make</span>(<span class="keyword">chan</span> <span class="type">int</span>, <span class="number">3</span>)</span><br><span class="line">    ch &lt;- <span class="number">1</span></span><br><span class="line">    ch &lt;- <span class="number">2</span></span><br><span class="line">    fmt.Println(<span class="string">&quot;Capacity:&quot;</span>, <span class="built_in">cap</span>(ch)) <span class="comment">// 输出 3</span></span><br><span class="line">    fmt.Println(<span class="string">&quot;Length:&quot;</span>, <span class="built_in">len</span>(ch))   <span class="comment">// 输出 2</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></div></figure>
+
+<hr>
+
+        <h3 id="四、Channel-最佳实践"   >
+          <a href="#四、Channel-最佳实践" class="heading-link"><i class="fas fa-link"></i></a><a href="#四、Channel-最佳实践" class="headerlink" title="四、Channel 最佳实践"></a><strong>四、Channel 最佳实践</strong></h3>
+      
+        <h4 id="1-避免死锁"   >
+          <a href="#1-避免死锁" class="heading-link"><i class="fas fa-link"></i></a><a href="#1-避免死锁" class="headerlink" title="1. 避免死锁"></a><strong>1. 避免死锁</strong></h4>
+      <ul>
+<li><strong>无缓冲<code>channel</code></strong>：确保发送和接收操作成对出现。</li>
+<li><strong>有缓冲<code>channel</code></strong>：避免缓冲区满时发送或空时接收。</li>
+</ul>
+
+        <h4 id="2-使用select实现超时控制"   >
+          <a href="#2-使用select实现超时控制" class="heading-link"><i class="fas fa-link"></i></a><a href="#2-使用select实现超时控制" class="headerlink" title="2. 使用select实现超时控制"></a><strong>2. 使用<code>select</code>实现超时控制</strong></h4>
+      <figure class="highlight go"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">    ch := <span class="built_in">make</span>(<span class="keyword">chan</span> <span class="type">string</span>)</span><br><span class="line">    <span class="keyword">go</span> <span class="function"><span class="keyword">func</span><span class="params">()</span></span> &#123;</span><br><span class="line">        time.Sleep(<span class="number">2</span> * time.Second)</span><br><span class="line">        ch &lt;- <span class="string">&quot;result&quot;</span></span><br><span class="line">    &#125;()</span><br><span class="line"></span><br><span class="line">    <span class="keyword">select</span> &#123;</span><br><span class="line">    <span class="keyword">case</span> res := &lt;-ch:</span><br><span class="line">        fmt.Println(res)</span><br><span class="line">    <span class="keyword">case</span> &lt;-time.After(time.Second): <span class="comment">// 超时控制</span></span><br><span class="line">        fmt.Println(<span class="string">&quot;timeout&quot;</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></div></figure>
+
+
+        <h4 id="3-使用close通知结束"   >
+          <a href="#3-使用close通知结束" class="heading-link"><i class="fas fa-link"></i></a><a href="#3-使用close通知结束" class="headerlink" title="3. 使用close通知结束"></a><strong>3. 使用<code>close</code>通知结束</strong></h4>
+      <p>通过关闭<code>channel</code>通知接收方任务完成：</p>
+<figure class="highlight go"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">worker</span><span class="params">(done <span class="keyword">chan</span> <span class="keyword">struct</span>&#123;&#125;)</span></span> &#123;</span><br><span class="line">    time.Sleep(time.Second)</span><br><span class="line">    <span class="built_in">close</span>(done)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">    done := <span class="built_in">make</span>(<span class="keyword">chan</span> <span class="keyword">struct</span>&#123;&#125;)</span><br><span class="line">    <span class="keyword">go</span> worker(done)</span><br><span class="line">    &lt;-done <span class="comment">// 等待任务完成</span></span><br><span class="line">    fmt.Println(<span class="string">&quot;Done&quot;</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></div></figure>
+
+
+        <h4 id="4-限制并发数量"   >
+          <a href="#4-限制并发数量" class="heading-link"><i class="fas fa-link"></i></a><a href="#4-限制并发数量" class="headerlink" title="4. 限制并发数量"></a><strong>4. 限制并发数量</strong></h4>
+      <p>使用带缓冲的<code>channel</code>实现信号量：</p>
+<figure class="highlight go"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">    <span class="keyword">const</span> maxGoroutines = <span class="number">3</span></span><br><span class="line">    sem := <span class="built_in">make</span>(<span class="keyword">chan</span> <span class="keyword">struct</span>&#123;&#125;, maxGoroutines)</span><br><span class="line">    <span class="keyword">for</span> i := <span class="number">0</span>; i &lt; <span class="number">10</span>; i++ &#123;</span><br><span class="line">        sem &lt;- <span class="keyword">struct</span>&#123;&#125;&#123;&#125; <span class="comment">// 占用信号量</span></span><br><span class="line">        <span class="keyword">go</span> <span class="function"><span class="keyword">func</span><span class="params">(id <span class="type">int</span>)</span></span> &#123;</span><br><span class="line">            <span class="keyword">defer</span> <span class="function"><span class="keyword">func</span><span class="params">()</span></span> &#123; &lt;-sem &#125;() <span class="comment">// 释放信号量</span></span><br><span class="line">            fmt.Printf(<span class="string">&quot;Goroutine %d running\n&quot;</span>, id)</span><br><span class="line">            time.Sleep(time.Second)</span><br><span class="line">        &#125;(i)</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">for</span> i := <span class="number">0</span>; i &lt; maxGoroutines; i++ &#123;</span><br><span class="line">        sem &lt;- <span class="keyword">struct</span>&#123;&#125;&#123;&#125; <span class="comment">// 等待所有goroutine完成</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></div></figure>
+
+<hr>
+
+        <h3 id="五、Channel-性能优化"   >
+          <a href="#五、Channel-性能优化" class="heading-link"><i class="fas fa-link"></i></a><a href="#五、Channel-性能优化" class="headerlink" title="五、Channel 性能优化"></a><strong>五、Channel 性能优化</strong></h3>
+      
+        <h4 id="1-减少锁竞争"   >
+          <a href="#1-减少锁竞争" class="heading-link"><i class="fas fa-link"></i></a><a href="#1-减少锁竞争" class="headerlink" title="1. 减少锁竞争"></a><strong>1. 减少锁竞争</strong></h4>
+      <ul>
+<li>使用多个小<code>channel</code>代替单个大<code>channel</code>。</li>
+<li>避免在高频操作中使用无缓冲<code>channel</code>。</li>
+</ul>
+
+        <h4 id="2-批量处理"   >
+          <a href="#2-批量处理" class="heading-link"><i class="fas fa-link"></i></a><a href="#2-批量处理" class="headerlink" title="2. 批量处理"></a><strong>2. 批量处理</strong></h4>
+      <p>合并小任务，减少<code>channel</code>操作次数：</p>
+<figure class="highlight go"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">    ch := <span class="built_in">make</span>(<span class="keyword">chan</span> []<span class="type">int</span>)</span><br><span class="line">    <span class="keyword">go</span> <span class="function"><span class="keyword">func</span><span class="params">()</span></span> &#123;</span><br><span class="line">        batch := <span class="built_in">make</span>([]<span class="type">int</span>, <span class="number">0</span>, <span class="number">10</span>)</span><br><span class="line">        <span class="keyword">for</span> i := <span class="number">0</span>; i &lt; <span class="number">100</span>; i++ &#123;</span><br><span class="line">            batch = <span class="built_in">append</span>(batch, i)</span><br><span class="line">            <span class="keyword">if</span> <span class="built_in">len</span>(batch) == <span class="number">10</span> &#123;</span><br><span class="line">                ch &lt;- batch</span><br><span class="line">                batch = <span class="built_in">make</span>([]<span class="type">int</span>, <span class="number">0</span>, <span class="number">10</span>)</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="built_in">close</span>(ch)</span><br><span class="line">    &#125;()</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> batch := <span class="keyword">range</span> ch &#123;</span><br><span class="line">        fmt.Println(<span class="string">&quot;Received batch:&quot;</span>, batch)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></div></figure>
+
+
+        <h4 id="3-使用sync-Pool复用对象"   >
+          <a href="#3-使用sync-Pool复用对象" class="heading-link"><i class="fas fa-link"></i></a><a href="#3-使用sync-Pool复用对象" class="headerlink" title="3. 使用sync.Pool复用对象"></a><strong>3. 使用<code>sync.Pool</code>复用对象</strong></h4>
+      <p>减少内存分配开销：</p>
+<figure class="highlight go"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> pool = sync.Pool&#123;</span><br><span class="line">    New: <span class="function"><span class="keyword">func</span><span class="params">()</span></span> <span class="keyword">interface</span>&#123;&#125; &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">make</span>([]<span class="type">byte</span>, <span class="number">1024</span>)</span><br><span class="line">    &#125;,</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">    ch := <span class="built_in">make</span>(<span class="keyword">chan</span> []<span class="type">byte</span>)</span><br><span class="line">    <span class="keyword">go</span> <span class="function"><span class="keyword">func</span><span class="params">()</span></span> &#123;</span><br><span class="line">        buf := pool.Get().([]<span class="type">byte</span>)</span><br><span class="line">        <span class="keyword">defer</span> pool.Put(buf)</span><br><span class="line">        <span class="comment">// 使用buf处理数据...</span></span><br><span class="line">        ch &lt;- buf</span><br><span class="line">    &#125;()</span><br><span class="line">    fmt.Println(&lt;-ch)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></div></figure>
+
+<hr>
+
+        <h3 id="六、Channel-调试与监控"   >
+          <a href="#六、Channel-调试与监控" class="heading-link"><i class="fas fa-link"></i></a><a href="#六、Channel-调试与监控" class="headerlink" title="六、Channel 调试与监控"></a><strong>六、Channel 调试与监控</strong></h3>
+      
+        <h4 id="1-调试工具"   >
+          <a href="#1-调试工具" class="heading-link"><i class="fas fa-link"></i></a><a href="#1-调试工具" class="headerlink" title="1. 调试工具"></a><strong>1. 调试工具</strong></h4>
+      <ul>
+<li><strong>pprof</strong>：分析<code>channel</code>的阻塞情况。<figure class="highlight go"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> _ <span class="string">&quot;net/http/pprof&quot;</span></span><br><span class="line"><span class="keyword">go</span> <span class="function"><span class="keyword">func</span><span class="params">()</span></span> &#123;</span><br><span class="line">    log.Println(http.ListenAndServe(<span class="string">&quot;localhost:6060&quot;</span>, <span class="literal">nil</span>))</span><br><span class="line">&#125;()</span><br></pre></td></tr></table></div></figure>
+访问<code>http://localhost:6060/debug/pprof/goroutine?debug=1</code>查看<code>goroutine</code>状态。</li>
+</ul>
+
+        <h4 id="2-监控指标"   >
+          <a href="#2-监控指标" class="heading-link"><i class="fas fa-link"></i></a><a href="#2-监控指标" class="headerlink" title="2. 监控指标"></a><strong>2. 监控指标</strong></h4>
+      <ul>
+<li><strong>runtime.NumGoroutine()</strong>：获取当前<code>goroutine</code>数量。</li>
+<li><strong>runtime.ReadMemStats()</strong>：监控内存使用。</li>
+</ul>
+<hr>
+
+        <h3 id="总结"   >
+          <a href="#总结" class="heading-link"><i class="fas fa-link"></i></a><a href="#总结" class="headerlink" title="总结"></a><strong>总结</strong></h3>
+      <ul>
+<li><strong>核心用途</strong>：<code>goroutine</code>间通信与同步。</li>
+<li><strong>关键特性</strong>：<ul>
+<li>无缓冲<code>channel</code>用于强同步。</li>
+<li>有缓冲<code>channel</code>用于解耦生产者和消费者。</li>
+</ul>
+</li>
+<li><strong>最佳实践</strong>：<ul>
+<li>使用<code>select</code>实现超时和多路复用。</li>
+<li>通过<code>close</code>通知任务完成。</li>
+<li>合理控制并发数量，避免资源泄漏。</li>
+</ul>
+</li>
+</ul>
+<p>通过合理使用<code>channel</code>，可以构建高效、安全的并发程序。</p>
+</div><footer class="post-footer"><div class="post-ending ending"><div class="ending__text">------ 本文结束，感谢您的阅读 ------</div></div><div class="post-copyright copyright"><div class="copyright-author"><span class="copyright-author__name">本文作者: </span><span class="copyright-author__value"><a href="https://ljd0620.github.io">Liujiduo</a></span></div><div class="copyright-link"><span class="copyright-link__name">本文链接: </span><span class="copyright-link__value"><a href="https://ljd0620.github.io/2025/02/19/Go%E8%AF%AD%E8%A8%80channel%E5%8E%9F%E7%90%86%E5%8F%8A%E7%94%A8%E6%B3%95/">https://ljd0620.github.io/2025/02/19/Go%E8%AF%AD%E8%A8%80channel%E5%8E%9F%E7%90%86%E5%8F%8A%E7%94%A8%E6%B3%95/</a></span></div><div class="copyright-notice"><span class="copyright-notice__name">版权声明: </span><span class="copyright-notice__value">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en" rel="external nofollow" target="_blank">BY-NC-SA</a> 许可协议。转载请注明出处！</span></div></div><div class="post-tags"><span class="post-tags-item"><span class="post-tags-item__icon"><i class="fas fa-tag"></i></span><a class="post-tags-item__link" href="https://ljd0620.github.io/tags/Go/">Go</a></span></div><nav class="post-paginator paginator"><div class="paginator-prev"><a class="paginator-prev__link" href="/2025/02/27/Go%E8%AF%AD%E8%A8%80%E6%8C%87%E9%92%88%E7%9A%84%E4%BD%9C%E7%94%A8%E8%AF%A6%E8%A7%A3/"><span class="paginator-prev__icon"><i class="fas fa-angle-left"></i></span><span class="paginator-prev__text">Go语言指针的作用详解</span></a></div><div class="paginator-next"><a class="paginator-next__link" href="/2025/02/10/Go%E8%AF%AD%E8%A8%80goroutine%E5%8E%9F%E7%90%86%E5%8F%8A%E7%94%A8%E6%B3%95/"><span class="paginator-prev__text">Go语言goroutine原理及用法</span><span class="paginator-next__icon"><i class="fas fa-angle-right"></i></span></a></div></nav></footer></div></div></div><div class="sidebar-wrap" id="sidebar-wrap"><aside class="sidebar" id="sidebar"><div class="sidebar-nav"><span class="sidebar-nav-toc current">文章目录</span><span class="sidebar-nav-ov">站点概览</span></div><section class="sidebar-toc"><ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%80%E3%80%81Channel-%E5%8E%9F%E7%90%86"><span class="toc-number">1.</span> <span class="toc-text">
+          一、Channel 原理</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84"><span class="toc-number">1.1.</span> <span class="toc-text">
+          1. 数据结构</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-%E5%90%8C%E6%AD%A5%E6%9C%BA%E5%88%B6"><span class="toc-number">1.2.</span> <span class="toc-text">
+          2. 同步机制</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-%E8%B0%83%E5%BA%A6%E8%A1%8C%E4%B8%BA"><span class="toc-number">1.3.</span> <span class="toc-text">
+          3. 调度行为</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BA%8C%E3%80%81Channel-%E5%9F%BA%E7%A1%80%E7%94%A8%E6%B3%95"><span class="toc-number">2.</span> <span class="toc-text">
+          二、Channel 基础用法</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-%E5%88%9B%E5%BB%BA-Channel"><span class="toc-number">2.1.</span> <span class="toc-text">
+          1. 创建 Channel</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-%E5%8F%91%E9%80%81%E4%B8%8E%E6%8E%A5%E6%94%B6"><span class="toc-number">2.2.</span> <span class="toc-text">
+          2. 发送与接收</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-%E5%85%B3%E9%97%AD-Channel"><span class="toc-number">2.3.</span> <span class="toc-text">
+          3. 关闭 Channel</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-%E7%A4%BA%E4%BE%8B%EF%BC%9A%E7%94%9F%E4%BA%A7%E8%80%85-%E6%B6%88%E8%B4%B9%E8%80%85%E6%A8%A1%E5%9E%8B"><span class="toc-number">2.4.</span> <span class="toc-text">
+          4. 示例：生产者-消费者模型</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%89%E3%80%81Channel-%E9%AB%98%E7%BA%A7%E7%94%A8%E6%B3%95"><span class="toc-number">3.</span> <span class="toc-text">
+          三、Channel 高级用法</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-Select-%E5%A4%9A%E8%B7%AF%E5%A4%8D%E7%94%A8"><span class="toc-number">3.1.</span> <span class="toc-text">
+          1. Select 多路复用</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-%E5%8D%95%E5%90%91-Channel"><span class="toc-number">3.2.</span> <span class="toc-text">
+          2. 单向 Channel</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-%E5%B8%A6%E7%BC%93%E5%86%B2-Channel-%E7%9A%84%E5%AE%B9%E9%87%8F%E4%B8%8E%E9%95%BF%E5%BA%A6"><span class="toc-number">3.3.</span> <span class="toc-text">
+          3. 带缓冲 Channel 的容量与长度</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9B%9B%E3%80%81Channel-%E6%9C%80%E4%BD%B3%E5%AE%9E%E8%B7%B5"><span class="toc-number">4.</span> <span class="toc-text">
+          四、Channel 最佳实践</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-%E9%81%BF%E5%85%8D%E6%AD%BB%E9%94%81"><span class="toc-number">4.1.</span> <span class="toc-text">
+          1. 避免死锁</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-%E4%BD%BF%E7%94%A8select%E5%AE%9E%E7%8E%B0%E8%B6%85%E6%97%B6%E6%8E%A7%E5%88%B6"><span class="toc-number">4.2.</span> <span class="toc-text">
+          2. 使用select实现超时控制</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-%E4%BD%BF%E7%94%A8close%E9%80%9A%E7%9F%A5%E7%BB%93%E6%9D%9F"><span class="toc-number">4.3.</span> <span class="toc-text">
+          3. 使用close通知结束</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-%E9%99%90%E5%88%B6%E5%B9%B6%E5%8F%91%E6%95%B0%E9%87%8F"><span class="toc-number">4.4.</span> <span class="toc-text">
+          4. 限制并发数量</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BA%94%E3%80%81Channel-%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96"><span class="toc-number">5.</span> <span class="toc-text">
+          五、Channel 性能优化</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-%E5%87%8F%E5%B0%91%E9%94%81%E7%AB%9E%E4%BA%89"><span class="toc-number">5.1.</span> <span class="toc-text">
+          1. 减少锁竞争</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-%E6%89%B9%E9%87%8F%E5%A4%84%E7%90%86"><span class="toc-number">5.2.</span> <span class="toc-text">
+          2. 批量处理</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-%E4%BD%BF%E7%94%A8sync-Pool%E5%A4%8D%E7%94%A8%E5%AF%B9%E8%B1%A1"><span class="toc-number">5.3.</span> <span class="toc-text">
+          3. 使用sync.Pool复用对象</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%85%AD%E3%80%81Channel-%E8%B0%83%E8%AF%95%E4%B8%8E%E7%9B%91%E6%8E%A7"><span class="toc-number">6.</span> <span class="toc-text">
+          六、Channel 调试与监控</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-%E8%B0%83%E8%AF%95%E5%B7%A5%E5%85%B7"><span class="toc-number">6.1.</span> <span class="toc-text">
+          1. 调试工具</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-%E7%9B%91%E6%8E%A7%E6%8C%87%E6%A0%87"><span class="toc-number">6.2.</span> <span class="toc-text">
+          2. 监控指标</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-number">7.</span> <span class="toc-text">
+          总结</span></a></li></ol></section><!-- ov = overview--><section class="sidebar-ov hide"><div class="sidebar-ov-author"><div class="sidebar-ov-author__avatar"><img class="sidebar-ov-author__avatar_img" src="/images/avatar.jpg" alt="avatar"></div><p class="sidebar-ov-author__text">Liujiduo's Blog</p></div><div class="sidebar-ov-feed"><span class="sidebar-ov-feed-email"><a class="sidebar-ov-feed-email__link" href="mailto:liujiduo@sina.com" target="_blank" rel="noopener"><span class="sidebar-ov-feed-email__icon"><i class="fas fa-envelope"></i></span><span>Email 订阅</span></a></span><span class="sidebar-ov-feed-rss"><a class="sidebar-ov-feed-rss__link" href="/atom.xml" target="_blank" rel="noopener"><span class="sidebar-ov-feed-rss__icon"><i class="fas fa-rss"></i></span><span>RSS 订阅</span></a></span></div><div class="sidebar-ov-state"><a class="sidebar-ov-state-item sidebar-ov-state-item--posts" href="/archives/"><div class="sidebar-ov-state-item__count">42</div><div class="sidebar-ov-state-item__name">归档</div></a><a class="sidebar-ov-state-item sidebar-ov-state-item--categories" href="/categories/"><div class="sidebar-ov-state-item__count">12</div><div class="sidebar-ov-state-item__name">分类</div></a><a class="sidebar-ov-state-item sidebar-ov-state-item--tags" href="/tags/"><div class="sidebar-ov-state-item__count">33</div><div class="sidebar-ov-state-item__name">标签</div></a></div><div class="sidebar-ov-cc"><a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en" target="_blank" rel="noopener" data-popover="知识共享许可协议" data-popover-pos="up"><img src="/images/cc-by-nc-sa.svg"></a></div></section><div class="sidebar-reading"><div class="sidebar-reading-info"><span class="sidebar-reading-info__text">你已阅读了 </span><span class="sidebar-reading-info__num">0</span><span class="sidebar-reading-info__perc">%</span></div><div class="sidebar-reading-line"></div></div></aside></div><div class="clearfix"></div></div></main><footer class="footer" id="footer"><div class="footer-inner"><div><span>Copyright © 2024~2025</span><span class="footer__icon"><i class="fas fa-heart"></i></span><span>Liujiduo All Rights Reserved</span></div><div><span>由 <a href="http://hexo.io/" title="Hexo" target="_blank" rel="noopener">Hexo</a> 强力驱动</span><span> v7.3.0</span><span class="footer__devider">|</span><span>主题 - <a href="https://github.com/liuyib/hexo-theme-stun/" title="Stun" target="_blank" rel="noopener">Stun</a></span><span> v2.8.0</span></div><div class="busuanzi"></div></div></footer><div class="loading-bar" id="loading-bar"><div class="loading-bar__progress"></div></div><div class="back2top" id="back2top"><span class="back2top__icon"><i class="fas fa-rocket"></i></span></div></div><script src="https://cdn.jsdelivr.net/npm/jquery@v3.4.1/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/velocity-animate@1.5.2/velocity.min.js"></script><script src="https://cdn.jsdelivr.net/npm/velocity-animate@1.5.2/velocity.ui.min.js"></script><script src="https://cdn.jsdelivr.net/npm/ribbon.js@latest/dist/ribbon.min.js" size="120" alpha="0.6" zIndex="-1"></script><script src="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script><script src="/js/utils.js?v=2.8.0"></script><script src="/js/stun-boot.js?v=2.8.0"></script><script src="/js/scroll.js?v=2.8.0"></script><script src="/js/header.js?v=2.8.0"></script><script src="/js/sidebar.js?v=2.8.0"></script></body></html>
