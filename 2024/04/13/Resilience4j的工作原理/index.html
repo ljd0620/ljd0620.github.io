@@ -1,0 +1,255 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="format-detection" content="telephone=no"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black"><link rel="icon" href="/images/icons/favicon.ico?v=2.8.0" type="image/png" sizes="16x16"><link rel="icon" href="/images/icons/favicon.ico?v=2.8.0" type="image/png" sizes="32x32"><meta name="description" content="Resilience4j的工作原理">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Resilience4j的工作原理">
+<meta property="og:url" content="https://ljd0620.github.io/2024/04/13/Resilience4j%E7%9A%84%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86/index.html">
+<meta property="og:site_name" content="Just Do IT.">
+<meta property="og:description" content="Resilience4j的工作原理">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2024-04-13T04:20:48.000Z">
+<meta property="article:modified_time" content="2025-03-19T02:03:26.173Z">
+<meta property="article:author" content="Liujiduo">
+<meta property="article:tag" content="微服务">
+<meta property="article:tag" content="Resilience4j">
+<meta name="twitter:card" content="summary"><title>Resilience4j的工作原理 | Just Do IT.</title><link ref="canonical" href="https://ljd0620.github.io/2024/04/13/Resilience4j%E7%9A%84%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86/"><link rel="alternate" href="/atom.xml" type="application/atom+xml"><link rel="dns-prefetch" href="https://cdn.jsdelivr.net"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.12.1/css/all.min.css" type="text/css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" type="text/css"><link rel="stylesheet" href="/css/index.css?v=2.8.0"><script>var Stun = window.Stun || {};
+var CONFIG = {
+  root: '/',
+  algolia: undefined,
+  assistSearch: undefined,
+  fontIcon: {"prompt":{"success":"fas fa-check-circle","info":"fas fa-arrow-circle-right","warning":"fas fa-exclamation-circle","error":"fas fa-times-circle"},"copyBtn":"fas fa-copy"},
+  sidebar: {"offsetTop":"20px","tocMaxDepth":6},
+  header: {"enable":true,"showOnPost":true,"scrollDownIcon":false},
+  postWidget: {"endText":true},
+  nightMode: {"enable":true},
+  back2top: {"enable":true},
+  codeblock: {"style":"carbon","highlight":"light","wordWrap":false},
+  reward: false,
+  fancybox: true,
+  zoomImage: {"gapAside":"20px"},
+  galleryWaterfall: undefined,
+  lazyload: false,
+  pjax: undefined,
+  externalLink: {"icon":{"enable":true,"name":"fas fa-external-link-alt"}},
+  shortcuts: undefined,
+  prompt: {"copyButton":"复制","copySuccess":"复制成功","copyError":"复制失败"},
+  sourcePath: {"js":"js","css":"css","images":"images"},
+};
+
+window.CONFIG = CONFIG;</script><meta name="generator" content="Hexo 7.3.0"></head><body><div class="container" id="container"><header class="header" id="header"><div class="header-inner"><nav class="header-nav header-nav--fixed"><div class="header-nav-inner"><div class="header-nav-menubtn"><i class="fas fa-bars"></i></div><div class="header-nav-menu"><div class="header-nav-menu-item"><a class="header-nav-menu-item__link" href="/"><span class="header-nav-menu-item__icon"><i class="fas fa-home"></i></span><span class="header-nav-menu-item__text">首页</span></a></div><div class="header-nav-menu-item"><a class="header-nav-menu-item__link" href="/archives/"><span class="header-nav-menu-item__icon"><i class="fas fa-folder-open"></i></span><span class="header-nav-menu-item__text">归档</span></a></div><div class="header-nav-menu-item"><a class="header-nav-menu-item__link" href="/categories/"><span class="header-nav-menu-item__icon"><i class="fas fa-layer-group"></i></span><span class="header-nav-menu-item__text">分类</span></a></div><div class="header-nav-menu-item"><a class="header-nav-menu-item__link" href="/tags/"><span class="header-nav-menu-item__icon"><i class="fas fa-tags"></i></span><span class="header-nav-menu-item__text">标签</span></a></div><div class="header-nav-menu-item"><a class="header-nav-menu-item__link" href="/about/"><span class="header-nav-menu-item__icon"><i class="fas fa-user"></i></span><span class="header-nav-menu-item__text">关于</span></a></div></div><div class="header-nav-mode"><div class="mode"><div class="mode-track"><span class="mode-track-moon"></span><span class="mode-track-sun"></span></div><div class="mode-thumb"></div></div></div></div></nav><div class="header-banner"><div class="header-banner-info"><div class="header-banner-info__title">Just Do IT.</div><div class="header-banner-info__subtitle">一个程序员的自我修养</div></div></div></div></header><main class="main" id="main"><div class="main-inner"><div class="content-wrap" id="content-wrap"><div class="content" id="content"><!-- Just used to judge whether it is an article page--><div id="is-post"></div><div class="post"><header class="post-header"><h1 class="post-title">Resilience4j的工作原理</h1><div class="post-meta"><span class="post-meta-item post-meta-item--createtime"><span class="post-meta-item__icon"><i class="far fa-calendar-plus"></i></span><span class="post-meta-item__info">发表于</span><span class="post-meta-item__value">2024-04-13</span></span><span class="post-meta-item post-meta-item--updatetime"><span class="post-meta-item__icon"><i class="far fa-calendar-check"></i></span><span class="post-meta-item__info">更新于</span><span class="post-meta-item__value">2025-03-19</span></span><span class="post-meta-item post-meta-item--wordcount"><span class="post-meta-item__icon"><i class="far fa-file-word"></i></span><span class="post-meta-item__info">字数统计</span><span class="post-meta-item__value">1.3k</span></span><span class="post-meta-item post-meta-item--readtime"><span class="post-meta-item__icon"><i class="far fa-clock"></i></span><span class="post-meta-item__info">阅读时长</span><span class="post-meta-item__value">8分</span></span></div></header><div class="post-body"><p>Resilience4j 是一个轻量级的容错库，专为 Java 8 和函数式编程设计。它提供了熔断器、限流器、重试机制、隔舱模式等功能，帮助开发者构建健壮的分布式系统。Resilience4j 的设计目标是<strong>简单、轻量、模块化</strong>，并且与 Spring Boot 和 Spring Cloud 集成良好。以下是 Resilience4j 的工作原理及其核心机制的详细解析：</p>
+<hr>
+
+        <h3 id="1-Resilience4j-的核心功能"   >
+          <a href="#1-Resilience4j-的核心功能" class="heading-link"><i class="fas fa-link"></i></a><a href="#1-Resilience4j-的核心功能" class="headerlink" title="1. Resilience4j 的核心功能"></a><strong>1. Resilience4j 的核心功能</strong></h3>
+      <p>Resilience4j 提供了以下核心功能：</p>
+<ol>
+<li><strong>熔断器（Circuit Breaker）</strong>：<ul>
+<li>防止系统因某个服务的故障而崩溃。</li>
+</ul>
+</li>
+<li><strong>限流器（Rate Limiter）</strong>：<ul>
+<li>控制请求的速率，防止系统过载。</li>
+</ul>
+</li>
+<li><strong>重试机制（Retry）</strong>：<ul>
+<li>在请求失败时自动重试。</li>
+</ul>
+</li>
+<li><strong>隔舱模式（Bulkhead）</strong>：<ul>
+<li>隔离资源，避免某个服务的故障影响其他服务。</li>
+</ul>
+</li>
+<li><strong>缓存（Cache）</strong>：<ul>
+<li>对请求结果进行缓存，减少重复请求的开销。</li>
+</ul>
+</li>
+<li><strong>时间限制器（Time Limiter）</strong>：<ul>
+<li>限制方法的执行时间，避免长时间阻塞。</li>
+</ul>
+</li>
+</ol>
+<hr>
+
+        <h3 id="2-Resilience4j-的工作原理"   >
+          <a href="#2-Resilience4j-的工作原理" class="heading-link"><i class="fas fa-link"></i></a><a href="#2-Resilience4j-的工作原理" class="headerlink" title="2. Resilience4j 的工作原理"></a><strong>2. Resilience4j 的工作原理</strong></h3>
+      <p>Resilience4j 的工作原理基于<strong>装饰器模式</strong>，通过装饰器对方法调用进行增强，从而实现容错功能。以下是 Resilience4j 的工作流程：</p>
+
+        <h4 id="1-定义核心逻辑"   >
+          <a href="#1-定义核心逻辑" class="heading-link"><i class="fas fa-link"></i></a><a href="#1-定义核心逻辑" class="headerlink" title="(1) 定义核心逻辑"></a><strong>(1) 定义核心逻辑</strong></h4>
+      <p>开发者定义需要保护的核心逻辑（如调用外部服务）。</p>
+<figure class="highlight java"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> String <span class="title function_">callExternalService</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="comment">// 调用外部服务</span></span><br><span class="line">    <span class="keyword">return</span> externalService.call();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></div></figure>
+
+
+        <h4 id="2-创建装饰器"   >
+          <a href="#2-创建装饰器" class="heading-link"><i class="fas fa-link"></i></a><a href="#2-创建装饰器" class="headerlink" title="(2) 创建装饰器"></a><strong>(2) 创建装饰器</strong></h4>
+      <p>使用 Resilience4j 提供的装饰器对核心逻辑进行增强。</p>
+<figure class="highlight java"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">CircuitBreaker</span> <span class="variable">circuitBreaker</span> <span class="operator">=</span> CircuitBreaker.ofDefaults(<span class="string">&quot;externalService&quot;</span>);</span><br><span class="line"><span class="type">RateLimiter</span> <span class="variable">rateLimiter</span> <span class="operator">=</span> RateLimiter.ofDefaults(<span class="string">&quot;externalService&quot;</span>);</span><br><span class="line"><span class="type">Retry</span> <span class="variable">retry</span> <span class="operator">=</span> Retry.ofDefaults(<span class="string">&quot;externalService&quot;</span>);</span><br><span class="line"></span><br><span class="line"><span class="type">String</span> <span class="variable">result</span> <span class="operator">=</span> CircuitBreaker.decorateSupplier(circuitBreaker, () -&gt;</span><br><span class="line">    RateLimiter.decorateSupplier(rateLimiter, () -&gt;</span><br><span class="line">        Retry.decorateSupplier(retry, () -&gt;</span><br><span class="line">            callExternalService()</span><br><span class="line">        )</span><br><span class="line">    )</span><br><span class="line">).get();</span><br></pre></td></tr></table></div></figure>
+
+
+        <h4 id="3-执行装饰后的逻辑"   >
+          <a href="#3-执行装饰后的逻辑" class="heading-link"><i class="fas fa-link"></i></a><a href="#3-执行装饰后的逻辑" class="headerlink" title="(3) 执行装饰后的逻辑"></a><strong>(3) 执行装饰后的逻辑</strong></h4>
+      <p>调用装饰后的逻辑，Resilience4j 会根据配置的规则（如熔断、限流、重试等）执行核心逻辑。</p>
+<hr>
+
+        <h3 id="3-Resilience4j-的核心机制"   >
+          <a href="#3-Resilience4j-的核心机制" class="heading-link"><i class="fas fa-link"></i></a><a href="#3-Resilience4j-的核心机制" class="headerlink" title="3. Resilience4j 的核心机制"></a><strong>3. Resilience4j 的核心机制</strong></h3>
+      <p>以下是 Resilience4j 的核心机制及其实现原理：</p>
+
+        <h4 id="1-熔断器（Circuit-Breaker）"   >
+          <a href="#1-熔断器（Circuit-Breaker）" class="heading-link"><i class="fas fa-link"></i></a><a href="#1-熔断器（Circuit-Breaker）" class="headerlink" title="(1) 熔断器（Circuit Breaker）"></a><strong>(1) 熔断器（Circuit Breaker）</strong></h4>
+      <ul>
+<li><strong>工作原理</strong>：<ul>
+<li>监控请求的成功与失败情况。</li>
+<li>当失败率达到阈值时，熔断器打开，所有请求快速失败。</li>
+<li>经过一段时间后，熔断器进入半开状态，允许部分请求通过以检测服务是否恢复。</li>
+</ul>
+</li>
+<li><strong>配置参数</strong>：<ul>
+<li><code>failureRateThreshold</code>：失败率阈值（默认 50%）。</li>
+<li><code>waitDurationInOpenState</code>：熔断器打开后进入半开状态的时间（默认 60 秒）。</li>
+<li><code>ringBufferSizeInHalfOpenState</code>：半开状态下的请求数（默认 10）。</li>
+<li><code>ringBufferSizeInClosedState</code>：关闭状态下的请求数（默认 100）。</li>
+</ul>
+</li>
+</ul>
+
+        <h4 id="2-限流器（Rate-Limiter）"   >
+          <a href="#2-限流器（Rate-Limiter）" class="heading-link"><i class="fas fa-link"></i></a><a href="#2-限流器（Rate-Limiter）" class="headerlink" title="(2) 限流器（Rate Limiter）"></a><strong>(2) 限流器（Rate Limiter）</strong></h4>
+      <ul>
+<li><strong>工作原理</strong>：<ul>
+<li>控制请求的速率，防止系统过载。</li>
+<li>使用令牌桶算法实现限流。</li>
+</ul>
+</li>
+<li><strong>配置参数</strong>：<ul>
+<li><code>limitRefreshPeriod</code>：令牌刷新周期（默认 500 纳秒）。</li>
+<li><code>limitForPeriod</code>：每个周期的请求限制（默认 50）。</li>
+</ul>
+</li>
+</ul>
+
+        <h4 id="3-重试机制（Retry）"   >
+          <a href="#3-重试机制（Retry）" class="heading-link"><i class="fas fa-link"></i></a><a href="#3-重试机制（Retry）" class="headerlink" title="(3) 重试机制（Retry）"></a><strong>(3) 重试机制（Retry）</strong></h4>
+      <ul>
+<li><strong>工作原理</strong>：<ul>
+<li>在请求失败时自动重试。</li>
+<li>支持配置重试次数、重试间隔等。</li>
+</ul>
+</li>
+<li><strong>配置参数</strong>：<ul>
+<li><code>maxAttempts</code>：最大重试次数（默认 3）。</li>
+<li><code>waitDuration</code>：重试间隔（默认 500 毫秒）。</li>
+</ul>
+</li>
+</ul>
+
+        <h4 id="4-隔舱模式（Bulkhead）"   >
+          <a href="#4-隔舱模式（Bulkhead）" class="heading-link"><i class="fas fa-link"></i></a><a href="#4-隔舱模式（Bulkhead）" class="headerlink" title="(4) 隔舱模式（Bulkhead）"></a><strong>(4) 隔舱模式（Bulkhead）</strong></h4>
+      <ul>
+<li><strong>工作原理</strong>：<ul>
+<li>隔离资源，避免某个服务的故障影响其他服务。</li>
+<li>支持线程池隔离和信号量隔离。</li>
+</ul>
+</li>
+<li><strong>配置参数</strong>：<ul>
+<li><code>maxConcurrentCalls</code>：最大并发调用数（默认 25）。</li>
+<li><code>maxWaitDuration</code>：最大等待时间（默认 0 毫秒）。</li>
+</ul>
+</li>
+</ul>
+
+        <h4 id="5-时间限制器（Time-Limiter）"   >
+          <a href="#5-时间限制器（Time-Limiter）" class="heading-link"><i class="fas fa-link"></i></a><a href="#5-时间限制器（Time-Limiter）" class="headerlink" title="(5) 时间限制器（Time Limiter）"></a><strong>(5) 时间限制器（Time Limiter）</strong></h4>
+      <ul>
+<li><strong>工作原理</strong>：<ul>
+<li>限制方法的执行时间，避免长时间阻塞。</li>
+<li>如果方法执行超时，抛出 <code>TimeoutException</code>。</li>
+</ul>
+</li>
+<li><strong>配置参数</strong>：<ul>
+<li><code>timeoutDuration</code>：超时时间（默认 1 秒）。</li>
+</ul>
+</li>
+</ul>
+<hr>
+
+        <h3 id="4-Resilience4j-的示例代码"   >
+          <a href="#4-Resilience4j-的示例代码" class="heading-link"><i class="fas fa-link"></i></a><a href="#4-Resilience4j-的示例代码" class="headerlink" title="4. Resilience4j 的示例代码"></a><strong>4. Resilience4j 的示例代码</strong></h3>
+      <p>以下是一个完整的 Resilience4j 示例：</p>
+
+        <h4 id="1-添加依赖"   >
+          <a href="#1-添加依赖" class="heading-link"><i class="fas fa-link"></i></a><a href="#1-添加依赖" class="headerlink" title="(1) 添加依赖"></a><strong>(1) 添加依赖</strong></h4>
+      <figure class="highlight xml"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>io.github.resilience4j<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>resilience4j-spring-boot2<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>1.7.1<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></div></figure>
+
+
+        <h4 id="2-配置-Resilience4j"   >
+          <a href="#2-配置-Resilience4j" class="heading-link"><i class="fas fa-link"></i></a><a href="#2-配置-Resilience4j" class="headerlink" title="(2) 配置 Resilience4j"></a><strong>(2) 配置 Resilience4j</strong></h4>
+      <figure class="highlight yaml"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">resilience4j:</span></span><br><span class="line">  <span class="attr">circuitbreaker:</span></span><br><span class="line">    <span class="attr">instances:</span></span><br><span class="line">      <span class="attr">externalService:</span></span><br><span class="line">        <span class="attr">failureRateThreshold:</span> <span class="number">50</span></span><br><span class="line">        <span class="attr">waitDurationInOpenState:</span> <span class="number">5000</span></span><br><span class="line">        <span class="attr">ringBufferSizeInHalfOpenState:</span> <span class="number">10</span></span><br><span class="line">        <span class="attr">ringBufferSizeInClosedState:</span> <span class="number">100</span></span><br><span class="line">  <span class="attr">ratelimiter:</span></span><br><span class="line">    <span class="attr">instances:</span></span><br><span class="line">      <span class="attr">externalService:</span></span><br><span class="line">        <span class="attr">limitForPeriod:</span> <span class="number">10</span></span><br><span class="line">        <span class="attr">limitRefreshPeriod:</span> <span class="string">1s</span></span><br><span class="line">  <span class="attr">retry:</span></span><br><span class="line">    <span class="attr">instances:</span></span><br><span class="line">      <span class="attr">externalService:</span></span><br><span class="line">        <span class="attr">maxAttempts:</span> <span class="number">3</span></span><br><span class="line">        <span class="attr">waitDuration:</span> <span class="string">500ms</span></span><br></pre></td></tr></table></div></figure>
+
+
+        <h4 id="3-使用-Resilience4j"   >
+          <a href="#3-使用-Resilience4j" class="heading-link"><i class="fas fa-link"></i></a><a href="#3-使用-Resilience4j" class="headerlink" title="(3) 使用 Resilience4j"></a><strong>(3) 使用 Resilience4j</strong></h4>
+      <figure class="highlight java"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Service</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">ExternalService</span> &#123;</span><br><span class="line">    <span class="meta">@CircuitBreaker(name = &quot;externalService&quot;, fallbackMethod = &quot;fallback&quot;)</span></span><br><span class="line">    <span class="meta">@RateLimiter(name = &quot;externalService&quot;)</span></span><br><span class="line">    <span class="meta">@Retry(name = &quot;externalService&quot;)</span></span><br><span class="line">    <span class="keyword">public</span> String <span class="title function_">callExternalService</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="comment">// 调用外部服务</span></span><br><span class="line">        <span class="keyword">return</span> externalService.call();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> String <span class="title function_">fallback</span><span class="params">(Exception e)</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">&quot;Fallback response&quot;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></div></figure>
+
+<hr>
+
+        <h3 id="5-Resilience4j-的优缺点"   >
+          <a href="#5-Resilience4j-的优缺点" class="heading-link"><i class="fas fa-link"></i></a><a href="#5-Resilience4j-的优缺点" class="headerlink" title="5. Resilience4j 的优缺点"></a><strong>5. Resilience4j 的优缺点</strong></h3>
+      
+        <h4 id="1-优点"   >
+          <a href="#1-优点" class="heading-link"><i class="fas fa-link"></i></a><a href="#1-优点" class="headerlink" title="(1) 优点"></a><strong>(1) 优点</strong></h4>
+      <ul>
+<li><strong>轻量级</strong>：模块化设计，按需引入功能。</li>
+<li><strong>易于集成</strong>：与 Spring Boot 和 Spring Cloud 集成良好。</li>
+<li><strong>丰富的功能</strong>：支持熔断、限流、重试、隔舱等多种容错机制。</li>
+<li><strong>灵活的配置</strong>：支持通过配置文件或代码进行配置。</li>
+</ul>
+
+        <h4 id="2-缺点"   >
+          <a href="#2-缺点" class="heading-link"><i class="fas fa-link"></i></a><a href="#2-缺点" class="headerlink" title="(2) 缺点"></a><strong>(2) 缺点</strong></h4>
+      <ul>
+<li><strong>学习成本</strong>：需要熟悉 Resilience4j 的 API 和配置。</li>
+<li><strong>性能开销</strong>：装饰器模式会带来一定的性能开销。</li>
+</ul>
+<hr>
+
+        <h3 id="6-Resilience4j-的替代方案"   >
+          <a href="#6-Resilience4j-的替代方案" class="heading-link"><i class="fas fa-link"></i></a><a href="#6-Resilience4j-的替代方案" class="headerlink" title="6. Resilience4j 的替代方案"></a><strong>6. Resilience4j 的替代方案</strong></h3>
+      <ol>
+<li><strong>Hystrix</strong>：<ul>
+<li>Netflix 开源的容错库，已停止维护。</li>
+</ul>
+</li>
+<li><strong>Sentinel</strong>：<ul>
+<li>阿里巴巴开源的流量控制和熔断降级框架。</li>
+</ul>
+</li>
+<li><strong>Spring Cloud Circuit Breaker</strong>：<ul>
+<li>Spring Cloud 提供的统一熔断器抽象，支持多种实现（如 Resilience4j、Sentinel 等）。</li>
+</ul>
+</li>
+</ol>
+<hr>
+
+        <h3 id="总结"   >
+          <a href="#总结" class="heading-link"><i class="fas fa-link"></i></a><a href="#总结" class="headerlink" title="总结"></a><strong>总结</strong></h3>
+      <p>Resilience4j 通过装饰器模式提供了熔断、限流、重试、隔舱等容错机制，帮助开发者构建健壮的分布式系统。其轻量级、模块化的设计使其易于集成和扩展。尽管 Resilience4j 有一定的学习成本和性能开销，但其丰富的功能和灵活的配置使其成为现代分布式系统中的理想选择。</p>
+</div><footer class="post-footer"><div class="post-ending ending"><div class="ending__text">------ 本文结束，感谢您的阅读 ------</div></div><div class="post-copyright copyright"><div class="copyright-author"><span class="copyright-author__name">本文作者: </span><span class="copyright-author__value"><a href="https://ljd0620.github.io">Liujiduo</a></span></div><div class="copyright-link"><span class="copyright-link__name">本文链接: </span><span class="copyright-link__value"><a href="https://ljd0620.github.io/2024/04/13/Resilience4j%E7%9A%84%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86/">https://ljd0620.github.io/2024/04/13/Resilience4j%E7%9A%84%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86/</a></span></div><div class="copyright-notice"><span class="copyright-notice__name">版权声明: </span><span class="copyright-notice__value">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en" rel="external nofollow" target="_blank">BY-NC-SA</a> 许可协议。转载请注明出处！</span></div></div><div class="post-tags"><span class="post-tags-item"><span class="post-tags-item__icon"><i class="fas fa-tag"></i></span><a class="post-tags-item__link" href="https://ljd0620.github.io/tags/%E5%BE%AE%E6%9C%8D%E5%8A%A1/">微服务</a></span><span class="post-tags-item"><span class="post-tags-item__icon"><i class="fas fa-tag"></i></span><a class="post-tags-item__link" href="https://ljd0620.github.io/tags/Resilience4j/">Resilience4j</a></span></div><nav class="post-paginator paginator"><div class="paginator-prev"><a class="paginator-prev__link" href="/2024/05/18/%E5%88%86%E5%B8%83%E5%BC%8F%E5%BE%AE%E6%9C%8D%E5%8A%A1%E6%9E%B6%E6%9E%84/"><span class="paginator-prev__icon"><i class="fas fa-angle-left"></i></span><span class="paginator-prev__text">分布式微服务架构</span></a></div><div class="paginator-next"><a class="paginator-next__link" href="/2024/03/26/Feign%E5%AE%9A%E5%88%B6%E5%8C%96%E5%BC%80%E5%8F%91%E6%8C%87%E5%8D%97/"><span class="paginator-prev__text">Feign定制化开发指南</span><span class="paginator-next__icon"><i class="fas fa-angle-right"></i></span></a></div></nav></footer></div></div></div><div class="sidebar-wrap" id="sidebar-wrap"><aside class="sidebar" id="sidebar"><div class="sidebar-nav"><span class="sidebar-nav-toc current">文章目录</span><span class="sidebar-nav-ov">站点概览</span></div><section class="sidebar-toc"><ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-Resilience4j-%E7%9A%84%E6%A0%B8%E5%BF%83%E5%8A%9F%E8%83%BD"><span class="toc-number">1.</span> <span class="toc-text">
+          1. Resilience4j 的核心功能</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-Resilience4j-%E7%9A%84%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86"><span class="toc-number">2.</span> <span class="toc-text">
+          2. Resilience4j 的工作原理</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-%E5%AE%9A%E4%B9%89%E6%A0%B8%E5%BF%83%E9%80%BB%E8%BE%91"><span class="toc-number">2.1.</span> <span class="toc-text">
+          (1) 定义核心逻辑</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-%E5%88%9B%E5%BB%BA%E8%A3%85%E9%A5%B0%E5%99%A8"><span class="toc-number">2.2.</span> <span class="toc-text">
+          (2) 创建装饰器</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-%E6%89%A7%E8%A1%8C%E8%A3%85%E9%A5%B0%E5%90%8E%E7%9A%84%E9%80%BB%E8%BE%91"><span class="toc-number">2.3.</span> <span class="toc-text">
+          (3) 执行装饰后的逻辑</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-Resilience4j-%E7%9A%84%E6%A0%B8%E5%BF%83%E6%9C%BA%E5%88%B6"><span class="toc-number">3.</span> <span class="toc-text">
+          3. Resilience4j 的核心机制</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-%E7%86%94%E6%96%AD%E5%99%A8%EF%BC%88Circuit-Breaker%EF%BC%89"><span class="toc-number">3.1.</span> <span class="toc-text">
+          (1) 熔断器（Circuit Breaker）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-%E9%99%90%E6%B5%81%E5%99%A8%EF%BC%88Rate-Limiter%EF%BC%89"><span class="toc-number">3.2.</span> <span class="toc-text">
+          (2) 限流器（Rate Limiter）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-%E9%87%8D%E8%AF%95%E6%9C%BA%E5%88%B6%EF%BC%88Retry%EF%BC%89"><span class="toc-number">3.3.</span> <span class="toc-text">
+          (3) 重试机制（Retry）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-%E9%9A%94%E8%88%B1%E6%A8%A1%E5%BC%8F%EF%BC%88Bulkhead%EF%BC%89"><span class="toc-number">3.4.</span> <span class="toc-text">
+          (4) 隔舱模式（Bulkhead）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#5-%E6%97%B6%E9%97%B4%E9%99%90%E5%88%B6%E5%99%A8%EF%BC%88Time-Limiter%EF%BC%89"><span class="toc-number">3.5.</span> <span class="toc-text">
+          (5) 时间限制器（Time Limiter）</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-Resilience4j-%E7%9A%84%E7%A4%BA%E4%BE%8B%E4%BB%A3%E7%A0%81"><span class="toc-number">4.</span> <span class="toc-text">
+          4. Resilience4j 的示例代码</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-%E6%B7%BB%E5%8A%A0%E4%BE%9D%E8%B5%96"><span class="toc-number">4.1.</span> <span class="toc-text">
+          (1) 添加依赖</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-%E9%85%8D%E7%BD%AE-Resilience4j"><span class="toc-number">4.2.</span> <span class="toc-text">
+          (2) 配置 Resilience4j</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-%E4%BD%BF%E7%94%A8-Resilience4j"><span class="toc-number">4.3.</span> <span class="toc-text">
+          (3) 使用 Resilience4j</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-Resilience4j-%E7%9A%84%E4%BC%98%E7%BC%BA%E7%82%B9"><span class="toc-number">5.</span> <span class="toc-text">
+          5. Resilience4j 的优缺点</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-%E4%BC%98%E7%82%B9"><span class="toc-number">5.1.</span> <span class="toc-text">
+          (1) 优点</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-%E7%BC%BA%E7%82%B9"><span class="toc-number">5.2.</span> <span class="toc-text">
+          (2) 缺点</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-Resilience4j-%E7%9A%84%E6%9B%BF%E4%BB%A3%E6%96%B9%E6%A1%88"><span class="toc-number">6.</span> <span class="toc-text">
+          6. Resilience4j 的替代方案</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-number">7.</span> <span class="toc-text">
+          总结</span></a></li></ol></section><!-- ov = overview--><section class="sidebar-ov hide"><div class="sidebar-ov-author"><div class="sidebar-ov-author__avatar"><img class="sidebar-ov-author__avatar_img" src="/images/avatar.jpg" alt="avatar"></div><p class="sidebar-ov-author__text">Liujiduo's Blog</p></div><div class="sidebar-ov-feed"><span class="sidebar-ov-feed-email"><a class="sidebar-ov-feed-email__link" href="mailto:liujiduo@sina.com" target="_blank" rel="noopener"><span class="sidebar-ov-feed-email__icon"><i class="fas fa-envelope"></i></span><span>Email 订阅</span></a></span><span class="sidebar-ov-feed-rss"><a class="sidebar-ov-feed-rss__link" href="/atom.xml" target="_blank" rel="noopener"><span class="sidebar-ov-feed-rss__icon"><i class="fas fa-rss"></i></span><span>RSS 订阅</span></a></span></div><div class="sidebar-ov-state"><a class="sidebar-ov-state-item sidebar-ov-state-item--posts" href="/archives/"><div class="sidebar-ov-state-item__count">36</div><div class="sidebar-ov-state-item__name">归档</div></a><a class="sidebar-ov-state-item sidebar-ov-state-item--categories" href="/categories/"><div class="sidebar-ov-state-item__count">11</div><div class="sidebar-ov-state-item__name">分类</div></a><a class="sidebar-ov-state-item sidebar-ov-state-item--tags" href="/tags/"><div class="sidebar-ov-state-item__count">32</div><div class="sidebar-ov-state-item__name">标签</div></a></div><div class="sidebar-ov-cc"><a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en" target="_blank" rel="noopener" data-popover="知识共享许可协议" data-popover-pos="up"><img src="/images/cc-by-nc-sa.svg"></a></div></section><div class="sidebar-reading"><div class="sidebar-reading-info"><span class="sidebar-reading-info__text">你已阅读了 </span><span class="sidebar-reading-info__num">0</span><span class="sidebar-reading-info__perc">%</span></div><div class="sidebar-reading-line"></div></div></aside></div><div class="clearfix"></div></div></main><footer class="footer" id="footer"><div class="footer-inner"><div><span>Copyright © 2024~2025</span><span class="footer__icon"><i class="fas fa-heart"></i></span><span>Liujiduo All Rights Reserved</span></div><div><span>由 <a href="http://hexo.io/" title="Hexo" target="_blank" rel="noopener">Hexo</a> 强力驱动</span><span> v7.3.0</span><span class="footer__devider">|</span><span>主题 - <a href="https://github.com/liuyib/hexo-theme-stun/" title="Stun" target="_blank" rel="noopener">Stun</a></span><span> v2.8.0</span></div><div class="busuanzi"></div></div></footer><div class="loading-bar" id="loading-bar"><div class="loading-bar__progress"></div></div><div class="back2top" id="back2top"><span class="back2top__icon"><i class="fas fa-rocket"></i></span></div></div><script src="https://cdn.jsdelivr.net/npm/jquery@v3.4.1/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/velocity-animate@1.5.2/velocity.min.js"></script><script src="https://cdn.jsdelivr.net/npm/velocity-animate@1.5.2/velocity.ui.min.js"></script><script src="https://cdn.jsdelivr.net/npm/ribbon.js@latest/dist/ribbon.min.js" size="120" alpha="0.6" zIndex="-1"></script><script src="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script><script src="/js/utils.js?v=2.8.0"></script><script src="/js/stun-boot.js?v=2.8.0"></script><script src="/js/scroll.js?v=2.8.0"></script><script src="/js/header.js?v=2.8.0"></script><script src="/js/sidebar.js?v=2.8.0"></script></body></html>

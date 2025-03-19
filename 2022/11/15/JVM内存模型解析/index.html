@@ -1,0 +1,239 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="format-detection" content="telephone=no"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black"><link rel="icon" href="/images/icons/favicon.ico?v=2.8.0" type="image/png" sizes="16x16"><link rel="icon" href="/images/icons/favicon.ico?v=2.8.0" type="image/png" sizes="32x32"><meta name="description" content="JVM内存模型解析">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JVM内存模型解析">
+<meta property="og:url" content="https://ljd0620.github.io/2022/11/15/JVM%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B%E8%A7%A3%E6%9E%90/index.html">
+<meta property="og:site_name" content="Just Do IT.">
+<meta property="og:description" content="JVM内存模型解析">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2022-11-15T04:11:44.000Z">
+<meta property="article:modified_time" content="2025-03-19T04:22:49.789Z">
+<meta property="article:author" content="Liujiduo">
+<meta property="article:tag" content="JVM">
+<meta name="twitter:card" content="summary"><title>JVM内存模型解析 | Just Do IT.</title><link ref="canonical" href="https://ljd0620.github.io/2022/11/15/JVM%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B%E8%A7%A3%E6%9E%90/"><link rel="alternate" href="/atom.xml" type="application/atom+xml"><link rel="dns-prefetch" href="https://cdn.jsdelivr.net"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.12.1/css/all.min.css" type="text/css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" type="text/css"><link rel="stylesheet" href="/css/index.css?v=2.8.0"><script>var Stun = window.Stun || {};
+var CONFIG = {
+  root: '/',
+  algolia: undefined,
+  assistSearch: undefined,
+  fontIcon: {"prompt":{"success":"fas fa-check-circle","info":"fas fa-arrow-circle-right","warning":"fas fa-exclamation-circle","error":"fas fa-times-circle"},"copyBtn":"fas fa-copy"},
+  sidebar: {"offsetTop":"20px","tocMaxDepth":6},
+  header: {"enable":true,"showOnPost":true,"scrollDownIcon":false},
+  postWidget: {"endText":true},
+  nightMode: {"enable":true},
+  back2top: {"enable":true},
+  codeblock: {"style":"carbon","highlight":"light","wordWrap":false},
+  reward: false,
+  fancybox: true,
+  zoomImage: {"gapAside":"20px"},
+  galleryWaterfall: undefined,
+  lazyload: false,
+  pjax: undefined,
+  externalLink: {"icon":{"enable":true,"name":"fas fa-external-link-alt"}},
+  shortcuts: undefined,
+  prompt: {"copyButton":"复制","copySuccess":"复制成功","copyError":"复制失败"},
+  sourcePath: {"js":"js","css":"css","images":"images"},
+};
+
+window.CONFIG = CONFIG;</script><meta name="generator" content="Hexo 7.3.0"></head><body><div class="container" id="container"><header class="header" id="header"><div class="header-inner"><nav class="header-nav header-nav--fixed"><div class="header-nav-inner"><div class="header-nav-menubtn"><i class="fas fa-bars"></i></div><div class="header-nav-menu"><div class="header-nav-menu-item"><a class="header-nav-menu-item__link" href="/"><span class="header-nav-menu-item__icon"><i class="fas fa-home"></i></span><span class="header-nav-menu-item__text">首页</span></a></div><div class="header-nav-menu-item"><a class="header-nav-menu-item__link" href="/archives/"><span class="header-nav-menu-item__icon"><i class="fas fa-folder-open"></i></span><span class="header-nav-menu-item__text">归档</span></a></div><div class="header-nav-menu-item"><a class="header-nav-menu-item__link" href="/categories/"><span class="header-nav-menu-item__icon"><i class="fas fa-layer-group"></i></span><span class="header-nav-menu-item__text">分类</span></a></div><div class="header-nav-menu-item"><a class="header-nav-menu-item__link" href="/tags/"><span class="header-nav-menu-item__icon"><i class="fas fa-tags"></i></span><span class="header-nav-menu-item__text">标签</span></a></div><div class="header-nav-menu-item"><a class="header-nav-menu-item__link" href="/about/"><span class="header-nav-menu-item__icon"><i class="fas fa-user"></i></span><span class="header-nav-menu-item__text">关于</span></a></div></div><div class="header-nav-mode"><div class="mode"><div class="mode-track"><span class="mode-track-moon"></span><span class="mode-track-sun"></span></div><div class="mode-thumb"></div></div></div></div></nav><div class="header-banner"><div class="header-banner-info"><div class="header-banner-info__title">Just Do IT.</div><div class="header-banner-info__subtitle">一个程序员的自我修养</div></div></div></div></header><main class="main" id="main"><div class="main-inner"><div class="content-wrap" id="content-wrap"><div class="content" id="content"><!-- Just used to judge whether it is an article page--><div id="is-post"></div><div class="post"><header class="post-header"><h1 class="post-title">JVM内存模型解析</h1><div class="post-meta"><span class="post-meta-item post-meta-item--createtime"><span class="post-meta-item__icon"><i class="far fa-calendar-plus"></i></span><span class="post-meta-item__info">发表于</span><span class="post-meta-item__value">2022-11-15</span></span><span class="post-meta-item post-meta-item--updatetime"><span class="post-meta-item__icon"><i class="far fa-calendar-check"></i></span><span class="post-meta-item__info">更新于</span><span class="post-meta-item__value">2025-03-19</span></span><span class="post-meta-item post-meta-item--wordcount"><span class="post-meta-item__icon"><i class="far fa-file-word"></i></span><span class="post-meta-item__info">字数统计</span><span class="post-meta-item__value">1.3k</span></span><span class="post-meta-item post-meta-item--readtime"><span class="post-meta-item__icon"><i class="far fa-clock"></i></span><span class="post-meta-item__info">阅读时长</span><span class="post-meta-item__value">7分</span></span></div></header><div class="post-body"><p>JVM（Java Virtual Machine，Java 虚拟机）内存模型是 JVM 规范中定义的一种抽象模型，用于描述 Java 程序在运行时的内存分配和管理。JVM 内存模型将内存划分为多个区域，每个区域有不同的用途和生命周期。以下是 JVM 内存模型的主要组成部分及其详细解析：</p>
+<hr>
+
+        <h3 id="1-程序计数器（Program-Counter-Register）"   >
+          <a href="#1-程序计数器（Program-Counter-Register）" class="heading-link"><i class="fas fa-link"></i></a><a href="#1-程序计数器（Program-Counter-Register）" class="headerlink" title="1. 程序计数器（Program Counter Register）"></a><strong>1. 程序计数器（Program Counter Register）</strong></h3>
+      <ul>
+<li><strong>定义</strong>：<ul>
+<li>程序计数器是一块较小的内存空间，用于记录当前线程执行的字节码指令地址。</li>
+</ul>
+</li>
+<li><strong>特点</strong>：<ul>
+<li>每个线程都有一个独立的程序计数器。</li>
+<li>如果线程正在执行 Java 方法，程序计数器记录的是当前字节码指令的地址；如果执行的是 Native 方法，程序计数器的值为空（Undefined）。</li>
+<li>程序计数器是唯一一个不会发生 <code>OutOfMemoryError</code> 的内存区域。</li>
+</ul>
+</li>
+</ul>
+<hr>
+
+        <h3 id="2-Java-虚拟机栈（Java-Virtual-Machine-Stacks）"   >
+          <a href="#2-Java-虚拟机栈（Java-Virtual-Machine-Stacks）" class="heading-link"><i class="fas fa-link"></i></a><a href="#2-Java-虚拟机栈（Java-Virtual-Machine-Stacks）" class="headerlink" title="2. Java 虚拟机栈（Java Virtual Machine Stacks）"></a><strong>2. Java 虚拟机栈（Java Virtual Machine Stacks）</strong></h3>
+      <ul>
+<li><strong>定义</strong>：<ul>
+<li>Java 虚拟机栈是线程私有的内存区域，用于存储方法的局部变量、操作数栈、动态链接和方法返回地址等信息。</li>
+</ul>
+</li>
+<li><strong>特点</strong>：<ul>
+<li>每个方法在执行时都会创建一个栈帧（Stack Frame），栈帧用于存储方法的局部变量表、操作数栈、动态链接和方法返回地址。</li>
+<li>栈帧随着方法的调用而创建，随着方法的结束而销毁。</li>
+<li>如果线程请求的栈深度超过虚拟机允许的最大深度，会抛出 <code>StackOverflowError</code>。</li>
+<li>如果虚拟机栈可以动态扩展，但无法申请到足够的内存时，会抛出 <code>OutOfMemoryError</code>。</li>
+</ul>
+</li>
+</ul>
+<hr>
+
+        <h3 id="3-本地方法栈（Native-Method-Stack）"   >
+          <a href="#3-本地方法栈（Native-Method-Stack）" class="heading-link"><i class="fas fa-link"></i></a><a href="#3-本地方法栈（Native-Method-Stack）" class="headerlink" title="3. 本地方法栈（Native Method Stack）"></a><strong>3. 本地方法栈（Native Method Stack）</strong></h3>
+      <ul>
+<li><strong>定义</strong>：<ul>
+<li>本地方法栈是线程私有的内存区域，用于支持 Native 方法的执行。</li>
+</ul>
+</li>
+<li><strong>特点</strong>：<ul>
+<li>与 Java 虚拟机栈类似，本地方法栈也会抛出 <code>StackOverflowError</code> 和 <code>OutOfMemoryError</code>。</li>
+<li>本地方法栈的具体实现由虚拟机自行决定。</li>
+</ul>
+</li>
+</ul>
+<hr>
+
+        <h3 id="4-Java-堆（Java-Heap）"   >
+          <a href="#4-Java-堆（Java-Heap）" class="heading-link"><i class="fas fa-link"></i></a><a href="#4-Java-堆（Java-Heap）" class="headerlink" title="4. Java 堆（Java Heap）"></a><strong>4. Java 堆（Java Heap）</strong></h3>
+      <ul>
+<li><strong>定义</strong>：<ul>
+<li>Java 堆是 JVM 中最大的一块内存区域，用于存储对象实例和数组。</li>
+</ul>
+</li>
+<li><strong>特点</strong>：<ul>
+<li>Java 堆是所有线程共享的内存区域。</li>
+<li>Java 堆是垃圾收集器管理的主要区域，因此也被称为“GC 堆”。</li>
+<li>Java 堆可以细分为新生代（Young Generation）和老年代（Old Generation），新生代又可以细分为 Eden 区、From Survivor 区和 To Survivor 区。</li>
+<li>如果堆中没有足够的内存分配对象实例，并且堆无法扩展时，会抛出 <code>OutOfMemoryError</code>。</li>
+</ul>
+</li>
+</ul>
+<hr>
+
+        <h3 id="5-方法区（Method-Area）"   >
+          <a href="#5-方法区（Method-Area）" class="heading-link"><i class="fas fa-link"></i></a><a href="#5-方法区（Method-Area）" class="headerlink" title="5. 方法区（Method Area）"></a><strong>5. 方法区（Method Area）</strong></h3>
+      <ul>
+<li><strong>定义</strong>：<ul>
+<li>方法区是 JVM 中用于存储类信息、常量、静态变量、即时编译器编译后的代码等数据的内存区域。</li>
+</ul>
+</li>
+<li><strong>特点</strong>：<ul>
+<li>方法区是所有线程共享的内存区域。</li>
+<li>方法区是堆的一个逻辑部分，但在某些实现中（如 HotSpot 虚拟机），方法区被称为“永久代”（Permanent Generation）或“元空间”（Metaspace）。</li>
+<li>如果方法区无法满足内存分配需求时，会抛出 <code>OutOfMemoryError</code>。</li>
+</ul>
+</li>
+</ul>
+<hr>
+
+        <h3 id="6-运行时常量池（Runtime-Constant-Pool）"   >
+          <a href="#6-运行时常量池（Runtime-Constant-Pool）" class="heading-link"><i class="fas fa-link"></i></a><a href="#6-运行时常量池（Runtime-Constant-Pool）" class="headerlink" title="6. 运行时常量池（Runtime Constant Pool）"></a><strong>6. 运行时常量池（Runtime Constant Pool）</strong></h3>
+      <ul>
+<li><strong>定义</strong>：<ul>
+<li>运行时常量池是方法区的一部分，用于存储编译期生成的字面量和符号引用。</li>
+</ul>
+</li>
+<li><strong>特点</strong>：<ul>
+<li>运行时常量池是动态的，可以在运行时将新的常量放入池中。</li>
+<li>如果运行时常量池无法满足内存分配需求时，会抛出 <code>OutOfMemoryError</code>。</li>
+</ul>
+</li>
+</ul>
+<hr>
+
+        <h3 id="7-直接内存（Direct-Memory）"   >
+          <a href="#7-直接内存（Direct-Memory）" class="heading-link"><i class="fas fa-link"></i></a><a href="#7-直接内存（Direct-Memory）" class="headerlink" title="7. 直接内存（Direct Memory）"></a><strong>7. 直接内存（Direct Memory）</strong></h3>
+      <ul>
+<li><strong>定义</strong>：<ul>
+<li>直接内存是 JVM 外的内存区域，用于支持 NIO（New Input&#x2F;Output）操作。</li>
+</ul>
+</li>
+<li><strong>特点</strong>：<ul>
+<li>直接内存不是 JVM 运行时数据区的一部分，但可以通过 <code>ByteBuffer</code> 类直接分配和释放。</li>
+<li>直接内存的分配不受 Java 堆大小的限制，但受操作系统内存的限制。</li>
+<li>如果直接内存无法满足内存分配需求时，会抛出 <code>OutOfMemoryError</code>。</li>
+</ul>
+</li>
+</ul>
+<hr>
+
+        <h3 id="8-JVM-内存模型总结"   >
+          <a href="#8-JVM-内存模型总结" class="heading-link"><i class="fas fa-link"></i></a><a href="#8-JVM-内存模型总结" class="headerlink" title="8. JVM 内存模型总结"></a><strong>8. JVM 内存模型总结</strong></h3>
+      <p>以下是 JVM 内存模型的主要组成部分及其特点：</p>
+<div class="table-container"><table>
+<thead>
+<tr>
+<th>内存区域</th>
+<th>线程共享</th>
+<th>作用</th>
+<th>异常</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>程序计数器</td>
+<td>私有</td>
+<td>记录当前线程执行的字节码指令地址。</td>
+<td>无</td>
+</tr>
+<tr>
+<td>Java 虚拟机栈</td>
+<td>私有</td>
+<td>存储方法的局部变量、操作数栈、动态链接和方法返回地址。</td>
+<td><code>StackOverflowError</code>、<code>OutOfMemoryError</code></td>
+</tr>
+<tr>
+<td>本地方法栈</td>
+<td>私有</td>
+<td>支持 Native 方法的执行。</td>
+<td><code>StackOverflowError</code>、<code>OutOfMemoryError</code></td>
+</tr>
+<tr>
+<td>Java 堆</td>
+<td>共享</td>
+<td>存储对象实例和数组。</td>
+<td><code>OutOfMemoryError</code></td>
+</tr>
+<tr>
+<td>方法区</td>
+<td>共享</td>
+<td>存储类信息、常量、静态变量、即时编译器编译后的代码等。</td>
+<td><code>OutOfMemoryError</code></td>
+</tr>
+<tr>
+<td>运行时常量池</td>
+<td>共享</td>
+<td>存储编译期生成的字面量和符号引用。</td>
+<td><code>OutOfMemoryError</code></td>
+</tr>
+<tr>
+<td>直接内存</td>
+<td>共享</td>
+<td>支持 NIO 操作。</td>
+<td><code>OutOfMemoryError</code></td>
+</tr>
+</tbody></table></div>
+<hr>
+
+        <h3 id="9-JVM-内存模型的优化"   >
+          <a href="#9-JVM-内存模型的优化" class="heading-link"><i class="fas fa-link"></i></a><a href="#9-JVM-内存模型的优化" class="headerlink" title="9. JVM 内存模型的优化"></a><strong>9. JVM 内存模型的优化</strong></h3>
+      <ul>
+<li><strong>垃圾收集（Garbage Collection）</strong>：<ul>
+<li>JVM 通过垃圾收集器自动回收不再使用的对象，释放内存。</li>
+</ul>
+</li>
+<li><strong>内存分配策略</strong>：<ul>
+<li>JVM 根据对象的生命周期和大小，采用不同的内存分配策略（如新生代、老年代）。</li>
+</ul>
+</li>
+<li><strong>内存调优</strong>：<ul>
+<li>通过调整 JVM 参数（如 <code>-Xmx</code>、<code>-Xms</code>、<code>-XX:MaxMetaspaceSize</code> 等），优化内存使用。</li>
+</ul>
+</li>
+</ul>
+<hr>
+
+        <h3 id="总结"   >
+          <a href="#总结" class="heading-link"><i class="fas fa-link"></i></a><a href="#总结" class="headerlink" title="总结"></a><strong>总结</strong></h3>
+      <p>JVM 内存模型是 Java 程序运行时的内存管理基础，它将内存划分为多个区域，每个区域有不同的用途和生命周期。理解 JVM 内存模型的组成部分及其特点，有助于更好地掌握 Java 程序的运行机制和内存管理。</p>
+</div><footer class="post-footer"><div class="post-ending ending"><div class="ending__text">------ 本文结束，感谢您的阅读 ------</div></div><div class="post-copyright copyright"><div class="copyright-author"><span class="copyright-author__name">本文作者: </span><span class="copyright-author__value"><a href="https://ljd0620.github.io">Liujiduo</a></span></div><div class="copyright-link"><span class="copyright-link__name">本文链接: </span><span class="copyright-link__value"><a href="https://ljd0620.github.io/2022/11/15/JVM%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B%E8%A7%A3%E6%9E%90/">https://ljd0620.github.io/2022/11/15/JVM%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B%E8%A7%A3%E6%9E%90/</a></span></div><div class="copyright-notice"><span class="copyright-notice__name">版权声明: </span><span class="copyright-notice__value">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en" rel="external nofollow" target="_blank">BY-NC-SA</a> 许可协议。转载请注明出处！</span></div></div><div class="post-tags"><span class="post-tags-item"><span class="post-tags-item__icon"><i class="fas fa-tag"></i></span><a class="post-tags-item__link" href="https://ljd0620.github.io/tags/JVM/">JVM</a></span></div><nav class="post-paginator paginator"><div class="paginator-prev"><a class="paginator-prev__link" href="/2022/11/17/JVM%E5%92%8CJMM%E7%9A%84%E5%8C%BA%E5%88%AB/"><span class="paginator-prev__icon"><i class="fas fa-angle-left"></i></span><span class="paginator-prev__text">JVM和JMM的区别</span></a></div><div class="paginator-next"><a class="paginator-next__link" href="/2022/11/11/JMM%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B%E8%A7%A3%E6%9E%90/"><span class="paginator-prev__text">JMM内存模型解析</span><span class="paginator-next__icon"><i class="fas fa-angle-right"></i></span></a></div></nav></footer></div></div></div><div class="sidebar-wrap" id="sidebar-wrap"><aside class="sidebar" id="sidebar"><div class="sidebar-nav"><span class="sidebar-nav-toc current">文章目录</span><span class="sidebar-nav-ov">站点概览</span></div><section class="sidebar-toc"><ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E7%A8%8B%E5%BA%8F%E8%AE%A1%E6%95%B0%E5%99%A8%EF%BC%88Program-Counter-Register%EF%BC%89"><span class="toc-number">1.</span> <span class="toc-text">
+          1. 程序计数器（Program Counter Register）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-Java-%E8%99%9A%E6%8B%9F%E6%9C%BA%E6%A0%88%EF%BC%88Java-Virtual-Machine-Stacks%EF%BC%89"><span class="toc-number">2.</span> <span class="toc-text">
+          2. Java 虚拟机栈（Java Virtual Machine Stacks）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%E6%9C%AC%E5%9C%B0%E6%96%B9%E6%B3%95%E6%A0%88%EF%BC%88Native-Method-Stack%EF%BC%89"><span class="toc-number">3.</span> <span class="toc-text">
+          3. 本地方法栈（Native Method Stack）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-Java-%E5%A0%86%EF%BC%88Java-Heap%EF%BC%89"><span class="toc-number">4.</span> <span class="toc-text">
+          4. Java 堆（Java Heap）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-%E6%96%B9%E6%B3%95%E5%8C%BA%EF%BC%88Method-Area%EF%BC%89"><span class="toc-number">5.</span> <span class="toc-text">
+          5. 方法区（Method Area）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-%E8%BF%90%E8%A1%8C%E6%97%B6%E5%B8%B8%E9%87%8F%E6%B1%A0%EF%BC%88Runtime-Constant-Pool%EF%BC%89"><span class="toc-number">6.</span> <span class="toc-text">
+          6. 运行时常量池（Runtime Constant Pool）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#7-%E7%9B%B4%E6%8E%A5%E5%86%85%E5%AD%98%EF%BC%88Direct-Memory%EF%BC%89"><span class="toc-number">7.</span> <span class="toc-text">
+          7. 直接内存（Direct Memory）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#8-JVM-%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B%E6%80%BB%E7%BB%93"><span class="toc-number">8.</span> <span class="toc-text">
+          8. JVM 内存模型总结</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#9-JVM-%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B%E7%9A%84%E4%BC%98%E5%8C%96"><span class="toc-number">9.</span> <span class="toc-text">
+          9. JVM 内存模型的优化</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-number">10.</span> <span class="toc-text">
+          总结</span></a></li></ol></section><!-- ov = overview--><section class="sidebar-ov hide"><div class="sidebar-ov-author"><div class="sidebar-ov-author__avatar"><img class="sidebar-ov-author__avatar_img" src="/images/avatar.jpg" alt="avatar"></div><p class="sidebar-ov-author__text">Liujiduo's Blog</p></div><div class="sidebar-ov-feed"><span class="sidebar-ov-feed-email"><a class="sidebar-ov-feed-email__link" href="mailto:liujiduo@sina.com" target="_blank" rel="noopener"><span class="sidebar-ov-feed-email__icon"><i class="fas fa-envelope"></i></span><span>Email 订阅</span></a></span><span class="sidebar-ov-feed-rss"><a class="sidebar-ov-feed-rss__link" href="/atom.xml" target="_blank" rel="noopener"><span class="sidebar-ov-feed-rss__icon"><i class="fas fa-rss"></i></span><span>RSS 订阅</span></a></span></div><div class="sidebar-ov-state"><a class="sidebar-ov-state-item sidebar-ov-state-item--posts" href="/archives/"><div class="sidebar-ov-state-item__count">36</div><div class="sidebar-ov-state-item__name">归档</div></a><a class="sidebar-ov-state-item sidebar-ov-state-item--categories" href="/categories/"><div class="sidebar-ov-state-item__count">11</div><div class="sidebar-ov-state-item__name">分类</div></a><a class="sidebar-ov-state-item sidebar-ov-state-item--tags" href="/tags/"><div class="sidebar-ov-state-item__count">32</div><div class="sidebar-ov-state-item__name">标签</div></a></div><div class="sidebar-ov-cc"><a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en" target="_blank" rel="noopener" data-popover="知识共享许可协议" data-popover-pos="up"><img src="/images/cc-by-nc-sa.svg"></a></div></section><div class="sidebar-reading"><div class="sidebar-reading-info"><span class="sidebar-reading-info__text">你已阅读了 </span><span class="sidebar-reading-info__num">0</span><span class="sidebar-reading-info__perc">%</span></div><div class="sidebar-reading-line"></div></div></aside></div><div class="clearfix"></div></div></main><footer class="footer" id="footer"><div class="footer-inner"><div><span>Copyright © 2024~2025</span><span class="footer__icon"><i class="fas fa-heart"></i></span><span>Liujiduo All Rights Reserved</span></div><div><span>由 <a href="http://hexo.io/" title="Hexo" target="_blank" rel="noopener">Hexo</a> 强力驱动</span><span> v7.3.0</span><span class="footer__devider">|</span><span>主题 - <a href="https://github.com/liuyib/hexo-theme-stun/" title="Stun" target="_blank" rel="noopener">Stun</a></span><span> v2.8.0</span></div><div class="busuanzi"></div></div></footer><div class="loading-bar" id="loading-bar"><div class="loading-bar__progress"></div></div><div class="back2top" id="back2top"><span class="back2top__icon"><i class="fas fa-rocket"></i></span></div></div><script src="https://cdn.jsdelivr.net/npm/jquery@v3.4.1/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/velocity-animate@1.5.2/velocity.min.js"></script><script src="https://cdn.jsdelivr.net/npm/velocity-animate@1.5.2/velocity.ui.min.js"></script><script src="https://cdn.jsdelivr.net/npm/ribbon.js@latest/dist/ribbon.min.js" size="120" alpha="0.6" zIndex="-1"></script><script src="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script><script src="/js/utils.js?v=2.8.0"></script><script src="/js/stun-boot.js?v=2.8.0"></script><script src="/js/scroll.js?v=2.8.0"></script><script src="/js/header.js?v=2.8.0"></script><script src="/js/sidebar.js?v=2.8.0"></script></body></html>

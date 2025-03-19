@@ -1,0 +1,207 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="format-detection" content="telephone=no"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black"><link rel="icon" href="/images/icons/favicon.ico?v=2.8.0" type="image/png" sizes="16x16"><link rel="icon" href="/images/icons/favicon.ico?v=2.8.0" type="image/png" sizes="32x32"><meta name="description" content="Kafka工作原理详解">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Kafka工作原理详解">
+<meta property="og:url" content="https://ljd0620.github.io/2024/07/18/Kafka%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86%E8%AF%A6%E8%A7%A3/index.html">
+<meta property="og:site_name" content="Just Do IT.">
+<meta property="og:description" content="Kafka工作原理详解">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2024-07-18T04:23:44.000Z">
+<meta property="article:modified_time" content="2025-03-19T01:59:27.540Z">
+<meta property="article:author" content="Liujiduo">
+<meta property="article:tag" content="Kafka">
+<meta name="twitter:card" content="summary"><title>Kafka工作原理详解 | Just Do IT.</title><link ref="canonical" href="https://ljd0620.github.io/2024/07/18/Kafka%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86%E8%AF%A6%E8%A7%A3/"><link rel="alternate" href="/atom.xml" type="application/atom+xml"><link rel="dns-prefetch" href="https://cdn.jsdelivr.net"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.12.1/css/all.min.css" type="text/css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" type="text/css"><link rel="stylesheet" href="/css/index.css?v=2.8.0"><script>var Stun = window.Stun || {};
+var CONFIG = {
+  root: '/',
+  algolia: undefined,
+  assistSearch: undefined,
+  fontIcon: {"prompt":{"success":"fas fa-check-circle","info":"fas fa-arrow-circle-right","warning":"fas fa-exclamation-circle","error":"fas fa-times-circle"},"copyBtn":"fas fa-copy"},
+  sidebar: {"offsetTop":"20px","tocMaxDepth":6},
+  header: {"enable":true,"showOnPost":true,"scrollDownIcon":false},
+  postWidget: {"endText":true},
+  nightMode: {"enable":true},
+  back2top: {"enable":true},
+  codeblock: {"style":"carbon","highlight":"light","wordWrap":false},
+  reward: false,
+  fancybox: true,
+  zoomImage: {"gapAside":"20px"},
+  galleryWaterfall: undefined,
+  lazyload: false,
+  pjax: undefined,
+  externalLink: {"icon":{"enable":true,"name":"fas fa-external-link-alt"}},
+  shortcuts: undefined,
+  prompt: {"copyButton":"复制","copySuccess":"复制成功","copyError":"复制失败"},
+  sourcePath: {"js":"js","css":"css","images":"images"},
+};
+
+window.CONFIG = CONFIG;</script><meta name="generator" content="Hexo 7.3.0"></head><body><div class="container" id="container"><header class="header" id="header"><div class="header-inner"><nav class="header-nav header-nav--fixed"><div class="header-nav-inner"><div class="header-nav-menubtn"><i class="fas fa-bars"></i></div><div class="header-nav-menu"><div class="header-nav-menu-item"><a class="header-nav-menu-item__link" href="/"><span class="header-nav-menu-item__icon"><i class="fas fa-home"></i></span><span class="header-nav-menu-item__text">首页</span></a></div><div class="header-nav-menu-item"><a class="header-nav-menu-item__link" href="/archives/"><span class="header-nav-menu-item__icon"><i class="fas fa-folder-open"></i></span><span class="header-nav-menu-item__text">归档</span></a></div><div class="header-nav-menu-item"><a class="header-nav-menu-item__link" href="/categories/"><span class="header-nav-menu-item__icon"><i class="fas fa-layer-group"></i></span><span class="header-nav-menu-item__text">分类</span></a></div><div class="header-nav-menu-item"><a class="header-nav-menu-item__link" href="/tags/"><span class="header-nav-menu-item__icon"><i class="fas fa-tags"></i></span><span class="header-nav-menu-item__text">标签</span></a></div><div class="header-nav-menu-item"><a class="header-nav-menu-item__link" href="/about/"><span class="header-nav-menu-item__icon"><i class="fas fa-user"></i></span><span class="header-nav-menu-item__text">关于</span></a></div></div><div class="header-nav-mode"><div class="mode"><div class="mode-track"><span class="mode-track-moon"></span><span class="mode-track-sun"></span></div><div class="mode-thumb"></div></div></div></div></nav><div class="header-banner"><div class="header-banner-info"><div class="header-banner-info__title">Just Do IT.</div><div class="header-banner-info__subtitle">一个程序员的自我修养</div></div></div></div></header><main class="main" id="main"><div class="main-inner"><div class="content-wrap" id="content-wrap"><div class="content" id="content"><!-- Just used to judge whether it is an article page--><div id="is-post"></div><div class="post"><header class="post-header"><h1 class="post-title">Kafka工作原理详解</h1><div class="post-meta"><span class="post-meta-item post-meta-item--createtime"><span class="post-meta-item__icon"><i class="far fa-calendar-plus"></i></span><span class="post-meta-item__info">发表于</span><span class="post-meta-item__value">2024-07-18</span></span><span class="post-meta-item post-meta-item--updatetime"><span class="post-meta-item__icon"><i class="far fa-calendar-check"></i></span><span class="post-meta-item__info">更新于</span><span class="post-meta-item__value">2025-03-19</span></span><span class="post-meta-item post-meta-item--wordcount"><span class="post-meta-item__icon"><i class="far fa-file-word"></i></span><span class="post-meta-item__info">字数统计</span><span class="post-meta-item__value">1.5k</span></span><span class="post-meta-item post-meta-item--readtime"><span class="post-meta-item__icon"><i class="far fa-clock"></i></span><span class="post-meta-item__info">阅读时长</span><span class="post-meta-item__value">8分</span></span></div></header><div class="post-body"><p>Apache Kafka 是一个分布式流处理平台，专为高吞吐、低延迟的实时数据传输设计。以下是其核心工作原理的分层解析：</p>
+<hr>
+
+        <h3 id="一、核心架构组件"   >
+          <a href="#一、核心架构组件" class="heading-link"><i class="fas fa-link"></i></a><a href="#一、核心架构组件" class="headerlink" title="一、核心架构组件"></a>一、核心架构组件</h3>
+      
+        <h4 id="1-Broker（代理节点）"   >
+          <a href="#1-Broker（代理节点）" class="heading-link"><i class="fas fa-link"></i></a><a href="#1-Broker（代理节点）" class="headerlink" title="1. Broker（代理节点）"></a>1. <strong>Broker（代理节点）</strong></h4>
+      <p>• <strong>角色</strong>：Kafka 集群中的单台服务器，负责数据存储和消息传递。<br>• <strong>集群模式</strong>：多个 Broker 组成集群，每个 Broker 通过唯一 ID 标识，支持动态扩容。<br>• <strong>数据存储</strong>：每个 Broker 存储多个 <strong>Topic（主题）</strong> 的分区（Partition）副本。</p>
+
+        <h4 id="2-Topic（主题）"   >
+          <a href="#2-Topic（主题）" class="heading-link"><i class="fas fa-link"></i></a><a href="#2-Topic（主题）" class="headerlink" title="2. Topic（主题）"></a>2. <strong>Topic（主题）</strong></h4>
+      <p>• <strong>逻辑分类</strong>：消息的类别标识（如 <code>user_click</code>、<code>payment_log</code>）。<br>• <strong>物理分片</strong>：每个 Topic 划分为多个 <strong>Partition（分区）</strong>，数据按分区存储，实现并行处理。<br>◦ <strong>分区特性</strong>：<br>◦ 每个分区是一个 <strong>有序、不可变</strong> 的消息序列。<br>◦ 消息通过 <strong>Offset（偏移量）</strong> 唯一标识，类似数组下标。</p>
+
+        <h4 id="3-Producer（生产者）"   >
+          <a href="#3-Producer（生产者）" class="heading-link"><i class="fas fa-link"></i></a><a href="#3-Producer（生产者）" class="headerlink" title="3. Producer（生产者）"></a>3. <strong>Producer（生产者）</strong></h4>
+      <p>• <strong>功能</strong>：向 Topic 发送消息。<br>• <strong>路由策略</strong>：<br>◦ <strong>Key 哈希</strong>：若消息指定 Key，按 Key 哈希值分配到特定分区，保证相同 Key 的消息进入同一分区。<br>◦ <strong>轮询分配</strong>：无 Key 时轮询选择分区，实现负载均衡。</p>
+
+        <h4 id="4-Consumer（消费者）"   >
+          <a href="#4-Consumer（消费者）" class="heading-link"><i class="fas fa-link"></i></a><a href="#4-Consumer（消费者）" class="headerlink" title="4. Consumer（消费者）"></a>4. <strong>Consumer（消费者）</strong></h4>
+      <p>• <strong>功能</strong>：从 Topic 拉取消息进行处理。<br>• <strong>消费者组（Consumer Group）</strong>：<br>◦ 组内消费者共享消费任务，每个分区只能由组内一个消费者消费。<br>◦ 横向扩展：增加消费者数量可提升消费并行度。</p>
+
+        <h4 id="5-Zookeeper-KRaft（集群管理）"   >
+          <a href="#5-Zookeeper-KRaft（集群管理）" class="heading-link"><i class="fas fa-link"></i></a><a href="#5-Zookeeper-KRaft（集群管理）" class="headerlink" title="5. Zookeeper&#x2F;KRaft（集群管理）"></a>5. <strong>Zookeeper&#x2F;KRaft（集群管理）</strong></h4>
+      <p>• <strong>传统模式</strong>：依赖 Zookeeper 管理 Broker 元数据、Leader 选举、消费者 Offset。<br>• <strong>KRaft 模式</strong>（Kafka 2.8+）：去 Zookeeper 依赖，通过 Raft 协议实现集群元数据自管理。</p>
+<hr>
+
+        <h3 id="二、数据写入流程（生产者视角）"   >
+          <a href="#二、数据写入流程（生产者视角）" class="heading-link"><i class="fas fa-link"></i></a><a href="#二、数据写入流程（生产者视角）" class="headerlink" title="二、数据写入流程（生产者视角）"></a>二、数据写入流程（生产者视角）</h3>
+      
+        <h4 id="1-消息发送"   >
+          <a href="#1-消息发送" class="heading-link"><i class="fas fa-link"></i></a><a href="#1-消息发送" class="headerlink" title="1. 消息发送"></a>1. <strong>消息发送</strong></h4>
+      <p>• <strong>序列化</strong>：生产者将消息序列化为字节数组（支持 Avro、JSON 等格式）。<br>• <strong>分区选择</strong>：根据 Key 或轮询策略选择目标分区。<br>• <strong>批次压缩</strong>：消息按批次（Batch）压缩后发送（支持 LZ4、Snappy、GZIP）。</p>
+
+        <h4 id="2-Broker-处理"   >
+          <a href="#2-Broker-处理" class="heading-link"><i class="fas fa-link"></i></a><a href="#2-Broker-处理" class="headerlink" title="2. Broker 处理"></a>2. <strong>Broker 处理</strong></h4>
+      <p>• <strong>写入 Leader 分区</strong>：消息首先写入分区的 Leader Broker。<br>• <strong>副本同步</strong>：Follower 副本异步&#x2F;同步（<code>acks=all</code>）从 Leader 拉取数据。<br>• <strong>持久化存储</strong>：<br>◦ <strong>顺序写入磁盘</strong>：利用磁盘顺序 I&#x2F;O 的高性能特性。<br>◦ <strong>页缓存优化</strong>：通过 OS 页缓存加速读写，而非直接写磁盘。</p>
+
+        <h4 id="3-ACK-确认机制"   >
+          <a href="#3-ACK-确认机制" class="heading-link"><i class="fas fa-link"></i></a><a href="#3-ACK-确认机制" class="headerlink" title="3. ACK 确认机制"></a>3. <strong>ACK 确认机制</strong></h4>
+      <p>• <strong>可靠性级别</strong>：<br>◦ <code>acks=0</code>：不等待确认，可能丢失数据。<br>◦ <code>acks=1</code>：Leader 写入成功即确认。<br>◦ <code>acks=all</code>：所有 ISR（In-Sync Replicas）副本写入成功才确认。</p>
+<hr>
+
+        <h3 id="三、数据存储机制"   >
+          <a href="#三、数据存储机制" class="heading-link"><i class="fas fa-link"></i></a><a href="#三、数据存储机制" class="headerlink" title="三、数据存储机制"></a>三、数据存储机制</h3>
+      
+        <h4 id="1-分区结构"   >
+          <a href="#1-分区结构" class="heading-link"><i class="fas fa-link"></i></a><a href="#1-分区结构" class="headerlink" title="1. 分区结构"></a>1. <strong>分区结构</strong></h4>
+      <p>• <strong>Segment 分段存储</strong>：<br>◦ 每个分区由多个 <strong>Segment 文件</strong> 组成（默认 1GB&#x2F;个）。<br>◦ 文件名以起始 Offset 命名（如 <code>00000000000000000000.log</code>）。<br>• <strong>索引文件</strong>：<code>.index</code> 和 <code>.timeindex</code> 文件加速 Offset 和时间范围查询。</p>
+
+        <h4 id="2-日志清理策略"   >
+          <a href="#2-日志清理策略" class="heading-link"><i class="fas fa-link"></i></a><a href="#2-日志清理策略" class="headerlink" title="2. 日志清理策略"></a>2. <strong>日志清理策略</strong></h4>
+      <p>• <strong>删除策略</strong>：按时间（<code>retention.ms</code>）或大小（<code>retention.bytes</code>）删除旧数据。<br>• <strong>压缩策略</strong>：按 Key 合并重复消息，保留最新值（适用于状态更新场景）。</p>
+<hr>
+
+        <h3 id="四、数据消费流程（消费者视角）"   >
+          <a href="#四、数据消费流程（消费者视角）" class="heading-link"><i class="fas fa-link"></i></a><a href="#四、数据消费流程（消费者视角）" class="headerlink" title="四、数据消费流程（消费者视角）"></a>四、数据消费流程（消费者视角）</h3>
+      
+        <h4 id="1-拉取模式（Pull）"   >
+          <a href="#1-拉取模式（Pull）" class="heading-link"><i class="fas fa-link"></i></a><a href="#1-拉取模式（Pull）" class="headerlink" title="1. 拉取模式（Pull）"></a>1. <strong>拉取模式（Pull）</strong></h4>
+      <p>• <strong>主动拉取</strong>：消费者通过 <code>poll()</code> 方法从 Broker 拉取消息，按需控制消费速率。<br>• <strong>批量消费</strong>：一次拉取多条消息，减少网络开销。</p>
+
+        <h4 id="2-Offset-管理"   >
+          <a href="#2-Offset-管理" class="heading-link"><i class="fas fa-link"></i></a><a href="#2-Offset-管理" class="headerlink" title="2. Offset 管理"></a>2. <strong>Offset 管理</strong></h4>
+      <p>• <strong>提交方式</strong>：<br>◦ <strong>自动提交</strong>：定期提交 Offset，可能重复消费。<br>◦ <strong>手动提交</strong>：处理完消息后显式提交（<code>commitSync()</code>&#x2F;<code>commitAsync()</code>）。<br>• <strong>存储位置</strong>：Offset 存储在内部 Topic <code>__consumer_offsets</code> 中。</p>
+
+        <h4 id="3-消费者组-Rebalance"   >
+          <a href="#3-消费者组-Rebalance" class="heading-link"><i class="fas fa-link"></i></a><a href="#3-消费者组-Rebalance" class="headerlink" title="3. 消费者组 Rebalance"></a>3. <strong>消费者组 Rebalance</strong></h4>
+      <p>• <strong>触发条件</strong>：消费者加入&#x2F;退出、Topic 分区数变化。<br>• <strong>协调者（Coordinator）</strong>：由 Broker 担任，负责分配分区给消费者。</p>
+<hr>
+
+        <h3 id="五、高可用性与容错"   >
+          <a href="#五、高可用性与容错" class="heading-link"><i class="fas fa-link"></i></a><a href="#五、高可用性与容错" class="headerlink" title="五、高可用性与容错"></a>五、高可用性与容错</h3>
+      
+        <h4 id="1-副本机制（Replication）"   >
+          <a href="#1-副本机制（Replication）" class="heading-link"><i class="fas fa-link"></i></a><a href="#1-副本机制（Replication）" class="headerlink" title="1. 副本机制（Replication）"></a>1. <strong>副本机制（Replication）</strong></h4>
+      <p>• <strong>Leader-Follower 模型</strong>：<br>◦ 每个分区有多个副本，Leader 处理读写请求，Follower 同步数据。<br>◦ <strong>ISR（In-Sync Replicas）</strong>：与 Leader 数据同步的副本集合，用于故障切换。<br>• <strong>选举策略</strong>：Leader 宕机时，从 ISR 中选举新 Leader。</p>
+
+        <h4 id="2-数据一致性"   >
+          <a href="#2-数据一致性" class="heading-link"><i class="fas fa-link"></i></a><a href="#2-数据一致性" class="headerlink" title="2. 数据一致性"></a>2. <strong>数据一致性</strong></h4>
+      <p>• <strong>HW（High Watermark）</strong>：已成功复制到所有 ISR 副本的最高 Offset。<br>• <strong>消费者可见性</strong>：消费者只能读取到 HW 之前的消息，避免脏读。</p>
+<hr>
+
+        <h3 id="六、性能优化关键技术"   >
+          <a href="#六、性能优化关键技术" class="heading-link"><i class="fas fa-link"></i></a><a href="#六、性能优化关键技术" class="headerlink" title="六、性能优化关键技术"></a>六、性能优化关键技术</h3>
+      
+        <h4 id="1-零拷贝（Zero-Copy）"   >
+          <a href="#1-零拷贝（Zero-Copy）" class="heading-link"><i class="fas fa-link"></i></a><a href="#1-零拷贝（Zero-Copy）" class="headerlink" title="1. 零拷贝（Zero-Copy）"></a>1. <strong>零拷贝（Zero-Copy）</strong></h4>
+      <p>• <strong>原理</strong>：通过 <code>sendfile()</code> 系统调用，数据直接从磁盘文件发送到网络，绕过用户态内存复制。<br>• <strong>效果</strong>：降低 CPU 和内存开销，提升吞吐量。</p>
+
+        <h4 id="2-批量处理"   >
+          <a href="#2-批量处理" class="heading-link"><i class="fas fa-link"></i></a><a href="#2-批量处理" class="headerlink" title="2. 批量处理"></a>2. <strong>批量处理</strong></h4>
+      <p>• <strong>生产者批量发送</strong>：累积消息成批次后发送，减少网络请求次数。<br>• <strong>消费者批量拉取</strong>：单次拉取多条消息，提升消费效率。</p>
+<hr>
+
+        <h3 id="七、典型应用场景"   >
+          <a href="#七、典型应用场景" class="heading-link"><i class="fas fa-link"></i></a><a href="#七、典型应用场景" class="headerlink" title="七、典型应用场景"></a>七、典型应用场景</h3>
+      
+        <h4 id="1-实时日志聚合"   >
+          <a href="#1-实时日志聚合" class="heading-link"><i class="fas fa-link"></i></a><a href="#1-实时日志聚合" class="headerlink" title="1. 实时日志聚合"></a>1. <strong>实时日志聚合</strong></h4>
+      <p>• <strong>场景</strong>：收集分布式系统日志，写入 Kafka 后供 Elasticsearch 或 Flink 处理。<br>• <strong>优势</strong>：高吞吐量支持海量日志写入。</p>
+
+        <h4 id="2-事件驱动架构"   >
+          <a href="#2-事件驱动架构" class="heading-link"><i class="fas fa-link"></i></a><a href="#2-事件驱动架构" class="headerlink" title="2. 事件驱动架构"></a>2. <strong>事件驱动架构</strong></h4>
+      <p>• <strong>场景</strong>：微服务间通过 Topic 传递事件（如订单创建触发库存扣减）。<br>• <strong>优势</strong>：解耦服务，提升系统扩展性。</p>
+
+        <h4 id="3-流式数据处理"   >
+          <a href="#3-流式数据处理" class="heading-link"><i class="fas fa-link"></i></a><a href="#3-流式数据处理" class="headerlink" title="3. 流式数据处理"></a>3. <strong>流式数据处理</strong></h4>
+      <p>• <strong>工具链</strong>：Kafka Streams 或 Flink 实时处理数据流（如用户行为分析）。<br>• <strong>优势</strong>：低延迟处理复杂计算（窗口聚合、Join 操作）。</p>
+<hr>
+
+        <h3 id="八、核心优势与局限性"   >
+          <a href="#八、核心优势与局限性" class="heading-link"><i class="fas fa-link"></i></a><a href="#八、核心优势与局限性" class="headerlink" title="八、核心优势与局限性"></a>八、核心优势与局限性</h3>
+      <div class="table-container"><table>
+<thead>
+<tr>
+<th><strong>优势</strong></th>
+<th><strong>局限性</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>高吞吐量（百万级 QPS）</td>
+<td>运维复杂度高（集群管理、调优）</td>
+</tr>
+<tr>
+<td>低延迟（毫秒级响应）</td>
+<td>小数据场景资源浪费</td>
+</tr>
+<tr>
+<td>持久化与高可靠性</td>
+<td>全局消息顺序无法保证</td>
+</tr>
+<tr>
+<td>弹性扩展（水平扩容）</td>
+<td>依赖外部组件（早期版本需 Zookeeper）</td>
+</tr>
+</tbody></table></div>
+<hr>
+
+        <h3 id="九、总结"   >
+          <a href="#九、总结" class="heading-link"><i class="fas fa-link"></i></a><a href="#九、总结" class="headerlink" title="九、总结"></a>九、总结</h3>
+      <p>Kafka 通过 <strong>分布式分区存储</strong>、<strong>顺序磁盘 I&#x2F;O</strong> 和 <strong>副本容错机制</strong>，实现了高吞吐、高可靠的实时数据流处理。其核心设计理念是 <strong>将数据视为不可变事件流</strong>，适用于日志处理、事件驱动架构和大规模流式计算场景。但需注意其运维成本和资源消耗，合理权衡业务需求与技术选型。</p>
+</div><footer class="post-footer"><div class="post-ending ending"><div class="ending__text">------ 本文结束，感谢您的阅读 ------</div></div><div class="post-copyright copyright"><div class="copyright-author"><span class="copyright-author__name">本文作者: </span><span class="copyright-author__value"><a href="https://ljd0620.github.io">Liujiduo</a></span></div><div class="copyright-link"><span class="copyright-link__name">本文链接: </span><span class="copyright-link__value"><a href="https://ljd0620.github.io/2024/07/18/Kafka%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86%E8%AF%A6%E8%A7%A3/">https://ljd0620.github.io/2024/07/18/Kafka%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86%E8%AF%A6%E8%A7%A3/</a></span></div><div class="copyright-notice"><span class="copyright-notice__name">版权声明: </span><span class="copyright-notice__value">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en" rel="external nofollow" target="_blank">BY-NC-SA</a> 许可协议。转载请注明出处！</span></div></div><div class="post-tags"><span class="post-tags-item"><span class="post-tags-item__icon"><i class="fas fa-tag"></i></span><a class="post-tags-item__link" href="https://ljd0620.github.io/tags/Kafka/">Kafka</a></span></div><nav class="post-paginator paginator"><div class="paginator-prev"><a class="paginator-prev__link" href="/2025/03/19/MQTT%E5%8D%8F%E8%AE%AE%E5%8E%9F%E7%90%86%E5%8F%8A%E5%BA%94%E7%94%A8/"><span class="paginator-prev__icon"><i class="fas fa-angle-left"></i></span><span class="paginator-prev__text">MQTT协议原理及应用</span></a></div><div class="paginator-next"><a class="paginator-next__link" href="/2024/05/28/%E5%A6%82%E4%BD%95%E4%BF%9D%E8%AF%81%E6%95%B0%E6%8D%AE%E4%B8%80%E8%87%B4%E6%80%A7/"><span class="paginator-prev__text">如何保证数据一致性</span><span class="paginator-next__icon"><i class="fas fa-angle-right"></i></span></a></div></nav></footer></div></div></div><div class="sidebar-wrap" id="sidebar-wrap"><aside class="sidebar" id="sidebar"><div class="sidebar-nav"><span class="sidebar-nav-toc current">文章目录</span><span class="sidebar-nav-ov">站点概览</span></div><section class="sidebar-toc"><ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%80%E3%80%81%E6%A0%B8%E5%BF%83%E6%9E%B6%E6%9E%84%E7%BB%84%E4%BB%B6"><span class="toc-number">1.</span> <span class="toc-text">
+          一、核心架构组件</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-Broker%EF%BC%88%E4%BB%A3%E7%90%86%E8%8A%82%E7%82%B9%EF%BC%89"><span class="toc-number">1.1.</span> <span class="toc-text">
+          1. Broker（代理节点）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-Topic%EF%BC%88%E4%B8%BB%E9%A2%98%EF%BC%89"><span class="toc-number">1.2.</span> <span class="toc-text">
+          2. Topic（主题）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-Producer%EF%BC%88%E7%94%9F%E4%BA%A7%E8%80%85%EF%BC%89"><span class="toc-number">1.3.</span> <span class="toc-text">
+          3. Producer（生产者）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-Consumer%EF%BC%88%E6%B6%88%E8%B4%B9%E8%80%85%EF%BC%89"><span class="toc-number">1.4.</span> <span class="toc-text">
+          4. Consumer（消费者）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#5-Zookeeper-KRaft%EF%BC%88%E9%9B%86%E7%BE%A4%E7%AE%A1%E7%90%86%EF%BC%89"><span class="toc-number">1.5.</span> <span class="toc-text">
+          5. Zookeeper&#x2F;KRaft（集群管理）</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BA%8C%E3%80%81%E6%95%B0%E6%8D%AE%E5%86%99%E5%85%A5%E6%B5%81%E7%A8%8B%EF%BC%88%E7%94%9F%E4%BA%A7%E8%80%85%E8%A7%86%E8%A7%92%EF%BC%89"><span class="toc-number">2.</span> <span class="toc-text">
+          二、数据写入流程（生产者视角）</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-%E6%B6%88%E6%81%AF%E5%8F%91%E9%80%81"><span class="toc-number">2.1.</span> <span class="toc-text">
+          1. 消息发送</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-Broker-%E5%A4%84%E7%90%86"><span class="toc-number">2.2.</span> <span class="toc-text">
+          2. Broker 处理</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-ACK-%E7%A1%AE%E8%AE%A4%E6%9C%BA%E5%88%B6"><span class="toc-number">2.3.</span> <span class="toc-text">
+          3. ACK 确认机制</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%89%E3%80%81%E6%95%B0%E6%8D%AE%E5%AD%98%E5%82%A8%E6%9C%BA%E5%88%B6"><span class="toc-number">3.</span> <span class="toc-text">
+          三、数据存储机制</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-%E5%88%86%E5%8C%BA%E7%BB%93%E6%9E%84"><span class="toc-number">3.1.</span> <span class="toc-text">
+          1. 分区结构</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-%E6%97%A5%E5%BF%97%E6%B8%85%E7%90%86%E7%AD%96%E7%95%A5"><span class="toc-number">3.2.</span> <span class="toc-text">
+          2. 日志清理策略</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9B%9B%E3%80%81%E6%95%B0%E6%8D%AE%E6%B6%88%E8%B4%B9%E6%B5%81%E7%A8%8B%EF%BC%88%E6%B6%88%E8%B4%B9%E8%80%85%E8%A7%86%E8%A7%92%EF%BC%89"><span class="toc-number">4.</span> <span class="toc-text">
+          四、数据消费流程（消费者视角）</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-%E6%8B%89%E5%8F%96%E6%A8%A1%E5%BC%8F%EF%BC%88Pull%EF%BC%89"><span class="toc-number">4.1.</span> <span class="toc-text">
+          1. 拉取模式（Pull）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-Offset-%E7%AE%A1%E7%90%86"><span class="toc-number">4.2.</span> <span class="toc-text">
+          2. Offset 管理</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-%E6%B6%88%E8%B4%B9%E8%80%85%E7%BB%84-Rebalance"><span class="toc-number">4.3.</span> <span class="toc-text">
+          3. 消费者组 Rebalance</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BA%94%E3%80%81%E9%AB%98%E5%8F%AF%E7%94%A8%E6%80%A7%E4%B8%8E%E5%AE%B9%E9%94%99"><span class="toc-number">5.</span> <span class="toc-text">
+          五、高可用性与容错</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-%E5%89%AF%E6%9C%AC%E6%9C%BA%E5%88%B6%EF%BC%88Replication%EF%BC%89"><span class="toc-number">5.1.</span> <span class="toc-text">
+          1. 副本机制（Replication）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-%E6%95%B0%E6%8D%AE%E4%B8%80%E8%87%B4%E6%80%A7"><span class="toc-number">5.2.</span> <span class="toc-text">
+          2. 数据一致性</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%85%AD%E3%80%81%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96%E5%85%B3%E9%94%AE%E6%8A%80%E6%9C%AF"><span class="toc-number">6.</span> <span class="toc-text">
+          六、性能优化关键技术</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-%E9%9B%B6%E6%8B%B7%E8%B4%9D%EF%BC%88Zero-Copy%EF%BC%89"><span class="toc-number">6.1.</span> <span class="toc-text">
+          1. 零拷贝（Zero-Copy）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-%E6%89%B9%E9%87%8F%E5%A4%84%E7%90%86"><span class="toc-number">6.2.</span> <span class="toc-text">
+          2. 批量处理</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%83%E3%80%81%E5%85%B8%E5%9E%8B%E5%BA%94%E7%94%A8%E5%9C%BA%E6%99%AF"><span class="toc-number">7.</span> <span class="toc-text">
+          七、典型应用场景</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-%E5%AE%9E%E6%97%B6%E6%97%A5%E5%BF%97%E8%81%9A%E5%90%88"><span class="toc-number">7.1.</span> <span class="toc-text">
+          1. 实时日志聚合</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-%E4%BA%8B%E4%BB%B6%E9%A9%B1%E5%8A%A8%E6%9E%B6%E6%9E%84"><span class="toc-number">7.2.</span> <span class="toc-text">
+          2. 事件驱动架构</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-%E6%B5%81%E5%BC%8F%E6%95%B0%E6%8D%AE%E5%A4%84%E7%90%86"><span class="toc-number">7.3.</span> <span class="toc-text">
+          3. 流式数据处理</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%85%AB%E3%80%81%E6%A0%B8%E5%BF%83%E4%BC%98%E5%8A%BF%E4%B8%8E%E5%B1%80%E9%99%90%E6%80%A7"><span class="toc-number">8.</span> <span class="toc-text">
+          八、核心优势与局限性</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B9%9D%E3%80%81%E6%80%BB%E7%BB%93"><span class="toc-number">9.</span> <span class="toc-text">
+          九、总结</span></a></li></ol></section><!-- ov = overview--><section class="sidebar-ov hide"><div class="sidebar-ov-author"><div class="sidebar-ov-author__avatar"><img class="sidebar-ov-author__avatar_img" src="/images/avatar.jpg" alt="avatar"></div><p class="sidebar-ov-author__text">Liujiduo's Blog</p></div><div class="sidebar-ov-feed"><span class="sidebar-ov-feed-email"><a class="sidebar-ov-feed-email__link" href="mailto:liujiduo@sina.com" target="_blank" rel="noopener"><span class="sidebar-ov-feed-email__icon"><i class="fas fa-envelope"></i></span><span>Email 订阅</span></a></span><span class="sidebar-ov-feed-rss"><a class="sidebar-ov-feed-rss__link" href="/atom.xml" target="_blank" rel="noopener"><span class="sidebar-ov-feed-rss__icon"><i class="fas fa-rss"></i></span><span>RSS 订阅</span></a></span></div><div class="sidebar-ov-state"><a class="sidebar-ov-state-item sidebar-ov-state-item--posts" href="/archives/"><div class="sidebar-ov-state-item__count">36</div><div class="sidebar-ov-state-item__name">归档</div></a><a class="sidebar-ov-state-item sidebar-ov-state-item--categories" href="/categories/"><div class="sidebar-ov-state-item__count">11</div><div class="sidebar-ov-state-item__name">分类</div></a><a class="sidebar-ov-state-item sidebar-ov-state-item--tags" href="/tags/"><div class="sidebar-ov-state-item__count">32</div><div class="sidebar-ov-state-item__name">标签</div></a></div><div class="sidebar-ov-cc"><a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en" target="_blank" rel="noopener" data-popover="知识共享许可协议" data-popover-pos="up"><img src="/images/cc-by-nc-sa.svg"></a></div></section><div class="sidebar-reading"><div class="sidebar-reading-info"><span class="sidebar-reading-info__text">你已阅读了 </span><span class="sidebar-reading-info__num">0</span><span class="sidebar-reading-info__perc">%</span></div><div class="sidebar-reading-line"></div></div></aside></div><div class="clearfix"></div></div></main><footer class="footer" id="footer"><div class="footer-inner"><div><span>Copyright © 2024~2025</span><span class="footer__icon"><i class="fas fa-heart"></i></span><span>Liujiduo All Rights Reserved</span></div><div><span>由 <a href="http://hexo.io/" title="Hexo" target="_blank" rel="noopener">Hexo</a> 强力驱动</span><span> v7.3.0</span><span class="footer__devider">|</span><span>主题 - <a href="https://github.com/liuyib/hexo-theme-stun/" title="Stun" target="_blank" rel="noopener">Stun</a></span><span> v2.8.0</span></div><div class="busuanzi"></div></div></footer><div class="loading-bar" id="loading-bar"><div class="loading-bar__progress"></div></div><div class="back2top" id="back2top"><span class="back2top__icon"><i class="fas fa-rocket"></i></span></div></div><script src="https://cdn.jsdelivr.net/npm/jquery@v3.4.1/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/velocity-animate@1.5.2/velocity.min.js"></script><script src="https://cdn.jsdelivr.net/npm/velocity-animate@1.5.2/velocity.ui.min.js"></script><script src="https://cdn.jsdelivr.net/npm/ribbon.js@latest/dist/ribbon.min.js" size="120" alpha="0.6" zIndex="-1"></script><script src="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script><script src="/js/utils.js?v=2.8.0"></script><script src="/js/stun-boot.js?v=2.8.0"></script><script src="/js/scroll.js?v=2.8.0"></script><script src="/js/header.js?v=2.8.0"></script><script src="/js/sidebar.js?v=2.8.0"></script></body></html>

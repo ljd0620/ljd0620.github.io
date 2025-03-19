@@ -1,0 +1,305 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="format-detection" content="telephone=no"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black"><link rel="icon" href="/images/icons/favicon.ico?v=2.8.0" type="image/png" sizes="16x16"><link rel="icon" href="/images/icons/favicon.ico?v=2.8.0" type="image/png" sizes="32x32"><meta name="description" content="常用消息中间件对比">
+<meta property="og:type" content="article">
+<meta property="og:title" content="常用消息中间件对比">
+<meta property="og:url" content="https://ljd0620.github.io/2022/08/15/%E5%B8%B8%E7%94%A8%E6%B6%88%E6%81%AF%E4%B8%AD%E9%97%B4%E4%BB%B6%E5%AF%B9%E6%AF%94/index.html">
+<meta property="og:site_name" content="Just Do IT.">
+<meta property="og:description" content="常用消息中间件对比">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2022-08-15T04:40:44.000Z">
+<meta property="article:modified_time" content="2025-03-19T02:04:23.163Z">
+<meta property="article:author" content="Liujiduo">
+<meta property="article:tag" content="Kafka">
+<meta property="article:tag" content="RabbitMQ">
+<meta property="article:tag" content="RocketMQ">
+<meta name="twitter:card" content="summary"><title>常用消息中间件对比 | Just Do IT.</title><link ref="canonical" href="https://ljd0620.github.io/2022/08/15/%E5%B8%B8%E7%94%A8%E6%B6%88%E6%81%AF%E4%B8%AD%E9%97%B4%E4%BB%B6%E5%AF%B9%E6%AF%94/"><link rel="alternate" href="/atom.xml" type="application/atom+xml"><link rel="dns-prefetch" href="https://cdn.jsdelivr.net"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.12.1/css/all.min.css" type="text/css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" type="text/css"><link rel="stylesheet" href="/css/index.css?v=2.8.0"><script>var Stun = window.Stun || {};
+var CONFIG = {
+  root: '/',
+  algolia: undefined,
+  assistSearch: undefined,
+  fontIcon: {"prompt":{"success":"fas fa-check-circle","info":"fas fa-arrow-circle-right","warning":"fas fa-exclamation-circle","error":"fas fa-times-circle"},"copyBtn":"fas fa-copy"},
+  sidebar: {"offsetTop":"20px","tocMaxDepth":6},
+  header: {"enable":true,"showOnPost":true,"scrollDownIcon":false},
+  postWidget: {"endText":true},
+  nightMode: {"enable":true},
+  back2top: {"enable":true},
+  codeblock: {"style":"carbon","highlight":"light","wordWrap":false},
+  reward: false,
+  fancybox: true,
+  zoomImage: {"gapAside":"20px"},
+  galleryWaterfall: undefined,
+  lazyload: false,
+  pjax: undefined,
+  externalLink: {"icon":{"enable":true,"name":"fas fa-external-link-alt"}},
+  shortcuts: undefined,
+  prompt: {"copyButton":"复制","copySuccess":"复制成功","copyError":"复制失败"},
+  sourcePath: {"js":"js","css":"css","images":"images"},
+};
+
+window.CONFIG = CONFIG;</script><meta name="generator" content="Hexo 7.3.0"></head><body><div class="container" id="container"><header class="header" id="header"><div class="header-inner"><nav class="header-nav header-nav--fixed"><div class="header-nav-inner"><div class="header-nav-menubtn"><i class="fas fa-bars"></i></div><div class="header-nav-menu"><div class="header-nav-menu-item"><a class="header-nav-menu-item__link" href="/"><span class="header-nav-menu-item__icon"><i class="fas fa-home"></i></span><span class="header-nav-menu-item__text">首页</span></a></div><div class="header-nav-menu-item"><a class="header-nav-menu-item__link" href="/archives/"><span class="header-nav-menu-item__icon"><i class="fas fa-folder-open"></i></span><span class="header-nav-menu-item__text">归档</span></a></div><div class="header-nav-menu-item"><a class="header-nav-menu-item__link" href="/categories/"><span class="header-nav-menu-item__icon"><i class="fas fa-layer-group"></i></span><span class="header-nav-menu-item__text">分类</span></a></div><div class="header-nav-menu-item"><a class="header-nav-menu-item__link" href="/tags/"><span class="header-nav-menu-item__icon"><i class="fas fa-tags"></i></span><span class="header-nav-menu-item__text">标签</span></a></div><div class="header-nav-menu-item"><a class="header-nav-menu-item__link" href="/about/"><span class="header-nav-menu-item__icon"><i class="fas fa-user"></i></span><span class="header-nav-menu-item__text">关于</span></a></div></div><div class="header-nav-mode"><div class="mode"><div class="mode-track"><span class="mode-track-moon"></span><span class="mode-track-sun"></span></div><div class="mode-thumb"></div></div></div></div></nav><div class="header-banner"><div class="header-banner-info"><div class="header-banner-info__title">Just Do IT.</div><div class="header-banner-info__subtitle">一个程序员的自我修养</div></div></div></div></header><main class="main" id="main"><div class="main-inner"><div class="content-wrap" id="content-wrap"><div class="content" id="content"><!-- Just used to judge whether it is an article page--><div id="is-post"></div><div class="post"><header class="post-header"><h1 class="post-title">常用消息中间件对比</h1><div class="post-meta"><span class="post-meta-item post-meta-item--createtime"><span class="post-meta-item__icon"><i class="far fa-calendar-plus"></i></span><span class="post-meta-item__info">发表于</span><span class="post-meta-item__value">2022-08-15</span></span><span class="post-meta-item post-meta-item--updatetime"><span class="post-meta-item__icon"><i class="far fa-calendar-check"></i></span><span class="post-meta-item__info">更新于</span><span class="post-meta-item__value">2025-03-19</span></span><span class="post-meta-item post-meta-item--wordcount"><span class="post-meta-item__icon"><i class="far fa-file-word"></i></span><span class="post-meta-item__info">字数统计</span><span class="post-meta-item__value">1.2k</span></span><span class="post-meta-item post-meta-item--readtime"><span class="post-meta-item__icon"><i class="far fa-clock"></i></span><span class="post-meta-item__info">阅读时长</span><span class="post-meta-item__value">7分</span></span></div></header><div class="post-body">
+        <h4 id="一、核心工作原理对比"   >
+          <a href="#一、核心工作原理对比" class="heading-link"><i class="fas fa-link"></i></a><a href="#一、核心工作原理对比" class="headerlink" title="一、核心工作原理对比"></a><strong>一、核心工作原理对比</strong></h4>
+      <div class="table-container"><table>
+<thead>
+<tr>
+<th><strong>特性</strong></th>
+<th><strong>RabbitMQ</strong></th>
+<th><strong>RocketMQ</strong></th>
+<th><strong>Kafka</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>协议</strong></td>
+<td>AMQP</td>
+<td>自定义协议（基于TCP）</td>
+<td>自定义协议（基于TCP）</td>
+</tr>
+<tr>
+<td><strong>消息模型</strong></td>
+<td>队列模型（点对点、发布订阅）</td>
+<td>发布订阅模型</td>
+<td>发布订阅模型（基于分区日志）</td>
+</tr>
+<tr>
+<td><strong>核心组件</strong></td>
+<td>Exchange, Queue, Binding</td>
+<td>Topic, Broker, NameServer</td>
+<td>Topic, Partition, Broker, ZooKeeper（旧版本）</td>
+</tr>
+<tr>
+<td><strong>数据存储</strong></td>
+<td>内存&#x2F;磁盘（持久化队列）</td>
+<td>Commit Log（顺序写磁盘）</td>
+<td>Partition 日志文件（顺序写磁盘）</td>
+</tr>
+<tr>
+<td><strong>消息路由</strong></td>
+<td>支持 Direct, Topic, Fanout, Headers 路由规则</td>
+<td>基于 Tag 过滤消息</td>
+<td>无内置路由，依赖分区策略（Key哈希、轮询等）</td>
+</tr>
+<tr>
+<td><strong>消费模式</strong></td>
+<td>Push（服务端推送）</td>
+<td>Pull（客户端拉取）</td>
+<td>Pull（客户端拉取）</td>
+</tr>
+</tbody></table></div>
+<hr>
+
+        <h4 id="二、应用场景对比"   >
+          <a href="#二、应用场景对比" class="heading-link"><i class="fas fa-link"></i></a><a href="#二、应用场景对比" class="headerlink" title="二、应用场景对比"></a><strong>二、应用场景对比</strong></h4>
+      <div class="table-container"><table>
+<thead>
+<tr>
+<th><strong>场景</strong></th>
+<th><strong>RabbitMQ</strong></th>
+<th><strong>RocketMQ</strong></th>
+<th><strong>Kafka</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>企业级消息队列</strong></td>
+<td>订单处理、支付回调、异步任务</td>
+<td>电商交易、金融支付（强事务场景）</td>
+<td>日志收集、用户行为跟踪</td>
+</tr>
+<tr>
+<td><strong>实时流处理</strong></td>
+<td>低效（吞吐量低）</td>
+<td>支持（需结合外部流处理框架）</td>
+<td>核心场景（Kafka Streams、Flink 原生支持）</td>
+</tr>
+<tr>
+<td><strong>高吞吐场景</strong></td>
+<td>不适用（单机万级 TPS）</td>
+<td>适用（十万级 TPS）</td>
+<td>最佳（百万级 TPS）</td>
+</tr>
+<tr>
+<td><strong>顺序消息</strong></td>
+<td>单队列内有序（需单消费者）</td>
+<td>严格顺序（单队列单消费者）</td>
+<td>分区内有序（全局无序）</td>
+</tr>
+<tr>
+<td><strong>事务消息</strong></td>
+<td>不支持（需插件）</td>
+<td>原生支持（二阶段提交）</td>
+<td>不支持（需外部事务协调）</td>
+</tr>
+</tbody></table></div>
+<hr>
+
+        <h4 id="三、优缺点深度分析"   >
+          <a href="#三、优缺点深度分析" class="heading-link"><i class="fas fa-link"></i></a><a href="#三、优缺点深度分析" class="headerlink" title="三、优缺点深度分析"></a><strong>三、优缺点深度分析</strong></h4>
+      
+        <h5 id="1-RabbitMQ"   >
+          <a href="#1-RabbitMQ" class="heading-link"><i class="fas fa-link"></i></a><a href="#1-RabbitMQ" class="headerlink" title="1. RabbitMQ"></a><strong>1. RabbitMQ</strong></h5>
+      <ul>
+<li><strong>优点</strong>：<ul>
+<li><strong>灵活的路由规则</strong>：支持多种 Exchange 类型（Direct, Topic, Fanout, Headers）。</li>
+<li><strong>高可靠性</strong>：消息持久化、ACK 确认机制、死信队列（DLX）。</li>
+<li><strong>生态丰富</strong>：提供管理界面、插件扩展（如延迟队列）。</li>
+</ul>
+</li>
+<li><strong>缺点</strong>：<ul>
+<li><strong>吞吐量低</strong>：单机万级 TPS，不适合大数据量场景。</li>
+<li><strong>集群扩展复杂</strong>：镜像队列需手动配置，扩容成本高。</li>
+<li><strong>内存消耗大</strong>：消息堆积时易触发内存告警。</li>
+</ul>
+</li>
+</ul>
+
+        <h5 id="2-RocketMQ"   >
+          <a href="#2-RocketMQ" class="heading-link"><i class="fas fa-link"></i></a><a href="#2-RocketMQ" class="headerlink" title="2. RocketMQ"></a><strong>2. RocketMQ</strong></h5>
+      <ul>
+<li><strong>优点</strong>：<ul>
+<li><strong>事务消息</strong>：原生支持分布式事务（二阶段提交）。</li>
+<li><strong>顺序消息</strong>：严格保证单队列消息顺序。</li>
+<li><strong>高可用性</strong>：主从架构 + Dledger 选举，故障切换秒级完成。</li>
+</ul>
+</li>
+<li><strong>缺点</strong>：<ul>
+<li><strong>社区生态弱</strong>：相比 Kafka，工具链和文档支持不足。</li>
+<li><strong>运维复杂</strong>：需维护 NameServer 和 Broker 集群。</li>
+<li><strong>功能局限性</strong>：不支持复杂路由规则。</li>
+</ul>
+</li>
+</ul>
+
+        <h5 id="3-Kafka"   >
+          <a href="#3-Kafka" class="heading-link"><i class="fas fa-link"></i></a><a href="#3-Kafka" class="headerlink" title="3. Kafka"></a><strong>3. Kafka</strong></h5>
+      <ul>
+<li><strong>优点</strong>：<ul>
+<li><strong>超高吞吐</strong>：顺序磁盘 I&#x2F;O + 零拷贝技术，百万级 TPS。</li>
+<li><strong>水平扩展</strong>：通过增加 Partition 和 Broker 轻松扩容。</li>
+<li><strong>流处理生态</strong>：原生支持 Kafka Streams，与 Flink&#x2F;Spark 深度集成。</li>
+</ul>
+</li>
+<li><strong>缺点</strong>：<ul>
+<li><strong>实时性不足</strong>：Pull 模式导致消费延迟不可控。</li>
+<li><strong>运维成本高</strong>：需管理 ZooKeeper（旧版本）、ISR 机制复杂。</li>
+<li><strong>功能单一</strong>：仅支持基础 Pub&#x2F;Sub，无事务、延时消息。</li>
+</ul>
+</li>
+</ul>
+<hr>
+
+        <h4 id="四、典型使用方式示例"   >
+          <a href="#四、典型使用方式示例" class="heading-link"><i class="fas fa-link"></i></a><a href="#四、典型使用方式示例" class="headerlink" title="四、典型使用方式示例"></a><strong>四、典型使用方式示例</strong></h4>
+      
+        <h5 id="1-RabbitMQ（Python）"   >
+          <a href="#1-RabbitMQ（Python）" class="heading-link"><i class="fas fa-link"></i></a><a href="#1-RabbitMQ（Python）" class="headerlink" title="1. RabbitMQ（Python）"></a><strong>1. RabbitMQ（Python）</strong></h5>
+      <figure class="highlight python"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 生产者发送消息到 Direct Exchange</span></span><br><span class="line">channel.basic_publish(</span><br><span class="line">    exchange=<span class="string">&#x27;order_exchange&#x27;</span>,</span><br><span class="line">    routing_key=<span class="string">&#x27;order.paid&#x27;</span>,</span><br><span class="line">    body=<span class="string">&#x27;&#123;&quot;order_id&quot;: 1001&#125;&#x27;</span>,</span><br><span class="line">    properties=pika.BasicProperties(delivery_mode=<span class="number">2</span>)  <span class="comment"># 持久化</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 消费者订阅队列</span></span><br><span class="line">channel.basic_consume(</span><br><span class="line">    queue=<span class="string">&#x27;order_queue&#x27;</span>,</span><br><span class="line">    on_message_callback=process_order,</span><br><span class="line">    auto_ack=<span class="literal">False</span></span><br><span class="line">)</span><br></pre></td></tr></table></div></figure>
+
+
+        <h5 id="2-RocketMQ（Java）"   >
+          <a href="#2-RocketMQ（Java）" class="heading-link"><i class="fas fa-link"></i></a><a href="#2-RocketMQ（Java）" class="headerlink" title="2. RocketMQ（Java）"></a><strong>2. RocketMQ（Java）</strong></h5>
+      <figure class="highlight java"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 发送事务消息</span></span><br><span class="line"><span class="type">TransactionMQProducer</span> <span class="variable">producer</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">TransactionMQProducer</span>(<span class="string">&quot;group&quot;</span>);</span><br><span class="line">producer.sendMessageInTransaction(msg, <span class="keyword">new</span> <span class="title class_">LocalTransactionExecuter</span>() &#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> LocalTransactionState <span class="title function_">execute</span><span class="params">(Message msg, Object arg)</span> &#123;</span><br><span class="line">        <span class="comment">// 执行本地事务</span></span><br><span class="line">        <span class="keyword">return</span> LocalTransactionState.COMMIT_MESSAGE;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 消费者订阅 Tag 过滤消息</span></span><br><span class="line">consumer.subscribe(<span class="string">&quot;order_topic&quot;</span>, <span class="string">&quot;paid || refunded&quot;</span>);</span><br></pre></td></tr></table></div></figure>
+
+
+        <h5 id="3-Kafka（Java）"   >
+          <a href="#3-Kafka（Java）" class="heading-link"><i class="fas fa-link"></i></a><a href="#3-Kafka（Java）" class="headerlink" title="3. Kafka（Java）"></a><strong>3. Kafka（Java）</strong></h5>
+      <figure class="highlight java"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 生产者发送消息到指定 Partition</span></span><br><span class="line">ProducerRecord&lt;String, String&gt; record = <span class="keyword">new</span> <span class="title class_">ProducerRecord</span>&lt;&gt;(<span class="string">&quot;user_events&quot;</span>, <span class="string">&quot;user1&quot;</span>, <span class="string">&quot;click&quot;</span>);</span><br><span class="line">producer.send(record);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 消费者组订阅 Topic</span></span><br><span class="line">consumer.subscribe(Collections.singletonList(<span class="string">&quot;user_events&quot;</span>));</span><br><span class="line"><span class="keyword">while</span> (<span class="literal">true</span>) &#123;</span><br><span class="line">    ConsumerRecords&lt;String, String&gt; records = consumer.poll(Duration.ofMillis(<span class="number">100</span>));</span><br><span class="line">    <span class="keyword">for</span> (ConsumerRecord&lt;String, String&gt; record : records) &#123;</span><br><span class="line">        System.out.println(record.value());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></div></figure>
+
+<hr>
+
+        <h4 id="五、选型建议"   >
+          <a href="#五、选型建议" class="heading-link"><i class="fas fa-link"></i></a><a href="#五、选型建议" class="headerlink" title="五、选型建议"></a><strong>五、选型建议</strong></h4>
+      <div class="table-container"><table>
+<thead>
+<tr>
+<th><strong>场景</strong></th>
+<th><strong>推荐中间件</strong></th>
+<th><strong>理由</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>企业级事务场景</strong></td>
+<td>RocketMQ</td>
+<td>原生事务支持，严格顺序消息，适合金融支付、订单状态同步。</td>
+</tr>
+<tr>
+<td><strong>日志收集与流处理</strong></td>
+<td>Kafka</td>
+<td>高吞吐、持久化存储，与 Flink&#x2F;Spark 无缝集成。</td>
+</tr>
+<tr>
+<td><strong>复杂路由需求</strong></td>
+<td>RabbitMQ</td>
+<td>灵活的 Exchange 路由规则，适合需要动态路由的业务（如通知系统）。</td>
+</tr>
+<tr>
+<td><strong>云原生架构</strong></td>
+<td>Kafka&#x2F;RocketMQ</td>
+<td>Kafka 支持 KRaft 模式（去 ZooKeeper），RocketMQ 提供 Kubernetes 部署方案。</td>
+</tr>
+</tbody></table></div>
+<hr>
+
+        <h4 id="六、高级特性对比"   >
+          <a href="#六、高级特性对比" class="heading-link"><i class="fas fa-link"></i></a><a href="#六、高级特性对比" class="headerlink" title="六、高级特性对比"></a><strong>六、高级特性对比</strong></h4>
+      <div class="table-container"><table>
+<thead>
+<tr>
+<th><strong>特性</strong></th>
+<th><strong>RabbitMQ</strong></th>
+<th><strong>RocketMQ</strong></th>
+<th><strong>Kafka</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>延迟消息</strong></td>
+<td>支持（插件）</td>
+<td>支持（定时消息）</td>
+<td>支持（外部实现）</td>
+</tr>
+<tr>
+<td><strong>消息回溯</strong></td>
+<td>不支持</td>
+<td>支持（按时间偏移）</td>
+<td>支持（按偏移量）</td>
+</tr>
+<tr>
+<td><strong>死信队列</strong></td>
+<td>原生支持</td>
+<td>支持（重试队列）</td>
+<td>不支持（需自定义）</td>
+</tr>
+<tr>
+<td><strong>多租户</strong></td>
+<td>支持（VHost）</td>
+<td>不支持</td>
+<td>支持（Topic 隔离）</td>
+</tr>
+<tr>
+<td><strong>消息追踪</strong></td>
+<td>插件支持</td>
+<td>原生支持</td>
+<td>需第三方工具</td>
+</tr>
+</tbody></table></div>
+<hr>
+
+        <h4 id="七、总结"   >
+          <a href="#七、总结" class="heading-link"><i class="fas fa-link"></i></a><a href="#七、总结" class="headerlink" title="七、总结"></a><strong>七、总结</strong></h4>
+      <ul>
+<li><strong>RabbitMQ</strong>：适合需要灵活路由、低延迟、强可靠性的企业级应用。</li>
+<li><strong>RocketMQ</strong>：适合金融级事务、严格顺序消息场景，尤其阿里生态项目。</li>
+<li><strong>Kafka</strong>：适合大数据量、高吞吐的日志收集和实时流处理场景。</li>
+</ul>
+<p>根据业务需求选择中间件，复杂系统可组合使用（如 RabbitMQ 处理核心事务 + Kafka 处理日志流）。</p>
+</div><footer class="post-footer"><div class="post-ending ending"><div class="ending__text">------ 本文结束，感谢您的阅读 ------</div></div><div class="post-copyright copyright"><div class="copyright-author"><span class="copyright-author__name">本文作者: </span><span class="copyright-author__value"><a href="https://ljd0620.github.io">Liujiduo</a></span></div><div class="copyright-link"><span class="copyright-link__name">本文链接: </span><span class="copyright-link__value"><a href="https://ljd0620.github.io/2022/08/15/%E5%B8%B8%E7%94%A8%E6%B6%88%E6%81%AF%E4%B8%AD%E9%97%B4%E4%BB%B6%E5%AF%B9%E6%AF%94/">https://ljd0620.github.io/2022/08/15/%E5%B8%B8%E7%94%A8%E6%B6%88%E6%81%AF%E4%B8%AD%E9%97%B4%E4%BB%B6%E5%AF%B9%E6%AF%94/</a></span></div><div class="copyright-notice"><span class="copyright-notice__name">版权声明: </span><span class="copyright-notice__value">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en" rel="external nofollow" target="_blank">BY-NC-SA</a> 许可协议。转载请注明出处！</span></div></div><div class="post-tags"><span class="post-tags-item"><span class="post-tags-item__icon"><i class="fas fa-tag"></i></span><a class="post-tags-item__link" href="https://ljd0620.github.io/tags/Kafka/">Kafka</a></span><span class="post-tags-item"><span class="post-tags-item__icon"><i class="fas fa-tag"></i></span><a class="post-tags-item__link" href="https://ljd0620.github.io/tags/RabbitMQ/">RabbitMQ</a></span><span class="post-tags-item"><span class="post-tags-item__icon"><i class="fas fa-tag"></i></span><a class="post-tags-item__link" href="https://ljd0620.github.io/tags/RocketMQ/">RocketMQ</a></span></div><nav class="post-paginator paginator"><div class="paginator-prev"><a class="paginator-prev__link" href="/2022/11/11/JMM%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B%E8%A7%A3%E6%9E%90/"><span class="paginator-prev__icon"><i class="fas fa-angle-left"></i></span><span class="paginator-prev__text">JMM内存模型解析</span></a></div><div class="paginator-next"><a class="paginator-next__link" href="/2022/07/12/MySQL%E6%B7%B1%E5%BA%A6%E5%88%86%E9%A1%B5%E4%BC%98%E5%8C%96/"><span class="paginator-prev__text">MySQL深度分页优化</span><span class="paginator-next__icon"><i class="fas fa-angle-right"></i></span></a></div></nav></footer></div></div></div><div class="sidebar-wrap" id="sidebar-wrap"><aside class="sidebar" id="sidebar"><div class="sidebar-nav"><span class="sidebar-nav-toc current">文章目录</span><span class="sidebar-nav-ov">站点概览</span></div><section class="sidebar-toc"><ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%B8%80%E3%80%81%E6%A0%B8%E5%BF%83%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86%E5%AF%B9%E6%AF%94"><span class="toc-number">1.</span> <span class="toc-text">
+          一、核心工作原理对比</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BA%8C%E3%80%81%E5%BA%94%E7%94%A8%E5%9C%BA%E6%99%AF%E5%AF%B9%E6%AF%94"><span class="toc-number">2.</span> <span class="toc-text">
+          二、应用场景对比</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%B8%89%E3%80%81%E4%BC%98%E7%BC%BA%E7%82%B9%E6%B7%B1%E5%BA%A6%E5%88%86%E6%9E%90"><span class="toc-number">3.</span> <span class="toc-text">
+          三、优缺点深度分析</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#1-RabbitMQ"><span class="toc-number">3.1.</span> <span class="toc-text">
+          1. RabbitMQ</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#2-RocketMQ"><span class="toc-number">3.2.</span> <span class="toc-text">
+          2. RocketMQ</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#3-Kafka"><span class="toc-number">3.3.</span> <span class="toc-text">
+          3. Kafka</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%9B%9B%E3%80%81%E5%85%B8%E5%9E%8B%E4%BD%BF%E7%94%A8%E6%96%B9%E5%BC%8F%E7%A4%BA%E4%BE%8B"><span class="toc-number">4.</span> <span class="toc-text">
+          四、典型使用方式示例</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#1-RabbitMQ%EF%BC%88Python%EF%BC%89"><span class="toc-number">4.1.</span> <span class="toc-text">
+          1. RabbitMQ（Python）</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#2-RocketMQ%EF%BC%88Java%EF%BC%89"><span class="toc-number">4.2.</span> <span class="toc-text">
+          2. RocketMQ（Java）</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#3-Kafka%EF%BC%88Java%EF%BC%89"><span class="toc-number">4.3.</span> <span class="toc-text">
+          3. Kafka（Java）</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BA%94%E3%80%81%E9%80%89%E5%9E%8B%E5%BB%BA%E8%AE%AE"><span class="toc-number">5.</span> <span class="toc-text">
+          五、选型建议</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%85%AD%E3%80%81%E9%AB%98%E7%BA%A7%E7%89%B9%E6%80%A7%E5%AF%B9%E6%AF%94"><span class="toc-number">6.</span> <span class="toc-text">
+          六、高级特性对比</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%B8%83%E3%80%81%E6%80%BB%E7%BB%93"><span class="toc-number">7.</span> <span class="toc-text">
+          七、总结</span></a></li></ol></section><!-- ov = overview--><section class="sidebar-ov hide"><div class="sidebar-ov-author"><div class="sidebar-ov-author__avatar"><img class="sidebar-ov-author__avatar_img" src="/images/avatar.jpg" alt="avatar"></div><p class="sidebar-ov-author__text">Liujiduo's Blog</p></div><div class="sidebar-ov-feed"><span class="sidebar-ov-feed-email"><a class="sidebar-ov-feed-email__link" href="mailto:liujiduo@sina.com" target="_blank" rel="noopener"><span class="sidebar-ov-feed-email__icon"><i class="fas fa-envelope"></i></span><span>Email 订阅</span></a></span><span class="sidebar-ov-feed-rss"><a class="sidebar-ov-feed-rss__link" href="/atom.xml" target="_blank" rel="noopener"><span class="sidebar-ov-feed-rss__icon"><i class="fas fa-rss"></i></span><span>RSS 订阅</span></a></span></div><div class="sidebar-ov-state"><a class="sidebar-ov-state-item sidebar-ov-state-item--posts" href="/archives/"><div class="sidebar-ov-state-item__count">36</div><div class="sidebar-ov-state-item__name">归档</div></a><a class="sidebar-ov-state-item sidebar-ov-state-item--categories" href="/categories/"><div class="sidebar-ov-state-item__count">11</div><div class="sidebar-ov-state-item__name">分类</div></a><a class="sidebar-ov-state-item sidebar-ov-state-item--tags" href="/tags/"><div class="sidebar-ov-state-item__count">32</div><div class="sidebar-ov-state-item__name">标签</div></a></div><div class="sidebar-ov-cc"><a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en" target="_blank" rel="noopener" data-popover="知识共享许可协议" data-popover-pos="up"><img src="/images/cc-by-nc-sa.svg"></a></div></section><div class="sidebar-reading"><div class="sidebar-reading-info"><span class="sidebar-reading-info__text">你已阅读了 </span><span class="sidebar-reading-info__num">0</span><span class="sidebar-reading-info__perc">%</span></div><div class="sidebar-reading-line"></div></div></aside></div><div class="clearfix"></div></div></main><footer class="footer" id="footer"><div class="footer-inner"><div><span>Copyright © 2024~2025</span><span class="footer__icon"><i class="fas fa-heart"></i></span><span>Liujiduo All Rights Reserved</span></div><div><span>由 <a href="http://hexo.io/" title="Hexo" target="_blank" rel="noopener">Hexo</a> 强力驱动</span><span> v7.3.0</span><span class="footer__devider">|</span><span>主题 - <a href="https://github.com/liuyib/hexo-theme-stun/" title="Stun" target="_blank" rel="noopener">Stun</a></span><span> v2.8.0</span></div><div class="busuanzi"></div></div></footer><div class="loading-bar" id="loading-bar"><div class="loading-bar__progress"></div></div><div class="back2top" id="back2top"><span class="back2top__icon"><i class="fas fa-rocket"></i></span></div></div><script src="https://cdn.jsdelivr.net/npm/jquery@v3.4.1/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/velocity-animate@1.5.2/velocity.min.js"></script><script src="https://cdn.jsdelivr.net/npm/velocity-animate@1.5.2/velocity.ui.min.js"></script><script src="https://cdn.jsdelivr.net/npm/ribbon.js@latest/dist/ribbon.min.js" size="120" alpha="0.6" zIndex="-1"></script><script src="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script><script src="/js/utils.js?v=2.8.0"></script><script src="/js/stun-boot.js?v=2.8.0"></script><script src="/js/scroll.js?v=2.8.0"></script><script src="/js/header.js?v=2.8.0"></script><script src="/js/sidebar.js?v=2.8.0"></script></body></html>

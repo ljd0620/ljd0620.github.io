@@ -1,0 +1,253 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="format-detection" content="telephone=no"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black"><link rel="icon" href="/images/icons/favicon.ico?v=2.8.0" type="image/png" sizes="16x16"><link rel="icon" href="/images/icons/favicon.ico?v=2.8.0" type="image/png" sizes="32x32"><meta name="description" content="分布式ID生成方案">
+<meta property="og:type" content="article">
+<meta property="og:title" content="分布式ID生成方案">
+<meta property="og:url" content="https://ljd0620.github.io/2023/09/22/%E5%88%86%E5%B8%83%E5%BC%8FID%E7%94%9F%E6%88%90%E6%96%B9%E6%A1%88/index.html">
+<meta property="og:site_name" content="Just Do IT.">
+<meta property="og:description" content="分布式ID生成方案">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2023-09-22T04:39:31.000Z">
+<meta property="article:modified_time" content="2025-03-19T02:03:36.345Z">
+<meta property="article:author" content="Liujiduo">
+<meta property="article:tag" content="分布式">
+<meta name="twitter:card" content="summary"><title>分布式ID生成方案 | Just Do IT.</title><link ref="canonical" href="https://ljd0620.github.io/2023/09/22/%E5%88%86%E5%B8%83%E5%BC%8FID%E7%94%9F%E6%88%90%E6%96%B9%E6%A1%88/"><link rel="alternate" href="/atom.xml" type="application/atom+xml"><link rel="dns-prefetch" href="https://cdn.jsdelivr.net"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.12.1/css/all.min.css" type="text/css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" type="text/css"><link rel="stylesheet" href="/css/index.css?v=2.8.0"><script>var Stun = window.Stun || {};
+var CONFIG = {
+  root: '/',
+  algolia: undefined,
+  assistSearch: undefined,
+  fontIcon: {"prompt":{"success":"fas fa-check-circle","info":"fas fa-arrow-circle-right","warning":"fas fa-exclamation-circle","error":"fas fa-times-circle"},"copyBtn":"fas fa-copy"},
+  sidebar: {"offsetTop":"20px","tocMaxDepth":6},
+  header: {"enable":true,"showOnPost":true,"scrollDownIcon":false},
+  postWidget: {"endText":true},
+  nightMode: {"enable":true},
+  back2top: {"enable":true},
+  codeblock: {"style":"carbon","highlight":"light","wordWrap":false},
+  reward: false,
+  fancybox: true,
+  zoomImage: {"gapAside":"20px"},
+  galleryWaterfall: undefined,
+  lazyload: false,
+  pjax: undefined,
+  externalLink: {"icon":{"enable":true,"name":"fas fa-external-link-alt"}},
+  shortcuts: undefined,
+  prompt: {"copyButton":"复制","copySuccess":"复制成功","copyError":"复制失败"},
+  sourcePath: {"js":"js","css":"css","images":"images"},
+};
+
+window.CONFIG = CONFIG;</script><meta name="generator" content="Hexo 7.3.0"></head><body><div class="container" id="container"><header class="header" id="header"><div class="header-inner"><nav class="header-nav header-nav--fixed"><div class="header-nav-inner"><div class="header-nav-menubtn"><i class="fas fa-bars"></i></div><div class="header-nav-menu"><div class="header-nav-menu-item"><a class="header-nav-menu-item__link" href="/"><span class="header-nav-menu-item__icon"><i class="fas fa-home"></i></span><span class="header-nav-menu-item__text">首页</span></a></div><div class="header-nav-menu-item"><a class="header-nav-menu-item__link" href="/archives/"><span class="header-nav-menu-item__icon"><i class="fas fa-folder-open"></i></span><span class="header-nav-menu-item__text">归档</span></a></div><div class="header-nav-menu-item"><a class="header-nav-menu-item__link" href="/categories/"><span class="header-nav-menu-item__icon"><i class="fas fa-layer-group"></i></span><span class="header-nav-menu-item__text">分类</span></a></div><div class="header-nav-menu-item"><a class="header-nav-menu-item__link" href="/tags/"><span class="header-nav-menu-item__icon"><i class="fas fa-tags"></i></span><span class="header-nav-menu-item__text">标签</span></a></div><div class="header-nav-menu-item"><a class="header-nav-menu-item__link" href="/about/"><span class="header-nav-menu-item__icon"><i class="fas fa-user"></i></span><span class="header-nav-menu-item__text">关于</span></a></div></div><div class="header-nav-mode"><div class="mode"><div class="mode-track"><span class="mode-track-moon"></span><span class="mode-track-sun"></span></div><div class="mode-thumb"></div></div></div></div></nav><div class="header-banner"><div class="header-banner-info"><div class="header-banner-info__title">Just Do IT.</div><div class="header-banner-info__subtitle">一个程序员的自我修养</div></div></div></div></header><main class="main" id="main"><div class="main-inner"><div class="content-wrap" id="content-wrap"><div class="content" id="content"><!-- Just used to judge whether it is an article page--><div id="is-post"></div><div class="post"><header class="post-header"><h1 class="post-title">分布式ID生成方案</h1><div class="post-meta"><span class="post-meta-item post-meta-item--createtime"><span class="post-meta-item__icon"><i class="far fa-calendar-plus"></i></span><span class="post-meta-item__info">发表于</span><span class="post-meta-item__value">2023-09-22</span></span><span class="post-meta-item post-meta-item--updatetime"><span class="post-meta-item__icon"><i class="far fa-calendar-check"></i></span><span class="post-meta-item__info">更新于</span><span class="post-meta-item__value">2025-03-19</span></span><span class="post-meta-item post-meta-item--wordcount"><span class="post-meta-item__icon"><i class="far fa-file-word"></i></span><span class="post-meta-item__info">字数统计</span><span class="post-meta-item__value">1.2k</span></span><span class="post-meta-item post-meta-item--readtime"><span class="post-meta-item__icon"><i class="far fa-clock"></i></span><span class="post-meta-item__info">阅读时长</span><span class="post-meta-item__value">9分</span></span></div></header><div class="post-body"><p>分布式ID生成方案是分布式系统中的核心问题之一，尤其是在高并发、高可用的场景下，需要保证生成的ID具备以下特性：</p>
+<ol>
+<li><strong>全局唯一性</strong>：ID在分布式系统中必须唯一。</li>
+<li><strong>有序性</strong>：ID最好是有序的，便于数据库索引和查询。</li>
+<li><strong>高性能</strong>：ID生成速度要快，不能成为系统瓶颈。</li>
+<li><strong>高可用性</strong>：ID生成服务必须高可用，避免单点故障。</li>
+<li><strong>可扩展性</strong>：支持水平扩展，适应业务增长。</li>
+</ol>
+<p>以下是几种常见的分布式ID生成方案及其实现细节：</p>
+<hr>
+
+        <h3 id="一、常见分布式ID生成方案"   >
+          <a href="#一、常见分布式ID生成方案" class="heading-link"><i class="fas fa-link"></i></a><a href="#一、常见分布式ID生成方案" class="headerlink" title="一、常见分布式ID生成方案"></a>一、常见分布式ID生成方案</h3>
+      
+        <h4 id="1-UUID"   >
+          <a href="#1-UUID" class="heading-link"><i class="fas fa-link"></i></a><a href="#1-UUID" class="headerlink" title="1. UUID"></a>1. <strong>UUID</strong></h4>
+      <ul>
+<li><strong>原理</strong>：基于随机数生成128位的唯一标识符。</li>
+<li><strong>优点</strong>：<ul>
+<li>简单易用，无需中心化服务。</li>
+<li>生成速度快。</li>
+</ul>
+</li>
+<li><strong>缺点</strong>：<ul>
+<li>无序，不适合作为数据库主键。</li>
+<li>存储空间大（36字符）。</li>
+<li>查询性能差。</li>
+</ul>
+</li>
+<li><strong>适用场景</strong>：小规模、非连续ID场景。</li>
+</ul>
+<figure class="highlight java"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> java.util.UUID;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">UUIDGenerator</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> String <span class="title function_">generate</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> UUID.randomUUID().toString();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></div></figure>
+
+<hr>
+
+        <h4 id="2-数据库自增ID"   >
+          <a href="#2-数据库自增ID" class="heading-link"><i class="fas fa-link"></i></a><a href="#2-数据库自增ID" class="headerlink" title="2. 数据库自增ID"></a>2. <strong>数据库自增ID</strong></h4>
+      <ul>
+<li><strong>原理</strong>：利用数据库的自增主键特性生成ID。</li>
+<li><strong>优点</strong>：<ul>
+<li>简单易实现。</li>
+<li>ID有序。</li>
+</ul>
+</li>
+<li><strong>缺点</strong>：<ul>
+<li>性能瓶颈，单点故障。</li>
+<li>不适合高并发场景。</li>
+</ul>
+</li>
+<li><strong>适用场景</strong>：小规模、低并发场景。</li>
+</ul>
+<figure class="highlight sql"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE TABLE</span> id_generator (</span><br><span class="line">    id <span class="type">BIGINT</span> <span class="keyword">PRIMARY KEY</span> AUTO_INCREMENT</span><br><span class="line">);</span><br></pre></td></tr></table></div></figure>
+
+<hr>
+
+        <h4 id="3-Redis自增ID"   >
+          <a href="#3-Redis自增ID" class="heading-link"><i class="fas fa-link"></i></a><a href="#3-Redis自增ID" class="headerlink" title="3. Redis自增ID"></a>3. <strong>Redis自增ID</strong></h4>
+      <ul>
+<li><strong>原理</strong>：利用Redis的<code>INCR</code>命令生成自增ID。</li>
+<li><strong>优点</strong>：<ul>
+<li>高性能，支持分布式。</li>
+<li>简单易用。</li>
+</ul>
+</li>
+<li><strong>缺点</strong>：<ul>
+<li>依赖Redis，需考虑持久化和高可用。</li>
+</ul>
+</li>
+<li><strong>适用场景</strong>：中等规模、高并发场景。</li>
+</ul>
+<figure class="highlight java"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> redis.clients.jedis.Jedis;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">RedisIdGenerator</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">String</span> <span class="variable">ID_KEY</span> <span class="operator">=</span> <span class="string">&quot;global:id&quot;</span>;</span><br><span class="line">    <span class="keyword">private</span> Jedis jedis;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">RedisIdGenerator</span><span class="params">(Jedis jedis)</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>.jedis = jedis;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="type">long</span> <span class="title function_">nextId</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> jedis.incr(ID_KEY);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></div></figure>
+
+<hr>
+
+        <h4 id="4-Snowflake算法"   >
+          <a href="#4-Snowflake算法" class="heading-link"><i class="fas fa-link"></i></a><a href="#4-Snowflake算法" class="headerlink" title="4. Snowflake算法"></a>4. <strong>Snowflake算法</strong></h4>
+      <ul>
+<li><strong>原理</strong>：生成64位的ID，包含时间戳、机器ID和序列号。</li>
+<li><strong>优点</strong>：<ul>
+<li>高性能，分布式生成。</li>
+<li>ID有序。</li>
+</ul>
+</li>
+<li><strong>缺点</strong>：<ul>
+<li>依赖机器时钟，时钟回拨问题。</li>
+</ul>
+</li>
+<li><strong>适用场景</strong>：大规模、高并发场景。</li>
+</ul>
+<figure class="highlight java"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">SnowflakeIdGenerator</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> <span class="type">long</span> <span class="variable">epoch</span> <span class="operator">=</span> <span class="number">1609459200000L</span>; <span class="comment">// 2021-01-01 00:00:00</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> <span class="type">long</span> <span class="variable">workerIdBits</span> <span class="operator">=</span> <span class="number">10L</span>;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> <span class="type">long</span> <span class="variable">sequenceBits</span> <span class="operator">=</span> <span class="number">12L</span>;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> <span class="type">long</span> <span class="variable">maxWorkerId</span> <span class="operator">=</span> ~(-<span class="number">1L</span> &lt;&lt; workerIdBits);</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> <span class="type">long</span> <span class="variable">workerIdShift</span> <span class="operator">=</span> sequenceBits;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> <span class="type">long</span> <span class="variable">timestampShift</span> <span class="operator">=</span> sequenceBits + workerIdBits;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> <span class="type">long</span> <span class="variable">sequenceMask</span> <span class="operator">=</span> ~(-<span class="number">1L</span> &lt;&lt; sequenceBits);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="type">long</span> workerId;</span><br><span class="line">    <span class="keyword">private</span> <span class="type">long</span> <span class="variable">sequence</span> <span class="operator">=</span> <span class="number">0L</span>;</span><br><span class="line">    <span class="keyword">private</span> <span class="type">long</span> <span class="variable">lastTimestamp</span> <span class="operator">=</span> -<span class="number">1L</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">SnowflakeIdGenerator</span><span class="params">(<span class="type">long</span> workerId)</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (workerId &gt; maxWorkerId || workerId &lt; <span class="number">0</span>) &#123;</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">IllegalArgumentException</span>(<span class="string">&quot;Worker ID超出范围&quot;</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="built_in">this</span>.workerId = workerId;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">synchronized</span> <span class="type">long</span> <span class="title function_">nextId</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="type">long</span> <span class="variable">timestamp</span> <span class="operator">=</span> System.currentTimeMillis();</span><br><span class="line">        <span class="keyword">if</span> (timestamp &lt; lastTimestamp) &#123;</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">RuntimeException</span>(<span class="string">&quot;时钟回拨异常&quot;</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (timestamp == lastTimestamp) &#123;</span><br><span class="line">            sequence = (sequence + <span class="number">1</span>) &amp; sequenceMask;</span><br><span class="line">            <span class="keyword">if</span> (sequence == <span class="number">0</span>) &#123;</span><br><span class="line">                timestamp = tilNextMillis(lastTimestamp);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            sequence = <span class="number">0L</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        lastTimestamp = timestamp;</span><br><span class="line">        <span class="keyword">return</span> ((timestamp - epoch) &lt;&lt; timestampShift)</span><br><span class="line">                | (workerId &lt;&lt; workerIdShift)</span><br><span class="line">                | sequence;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="type">long</span> <span class="title function_">tilNextMillis</span><span class="params">(<span class="type">long</span> lastTimestamp)</span> &#123;</span><br><span class="line">        <span class="type">long</span> <span class="variable">timestamp</span> <span class="operator">=</span> System.currentTimeMillis();</span><br><span class="line">        <span class="keyword">while</span> (timestamp &lt;= lastTimestamp) &#123;</span><br><span class="line">            timestamp = System.currentTimeMillis();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> timestamp;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></div></figure>
+
+<hr>
+
+        <h4 id="5-Leaf算法"   >
+          <a href="#5-Leaf算法" class="heading-link"><i class="fas fa-link"></i></a><a href="#5-Leaf算法" class="headerlink" title="5. Leaf算法"></a>5. <strong>Leaf算法</strong></h4>
+      <ul>
+<li><strong>原理</strong>：美团开源的分布式ID生成服务，支持号段模式和Snowflake模式。</li>
+<li><strong>优点</strong>：<ul>
+<li>高性能，支持分段缓存。</li>
+<li>ID有序。</li>
+</ul>
+</li>
+<li><strong>缺点</strong>：<ul>
+<li>依赖数据库，实现复杂。</li>
+</ul>
+</li>
+<li><strong>适用场景</strong>：大规模、高并发场景。</li>
+</ul>
+<figure class="highlight java"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">LeafSegmentService</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> AtomicLong currentId;</span><br><span class="line">    <span class="keyword">private</span> AtomicLong maxId;</span><br><span class="line">    <span class="keyword">private</span> <span class="type">int</span> step;</span><br><span class="line">    <span class="keyword">private</span> String bizTag;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">LeafSegmentService</span><span class="params">(String bizTag)</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>.bizTag = bizTag;</span><br><span class="line">        loadSegment();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">void</span> <span class="title function_">loadSegment</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="comment">// 从数据库获取号段</span></span><br><span class="line">        <span class="type">IdSegment</span> <span class="variable">segment</span> <span class="operator">=</span> idSegmentDAO.getSegment(bizTag);</span><br><span class="line">        currentId = <span class="keyword">new</span> <span class="title class_">AtomicLong</span>(segment.getMaxId() - segment.getStep());</span><br><span class="line">        maxId = <span class="keyword">new</span> <span class="title class_">AtomicLong</span>(segment.getMaxId());</span><br><span class="line">        step = segment.getStep();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="type">long</span> <span class="title function_">nextId</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="type">long</span> <span class="variable">id</span> <span class="operator">=</span> currentId.incrementAndGet();</span><br><span class="line">        <span class="keyword">if</span> (id &gt;= maxId.get()) &#123;</span><br><span class="line">            <span class="keyword">synchronized</span> (<span class="built_in">this</span>) &#123;</span><br><span class="line">                <span class="keyword">if</span> (id &gt;= maxId.get()) &#123;</span><br><span class="line">                    loadSegment();</span><br><span class="line">                    id = currentId.incrementAndGet();</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> id;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></div></figure>
+
+<hr>
+
+        <h3 id="二、方案对比与选型建议"   >
+          <a href="#二、方案对比与选型建议" class="heading-link"><i class="fas fa-link"></i></a><a href="#二、方案对比与选型建议" class="headerlink" title="二、方案对比与选型建议"></a>二、方案对比与选型建议</h3>
+      <div class="table-container"><table>
+<thead>
+<tr>
+<th>方案</th>
+<th>优点</th>
+<th>缺点</th>
+<th>适用场景</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>UUID</strong></td>
+<td>简单、无需中心化服务</td>
+<td>无序、存储空间大、查询性能差</td>
+<td>小规模、非连续ID场景</td>
+</tr>
+<tr>
+<td><strong>数据库自增ID</strong></td>
+<td>简单、有序</td>
+<td>性能瓶颈、单点故障</td>
+<td>小规模、低并发场景</td>
+</tr>
+<tr>
+<td><strong>Redis自增ID</strong></td>
+<td>性能高、支持分布式</td>
+<td>依赖Redis、持久化问题</td>
+<td>中等规模、高并发场景</td>
+</tr>
+<tr>
+<td><strong>Snowflake算法</strong></td>
+<td>高性能、有序、分布式</td>
+<td>依赖机器时钟、时钟回拨问题</td>
+<td>大规模、高并发场景</td>
+</tr>
+<tr>
+<td><strong>Leaf算法</strong></td>
+<td>高性能、支持分段缓存</td>
+<td>依赖数据库、实现复杂</td>
+<td>大规模、高并发场景</td>
+</tr>
+</tbody></table></div>
+<hr>
+
+        <h3 id="三、性能优化建议"   >
+          <a href="#三、性能优化建议" class="heading-link"><i class="fas fa-link"></i></a><a href="#三、性能优化建议" class="headerlink" title="三、性能优化建议"></a>三、性能优化建议</h3>
+      <ol>
+<li><p><strong>Snowflake优化</strong>：</p>
+<ul>
+<li>使用Zookeeper或Nacos动态分配<code>workerId</code>。</li>
+<li>增加时钟回拨检测机制。</li>
+</ul>
+</li>
+<li><p><strong>Leaf-Segment优化</strong>：</p>
+<ul>
+<li>增加双Buffer机制，预加载下一个号段。</li>
+<li>使用本地缓存减少数据库访问。</li>
+</ul>
+</li>
+<li><p><strong>Redis优化</strong>：</p>
+<ul>
+<li>使用Redis集群提高可用性。</li>
+<li>设置合理的<code>INCR</code>步长，减少网络开销。</li>
+</ul>
+</li>
+</ol>
+<hr>
+
+        <h3 id="四、典型场景示例"   >
+          <a href="#四、典型场景示例" class="heading-link"><i class="fas fa-link"></i></a><a href="#四、典型场景示例" class="headerlink" title="四、典型场景示例"></a>四、典型场景示例</h3>
+      
+        <h4 id="1-电商订单ID生成"   >
+          <a href="#1-电商订单ID生成" class="heading-link"><i class="fas fa-link"></i></a><a href="#1-电商订单ID生成" class="headerlink" title="1. 电商订单ID生成"></a>1. <strong>电商订单ID生成</strong></h4>
+      <ul>
+<li>使用Snowflake算法，确保ID有序且高性能。</li>
+<li>业务标识嵌入<code>workerId</code>，便于分库分表。</li>
+</ul>
+
+        <h4 id="2-日志追踪ID生成"   >
+          <a href="#2-日志追踪ID生成" class="heading-link"><i class="fas fa-link"></i></a><a href="#2-日志追踪ID生成" class="headerlink" title="2. 日志追踪ID生成"></a>2. <strong>日志追踪ID生成</strong></h4>
+      <ul>
+<li>使用Leaf-Segment方案，支持大范围ID分配。</li>
+<li>结合业务标识（如<code>biz_tag</code>）实现多业务隔离。</li>
+</ul>
+
+        <h4 id="3-分布式锁ID生成"   >
+          <a href="#3-分布式锁ID生成" class="heading-link"><i class="fas fa-link"></i></a><a href="#3-分布式锁ID生成" class="headerlink" title="3. 分布式锁ID生成"></a>3. <strong>分布式锁ID生成</strong></h4>
+      <ul>
+<li>使用Redis自增ID，简单高效。</li>
+<li>结合<code>EXPIRE</code>命令实现锁超时机制。</li>
+</ul>
+<hr>
+<p>通过以上方案，可以根据具体业务需求选择合适的分布式ID生成策略，确保系统的高性能和高可用性。</p>
+</div><footer class="post-footer"><div class="post-ending ending"><div class="ending__text">------ 本文结束，感谢您的阅读 ------</div></div><div class="post-copyright copyright"><div class="copyright-author"><span class="copyright-author__name">本文作者: </span><span class="copyright-author__value"><a href="https://ljd0620.github.io">Liujiduo</a></span></div><div class="copyright-link"><span class="copyright-link__name">本文链接: </span><span class="copyright-link__value"><a href="https://ljd0620.github.io/2023/09/22/%E5%88%86%E5%B8%83%E5%BC%8FID%E7%94%9F%E6%88%90%E6%96%B9%E6%A1%88/">https://ljd0620.github.io/2023/09/22/%E5%88%86%E5%B8%83%E5%BC%8FID%E7%94%9F%E6%88%90%E6%96%B9%E6%A1%88/</a></span></div><div class="copyright-notice"><span class="copyright-notice__name">版权声明: </span><span class="copyright-notice__value">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en" rel="external nofollow" target="_blank">BY-NC-SA</a> 许可协议。转载请注明出处！</span></div></div><div class="post-tags"><span class="post-tags-item"><span class="post-tags-item__icon"><i class="fas fa-tag"></i></span><a class="post-tags-item__link" href="https://ljd0620.github.io/tags/%E5%88%86%E5%B8%83%E5%BC%8F/">分布式</a></span></div><nav class="post-paginator paginator"><div class="paginator-prev"><a class="paginator-prev__link" href="/2023/10/18/ES%E9%9B%86%E7%BE%A4%E5%A6%82%E4%BD%95%E5%A4%84%E7%90%86%E6%9F%A5%E8%AF%A2%E8%AF%B7%E6%B1%82/"><span class="paginator-prev__icon"><i class="fas fa-angle-left"></i></span><span class="paginator-prev__text">ES集群如何处理查询请求</span></a></div><div class="paginator-next"><a class="paginator-next__link" href="/2023/08/20/Java%E5%88%86%E5%B8%83%E5%BC%8F%E4%BA%8B%E5%8A%A1%E6%96%B9%E6%A1%88/"><span class="paginator-prev__text">Java分布式事务方案</span><span class="paginator-next__icon"><i class="fas fa-angle-right"></i></span></a></div></nav></footer></div></div></div><div class="sidebar-wrap" id="sidebar-wrap"><aside class="sidebar" id="sidebar"><div class="sidebar-nav"><span class="sidebar-nav-toc current">文章目录</span><span class="sidebar-nav-ov">站点概览</span></div><section class="sidebar-toc"><ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%80%E3%80%81%E5%B8%B8%E8%A7%81%E5%88%86%E5%B8%83%E5%BC%8FID%E7%94%9F%E6%88%90%E6%96%B9%E6%A1%88"><span class="toc-number">1.</span> <span class="toc-text">
+          一、常见分布式ID生成方案</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-UUID"><span class="toc-number">1.1.</span> <span class="toc-text">
+          1. UUID</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-%E6%95%B0%E6%8D%AE%E5%BA%93%E8%87%AA%E5%A2%9EID"><span class="toc-number">1.2.</span> <span class="toc-text">
+          2. 数据库自增ID</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-Redis%E8%87%AA%E5%A2%9EID"><span class="toc-number">1.3.</span> <span class="toc-text">
+          3. Redis自增ID</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-Snowflake%E7%AE%97%E6%B3%95"><span class="toc-number">1.4.</span> <span class="toc-text">
+          4. Snowflake算法</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#5-Leaf%E7%AE%97%E6%B3%95"><span class="toc-number">1.5.</span> <span class="toc-text">
+          5. Leaf算法</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BA%8C%E3%80%81%E6%96%B9%E6%A1%88%E5%AF%B9%E6%AF%94%E4%B8%8E%E9%80%89%E5%9E%8B%E5%BB%BA%E8%AE%AE"><span class="toc-number">2.</span> <span class="toc-text">
+          二、方案对比与选型建议</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%89%E3%80%81%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96%E5%BB%BA%E8%AE%AE"><span class="toc-number">3.</span> <span class="toc-text">
+          三、性能优化建议</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9B%9B%E3%80%81%E5%85%B8%E5%9E%8B%E5%9C%BA%E6%99%AF%E7%A4%BA%E4%BE%8B"><span class="toc-number">4.</span> <span class="toc-text">
+          四、典型场景示例</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-%E7%94%B5%E5%95%86%E8%AE%A2%E5%8D%95ID%E7%94%9F%E6%88%90"><span class="toc-number">4.1.</span> <span class="toc-text">
+          1. 电商订单ID生成</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-%E6%97%A5%E5%BF%97%E8%BF%BD%E8%B8%AAID%E7%94%9F%E6%88%90"><span class="toc-number">4.2.</span> <span class="toc-text">
+          2. 日志追踪ID生成</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81ID%E7%94%9F%E6%88%90"><span class="toc-number">4.3.</span> <span class="toc-text">
+          3. 分布式锁ID生成</span></a></li></ol></li></ol></section><!-- ov = overview--><section class="sidebar-ov hide"><div class="sidebar-ov-author"><div class="sidebar-ov-author__avatar"><img class="sidebar-ov-author__avatar_img" src="/images/avatar.jpg" alt="avatar"></div><p class="sidebar-ov-author__text">Liujiduo's Blog</p></div><div class="sidebar-ov-feed"><span class="sidebar-ov-feed-email"><a class="sidebar-ov-feed-email__link" href="mailto:liujiduo@sina.com" target="_blank" rel="noopener"><span class="sidebar-ov-feed-email__icon"><i class="fas fa-envelope"></i></span><span>Email 订阅</span></a></span><span class="sidebar-ov-feed-rss"><a class="sidebar-ov-feed-rss__link" href="/atom.xml" target="_blank" rel="noopener"><span class="sidebar-ov-feed-rss__icon"><i class="fas fa-rss"></i></span><span>RSS 订阅</span></a></span></div><div class="sidebar-ov-state"><a class="sidebar-ov-state-item sidebar-ov-state-item--posts" href="/archives/"><div class="sidebar-ov-state-item__count">36</div><div class="sidebar-ov-state-item__name">归档</div></a><a class="sidebar-ov-state-item sidebar-ov-state-item--categories" href="/categories/"><div class="sidebar-ov-state-item__count">11</div><div class="sidebar-ov-state-item__name">分类</div></a><a class="sidebar-ov-state-item sidebar-ov-state-item--tags" href="/tags/"><div class="sidebar-ov-state-item__count">32</div><div class="sidebar-ov-state-item__name">标签</div></a></div><div class="sidebar-ov-cc"><a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en" target="_blank" rel="noopener" data-popover="知识共享许可协议" data-popover-pos="up"><img src="/images/cc-by-nc-sa.svg"></a></div></section><div class="sidebar-reading"><div class="sidebar-reading-info"><span class="sidebar-reading-info__text">你已阅读了 </span><span class="sidebar-reading-info__num">0</span><span class="sidebar-reading-info__perc">%</span></div><div class="sidebar-reading-line"></div></div></aside></div><div class="clearfix"></div></div></main><footer class="footer" id="footer"><div class="footer-inner"><div><span>Copyright © 2024~2025</span><span class="footer__icon"><i class="fas fa-heart"></i></span><span>Liujiduo All Rights Reserved</span></div><div><span>由 <a href="http://hexo.io/" title="Hexo" target="_blank" rel="noopener">Hexo</a> 强力驱动</span><span> v7.3.0</span><span class="footer__devider">|</span><span>主题 - <a href="https://github.com/liuyib/hexo-theme-stun/" title="Stun" target="_blank" rel="noopener">Stun</a></span><span> v2.8.0</span></div><div class="busuanzi"></div></div></footer><div class="loading-bar" id="loading-bar"><div class="loading-bar__progress"></div></div><div class="back2top" id="back2top"><span class="back2top__icon"><i class="fas fa-rocket"></i></span></div></div><script src="https://cdn.jsdelivr.net/npm/jquery@v3.4.1/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/velocity-animate@1.5.2/velocity.min.js"></script><script src="https://cdn.jsdelivr.net/npm/velocity-animate@1.5.2/velocity.ui.min.js"></script><script src="https://cdn.jsdelivr.net/npm/ribbon.js@latest/dist/ribbon.min.js" size="120" alpha="0.6" zIndex="-1"></script><script src="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script><script src="/js/utils.js?v=2.8.0"></script><script src="/js/stun-boot.js?v=2.8.0"></script><script src="/js/scroll.js?v=2.8.0"></script><script src="/js/header.js?v=2.8.0"></script><script src="/js/sidebar.js?v=2.8.0"></script></body></html>

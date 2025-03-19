@@ -1,0 +1,329 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="format-detection" content="telephone=no"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black"><link rel="icon" href="/images/icons/favicon.ico?v=2.8.0" type="image/png" sizes="16x16"><link rel="icon" href="/images/icons/favicon.ico?v=2.8.0" type="image/png" sizes="32x32"><meta name="description" content="Elasticsearch的工作原理">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Elasticsearch的工作原理">
+<meta property="og:url" content="https://ljd0620.github.io/2023/11/05/Elasticsearch%E7%9A%84%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86/index.html">
+<meta property="og:site_name" content="Just Do IT.">
+<meta property="og:description" content="Elasticsearch的工作原理">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2023-11-05T04:22:33.000Z">
+<meta property="article:modified_time" content="2025-03-19T02:01:53.565Z">
+<meta property="article:author" content="Liujiduo">
+<meta property="article:tag" content="Elasticsearch">
+<meta name="twitter:card" content="summary"><title>Elasticsearch的工作原理 | Just Do IT.</title><link ref="canonical" href="https://ljd0620.github.io/2023/11/05/Elasticsearch%E7%9A%84%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86/"><link rel="alternate" href="/atom.xml" type="application/atom+xml"><link rel="dns-prefetch" href="https://cdn.jsdelivr.net"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.12.1/css/all.min.css" type="text/css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" type="text/css"><link rel="stylesheet" href="/css/index.css?v=2.8.0"><script>var Stun = window.Stun || {};
+var CONFIG = {
+  root: '/',
+  algolia: undefined,
+  assistSearch: undefined,
+  fontIcon: {"prompt":{"success":"fas fa-check-circle","info":"fas fa-arrow-circle-right","warning":"fas fa-exclamation-circle","error":"fas fa-times-circle"},"copyBtn":"fas fa-copy"},
+  sidebar: {"offsetTop":"20px","tocMaxDepth":6},
+  header: {"enable":true,"showOnPost":true,"scrollDownIcon":false},
+  postWidget: {"endText":true},
+  nightMode: {"enable":true},
+  back2top: {"enable":true},
+  codeblock: {"style":"carbon","highlight":"light","wordWrap":false},
+  reward: false,
+  fancybox: true,
+  zoomImage: {"gapAside":"20px"},
+  galleryWaterfall: undefined,
+  lazyload: false,
+  pjax: undefined,
+  externalLink: {"icon":{"enable":true,"name":"fas fa-external-link-alt"}},
+  shortcuts: undefined,
+  prompt: {"copyButton":"复制","copySuccess":"复制成功","copyError":"复制失败"},
+  sourcePath: {"js":"js","css":"css","images":"images"},
+};
+
+window.CONFIG = CONFIG;</script><meta name="generator" content="Hexo 7.3.0"></head><body><div class="container" id="container"><header class="header" id="header"><div class="header-inner"><nav class="header-nav header-nav--fixed"><div class="header-nav-inner"><div class="header-nav-menubtn"><i class="fas fa-bars"></i></div><div class="header-nav-menu"><div class="header-nav-menu-item"><a class="header-nav-menu-item__link" href="/"><span class="header-nav-menu-item__icon"><i class="fas fa-home"></i></span><span class="header-nav-menu-item__text">首页</span></a></div><div class="header-nav-menu-item"><a class="header-nav-menu-item__link" href="/archives/"><span class="header-nav-menu-item__icon"><i class="fas fa-folder-open"></i></span><span class="header-nav-menu-item__text">归档</span></a></div><div class="header-nav-menu-item"><a class="header-nav-menu-item__link" href="/categories/"><span class="header-nav-menu-item__icon"><i class="fas fa-layer-group"></i></span><span class="header-nav-menu-item__text">分类</span></a></div><div class="header-nav-menu-item"><a class="header-nav-menu-item__link" href="/tags/"><span class="header-nav-menu-item__icon"><i class="fas fa-tags"></i></span><span class="header-nav-menu-item__text">标签</span></a></div><div class="header-nav-menu-item"><a class="header-nav-menu-item__link" href="/about/"><span class="header-nav-menu-item__icon"><i class="fas fa-user"></i></span><span class="header-nav-menu-item__text">关于</span></a></div></div><div class="header-nav-mode"><div class="mode"><div class="mode-track"><span class="mode-track-moon"></span><span class="mode-track-sun"></span></div><div class="mode-thumb"></div></div></div></div></nav><div class="header-banner"><div class="header-banner-info"><div class="header-banner-info__title">Just Do IT.</div><div class="header-banner-info__subtitle">一个程序员的自我修养</div></div></div></div></header><main class="main" id="main"><div class="main-inner"><div class="content-wrap" id="content-wrap"><div class="content" id="content"><!-- Just used to judge whether it is an article page--><div id="is-post"></div><div class="post"><header class="post-header"><h1 class="post-title">Elasticsearch的工作原理</h1><div class="post-meta"><span class="post-meta-item post-meta-item--createtime"><span class="post-meta-item__icon"><i class="far fa-calendar-plus"></i></span><span class="post-meta-item__info">发表于</span><span class="post-meta-item__value">2023-11-05</span></span><span class="post-meta-item post-meta-item--updatetime"><span class="post-meta-item__icon"><i class="far fa-calendar-check"></i></span><span class="post-meta-item__info">更新于</span><span class="post-meta-item__value">2025-03-19</span></span><span class="post-meta-item post-meta-item--wordcount"><span class="post-meta-item__icon"><i class="far fa-file-word"></i></span><span class="post-meta-item__info">字数统计</span><span class="post-meta-item__value">1.6k</span></span><span class="post-meta-item post-meta-item--readtime"><span class="post-meta-item__icon"><i class="far fa-clock"></i></span><span class="post-meta-item__info">阅读时长</span><span class="post-meta-item__value">9分</span></span></div></header><div class="post-body"><p>Elasticsearch 是一个分布式的搜索和分析引擎，基于 Apache Lucene 构建。它能够快速地存储、搜索和分析大量数据，广泛应用于日志分析、全文搜索、实时数据分析等场景。以下是 Elasticsearch 的工作原理及其核心机制的详细解析：</p>
+<hr>
+
+        <h3 id="1-Elasticsearch-的核心概念"   >
+          <a href="#1-Elasticsearch-的核心概念" class="heading-link"><i class="fas fa-link"></i></a><a href="#1-Elasticsearch-的核心概念" class="headerlink" title="1. Elasticsearch 的核心概念"></a><strong>1. Elasticsearch 的核心概念</strong></h3>
+      <p>在理解 Elasticsearch 的工作原理之前，需要先了解其核心概念：</p>
+
+        <h4 id="1-文档（Document）"   >
+          <a href="#1-文档（Document）" class="heading-link"><i class="fas fa-link"></i></a><a href="#1-文档（Document）" class="headerlink" title="(1) 文档（Document）"></a><strong>(1) 文档（Document）</strong></h4>
+      <ul>
+<li>Elasticsearch 中的基本数据单元，类似于关系数据库中的一行记录。</li>
+<li>文档是以 JSON 格式存储的。</li>
+</ul>
+
+        <h4 id="2-索引（Index）"   >
+          <a href="#2-索引（Index）" class="heading-link"><i class="fas fa-link"></i></a><a href="#2-索引（Index）" class="headerlink" title="(2) 索引（Index）"></a><strong>(2) 索引（Index）</strong></h4>
+      <ul>
+<li>索引是文档的集合，类似于关系数据库中的表。</li>
+<li>每个索引有一个唯一的名称，用于标识和查询。</li>
+</ul>
+
+        <h4 id="3-类型（Type）（已弃用）"   >
+          <a href="#3-类型（Type）（已弃用）" class="heading-link"><i class="fas fa-link"></i></a><a href="#3-类型（Type）（已弃用）" class="headerlink" title="(3) 类型（Type）（已弃用）"></a><strong>(3) 类型（Type）</strong>（已弃用）</h4>
+      <ul>
+<li>在早期版本中，索引可以包含多个类型，类似于关系数据库中的表结构。</li>
+<li>从 Elasticsearch 7.x 开始，类型已被弃用，每个索引只能包含一个类型 <code>_doc</code>。</li>
+</ul>
+
+        <h4 id="4-分片（Shard）"   >
+          <a href="#4-分片（Shard）" class="heading-link"><i class="fas fa-link"></i></a><a href="#4-分片（Shard）" class="headerlink" title="(4) 分片（Shard）"></a><strong>(4) 分片（Shard）</strong></h4>
+      <ul>
+<li>索引可以被分成多个分片，每个分片是一个独立的 Lucene 索引。</li>
+<li>分片分为主分片（Primary Shard）和副本分片（Replica Shard）。</li>
+</ul>
+
+        <h4 id="5-节点（Node）"   >
+          <a href="#5-节点（Node）" class="heading-link"><i class="fas fa-link"></i></a><a href="#5-节点（Node）" class="headerlink" title="(5) 节点（Node）"></a><strong>(5) 节点（Node）</strong></h4>
+      <ul>
+<li>一个运行中的 Elasticsearch 实例称为节点。</li>
+<li>节点可以加入集群（Cluster），集群由一个或多个节点组成。</li>
+</ul>
+
+        <h4 id="6-集群（Cluster）"   >
+          <a href="#6-集群（Cluster）" class="heading-link"><i class="fas fa-link"></i></a><a href="#6-集群（Cluster）" class="headerlink" title="(6) 集群（Cluster）"></a><strong>(6) 集群（Cluster）</strong></h4>
+      <ul>
+<li>集群是一个或多个节点的集合，共同存储数据并提供搜索服务。</li>
+<li>集群有一个唯一的名称，默认名称为 <code>elasticsearch</code>。</li>
+</ul>
+<hr>
+
+        <h3 id="2-Elasticsearch-的工作原理"   >
+          <a href="#2-Elasticsearch-的工作原理" class="heading-link"><i class="fas fa-link"></i></a><a href="#2-Elasticsearch-的工作原理" class="headerlink" title="2. Elasticsearch 的工作原理"></a><strong>2. Elasticsearch 的工作原理</strong></h3>
+      <p>Elasticsearch 的工作原理可以分为以下几个部分：</p>
+
+        <h4 id="1-数据写入"   >
+          <a href="#1-数据写入" class="heading-link"><i class="fas fa-link"></i></a><a href="#1-数据写入" class="headerlink" title="(1) 数据写入"></a><strong>(1) 数据写入</strong></h4>
+      <ol>
+<li><strong>客户端发送请求</strong>：<ul>
+<li>客户端向 Elasticsearch 发送写入请求（如插入、更新、删除文档）。</li>
+</ul>
+</li>
+<li><strong>路由到主分片</strong>：<ul>
+<li>Elasticsearch 根据文档的 <code>_id</code> 和索引的分片数量，计算文档应存储的主分片。</li>
+</ul>
+</li>
+<li><strong>写入主分片</strong>：<ul>
+<li>主分片将文档写入 Lucene 索引，并生成倒排索引。</li>
+</ul>
+</li>
+<li><strong>同步副本分片</strong>：<ul>
+<li>主分片将数据同步到副本分片，确保数据冗余和高可用性。</li>
+</ul>
+</li>
+<li><strong>返回响应</strong>：<ul>
+<li>客户端收到写入成功的响应。</li>
+</ul>
+</li>
+</ol>
+
+        <h4 id="2-数据搜索"   >
+          <a href="#2-数据搜索" class="heading-link"><i class="fas fa-link"></i></a><a href="#2-数据搜索" class="headerlink" title="(2) 数据搜索"></a><strong>(2) 数据搜索</strong></h4>
+      <ol>
+<li><strong>客户端发送请求</strong>：<ul>
+<li>客户端向 Elasticsearch 发送搜索请求。</li>
+</ul>
+</li>
+<li><strong>路由到所有分片</strong>：<ul>
+<li>Elasticsearch 将搜索请求发送到索引的所有分片（主分片和副本分片）。</li>
+</ul>
+</li>
+<li><strong>执行搜索</strong>：<ul>
+<li>每个分片在本地执行搜索，并返回结果。</li>
+</ul>
+</li>
+<li><strong>合并结果</strong>：<ul>
+<li>Elasticsearch 将各个分片的结果合并，排序后返回给客户端。</li>
+</ul>
+</li>
+</ol>
+
+        <h4 id="3-数据存储"   >
+          <a href="#3-数据存储" class="heading-link"><i class="fas fa-link"></i></a><a href="#3-数据存储" class="headerlink" title="(3) 数据存储"></a><strong>(3) 数据存储</strong></h4>
+      <ul>
+<li>Elasticsearch 使用 Lucene 作为底层存储引擎。</li>
+<li>数据以倒排索引（Inverted Index）的形式存储，支持高效的全文搜索。</li>
+</ul>
+
+        <h4 id="4-数据分布"   >
+          <a href="#4-数据分布" class="heading-link"><i class="fas fa-link"></i></a><a href="#4-数据分布" class="headerlink" title="(4) 数据分布"></a><strong>(4) 数据分布</strong></h4>
+      <ul>
+<li>Elasticsearch 是一个分布式系统，数据分布在多个节点和分片上。</li>
+<li>通过分片和副本机制，Elasticsearch 实现了数据的高可用性和扩展性。</li>
+</ul>
+<hr>
+
+        <h3 id="3-Elasticsearch-的核心机制"   >
+          <a href="#3-Elasticsearch-的核心机制" class="heading-link"><i class="fas fa-link"></i></a><a href="#3-Elasticsearch-的核心机制" class="headerlink" title="3. Elasticsearch 的核心机制"></a><strong>3. Elasticsearch 的核心机制</strong></h3>
+      <p>以下是 Elasticsearch 的核心机制及其实现原理：</p>
+
+        <h4 id="1-倒排索引（Inverted-Index）"   >
+          <a href="#1-倒排索引（Inverted-Index）" class="heading-link"><i class="fas fa-link"></i></a><a href="#1-倒排索引（Inverted-Index）" class="headerlink" title="(1) 倒排索引（Inverted Index）"></a><strong>(1) 倒排索引（Inverted Index）</strong></h4>
+      <ul>
+<li><strong>定义</strong>：<ul>
+<li>倒排索引是一种数据结构，用于快速查找包含某个词条的文档。</li>
+<li>倒排索引由词条词典（Term Dictionary）和倒排列表（Posting List）组成。</li>
+</ul>
+</li>
+<li><strong>示例</strong>：<ul>
+<li>文档 1：<code>&#123;&quot;content&quot;: &quot;hello world&quot;&#125;</code></li>
+<li>文档 2：<code>&#123;&quot;content&quot;: &quot;hello elasticsearch&quot;&#125;</code></li>
+<li>倒排索引：<br>hello -&gt; [1, 2]<br>world -&gt; [1]<br>elasticsearch -&gt; [2]</li>
+</ul>
+</li>
+</ul>
+
+        <h4 id="2-分片和副本"   >
+          <a href="#2-分片和副本" class="heading-link"><i class="fas fa-link"></i></a><a href="#2-分片和副本" class="headerlink" title="(2) 分片和副本"></a><strong>(2) 分片和副本</strong></h4>
+      <ul>
+<li><strong>主分片（Primary Shard）</strong>：<ul>
+<li>每个索引被分成多个主分片，主分片负责数据的写入和搜索。</li>
+</ul>
+</li>
+<li><strong>副本分片（Replica Shard）</strong>：<ul>
+<li>每个主分片可以有多个副本分片，副本分片提供数据冗余和高可用性。</li>
+</ul>
+</li>
+</ul>
+
+        <h4 id="3-分布式搜索"   >
+          <a href="#3-分布式搜索" class="heading-link"><i class="fas fa-link"></i></a><a href="#3-分布式搜索" class="headerlink" title="(3) 分布式搜索"></a><strong>(3) 分布式搜索</strong></h4>
+      <ul>
+<li><strong>查询阶段（Query Phase）</strong>：<ul>
+<li>客户端发送搜索请求，Elasticsearch 将请求路由到所有分片。</li>
+<li>每个分片在本地执行搜索，并返回结果。</li>
+</ul>
+</li>
+<li><strong>取回阶段（Fetch Phase）</strong>：<ul>
+<li>Elasticsearch 将各个分片的结果合并，排序后返回给客户端。</li>
+</ul>
+</li>
+</ul>
+
+        <h4 id="4-近实时搜索（Near-Real-Time-Search）"   >
+          <a href="#4-近实时搜索（Near-Real-Time-Search）" class="heading-link"><i class="fas fa-link"></i></a><a href="#4-近实时搜索（Near-Real-Time-Search）" class="headerlink" title="(4) 近实时搜索（Near Real-Time Search）"></a><strong>(4) 近实时搜索（Near Real-Time Search）</strong></h4>
+      <ul>
+<li><strong>刷新（Refresh）</strong>：<ul>
+<li>Elasticsearch 默认每隔 1 秒刷新一次索引，使新写入的文档可被搜索。</li>
+</ul>
+</li>
+<li><strong>事务日志（Translog）</strong>：<ul>
+<li>事务日志用于保证数据的持久性，在刷新索引之前，数据会先写入事务日志。</li>
+</ul>
+</li>
+</ul>
+
+        <h4 id="5-集群发现和选举"   >
+          <a href="#5-集群发现和选举" class="heading-link"><i class="fas fa-link"></i></a><a href="#5-集群发现和选举" class="headerlink" title="(5) 集群发现和选举"></a><strong>(5) 集群发现和选举</strong></h4>
+      <ul>
+<li><strong>集群发现</strong>：<ul>
+<li>Elasticsearch 使用 Zen Discovery 机制发现集群中的节点。</li>
+</ul>
+</li>
+<li><strong>主节点选举</strong>：<ul>
+<li>集群中的节点通过选举产生主节点（Master Node），主节点负责管理集群状态。</li>
+</ul>
+</li>
+</ul>
+<hr>
+
+        <h3 id="4-Elasticsearch-的架构"   >
+          <a href="#4-Elasticsearch-的架构" class="heading-link"><i class="fas fa-link"></i></a><a href="#4-Elasticsearch-的架构" class="headerlink" title="4. Elasticsearch 的架构"></a><strong>4. Elasticsearch 的架构</strong></h3>
+      <p>Elasticsearch 的架构可以分为以下几个部分：</p>
+
+        <h4 id="1-客户端节点（Client-Node）"   >
+          <a href="#1-客户端节点（Client-Node）" class="heading-link"><i class="fas fa-link"></i></a><a href="#1-客户端节点（Client-Node）" class="headerlink" title="(1) 客户端节点（Client Node）"></a><strong>(1) 客户端节点（Client Node）</strong></h4>
+      <ul>
+<li>负责接收客户端的请求，并将请求路由到数据节点。</li>
+</ul>
+
+        <h4 id="2-数据节点（Data-Node）"   >
+          <a href="#2-数据节点（Data-Node）" class="heading-link"><i class="fas fa-link"></i></a><a href="#2-数据节点（Data-Node）" class="headerlink" title="(2) 数据节点（Data Node）"></a><strong>(2) 数据节点（Data Node）</strong></h4>
+      <ul>
+<li>负责存储数据，并执行搜索和聚合操作。</li>
+</ul>
+
+        <h4 id="3-主节点（Master-Node）"   >
+          <a href="#3-主节点（Master-Node）" class="heading-link"><i class="fas fa-link"></i></a><a href="#3-主节点（Master-Node）" class="headerlink" title="(3) 主节点（Master Node）"></a><strong>(3) 主节点（Master Node）</strong></h4>
+      <ul>
+<li>负责管理集群状态，如创建索引、分配分片等。</li>
+</ul>
+
+        <h4 id="4-协调节点（Coordinating-Node）"   >
+          <a href="#4-协调节点（Coordinating-Node）" class="heading-link"><i class="fas fa-link"></i></a><a href="#4-协调节点（Coordinating-Node）" class="headerlink" title="(4) 协调节点（Coordinating Node）"></a><strong>(4) 协调节点（Coordinating Node）</strong></h4>
+      <ul>
+<li>负责协调搜索请求，合并各个分片的结果。</li>
+</ul>
+<hr>
+
+        <h3 id="5-Elasticsearch-的示例"   >
+          <a href="#5-Elasticsearch-的示例" class="heading-link"><i class="fas fa-link"></i></a><a href="#5-Elasticsearch-的示例" class="headerlink" title="5. Elasticsearch 的示例"></a><strong>5. Elasticsearch 的示例</strong></h3>
+      <p>以下是一个简单的 Elasticsearch 示例：</p>
+
+        <h4 id="1-创建索引"   >
+          <a href="#1-创建索引" class="heading-link"><i class="fas fa-link"></i></a><a href="#1-创建索引" class="headerlink" title="(1) 创建索引"></a><strong>(1) 创建索引</strong></h4>
+      <figure class="highlight bash"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">PUT /my_index</span><br><span class="line">&#123;</span><br><span class="line">  <span class="string">&quot;settings&quot;</span>: &#123;</span><br><span class="line">    <span class="string">&quot;number_of_shards&quot;</span>: 3,</span><br><span class="line">    <span class="string">&quot;number_of_replicas&quot;</span>: 1</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></div></figure>
+
+
+        <h4 id="2-插入文档"   >
+          <a href="#2-插入文档" class="heading-link"><i class="fas fa-link"></i></a><a href="#2-插入文档" class="headerlink" title="(2) 插入文档"></a><strong>(2) 插入文档</strong></h4>
+      <figure class="highlight bash"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">POST /my_index/_doc/1</span><br><span class="line">&#123;</span><br><span class="line">  <span class="string">&quot;name&quot;</span>: <span class="string">&quot;John Doe&quot;</span>,</span><br><span class="line">  <span class="string">&quot;age&quot;</span>: 30</span><br><span class="line">&#125;</span><br></pre></td></tr></table></div></figure>
+
+
+        <h4 id="3-搜索文档"   >
+          <a href="#3-搜索文档" class="heading-link"><i class="fas fa-link"></i></a><a href="#3-搜索文档" class="headerlink" title="(3) 搜索文档"></a><strong>(3) 搜索文档</strong></h4>
+      <figure class="highlight bash"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">GET /my_index/_search</span><br><span class="line">&#123;</span><br><span class="line">  <span class="string">&quot;query&quot;</span>: &#123;</span><br><span class="line">    <span class="string">&quot;match&quot;</span>: &#123;</span><br><span class="line">      <span class="string">&quot;name&quot;</span>: <span class="string">&quot;John&quot;</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></div></figure>
+
+<hr>
+
+        <h3 id="6-Elasticsearch-的优缺点"   >
+          <a href="#6-Elasticsearch-的优缺点" class="heading-link"><i class="fas fa-link"></i></a><a href="#6-Elasticsearch-的优缺点" class="headerlink" title="6. Elasticsearch 的优缺点"></a><strong>6. Elasticsearch 的优缺点</strong></h3>
+      
+        <h4 id="1-优点"   >
+          <a href="#1-优点" class="heading-link"><i class="fas fa-link"></i></a><a href="#1-优点" class="headerlink" title="(1) 优点"></a><strong>(1) 优点</strong></h4>
+      <ul>
+<li><strong>高性能</strong>：支持快速的全文搜索和实时数据分析。</li>
+<li><strong>分布式</strong>：支持水平扩展，适合处理大规模数据。</li>
+<li><strong>高可用性</strong>：通过分片和副本机制，确保数据的高可用性。</li>
+<li><strong>易用性</strong>：提供 RESTful API，易于集成和使用。</li>
+</ul>
+
+        <h4 id="2-缺点"   >
+          <a href="#2-缺点" class="heading-link"><i class="fas fa-link"></i></a><a href="#2-缺点" class="headerlink" title="(2) 缺点"></a><strong>(2) 缺点</strong></h4>
+      <ul>
+<li><strong>资源消耗</strong>：Elasticsearch 对内存和 CPU 的需求较高。</li>
+<li><strong>复杂性</strong>：分布式系统的管理和维护较为复杂。</li>
+<li><strong>数据一致性</strong>：在分布式环境下，数据一致性可能受到影响。</li>
+</ul>
+<hr>
+
+        <h3 id="总结"   >
+          <a href="#总结" class="heading-link"><i class="fas fa-link"></i></a><a href="#总结" class="headerlink" title="总结"></a><strong>总结</strong></h3>
+      <p>Elasticsearch 是一个强大的分布式搜索和分析引擎，基于倒排索引和分布式架构，能够快速处理大规模数据。其核心机制包括倒排索引、分片和副本、分布式搜索、近实时搜索等。理解 Elasticsearch 的工作原理及其核心机制，有助于更好地使用和优化 Elasticsearch。</p>
+</div><footer class="post-footer"><div class="post-ending ending"><div class="ending__text">------ 本文结束，感谢您的阅读 ------</div></div><div class="post-copyright copyright"><div class="copyright-author"><span class="copyright-author__name">本文作者: </span><span class="copyright-author__value"><a href="https://ljd0620.github.io">Liujiduo</a></span></div><div class="copyright-link"><span class="copyright-link__name">本文链接: </span><span class="copyright-link__value"><a href="https://ljd0620.github.io/2023/11/05/Elasticsearch%E7%9A%84%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86/">https://ljd0620.github.io/2023/11/05/Elasticsearch%E7%9A%84%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86/</a></span></div><div class="copyright-notice"><span class="copyright-notice__name">版权声明: </span><span class="copyright-notice__value">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en" rel="external nofollow" target="_blank">BY-NC-SA</a> 许可协议。转载请注明出处！</span></div></div><div class="post-tags"><span class="post-tags-item"><span class="post-tags-item__icon"><i class="fas fa-tag"></i></span><a class="post-tags-item__link" href="https://ljd0620.github.io/tags/Elasticsearch/">Elasticsearch</a></span></div><nav class="post-paginator paginator"><div class="paginator-prev"><a class="paginator-prev__link" href="/2023/12/10/JVM%E6%80%A7%E8%83%BD%E8%B0%83%E4%BC%98%E7%AD%96%E7%95%A5/"><span class="paginator-prev__icon"><i class="fas fa-angle-left"></i></span><span class="paginator-prev__text">JVM性能调优策略</span></a></div><div class="paginator-next"><a class="paginator-next__link" href="/2023/10/18/ES%E9%9B%86%E7%BE%A4%E5%A6%82%E4%BD%95%E5%A4%84%E7%90%86%E6%9F%A5%E8%AF%A2%E8%AF%B7%E6%B1%82/"><span class="paginator-prev__text">ES集群如何处理查询请求</span><span class="paginator-next__icon"><i class="fas fa-angle-right"></i></span></a></div></nav></footer></div></div></div><div class="sidebar-wrap" id="sidebar-wrap"><aside class="sidebar" id="sidebar"><div class="sidebar-nav"><span class="sidebar-nav-toc current">文章目录</span><span class="sidebar-nav-ov">站点概览</span></div><section class="sidebar-toc"><ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-Elasticsearch-%E7%9A%84%E6%A0%B8%E5%BF%83%E6%A6%82%E5%BF%B5"><span class="toc-number">1.</span> <span class="toc-text">
+          1. Elasticsearch 的核心概念</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-%E6%96%87%E6%A1%A3%EF%BC%88Document%EF%BC%89"><span class="toc-number">1.1.</span> <span class="toc-text">
+          (1) 文档（Document）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-%E7%B4%A2%E5%BC%95%EF%BC%88Index%EF%BC%89"><span class="toc-number">1.2.</span> <span class="toc-text">
+          (2) 索引（Index）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-%E7%B1%BB%E5%9E%8B%EF%BC%88Type%EF%BC%89%EF%BC%88%E5%B7%B2%E5%BC%83%E7%94%A8%EF%BC%89"><span class="toc-number">1.3.</span> <span class="toc-text">
+          (3) 类型（Type）（已弃用）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-%E5%88%86%E7%89%87%EF%BC%88Shard%EF%BC%89"><span class="toc-number">1.4.</span> <span class="toc-text">
+          (4) 分片（Shard）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#5-%E8%8A%82%E7%82%B9%EF%BC%88Node%EF%BC%89"><span class="toc-number">1.5.</span> <span class="toc-text">
+          (5) 节点（Node）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#6-%E9%9B%86%E7%BE%A4%EF%BC%88Cluster%EF%BC%89"><span class="toc-number">1.6.</span> <span class="toc-text">
+          (6) 集群（Cluster）</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-Elasticsearch-%E7%9A%84%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86"><span class="toc-number">2.</span> <span class="toc-text">
+          2. Elasticsearch 的工作原理</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-%E6%95%B0%E6%8D%AE%E5%86%99%E5%85%A5"><span class="toc-number">2.1.</span> <span class="toc-text">
+          (1) 数据写入</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-%E6%95%B0%E6%8D%AE%E6%90%9C%E7%B4%A2"><span class="toc-number">2.2.</span> <span class="toc-text">
+          (2) 数据搜索</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-%E6%95%B0%E6%8D%AE%E5%AD%98%E5%82%A8"><span class="toc-number">2.3.</span> <span class="toc-text">
+          (3) 数据存储</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-%E6%95%B0%E6%8D%AE%E5%88%86%E5%B8%83"><span class="toc-number">2.4.</span> <span class="toc-text">
+          (4) 数据分布</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-Elasticsearch-%E7%9A%84%E6%A0%B8%E5%BF%83%E6%9C%BA%E5%88%B6"><span class="toc-number">3.</span> <span class="toc-text">
+          3. Elasticsearch 的核心机制</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-%E5%80%92%E6%8E%92%E7%B4%A2%E5%BC%95%EF%BC%88Inverted-Index%EF%BC%89"><span class="toc-number">3.1.</span> <span class="toc-text">
+          (1) 倒排索引（Inverted Index）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-%E5%88%86%E7%89%87%E5%92%8C%E5%89%AF%E6%9C%AC"><span class="toc-number">3.2.</span> <span class="toc-text">
+          (2) 分片和副本</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-%E5%88%86%E5%B8%83%E5%BC%8F%E6%90%9C%E7%B4%A2"><span class="toc-number">3.3.</span> <span class="toc-text">
+          (3) 分布式搜索</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-%E8%BF%91%E5%AE%9E%E6%97%B6%E6%90%9C%E7%B4%A2%EF%BC%88Near-Real-Time-Search%EF%BC%89"><span class="toc-number">3.4.</span> <span class="toc-text">
+          (4) 近实时搜索（Near Real-Time Search）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#5-%E9%9B%86%E7%BE%A4%E5%8F%91%E7%8E%B0%E5%92%8C%E9%80%89%E4%B8%BE"><span class="toc-number">3.5.</span> <span class="toc-text">
+          (5) 集群发现和选举</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-Elasticsearch-%E7%9A%84%E6%9E%B6%E6%9E%84"><span class="toc-number">4.</span> <span class="toc-text">
+          4. Elasticsearch 的架构</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-%E5%AE%A2%E6%88%B7%E7%AB%AF%E8%8A%82%E7%82%B9%EF%BC%88Client-Node%EF%BC%89"><span class="toc-number">4.1.</span> <span class="toc-text">
+          (1) 客户端节点（Client Node）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-%E6%95%B0%E6%8D%AE%E8%8A%82%E7%82%B9%EF%BC%88Data-Node%EF%BC%89"><span class="toc-number">4.2.</span> <span class="toc-text">
+          (2) 数据节点（Data Node）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-%E4%B8%BB%E8%8A%82%E7%82%B9%EF%BC%88Master-Node%EF%BC%89"><span class="toc-number">4.3.</span> <span class="toc-text">
+          (3) 主节点（Master Node）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-%E5%8D%8F%E8%B0%83%E8%8A%82%E7%82%B9%EF%BC%88Coordinating-Node%EF%BC%89"><span class="toc-number">4.4.</span> <span class="toc-text">
+          (4) 协调节点（Coordinating Node）</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-Elasticsearch-%E7%9A%84%E7%A4%BA%E4%BE%8B"><span class="toc-number">5.</span> <span class="toc-text">
+          5. Elasticsearch 的示例</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-%E5%88%9B%E5%BB%BA%E7%B4%A2%E5%BC%95"><span class="toc-number">5.1.</span> <span class="toc-text">
+          (1) 创建索引</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-%E6%8F%92%E5%85%A5%E6%96%87%E6%A1%A3"><span class="toc-number">5.2.</span> <span class="toc-text">
+          (2) 插入文档</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-%E6%90%9C%E7%B4%A2%E6%96%87%E6%A1%A3"><span class="toc-number">5.3.</span> <span class="toc-text">
+          (3) 搜索文档</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-Elasticsearch-%E7%9A%84%E4%BC%98%E7%BC%BA%E7%82%B9"><span class="toc-number">6.</span> <span class="toc-text">
+          6. Elasticsearch 的优缺点</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-%E4%BC%98%E7%82%B9"><span class="toc-number">6.1.</span> <span class="toc-text">
+          (1) 优点</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-%E7%BC%BA%E7%82%B9"><span class="toc-number">6.2.</span> <span class="toc-text">
+          (2) 缺点</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-number">7.</span> <span class="toc-text">
+          总结</span></a></li></ol></section><!-- ov = overview--><section class="sidebar-ov hide"><div class="sidebar-ov-author"><div class="sidebar-ov-author__avatar"><img class="sidebar-ov-author__avatar_img" src="/images/avatar.jpg" alt="avatar"></div><p class="sidebar-ov-author__text">Liujiduo's Blog</p></div><div class="sidebar-ov-feed"><span class="sidebar-ov-feed-email"><a class="sidebar-ov-feed-email__link" href="mailto:liujiduo@sina.com" target="_blank" rel="noopener"><span class="sidebar-ov-feed-email__icon"><i class="fas fa-envelope"></i></span><span>Email 订阅</span></a></span><span class="sidebar-ov-feed-rss"><a class="sidebar-ov-feed-rss__link" href="/atom.xml" target="_blank" rel="noopener"><span class="sidebar-ov-feed-rss__icon"><i class="fas fa-rss"></i></span><span>RSS 订阅</span></a></span></div><div class="sidebar-ov-state"><a class="sidebar-ov-state-item sidebar-ov-state-item--posts" href="/archives/"><div class="sidebar-ov-state-item__count">36</div><div class="sidebar-ov-state-item__name">归档</div></a><a class="sidebar-ov-state-item sidebar-ov-state-item--categories" href="/categories/"><div class="sidebar-ov-state-item__count">11</div><div class="sidebar-ov-state-item__name">分类</div></a><a class="sidebar-ov-state-item sidebar-ov-state-item--tags" href="/tags/"><div class="sidebar-ov-state-item__count">32</div><div class="sidebar-ov-state-item__name">标签</div></a></div><div class="sidebar-ov-cc"><a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en" target="_blank" rel="noopener" data-popover="知识共享许可协议" data-popover-pos="up"><img src="/images/cc-by-nc-sa.svg"></a></div></section><div class="sidebar-reading"><div class="sidebar-reading-info"><span class="sidebar-reading-info__text">你已阅读了 </span><span class="sidebar-reading-info__num">0</span><span class="sidebar-reading-info__perc">%</span></div><div class="sidebar-reading-line"></div></div></aside></div><div class="clearfix"></div></div></main><footer class="footer" id="footer"><div class="footer-inner"><div><span>Copyright © 2024~2025</span><span class="footer__icon"><i class="fas fa-heart"></i></span><span>Liujiduo All Rights Reserved</span></div><div><span>由 <a href="http://hexo.io/" title="Hexo" target="_blank" rel="noopener">Hexo</a> 强力驱动</span><span> v7.3.0</span><span class="footer__devider">|</span><span>主题 - <a href="https://github.com/liuyib/hexo-theme-stun/" title="Stun" target="_blank" rel="noopener">Stun</a></span><span> v2.8.0</span></div><div class="busuanzi"></div></div></footer><div class="loading-bar" id="loading-bar"><div class="loading-bar__progress"></div></div><div class="back2top" id="back2top"><span class="back2top__icon"><i class="fas fa-rocket"></i></span></div></div><script src="https://cdn.jsdelivr.net/npm/jquery@v3.4.1/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/velocity-animate@1.5.2/velocity.min.js"></script><script src="https://cdn.jsdelivr.net/npm/velocity-animate@1.5.2/velocity.ui.min.js"></script><script src="https://cdn.jsdelivr.net/npm/ribbon.js@latest/dist/ribbon.min.js" size="120" alpha="0.6" zIndex="-1"></script><script src="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script><script src="/js/utils.js?v=2.8.0"></script><script src="/js/stun-boot.js?v=2.8.0"></script><script src="/js/scroll.js?v=2.8.0"></script><script src="/js/header.js?v=2.8.0"></script><script src="/js/sidebar.js?v=2.8.0"></script></body></html>

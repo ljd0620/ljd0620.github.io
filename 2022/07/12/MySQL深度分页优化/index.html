@@ -1,0 +1,259 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="format-detection" content="telephone=no"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black"><link rel="icon" href="/images/icons/favicon.ico?v=2.8.0" type="image/png" sizes="16x16"><link rel="icon" href="/images/icons/favicon.ico?v=2.8.0" type="image/png" sizes="32x32"><meta name="description" content="MySQL深度分页优化">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MySQL深度分页优化">
+<meta property="og:url" content="https://ljd0620.github.io/2022/07/12/MySQL%E6%B7%B1%E5%BA%A6%E5%88%86%E9%A1%B5%E4%BC%98%E5%8C%96/index.html">
+<meta property="og:site_name" content="Just Do IT.">
+<meta property="og:description" content="MySQL深度分页优化">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2022-07-12T04:32:07.000Z">
+<meta property="article:modified_time" content="2025-03-19T02:02:39.551Z">
+<meta property="article:author" content="Liujiduo">
+<meta property="article:tag" content="MySQL">
+<meta name="twitter:card" content="summary"><title>MySQL深度分页优化 | Just Do IT.</title><link ref="canonical" href="https://ljd0620.github.io/2022/07/12/MySQL%E6%B7%B1%E5%BA%A6%E5%88%86%E9%A1%B5%E4%BC%98%E5%8C%96/"><link rel="alternate" href="/atom.xml" type="application/atom+xml"><link rel="dns-prefetch" href="https://cdn.jsdelivr.net"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.12.1/css/all.min.css" type="text/css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" type="text/css"><link rel="stylesheet" href="/css/index.css?v=2.8.0"><script>var Stun = window.Stun || {};
+var CONFIG = {
+  root: '/',
+  algolia: undefined,
+  assistSearch: undefined,
+  fontIcon: {"prompt":{"success":"fas fa-check-circle","info":"fas fa-arrow-circle-right","warning":"fas fa-exclamation-circle","error":"fas fa-times-circle"},"copyBtn":"fas fa-copy"},
+  sidebar: {"offsetTop":"20px","tocMaxDepth":6},
+  header: {"enable":true,"showOnPost":true,"scrollDownIcon":false},
+  postWidget: {"endText":true},
+  nightMode: {"enable":true},
+  back2top: {"enable":true},
+  codeblock: {"style":"carbon","highlight":"light","wordWrap":false},
+  reward: false,
+  fancybox: true,
+  zoomImage: {"gapAside":"20px"},
+  galleryWaterfall: undefined,
+  lazyload: false,
+  pjax: undefined,
+  externalLink: {"icon":{"enable":true,"name":"fas fa-external-link-alt"}},
+  shortcuts: undefined,
+  prompt: {"copyButton":"复制","copySuccess":"复制成功","copyError":"复制失败"},
+  sourcePath: {"js":"js","css":"css","images":"images"},
+};
+
+window.CONFIG = CONFIG;</script><meta name="generator" content="Hexo 7.3.0"></head><body><div class="container" id="container"><header class="header" id="header"><div class="header-inner"><nav class="header-nav header-nav--fixed"><div class="header-nav-inner"><div class="header-nav-menubtn"><i class="fas fa-bars"></i></div><div class="header-nav-menu"><div class="header-nav-menu-item"><a class="header-nav-menu-item__link" href="/"><span class="header-nav-menu-item__icon"><i class="fas fa-home"></i></span><span class="header-nav-menu-item__text">首页</span></a></div><div class="header-nav-menu-item"><a class="header-nav-menu-item__link" href="/archives/"><span class="header-nav-menu-item__icon"><i class="fas fa-folder-open"></i></span><span class="header-nav-menu-item__text">归档</span></a></div><div class="header-nav-menu-item"><a class="header-nav-menu-item__link" href="/categories/"><span class="header-nav-menu-item__icon"><i class="fas fa-layer-group"></i></span><span class="header-nav-menu-item__text">分类</span></a></div><div class="header-nav-menu-item"><a class="header-nav-menu-item__link" href="/tags/"><span class="header-nav-menu-item__icon"><i class="fas fa-tags"></i></span><span class="header-nav-menu-item__text">标签</span></a></div><div class="header-nav-menu-item"><a class="header-nav-menu-item__link" href="/about/"><span class="header-nav-menu-item__icon"><i class="fas fa-user"></i></span><span class="header-nav-menu-item__text">关于</span></a></div></div><div class="header-nav-mode"><div class="mode"><div class="mode-track"><span class="mode-track-moon"></span><span class="mode-track-sun"></span></div><div class="mode-thumb"></div></div></div></div></nav><div class="header-banner"><div class="header-banner-info"><div class="header-banner-info__title">Just Do IT.</div><div class="header-banner-info__subtitle">一个程序员的自我修养</div></div></div></div></header><main class="main" id="main"><div class="main-inner"><div class="content-wrap" id="content-wrap"><div class="content" id="content"><!-- Just used to judge whether it is an article page--><div id="is-post"></div><div class="post"><header class="post-header"><h1 class="post-title">MySQL深度分页优化</h1><div class="post-meta"><span class="post-meta-item post-meta-item--createtime"><span class="post-meta-item__icon"><i class="far fa-calendar-plus"></i></span><span class="post-meta-item__info">发表于</span><span class="post-meta-item__value">2022-07-12</span></span><span class="post-meta-item post-meta-item--updatetime"><span class="post-meta-item__icon"><i class="far fa-calendar-check"></i></span><span class="post-meta-item__info">更新于</span><span class="post-meta-item__value">2025-03-19</span></span><span class="post-meta-item post-meta-item--wordcount"><span class="post-meta-item__icon"><i class="far fa-file-word"></i></span><span class="post-meta-item__info">字数统计</span><span class="post-meta-item__value">1.3k</span></span><span class="post-meta-item post-meta-item--readtime"><span class="post-meta-item__icon"><i class="far fa-clock"></i></span><span class="post-meta-item__info">阅读时长</span><span class="post-meta-item__value">7分</span></span></div></header><div class="post-body"><p>在 MySQL 中，深度分页（Deep Pagination）通常是指查询结果的分页参数 <code>OFFSET</code> 值较大的情况（例如 <code>LIMIT 10000, 20</code>）。深度分页会导致性能问题，因为 MySQL 需要扫描并跳过大量的行，这会消耗大量的 I&#x2F;O 和 CPU 资源。以下是优化 MySQL 深度分页性能的几种常见策略：</p>
+<hr>
+
+        <h3 id="1-避免深度分页"   >
+          <a href="#1-避免深度分页" class="heading-link"><i class="fas fa-link"></i></a><a href="#1-避免深度分页" class="headerlink" title="1. 避免深度分页"></a><strong>1. 避免深度分页</strong></h3>
+      <p>深度分页通常不是用户实际需要的场景。可以通过以下方式避免深度分页：</p>
+<ul>
+<li><strong>限制分页深度</strong>：<ul>
+<li>在前端或 API 层面限制 <code>OFFSET</code> 的最大值（例如 <code>OFFSET &lt;= 1000</code>）。</li>
+</ul>
+</li>
+<li><strong>优化用户体验</strong>：<ul>
+<li>提供更精确的搜索条件，减少结果集的大小。</li>
+<li>使用排序和过滤条件，帮助用户快速定位所需数据。</li>
+</ul>
+</li>
+</ul>
+<hr>
+
+        <h3 id="2-使用基于游标的分页（Cursor-based-Pagination）"   >
+          <a href="#2-使用基于游标的分页（Cursor-based-Pagination）" class="heading-link"><i class="fas fa-link"></i></a><a href="#2-使用基于游标的分页（Cursor-based-Pagination）" class="headerlink" title="2. 使用基于游标的分页（Cursor-based Pagination）"></a><strong>2. 使用基于游标的分页（Cursor-based Pagination）</strong></h3>
+      <p>基于游标的分页是一种高效的分页方式，适合深度分页场景。它通过记录上一页最后一条记录的标识（如主键或时间戳）来获取下一页数据，避免了传统分页的性能问题。</p>
+
+        <h4 id="使用方法："   >
+          <a href="#使用方法：" class="heading-link"><i class="fas fa-link"></i></a><a href="#使用方法：" class="headerlink" title="使用方法："></a><strong>使用方法</strong>：</h4>
+      <ol>
+<li>在查询中指定排序字段（必须包含唯一字段，如主键）。</li>
+<li>使用 <code>WHERE</code> 条件过滤出大于上一页最后一条记录的值。</li>
+</ol>
+
+        <h4 id="示例："   >
+          <a href="#示例：" class="heading-link"><i class="fas fa-link"></i></a><a href="#示例：" class="headerlink" title="示例："></a><strong>示例</strong>：</h4>
+      <p>假设表结构如下：</p>
+<figure class="highlight sql"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE TABLE</span> users (</span><br><span class="line">    id <span class="type">INT</span> <span class="keyword">PRIMARY KEY</span>,</span><br><span class="line">    name <span class="type">VARCHAR</span>(<span class="number">100</span>),</span><br><span class="line">    created_at <span class="type">TIMESTAMP</span></span><br><span class="line">);</span><br></pre></td></tr></table></div></figure>
+
+<p>传统分页查询：</p>
+<figure class="highlight sql"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> users</span><br><span class="line"><span class="keyword">ORDER</span> <span class="keyword">BY</span> created_at <span class="keyword">DESC</span>, id <span class="keyword">DESC</span></span><br><span class="line">LIMIT <span class="number">10000</span>, <span class="number">20</span>;</span><br></pre></td></tr></table></div></figure>
+
+<p>基于游标的分页查询：</p>
+<figure class="highlight sql"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> users</span><br><span class="line"><span class="keyword">WHERE</span> created_at <span class="operator">&lt;</span> <span class="string">&#x27;2023-10-01 12:00:00&#x27;</span> <span class="keyword">AND</span> id <span class="operator">&lt;</span> <span class="number">10000</span></span><br><span class="line"><span class="keyword">ORDER</span> <span class="keyword">BY</span> created_at <span class="keyword">DESC</span>, id <span class="keyword">DESC</span></span><br><span class="line">LIMIT <span class="number">20</span>;</span><br></pre></td></tr></table></div></figure>
+
+
+        <h4 id="优点："   >
+          <a href="#优点：" class="heading-link"><i class="fas fa-link"></i></a><a href="#优点：" class="headerlink" title="优点："></a><strong>优点</strong>：</h4>
+      <ul>
+<li>避免了 <code>OFFSET</code> 的性能瓶颈。</li>
+<li>适合深度分页和实时数据查询。</li>
+</ul>
+
+        <h4 id="缺点："   >
+          <a href="#缺点：" class="heading-link"><i class="fas fa-link"></i></a><a href="#缺点：" class="headerlink" title="缺点："></a><strong>缺点</strong>：</h4>
+      <ul>
+<li>需要客户端维护游标状态。</li>
+<li>不支持跳转到任意页码。</li>
+</ul>
+<hr>
+
+        <h3 id="3-使用覆盖索引（Covering-Index）"   >
+          <a href="#3-使用覆盖索引（Covering-Index）" class="heading-link"><i class="fas fa-link"></i></a><a href="#3-使用覆盖索引（Covering-Index）" class="headerlink" title="3. 使用覆盖索引（Covering Index）"></a><strong>3. 使用覆盖索引（Covering Index）</strong></h3>
+      <p>覆盖索引是指索引包含了查询所需的所有字段，避免了回表操作（即不需要访问数据行）。通过使用覆盖索引，可以减少 I&#x2F;O 操作，提高查询性能。</p>
+
+        <h4 id="示例：-1"   >
+          <a href="#示例：-1" class="heading-link"><i class="fas fa-link"></i></a><a href="#示例：-1" class="headerlink" title="示例："></a><strong>示例</strong>：</h4>
+      <p>假设查询需要 <code>id</code> 和 <code>name</code> 字段：</p>
+<figure class="highlight sql"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> id, name <span class="keyword">FROM</span> users</span><br><span class="line"><span class="keyword">ORDER</span> <span class="keyword">BY</span> created_at <span class="keyword">DESC</span></span><br><span class="line">LIMIT <span class="number">10000</span>, <span class="number">20</span>;</span><br></pre></td></tr></table></div></figure>
+
+<p>创建覆盖索引：</p>
+<figure class="highlight sql"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> INDEX idx_users_created_at <span class="keyword">ON</span> users (created_at <span class="keyword">DESC</span>, id, name);</span><br></pre></td></tr></table></div></figure>
+
+<p>优化后的查询：</p>
+<figure class="highlight sql"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> id, name <span class="keyword">FROM</span> users</span><br><span class="line">USE INDEX (idx_users_created_at)</span><br><span class="line"><span class="keyword">ORDER</span> <span class="keyword">BY</span> created_at <span class="keyword">DESC</span></span><br><span class="line">LIMIT <span class="number">10000</span>, <span class="number">20</span>;</span><br></pre></td></tr></table></div></figure>
+
+
+        <h4 id="优点：-1"   >
+          <a href="#优点：-1" class="heading-link"><i class="fas fa-link"></i></a><a href="#优点：-1" class="headerlink" title="优点："></a><strong>优点</strong>：</h4>
+      <ul>
+<li>减少回表操作，提高查询性能。</li>
+<li>适合查询字段较少的情况。</li>
+</ul>
+
+        <h4 id="缺点：-1"   >
+          <a href="#缺点：-1" class="heading-link"><i class="fas fa-link"></i></a><a href="#缺点：-1" class="headerlink" title="缺点："></a><strong>缺点</strong>：</h4>
+      <ul>
+<li>索引占用更多的存储空间。</li>
+<li>不适合查询字段较多的情况。</li>
+</ul>
+<hr>
+
+        <h3 id="4-使用子查询优化"   >
+          <a href="#4-使用子查询优化" class="heading-link"><i class="fas fa-link"></i></a><a href="#4-使用子查询优化" class="headerlink" title="4. 使用子查询优化"></a><strong>4. 使用子查询优化</strong></h3>
+      <p>通过子查询先获取主键，然后再根据主键查询数据，可以减少需要扫描的数据量。</p>
+
+        <h4 id="示例：-2"   >
+          <a href="#示例：-2" class="heading-link"><i class="fas fa-link"></i></a><a href="#示例：-2" class="headerlink" title="示例："></a><strong>示例</strong>：</h4>
+      <figure class="highlight sql"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> users</span><br><span class="line"><span class="keyword">WHERE</span> id <span class="keyword">IN</span> (</span><br><span class="line">    <span class="keyword">SELECT</span> id <span class="keyword">FROM</span> users</span><br><span class="line">    <span class="keyword">ORDER</span> <span class="keyword">BY</span> created_at <span class="keyword">DESC</span></span><br><span class="line">    LIMIT <span class="number">10000</span>, <span class="number">20</span></span><br><span class="line">);</span><br></pre></td></tr></table></div></figure>
+
+
+        <h4 id="优点：-2"   >
+          <a href="#优点：-2" class="heading-link"><i class="fas fa-link"></i></a><a href="#优点：-2" class="headerlink" title="优点："></a><strong>优点</strong>：</h4>
+      <ul>
+<li>减少需要扫描的数据量。</li>
+<li>适合主键较小的表。</li>
+</ul>
+
+        <h4 id="缺点：-2"   >
+          <a href="#缺点：-2" class="heading-link"><i class="fas fa-link"></i></a><a href="#缺点：-2" class="headerlink" title="缺点："></a><strong>缺点</strong>：</h4>
+      <ul>
+<li>子查询的性能依赖于索引的设计。</li>
+</ul>
+<hr>
+
+        <h3 id="5-使用延迟关联（Deferred-Join）"   >
+          <a href="#5-使用延迟关联（Deferred-Join）" class="heading-link"><i class="fas fa-link"></i></a><a href="#5-使用延迟关联（Deferred-Join）" class="headerlink" title="5. 使用延迟关联（Deferred Join）"></a><strong>5. 使用延迟关联（Deferred Join）</strong></h3>
+      <p>延迟关联是一种优化深度分页的技术，通过先获取主键，然后再关联查询数据，减少需要扫描的数据量。</p>
+
+        <h4 id="示例：-3"   >
+          <a href="#示例：-3" class="heading-link"><i class="fas fa-link"></i></a><a href="#示例：-3" class="headerlink" title="示例："></a><strong>示例</strong>：</h4>
+      <figure class="highlight sql"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> users</span><br><span class="line"><span class="keyword">JOIN</span> (</span><br><span class="line">    <span class="keyword">SELECT</span> id <span class="keyword">FROM</span> users</span><br><span class="line">    <span class="keyword">ORDER</span> <span class="keyword">BY</span> created_at <span class="keyword">DESC</span></span><br><span class="line">    LIMIT <span class="number">10000</span>, <span class="number">20</span></span><br><span class="line">) <span class="keyword">AS</span> tmp <span class="keyword">USING</span> (id);</span><br></pre></td></tr></table></div></figure>
+
+
+        <h4 id="优点：-3"   >
+          <a href="#优点：-3" class="heading-link"><i class="fas fa-link"></i></a><a href="#优点：-3" class="headerlink" title="优点："></a><strong>优点</strong>：</h4>
+      <ul>
+<li>减少需要扫描的数据量。</li>
+<li>适合大表的深度分页。</li>
+</ul>
+
+        <h4 id="缺点：-3"   >
+          <a href="#缺点：-3" class="heading-link"><i class="fas fa-link"></i></a><a href="#缺点：-3" class="headerlink" title="缺点："></a><strong>缺点</strong>：</h4>
+      <ul>
+<li>需要额外的子查询和关联操作。</li>
+</ul>
+<hr>
+
+        <h3 id="6-使用缓存"   >
+          <a href="#6-使用缓存" class="heading-link"><i class="fas fa-link"></i></a><a href="#6-使用缓存" class="headerlink" title="6. 使用缓存"></a><strong>6. 使用缓存</strong></h3>
+      <p>对于不经常变化的数据，可以使用缓存（如 Redis）来存储分页结果，减少数据库的查询压力。</p>
+
+        <h4 id="示例：-4"   >
+          <a href="#示例：-4" class="heading-link"><i class="fas fa-link"></i></a><a href="#示例：-4" class="headerlink" title="示例："></a><strong>示例</strong>：</h4>
+      <ol>
+<li>将查询结果缓存到 Redis 中。</li>
+<li>从缓存中获取分页数据。</li>
+</ol>
+
+        <h4 id="优点：-4"   >
+          <a href="#优点：-4" class="heading-link"><i class="fas fa-link"></i></a><a href="#优点：-4" class="headerlink" title="优点："></a><strong>优点</strong>：</h4>
+      <ul>
+<li>减少数据库的查询压力。</li>
+<li>提高查询性能。</li>
+</ul>
+
+        <h4 id="缺点：-4"   >
+          <a href="#缺点：-4" class="heading-link"><i class="fas fa-link"></i></a><a href="#缺点：-4" class="headerlink" title="缺点："></a><strong>缺点</strong>：</h4>
+      <ul>
+<li>数据变化时需要更新缓存。</li>
+<li>适合不经常变化的数据。</li>
+</ul>
+<hr>
+
+        <h3 id="7-使用分区表（Partitioning）"   >
+          <a href="#7-使用分区表（Partitioning）" class="heading-link"><i class="fas fa-link"></i></a><a href="#7-使用分区表（Partitioning）" class="headerlink" title="7. 使用分区表（Partitioning）"></a><strong>7. 使用分区表（Partitioning）</strong></h3>
+      <p>对于非常大的表，可以使用分区表将数据分成多个较小的部分，减少查询时需要扫描的数据量。</p>
+
+        <h4 id="示例：-5"   >
+          <a href="#示例：-5" class="heading-link"><i class="fas fa-link"></i></a><a href="#示例：-5" class="headerlink" title="示例："></a><strong>示例</strong>：</h4>
+      <figure class="highlight sql"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE TABLE</span> users (</span><br><span class="line">    id <span class="type">INT</span> <span class="keyword">PRIMARY KEY</span>,</span><br><span class="line">    name <span class="type">VARCHAR</span>(<span class="number">100</span>),</span><br><span class="line">    created_at <span class="type">TIMESTAMP</span></span><br><span class="line">)</span><br><span class="line"><span class="keyword">PARTITION</span> <span class="keyword">BY</span> <span class="keyword">RANGE</span> (<span class="keyword">YEAR</span>(created_at)) (</span><br><span class="line">    <span class="keyword">PARTITION</span> p0 <span class="keyword">VALUES</span> LESS THAN (<span class="number">2020</span>),</span><br><span class="line">    <span class="keyword">PARTITION</span> p1 <span class="keyword">VALUES</span> LESS THAN (<span class="number">2021</span>),</span><br><span class="line">    <span class="keyword">PARTITION</span> p2 <span class="keyword">VALUES</span> LESS THAN (<span class="number">2022</span>),</span><br><span class="line">    <span class="keyword">PARTITION</span> p3 <span class="keyword">VALUES</span> LESS THAN (<span class="number">2023</span>),</span><br><span class="line">    <span class="keyword">PARTITION</span> p4 <span class="keyword">VALUES</span> LESS THAN MAXVALUE</span><br><span class="line">);</span><br></pre></td></tr></table></div></figure>
+
+
+        <h4 id="优点：-5"   >
+          <a href="#优点：-5" class="heading-link"><i class="fas fa-link"></i></a><a href="#优点：-5" class="headerlink" title="优点："></a><strong>优点</strong>：</h4>
+      <ul>
+<li>减少查询时需要扫描的数据量。</li>
+<li>提高查询性能。</li>
+</ul>
+
+        <h4 id="缺点：-5"   >
+          <a href="#缺点：-5" class="heading-link"><i class="fas fa-link"></i></a><a href="#缺点：-5" class="headerlink" title="缺点："></a><strong>缺点</strong>：</h4>
+      <ul>
+<li>分区表的设计和维护较为复杂。</li>
+</ul>
+<hr>
+
+        <h3 id="总结"   >
+          <a href="#总结" class="heading-link"><i class="fas fa-link"></i></a><a href="#总结" class="headerlink" title="总结"></a><strong>总结</strong></h3>
+      <p>优化 MySQL 深度分页性能的常见策略包括：</p>
+<ol>
+<li><strong>避免深度分页</strong>：限制分页深度，优化用户体验。</li>
+<li><strong>使用基于游标的分页</strong>：适合深度分页和实时数据查询。</li>
+<li><strong>使用覆盖索引</strong>：减少回表操作，提高查询性能。</li>
+<li><strong>使用子查询优化</strong>：减少需要扫描的数据量。</li>
+<li><strong>使用延迟关联</strong>：减少需要扫描的数据量，适合大表的深度分页。</li>
+<li><strong>使用缓存</strong>：减少数据库的查询压力，适合不经常变化的数据。</li>
+<li><strong>使用分区表</strong>：减少查询时需要扫描的数据量，适合非常大的表。</li>
+</ol>
+<p>根据具体的业务场景和数据特点，选择合适的优化策略，可以显著提高 MySQL 深度分页的性能。</p>
+</div><footer class="post-footer"><div class="post-ending ending"><div class="ending__text">------ 本文结束，感谢您的阅读 ------</div></div><div class="post-copyright copyright"><div class="copyright-author"><span class="copyright-author__name">本文作者: </span><span class="copyright-author__value"><a href="https://ljd0620.github.io">Liujiduo</a></span></div><div class="copyright-link"><span class="copyright-link__name">本文链接: </span><span class="copyright-link__value"><a href="https://ljd0620.github.io/2022/07/12/MySQL%E6%B7%B1%E5%BA%A6%E5%88%86%E9%A1%B5%E4%BC%98%E5%8C%96/">https://ljd0620.github.io/2022/07/12/MySQL%E6%B7%B1%E5%BA%A6%E5%88%86%E9%A1%B5%E4%BC%98%E5%8C%96/</a></span></div><div class="copyright-notice"><span class="copyright-notice__name">版权声明: </span><span class="copyright-notice__value">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en" rel="external nofollow" target="_blank">BY-NC-SA</a> 许可协议。转载请注明出处！</span></div></div><div class="post-tags"><span class="post-tags-item"><span class="post-tags-item__icon"><i class="fas fa-tag"></i></span><a class="post-tags-item__link" href="https://ljd0620.github.io/tags/MySQL/">MySQL</a></span></div><nav class="post-paginator paginator"><div class="paginator-prev"><a class="paginator-prev__link" href="/2022/08/15/%E5%B8%B8%E7%94%A8%E6%B6%88%E6%81%AF%E4%B8%AD%E9%97%B4%E4%BB%B6%E5%AF%B9%E6%AF%94/"><span class="paginator-prev__icon"><i class="fas fa-angle-left"></i></span><span class="paginator-prev__text">常用消息中间件对比</span></a></div><div class="paginator-next"><a class="paginator-next__link" href="/2022/05/02/Java%E7%9A%84wait%E5%92%8Cyield%E5%8C%BA%E5%88%AB/"><span class="paginator-prev__text">Java的wait和yield区别</span><span class="paginator-next__icon"><i class="fas fa-angle-right"></i></span></a></div></nav></footer></div></div></div><div class="sidebar-wrap" id="sidebar-wrap"><aside class="sidebar" id="sidebar"><div class="sidebar-nav"><span class="sidebar-nav-toc current">文章目录</span><span class="sidebar-nav-ov">站点概览</span></div><section class="sidebar-toc"><ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E9%81%BF%E5%85%8D%E6%B7%B1%E5%BA%A6%E5%88%86%E9%A1%B5"><span class="toc-number">1.</span> <span class="toc-text">
+          1. 避免深度分页</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E4%BD%BF%E7%94%A8%E5%9F%BA%E4%BA%8E%E6%B8%B8%E6%A0%87%E7%9A%84%E5%88%86%E9%A1%B5%EF%BC%88Cursor-based-Pagination%EF%BC%89"><span class="toc-number">2.</span> <span class="toc-text">
+          2. 使用基于游标的分页（Cursor-based Pagination）</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8%E6%96%B9%E6%B3%95%EF%BC%9A"><span class="toc-number">2.1.</span> <span class="toc-text">
+          使用方法：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%A4%BA%E4%BE%8B%EF%BC%9A"><span class="toc-number">2.2.</span> <span class="toc-text">
+          示例：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BC%98%E7%82%B9%EF%BC%9A"><span class="toc-number">2.3.</span> <span class="toc-text">
+          优点：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%BC%BA%E7%82%B9%EF%BC%9A"><span class="toc-number">2.4.</span> <span class="toc-text">
+          缺点：</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%E4%BD%BF%E7%94%A8%E8%A6%86%E7%9B%96%E7%B4%A2%E5%BC%95%EF%BC%88Covering-Index%EF%BC%89"><span class="toc-number">3.</span> <span class="toc-text">
+          3. 使用覆盖索引（Covering Index）</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%A4%BA%E4%BE%8B%EF%BC%9A-1"><span class="toc-number">3.1.</span> <span class="toc-text">
+          示例：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BC%98%E7%82%B9%EF%BC%9A-1"><span class="toc-number">3.2.</span> <span class="toc-text">
+          优点：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%BC%BA%E7%82%B9%EF%BC%9A-1"><span class="toc-number">3.3.</span> <span class="toc-text">
+          缺点：</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-%E4%BD%BF%E7%94%A8%E5%AD%90%E6%9F%A5%E8%AF%A2%E4%BC%98%E5%8C%96"><span class="toc-number">4.</span> <span class="toc-text">
+          4. 使用子查询优化</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%A4%BA%E4%BE%8B%EF%BC%9A-2"><span class="toc-number">4.1.</span> <span class="toc-text">
+          示例：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BC%98%E7%82%B9%EF%BC%9A-2"><span class="toc-number">4.2.</span> <span class="toc-text">
+          优点：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%BC%BA%E7%82%B9%EF%BC%9A-2"><span class="toc-number">4.3.</span> <span class="toc-text">
+          缺点：</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-%E4%BD%BF%E7%94%A8%E5%BB%B6%E8%BF%9F%E5%85%B3%E8%81%94%EF%BC%88Deferred-Join%EF%BC%89"><span class="toc-number">5.</span> <span class="toc-text">
+          5. 使用延迟关联（Deferred Join）</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%A4%BA%E4%BE%8B%EF%BC%9A-3"><span class="toc-number">5.1.</span> <span class="toc-text">
+          示例：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BC%98%E7%82%B9%EF%BC%9A-3"><span class="toc-number">5.2.</span> <span class="toc-text">
+          优点：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%BC%BA%E7%82%B9%EF%BC%9A-3"><span class="toc-number">5.3.</span> <span class="toc-text">
+          缺点：</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-%E4%BD%BF%E7%94%A8%E7%BC%93%E5%AD%98"><span class="toc-number">6.</span> <span class="toc-text">
+          6. 使用缓存</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%A4%BA%E4%BE%8B%EF%BC%9A-4"><span class="toc-number">6.1.</span> <span class="toc-text">
+          示例：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BC%98%E7%82%B9%EF%BC%9A-4"><span class="toc-number">6.2.</span> <span class="toc-text">
+          优点：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%BC%BA%E7%82%B9%EF%BC%9A-4"><span class="toc-number">6.3.</span> <span class="toc-text">
+          缺点：</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#7-%E4%BD%BF%E7%94%A8%E5%88%86%E5%8C%BA%E8%A1%A8%EF%BC%88Partitioning%EF%BC%89"><span class="toc-number">7.</span> <span class="toc-text">
+          7. 使用分区表（Partitioning）</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%A4%BA%E4%BE%8B%EF%BC%9A-5"><span class="toc-number">7.1.</span> <span class="toc-text">
+          示例：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BC%98%E7%82%B9%EF%BC%9A-5"><span class="toc-number">7.2.</span> <span class="toc-text">
+          优点：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%BC%BA%E7%82%B9%EF%BC%9A-5"><span class="toc-number">7.3.</span> <span class="toc-text">
+          缺点：</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-number">8.</span> <span class="toc-text">
+          总结</span></a></li></ol></section><!-- ov = overview--><section class="sidebar-ov hide"><div class="sidebar-ov-author"><div class="sidebar-ov-author__avatar"><img class="sidebar-ov-author__avatar_img" src="/images/avatar.jpg" alt="avatar"></div><p class="sidebar-ov-author__text">Liujiduo's Blog</p></div><div class="sidebar-ov-feed"><span class="sidebar-ov-feed-email"><a class="sidebar-ov-feed-email__link" href="mailto:liujiduo@sina.com" target="_blank" rel="noopener"><span class="sidebar-ov-feed-email__icon"><i class="fas fa-envelope"></i></span><span>Email 订阅</span></a></span><span class="sidebar-ov-feed-rss"><a class="sidebar-ov-feed-rss__link" href="/atom.xml" target="_blank" rel="noopener"><span class="sidebar-ov-feed-rss__icon"><i class="fas fa-rss"></i></span><span>RSS 订阅</span></a></span></div><div class="sidebar-ov-state"><a class="sidebar-ov-state-item sidebar-ov-state-item--posts" href="/archives/"><div class="sidebar-ov-state-item__count">36</div><div class="sidebar-ov-state-item__name">归档</div></a><a class="sidebar-ov-state-item sidebar-ov-state-item--categories" href="/categories/"><div class="sidebar-ov-state-item__count">11</div><div class="sidebar-ov-state-item__name">分类</div></a><a class="sidebar-ov-state-item sidebar-ov-state-item--tags" href="/tags/"><div class="sidebar-ov-state-item__count">32</div><div class="sidebar-ov-state-item__name">标签</div></a></div><div class="sidebar-ov-cc"><a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en" target="_blank" rel="noopener" data-popover="知识共享许可协议" data-popover-pos="up"><img src="/images/cc-by-nc-sa.svg"></a></div></section><div class="sidebar-reading"><div class="sidebar-reading-info"><span class="sidebar-reading-info__text">你已阅读了 </span><span class="sidebar-reading-info__num">0</span><span class="sidebar-reading-info__perc">%</span></div><div class="sidebar-reading-line"></div></div></aside></div><div class="clearfix"></div></div></main><footer class="footer" id="footer"><div class="footer-inner"><div><span>Copyright © 2024~2025</span><span class="footer__icon"><i class="fas fa-heart"></i></span><span>Liujiduo All Rights Reserved</span></div><div><span>由 <a href="http://hexo.io/" title="Hexo" target="_blank" rel="noopener">Hexo</a> 强力驱动</span><span> v7.3.0</span><span class="footer__devider">|</span><span>主题 - <a href="https://github.com/liuyib/hexo-theme-stun/" title="Stun" target="_blank" rel="noopener">Stun</a></span><span> v2.8.0</span></div><div class="busuanzi"></div></div></footer><div class="loading-bar" id="loading-bar"><div class="loading-bar__progress"></div></div><div class="back2top" id="back2top"><span class="back2top__icon"><i class="fas fa-rocket"></i></span></div></div><script src="https://cdn.jsdelivr.net/npm/jquery@v3.4.1/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/velocity-animate@1.5.2/velocity.min.js"></script><script src="https://cdn.jsdelivr.net/npm/velocity-animate@1.5.2/velocity.ui.min.js"></script><script src="https://cdn.jsdelivr.net/npm/ribbon.js@latest/dist/ribbon.min.js" size="120" alpha="0.6" zIndex="-1"></script><script src="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script><script src="/js/utils.js?v=2.8.0"></script><script src="/js/stun-boot.js?v=2.8.0"></script><script src="/js/scroll.js?v=2.8.0"></script><script src="/js/header.js?v=2.8.0"></script><script src="/js/sidebar.js?v=2.8.0"></script></body></html>
