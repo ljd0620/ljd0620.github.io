@@ -2762,12 +2762,12 @@ a.fancybox {
   content: '|';
   margin: 0 10px;
 }
-@media (min-width: 1230px) {
+@media (min-width: 1238px) {
   .header-nav-inner {
-    width: 1230px;
+    width: 1238px;
   }
   .main-inner {
-    width: 1230px;
+    width: 1238px;
   }
 }
 @media (min-width: 991.98px) {
