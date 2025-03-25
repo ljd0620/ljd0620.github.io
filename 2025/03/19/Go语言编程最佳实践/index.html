@@ -6,7 +6,7 @@
 <meta property="og:description" content="Go语言编程最佳实践">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2025-03-19T08:10:17.000Z">
-<meta property="article:modified_time" content="2025-03-19T08:10:41.998Z">
+<meta property="article:modified_time" content="2025-03-25T08:41:30.946Z">
 <meta property="article:author" content="Liujiduo">
 <meta property="article:tag" content="Go">
 <meta name="twitter:card" content="summary"><title>Go语言编程最佳实践 | Just Do IT.</title><link ref="canonical" href="https://ljd0620.github.io/2025/03/19/Go%E8%AF%AD%E8%A8%80%E7%BC%96%E7%A8%8B%E6%9C%80%E4%BD%B3%E5%AE%9E%E8%B7%B5/"><link rel="alternate" href="/atom.xml" type="application/atom+xml"><link rel="dns-prefetch" href="https://cdn.jsdelivr.net"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.12.1/css/all.min.css" type="text/css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" type="text/css"><link rel="stylesheet" href="/css/index.css?v=2.8.0"><script>var Stun = window.Stun || {};
@@ -36,11 +36,11 @@ var CONFIG = {
 window.CONFIG = CONFIG;</script><meta name="generator" content="Hexo 7.3.0"></head><body><div class="container" id="container"><header class="header" id="header"><div class="header-inner"><nav class="header-nav header-nav--fixed"><div class="header-nav-inner"><div class="header-nav-menubtn"><i class="fas fa-bars"></i></div><div class="header-nav-menu"><div class="header-nav-menu-item"><a class="header-nav-menu-item__link" href="/"><span class="header-nav-menu-item__icon"><i class="fas fa-home"></i></span><span class="header-nav-menu-item__text">首页</span></a></div><div class="header-nav-menu-item"><a class="header-nav-menu-item__link" href="/archives/"><span class="header-nav-menu-item__icon"><i class="fas fa-folder-open"></i></span><span class="header-nav-menu-item__text">归档</span></a></div><div class="header-nav-menu-item"><a class="header-nav-menu-item__link" href="/categories/"><span class="header-nav-menu-item__icon"><i class="fas fa-layer-group"></i></span><span class="header-nav-menu-item__text">分类</span></a></div><div class="header-nav-menu-item"><a class="header-nav-menu-item__link" href="/tags/"><span class="header-nav-menu-item__icon"><i class="fas fa-tags"></i></span><span class="header-nav-menu-item__text">标签</span></a></div><div class="header-nav-menu-item"><a class="header-nav-menu-item__link" href="/about/"><span class="header-nav-menu-item__icon"><i class="fas fa-user"></i></span><span class="header-nav-menu-item__text">关于</span></a></div></div><div class="header-nav-mode"><div class="mode"><div class="mode-track"><span class="mode-track-moon"></span><span class="mode-track-sun"></span></div><div class="mode-thumb"></div></div></div></div></nav><div class="header-banner"><div class="header-banner-info"><div class="header-banner-info__title">Just Do IT.</div><div class="header-banner-info__subtitle">一个程序员的自我修养</div></div></div></div></header><main class="main" id="main"><div class="main-inner"><div class="content-wrap" id="content-wrap"><div class="content" id="content"><!-- Just used to judge whether it is an article page--><div id="is-post"></div><div class="post"><header class="post-header"><h1 class="post-title">Go语言编程最佳实践</h1><div class="post-meta"><span class="post-meta-item post-meta-item--createtime"><span class="post-meta-item__icon"><i class="far fa-calendar-plus"></i></span><span class="post-meta-item__info">发表于</span><span class="post-meta-item__value">2025-03-19</span></span><span class="post-meta-item post-meta-item--wordcount"><span class="post-meta-item__icon"><i class="far fa-file-word"></i></span><span class="post-meta-item__info">字数统计</span><span class="post-meta-item__value">2k</span></span><span class="post-meta-item post-meta-item--readtime"><span class="post-meta-item__icon"><i class="far fa-clock"></i></span><span class="post-meta-item__info">阅读时长</span><span class="post-meta-item__value">14分</span></span></div></header><div class="post-body"><p>在使用 Go 语言进行开发时，遵循最佳实践可以帮助你编写高效、可维护和可靠的代码。以下是 Go 语言编程的一些最佳实践，涵盖了代码设计、性能优化、测试、并发等多个方面。</p>
 <hr>
 
-        <h2 id="1-代码设计"   >
-          <a href="#1-代码设计" class="heading-link"><i class="fas fa-link"></i></a><a href="#1-代码设计" class="headerlink" title="1. 代码设计"></a><strong>1. 代码设计</strong></h2>
+        <h3 id="1-代码设计"   >
+          <a href="#1-代码设计" class="heading-link"><i class="fas fa-link"></i></a><a href="#1-代码设计" class="headerlink" title="1. 代码设计"></a><strong>1. 代码设计</strong></h3>
       
-        <h3 id="1-1-单一职责原则"   >
-          <a href="#1-1-单一职责原则" class="heading-link"><i class="fas fa-link"></i></a><a href="#1-1-单一职责原则" class="headerlink" title="1.1 单一职责原则"></a><strong>1.1 单一职责原则</strong></h3>
+        <h4 id="1-1-单一职责原则"   >
+          <a href="#1-1-单一职责原则" class="heading-link"><i class="fas fa-link"></i></a><a href="#1-1-单一职责原则" class="headerlink" title="1.1 单一职责原则"></a><strong>1.1 单一职责原则</strong></h4>
       <p>• 每个包、函数或类型应该只负责一个功能。<br>• 避免让一个包承担过多的职责，保持功能的单一性。</p>
 
         <h5 id="示例："   >
@@ -49,8 +49,8 @@ window.CONFIG = CONFIG;</script><meta name="generator" content="Hexo 7.3.0"></he
 
 <hr>
 
-        <h3 id="1-2-封装与抽象"   >
-          <a href="#1-2-封装与抽象" class="heading-link"><i class="fas fa-link"></i></a><a href="#1-2-封装与抽象" class="headerlink" title="1.2 封装与抽象"></a><strong>1.2 封装与抽象</strong></h3>
+        <h4 id="1-2-封装与抽象"   >
+          <a href="#1-2-封装与抽象" class="heading-link"><i class="fas fa-link"></i></a><a href="#1-2-封装与抽象" class="headerlink" title="1.2 封装与抽象"></a><strong>1.2 封装与抽象</strong></h4>
       <p>• 使用接口来定义行为，而不是直接依赖具体实现。<br>• 隐藏内部实现细节，提供清晰的公共接口。</p>
 
         <h5 id="示例：-1"   >
@@ -59,8 +59,8 @@ window.CONFIG = CONFIG;</script><meta name="generator" content="Hexo 7.3.0"></he
 
 <hr>
 
-        <h3 id="1-3-使用有意义的命名"   >
-          <a href="#1-3-使用有意义的命名" class="heading-link"><i class="fas fa-link"></i></a><a href="#1-3-使用有意义的命名" class="headerlink" title="1.3 使用有意义的命名"></a><strong>1.3 使用有意义的命名</strong></h3>
+        <h4 id="1-3-使用有意义的命名"   >
+          <a href="#1-3-使用有意义的命名" class="heading-link"><i class="fas fa-link"></i></a><a href="#1-3-使用有意义的命名" class="headerlink" title="1.3 使用有意义的命名"></a><strong>1.3 使用有意义的命名</strong></h4>
       <p>• 包名、函数名、变量名应该清晰、简短且有意义。<br>• 导出名称（包外可见）以大写字母开头，未导出名称以小写字母开头。</p>
 
         <h5 id="示例：-2"   >
@@ -69,16 +69,16 @@ window.CONFIG = CONFIG;</script><meta name="generator" content="Hexo 7.3.0"></he
 
 <hr>
 
-        <h3 id="1-4-避免过度设计"   >
-          <a href="#1-4-避免过度设计" class="heading-link"><i class="fas fa-link"></i></a><a href="#1-4-避免过度设计" class="headerlink" title="1.4 避免过度设计"></a><strong>1.4 避免过度设计</strong></h3>
+        <h4 id="1-4-避免过度设计"   >
+          <a href="#1-4-避免过度设计" class="heading-link"><i class="fas fa-link"></i></a><a href="#1-4-避免过度设计" class="headerlink" title="1.4 避免过度设计"></a><strong>1.4 避免过度设计</strong></h4>
       <p>• 不要在项目初期过度设计，保持代码简单。<br>• 随着需求的变化逐步优化和扩展代码。</p>
 <hr>
 
-        <h2 id="2-错误处理"   >
-          <a href="#2-错误处理" class="heading-link"><i class="fas fa-link"></i></a><a href="#2-错误处理" class="headerlink" title="2. 错误处理"></a><strong>2. 错误处理</strong></h2>
+        <h3 id="2-错误处理"   >
+          <a href="#2-错误处理" class="heading-link"><i class="fas fa-link"></i></a><a href="#2-错误处理" class="headerlink" title="2. 错误处理"></a><strong>2. 错误处理</strong></h3>
       
-        <h3 id="2-1-显式处理错误"   >
-          <a href="#2-1-显式处理错误" class="heading-link"><i class="fas fa-link"></i></a><a href="#2-1-显式处理错误" class="headerlink" title="2.1 显式处理错误"></a><strong>2.1 显式处理错误</strong></h3>
+        <h4 id="2-1-显式处理错误"   >
+          <a href="#2-1-显式处理错误" class="heading-link"><i class="fas fa-link"></i></a><a href="#2-1-显式处理错误" class="headerlink" title="2.1 显式处理错误"></a><strong>2.1 显式处理错误</strong></h4>
       <p>• Go 语言中，错误是值，应该显式返回和处理。<br>• 不要忽略错误，始终检查并处理可能的错误。</p>
 
         <h5 id="示例：-3"   >
@@ -87,8 +87,8 @@ window.CONFIG = CONFIG;</script><meta name="generator" content="Hexo 7.3.0"></he
 
 <hr>
 
-        <h3 id="2-2-自定义错误类型"   >
-          <a href="#2-2-自定义错误类型" class="heading-link"><i class="fas fa-link"></i></a><a href="#2-2-自定义错误类型" class="headerlink" title="2.2 自定义错误类型"></a><strong>2.2 自定义错误类型</strong></h3>
+        <h4 id="2-2-自定义错误类型"   >
+          <a href="#2-2-自定义错误类型" class="heading-link"><i class="fas fa-link"></i></a><a href="#2-2-自定义错误类型" class="headerlink" title="2.2 自定义错误类型"></a><strong>2.2 自定义错误类型</strong></h4>
       <p>• 如果需要更详细的错误信息，可以定义自定义错误类型。<br>• 使用 <code>errors</code> 包或 <code>fmt.Errorf</code> 创建错误。</p>
 
         <h5 id="示例：-4"   >
@@ -97,8 +97,8 @@ window.CONFIG = CONFIG;</script><meta name="generator" content="Hexo 7.3.0"></he
 
 <hr>
 
-        <h3 id="2-3-使用-errors-Is-和-errors-As"   >
-          <a href="#2-3-使用-errors-Is-和-errors-As" class="heading-link"><i class="fas fa-link"></i></a><a href="#2-3-使用-errors-Is-和-errors-As" class="headerlink" title="2.3 使用 errors.Is 和 errors.As"></a><strong>2.3 使用 <code>errors.Is</code> 和 <code>errors.As</code></strong></h3>
+        <h4 id="2-3-使用-errors-Is-和-errors-As"   >
+          <a href="#2-3-使用-errors-Is-和-errors-As" class="heading-link"><i class="fas fa-link"></i></a><a href="#2-3-使用-errors-Is-和-errors-As" class="headerlink" title="2.3 使用 errors.Is 和 errors.As"></a><strong>2.3 使用 <code>errors.Is</code> 和 <code>errors.As</code></strong></h4>
       <p>• Go 1.13 引入了 <code>errors.Is</code> 和 <code>errors.As</code>，用于更优雅地处理错误链。</p>
 
         <h5 id="示例：-5"   >
@@ -107,11 +107,11 @@ window.CONFIG = CONFIG;</script><meta name="generator" content="Hexo 7.3.0"></he
 
 <hr>
 
-        <h2 id="3-并发编程"   >
-          <a href="#3-并发编程" class="heading-link"><i class="fas fa-link"></i></a><a href="#3-并发编程" class="headerlink" title="3. 并发编程"></a><strong>3. 并发编程</strong></h2>
+        <h3 id="3-并发编程"   >
+          <a href="#3-并发编程" class="heading-link"><i class="fas fa-link"></i></a><a href="#3-并发编程" class="headerlink" title="3. 并发编程"></a><strong>3. 并发编程</strong></h3>
       
-        <h3 id="3-1-使用-Goroutine-和-Channel"   >
-          <a href="#3-1-使用-Goroutine-和-Channel" class="heading-link"><i class="fas fa-link"></i></a><a href="#3-1-使用-Goroutine-和-Channel" class="headerlink" title="3.1 使用 Goroutine 和 Channel"></a><strong>3.1 使用 Goroutine 和 Channel</strong></h3>
+        <h4 id="3-1-使用-Goroutine-和-Channel"   >
+          <a href="#3-1-使用-Goroutine-和-Channel" class="heading-link"><i class="fas fa-link"></i></a><a href="#3-1-使用-Goroutine-和-Channel" class="headerlink" title="3.1 使用 Goroutine 和 Channel"></a><strong>3.1 使用 Goroutine 和 Channel</strong></h4>
       <p>• Goroutine 是 Go 的轻量级线程，适合处理并发任务。<br>• 使用 Channel 在 Goroutine 之间传递数据，避免共享内存。</p>
 
         <h5 id="示例：-6"   >
@@ -120,8 +120,8 @@ window.CONFIG = CONFIG;</script><meta name="generator" content="Hexo 7.3.0"></he
 
 <hr>
 
-        <h3 id="3-2-避免竞态条件"   >
-          <a href="#3-2-避免竞态条件" class="heading-link"><i class="fas fa-link"></i></a><a href="#3-2-避免竞态条件" class="headerlink" title="3.2 避免竞态条件"></a><strong>3.2 避免竞态条件</strong></h3>
+        <h4 id="3-2-避免竞态条件"   >
+          <a href="#3-2-避免竞态条件" class="heading-link"><i class="fas fa-link"></i></a><a href="#3-2-避免竞态条件" class="headerlink" title="3.2 避免竞态条件"></a><strong>3.2 避免竞态条件</strong></h4>
       <p>• 使用 <code>sync.Mutex</code> 或 <code>sync.RWMutex</code> 来保护共享资源。<br>• 使用 <code>go run -race</code> 检测竞态条件。</p>
 
         <h5 id="示例：-7"   >
@@ -130,8 +130,8 @@ window.CONFIG = CONFIG;</script><meta name="generator" content="Hexo 7.3.0"></he
 
 <hr>
 
-        <h3 id="3-3-使用-sync-WaitGroup"   >
-          <a href="#3-3-使用-sync-WaitGroup" class="heading-link"><i class="fas fa-link"></i></a><a href="#3-3-使用-sync-WaitGroup" class="headerlink" title="3.3 使用 sync.WaitGroup"></a><strong>3.3 使用 <code>sync.WaitGroup</code></strong></h3>
+        <h4 id="3-3-使用-sync-WaitGroup"   >
+          <a href="#3-3-使用-sync-WaitGroup" class="heading-link"><i class="fas fa-link"></i></a><a href="#3-3-使用-sync-WaitGroup" class="headerlink" title="3.3 使用 sync.WaitGroup"></a><strong>3.3 使用 <code>sync.WaitGroup</code></strong></h4>
       <p>• 使用 <code>sync.WaitGroup</code> 等待一组 Goroutine 完成。</p>
 
         <h5 id="示例：-8"   >
@@ -140,11 +140,11 @@ window.CONFIG = CONFIG;</script><meta name="generator" content="Hexo 7.3.0"></he
 
 <hr>
 
-        <h2 id="4-性能优化"   >
-          <a href="#4-性能优化" class="heading-link"><i class="fas fa-link"></i></a><a href="#4-性能优化" class="headerlink" title="4. 性能优化"></a><strong>4. 性能优化</strong></h2>
+        <h3 id="4-性能优化"   >
+          <a href="#4-性能优化" class="heading-link"><i class="fas fa-link"></i></a><a href="#4-性能优化" class="headerlink" title="4. 性能优化"></a><strong>4. 性能优化</strong></h3>
       
-        <h3 id="4-1-避免不必要的内存分配"   >
-          <a href="#4-1-避免不必要的内存分配" class="heading-link"><i class="fas fa-link"></i></a><a href="#4-1-避免不必要的内存分配" class="headerlink" title="4.1 避免不必要的内存分配"></a><strong>4.1 避免不必要的内存分配</strong></h3>
+        <h4 id="4-1-避免不必要的内存分配"   >
+          <a href="#4-1-避免不必要的内存分配" class="heading-link"><i class="fas fa-link"></i></a><a href="#4-1-避免不必要的内存分配" class="headerlink" title="4.1 避免不必要的内存分配"></a><strong>4.1 避免不必要的内存分配</strong></h4>
       <p>• 使用值类型（如结构体）代替指针类型，减少堆内存分配。<br>• 预分配切片容量，避免动态扩容。</p>
 
         <h5 id="示例：-9"   >
@@ -153,8 +153,8 @@ window.CONFIG = CONFIG;</script><meta name="generator" content="Hexo 7.3.0"></he
 
 <hr>
 
-        <h3 id="4-2-使用-strings-Builder"   >
-          <a href="#4-2-使用-strings-Builder" class="heading-link"><i class="fas fa-link"></i></a><a href="#4-2-使用-strings-Builder" class="headerlink" title="4.2 使用 strings.Builder"></a><strong>4.2 使用 <code>strings.Builder</code></strong></h3>
+        <h4 id="4-2-使用-strings-Builder"   >
+          <a href="#4-2-使用-strings-Builder" class="heading-link"><i class="fas fa-link"></i></a><a href="#4-2-使用-strings-Builder" class="headerlink" title="4.2 使用 strings.Builder"></a><strong>4.2 使用 <code>strings.Builder</code></strong></h4>
       <p>• 在需要频繁拼接字符串时，使用 <code>strings.Builder</code> 替代 <code>+</code> 或 <code>fmt.Sprintf</code>。</p>
 
         <h5 id="示例：-10"   >
@@ -163,16 +163,16 @@ window.CONFIG = CONFIG;</script><meta name="generator" content="Hexo 7.3.0"></he
 
 <hr>
 
-        <h3 id="4-3-避免过度优化"   >
-          <a href="#4-3-避免过度优化" class="heading-link"><i class="fas fa-link"></i></a><a href="#4-3-避免过度优化" class="headerlink" title="4.3 避免过度优化"></a><strong>4.3 避免过度优化</strong></h3>
+        <h4 id="4-3-避免过度优化"   >
+          <a href="#4-3-避免过度优化" class="heading-link"><i class="fas fa-link"></i></a><a href="#4-3-避免过度优化" class="headerlink" title="4.3 避免过度优化"></a><strong>4.3 避免过度优化</strong></h4>
       <p>• 在大多数情况下，代码的可读性和维护性比性能更重要。<br>• 只有在性能瓶颈明确时，才进行优化。</p>
 <hr>
 
-        <h2 id="5-测试"   >
-          <a href="#5-测试" class="heading-link"><i class="fas fa-link"></i></a><a href="#5-测试" class="headerlink" title="5. 测试"></a><strong>5. 测试</strong></h2>
+        <h3 id="5-测试"   >
+          <a href="#5-测试" class="heading-link"><i class="fas fa-link"></i></a><a href="#5-测试" class="headerlink" title="5. 测试"></a><strong>5. 测试</strong></h3>
       
-        <h3 id="5-1-编写单元测试"   >
-          <a href="#5-1-编写单元测试" class="heading-link"><i class="fas fa-link"></i></a><a href="#5-1-编写单元测试" class="headerlink" title="5.1 编写单元测试"></a><strong>5.1 编写单元测试</strong></h3>
+        <h4 id="5-1-编写单元测试"   >
+          <a href="#5-1-编写单元测试" class="heading-link"><i class="fas fa-link"></i></a><a href="#5-1-编写单元测试" class="headerlink" title="5.1 编写单元测试"></a><strong>5.1 编写单元测试</strong></h4>
       <p>• 使用 Go 的内置测试框架 <code>testing</code> 编写单元测试。<br>• 测试文件以 <code>_test.go</code> 结尾。</p>
 
         <h5 id="示例：-11"   >
@@ -181,8 +181,8 @@ window.CONFIG = CONFIG;</script><meta name="generator" content="Hexo 7.3.0"></he
 
 <hr>
 
-        <h3 id="5-2-基准测试"   >
-          <a href="#5-2-基准测试" class="heading-link"><i class="fas fa-link"></i></a><a href="#5-2-基准测试" class="headerlink" title="5.2 基准测试"></a><strong>5.2 基准测试</strong></h3>
+        <h4 id="5-2-基准测试"   >
+          <a href="#5-2-基准测试" class="heading-link"><i class="fas fa-link"></i></a><a href="#5-2-基准测试" class="headerlink" title="5.2 基准测试"></a><strong>5.2 基准测试</strong></h4>
       <p>• 使用 <code>Benchmark</code> 函数进行性能测试。</p>
 
         <h5 id="示例：-12"   >
@@ -191,8 +191,8 @@ window.CONFIG = CONFIG;</script><meta name="generator" content="Hexo 7.3.0"></he
 
 <hr>
 
-        <h3 id="5-3-使用-Mock-和-Stub"   >
-          <a href="#5-3-使用-Mock-和-Stub" class="heading-link"><i class="fas fa-link"></i></a><a href="#5-3-使用-Mock-和-Stub" class="headerlink" title="5.3 使用 Mock 和 Stub"></a><strong>5.3 使用 Mock 和 Stub</strong></h3>
+        <h4 id="5-3-使用-Mock-和-Stub"   >
+          <a href="#5-3-使用-Mock-和-Stub" class="heading-link"><i class="fas fa-link"></i></a><a href="#5-3-使用-Mock-和-Stub" class="headerlink" title="5.3 使用 Mock 和 Stub"></a><strong>5.3 使用 Mock 和 Stub</strong></h4>
       <p>• 使用 Mock 或 Stub 模拟外部依赖，方便测试。</p>
 
         <h5 id="示例：-13"   >
@@ -200,11 +200,11 @@ window.CONFIG = CONFIG;</script><meta name="generator" content="Hexo 7.3.0"></he
       <p>可以使用第三方库（如 <code>gomock</code> 或 <code>testify</code>）来简化 Mock 的实现。</p>
 <hr>
 
-        <h2 id="6-依赖管理"   >
-          <a href="#6-依赖管理" class="heading-link"><i class="fas fa-link"></i></a><a href="#6-依赖管理" class="headerlink" title="6. 依赖管理"></a><strong>6. 依赖管理</strong></h2>
+        <h3 id="6-依赖管理"   >
+          <a href="#6-依赖管理" class="heading-link"><i class="fas fa-link"></i></a><a href="#6-依赖管理" class="headerlink" title="6. 依赖管理"></a><strong>6. 依赖管理</strong></h3>
       
-        <h3 id="6-1-使用-Go-Modules"   >
-          <a href="#6-1-使用-Go-Modules" class="heading-link"><i class="fas fa-link"></i></a><a href="#6-1-使用-Go-Modules" class="headerlink" title="6.1 使用 Go Modules"></a><strong>6.1 使用 Go Modules</strong></h3>
+        <h4 id="6-1-使用-Go-Modules"   >
+          <a href="#6-1-使用-Go-Modules" class="heading-link"><i class="fas fa-link"></i></a><a href="#6-1-使用-Go-Modules" class="headerlink" title="6.1 使用 Go Modules"></a><strong>6.1 使用 Go Modules</strong></h4>
       <p>• 从 Go 1.11 开始，Go 官方推荐使用 Go Modules 管理依赖。<br>• 在项目根目录运行 <code>go mod init</code> 初始化模块。</p>
 
         <h5 id="示例：-14"   >
@@ -213,16 +213,16 @@ window.CONFIG = CONFIG;</script><meta name="generator" content="Hexo 7.3.0"></he
 
 <hr>
 
-        <h3 id="6-2-避免过度依赖"   >
-          <a href="#6-2-避免过度依赖" class="heading-link"><i class="fas fa-link"></i></a><a href="#6-2-避免过度依赖" class="headerlink" title="6.2 避免过度依赖"></a><strong>6.2 避免过度依赖</strong></h3>
+        <h4 id="6-2-避免过度依赖"   >
+          <a href="#6-2-避免过度依赖" class="heading-link"><i class="fas fa-link"></i></a><a href="#6-2-避免过度依赖" class="headerlink" title="6.2 避免过度依赖"></a><strong>6.2 避免过度依赖</strong></h4>
       <p>• 尽量减少第三方依赖的使用，避免引入不必要的复杂性。<br>• 定期更新依赖，确保安全性。</p>
 <hr>
 
-        <h2 id="7-代码风格"   >
-          <a href="#7-代码风格" class="heading-link"><i class="fas fa-link"></i></a><a href="#7-代码风格" class="headerlink" title="7. 代码风格"></a><strong>7. 代码风格</strong></h2>
+        <h3 id="7-代码风格"   >
+          <a href="#7-代码风格" class="heading-link"><i class="fas fa-link"></i></a><a href="#7-代码风格" class="headerlink" title="7. 代码风格"></a><strong>7. 代码风格</strong></h3>
       
-        <h3 id="7-1-使用-gofmt-格式化代码"   >
-          <a href="#7-1-使用-gofmt-格式化代码" class="heading-link"><i class="fas fa-link"></i></a><a href="#7-1-使用-gofmt-格式化代码" class="headerlink" title="7.1 使用 gofmt 格式化代码"></a><strong>7.1 使用 <code>gofmt</code> 格式化代码</strong></h3>
+        <h4 id="7-1-使用-gofmt-格式化代码"   >
+          <a href="#7-1-使用-gofmt-格式化代码" class="heading-link"><i class="fas fa-link"></i></a><a href="#7-1-使用-gofmt-格式化代码" class="headerlink" title="7.1 使用 gofmt 格式化代码"></a><strong>7.1 使用 <code>gofmt</code> 格式化代码</strong></h4>
       <p>• Go 语言有严格的代码格式规范，推荐使用 <code>gofmt</code> 工具自动格式化代码。</p>
 
         <h5 id="示例：-15"   >
@@ -231,8 +231,8 @@ window.CONFIG = CONFIG;</script><meta name="generator" content="Hexo 7.3.0"></he
 
 <hr>
 
-        <h3 id="7-2-使用-golint-检查代码风格"   >
-          <a href="#7-2-使用-golint-检查代码风格" class="heading-link"><i class="fas fa-link"></i></a><a href="#7-2-使用-golint-检查代码风格" class="headerlink" title="7.2 使用 golint 检查代码风格"></a><strong>7.2 使用 <code>golint</code> 检查代码风格</strong></h3>
+        <h4 id="7-2-使用-golint-检查代码风格"   >
+          <a href="#7-2-使用-golint-检查代码风格" class="heading-link"><i class="fas fa-link"></i></a><a href="#7-2-使用-golint-检查代码风格" class="headerlink" title="7.2 使用 golint 检查代码风格"></a><strong>7.2 使用 <code>golint</code> 检查代码风格</strong></h4>
       <p>• 使用 <code>golint</code> 检查代码是否符合 Go 的编码规范。</p>
 
         <h5 id="示例：-16"   >
@@ -241,8 +241,8 @@ window.CONFIG = CONFIG;</script><meta name="generator" content="Hexo 7.3.0"></he
 
 <hr>
 
-        <h3 id="7-3-使用-go-vet-检查潜在问题"   >
-          <a href="#7-3-使用-go-vet-检查潜在问题" class="heading-link"><i class="fas fa-link"></i></a><a href="#7-3-使用-go-vet-检查潜在问题" class="headerlink" title="7.3 使用 go vet 检查潜在问题"></a><strong>7.3 使用 <code>go vet</code> 检查潜在问题</strong></h3>
+        <h4 id="7-3-使用-go-vet-检查潜在问题"   >
+          <a href="#7-3-使用-go-vet-检查潜在问题" class="heading-link"><i class="fas fa-link"></i></a><a href="#7-3-使用-go-vet-检查潜在问题" class="headerlink" title="7.3 使用 go vet 检查潜在问题"></a><strong>7.3 使用 <code>go vet</code> 检查潜在问题</strong></h4>
       <p>• 使用 <code>go vet</code> 检查代码中的潜在问题。</p>
 
         <h5 id="示例：-17"   >
@@ -251,11 +251,11 @@ window.CONFIG = CONFIG;</script><meta name="generator" content="Hexo 7.3.0"></he
 
 <hr>
 
-        <h2 id="8-文档与注释"   >
-          <a href="#8-文档与注释" class="heading-link"><i class="fas fa-link"></i></a><a href="#8-文档与注释" class="headerlink" title="8. 文档与注释"></a><strong>8. 文档与注释</strong></h2>
+        <h3 id="8-文档与注释"   >
+          <a href="#8-文档与注释" class="heading-link"><i class="fas fa-link"></i></a><a href="#8-文档与注释" class="headerlink" title="8. 文档与注释"></a><strong>8. 文档与注释</strong></h3>
       
-        <h3 id="8-1-包注释"   >
-          <a href="#8-1-包注释" class="heading-link"><i class="fas fa-link"></i></a><a href="#8-1-包注释" class="headerlink" title="8.1 包注释"></a><strong>8.1 包注释</strong></h3>
+        <h4 id="8-1-包注释"   >
+          <a href="#8-1-包注释" class="heading-link"><i class="fas fa-link"></i></a><a href="#8-1-包注释" class="headerlink" title="8.1 包注释"></a><strong>8.1 包注释</strong></h4>
       <p>• 每个包都应该有一个包注释，通常是一个多行注释，描述包的功能。</p>
 
         <h5 id="示例：-18"   >
@@ -264,8 +264,8 @@ window.CONFIG = CONFIG;</script><meta name="generator" content="Hexo 7.3.0"></he
 
 <hr>
 
-        <h3 id="8-2-函数注释"   >
-          <a href="#8-2-函数注释" class="heading-link"><i class="fas fa-link"></i></a><a href="#8-2-函数注释" class="headerlink" title="8.2 函数注释"></a><strong>8.2 函数注释</strong></h3>
+        <h4 id="8-2-函数注释"   >
+          <a href="#8-2-函数注释" class="heading-link"><i class="fas fa-link"></i></a><a href="#8-2-函数注释" class="headerlink" title="8.2 函数注释"></a><strong>8.2 函数注释</strong></h4>
       <p>• 导出函数（包外可见）应该有注释，描述函数的功能、参数和返回值。</p>
 
         <h5 id="示例：-19"   >
@@ -274,21 +274,21 @@ window.CONFIG = CONFIG;</script><meta name="generator" content="Hexo 7.3.0"></he
 
 <hr>
 
-        <h3 id="8-3-行内注释"   >
-          <a href="#8-3-行内注释" class="heading-link"><i class="fas fa-link"></i></a><a href="#8-3-行内注释" class="headerlink" title="8.3 行内注释"></a><strong>8.3 行内注释</strong></h3>
+        <h4 id="8-3-行内注释"   >
+          <a href="#8-3-行内注释" class="heading-link"><i class="fas fa-link"></i></a><a href="#8-3-行内注释" class="headerlink" title="8.3 行内注释"></a><strong>8.3 行内注释</strong></h4>
       <p>• 行内注释用于解释复杂的代码逻辑，通常以 <code>//</code> 开头。<br>• 避免过度注释，代码本身应该尽量自解释。</p>
 <hr>
 
-        <h2 id="9-工具链"   >
-          <a href="#9-工具链" class="heading-link"><i class="fas fa-link"></i></a><a href="#9-工具链" class="headerlink" title="9. 工具链"></a><strong>9. 工具链</strong></h2>
+        <h3 id="9-工具链"   >
+          <a href="#9-工具链" class="heading-link"><i class="fas fa-link"></i></a><a href="#9-工具链" class="headerlink" title="9. 工具链"></a><strong>9. 工具链</strong></h3>
       
-        <h3 id="9-1-使用-go-mod-管理依赖"   >
-          <a href="#9-1-使用-go-mod-管理依赖" class="heading-link"><i class="fas fa-link"></i></a><a href="#9-1-使用-go-mod-管理依赖" class="headerlink" title="9.1 使用 go mod 管理依赖"></a><strong>9.1 使用 <code>go mod</code> 管理依赖</strong></h3>
+        <h4 id="9-1-使用-go-mod-管理依赖"   >
+          <a href="#9-1-使用-go-mod-管理依赖" class="heading-link"><i class="fas fa-link"></i></a><a href="#9-1-使用-go-mod-管理依赖" class="headerlink" title="9.1 使用 go mod 管理依赖"></a><strong>9.1 使用 <code>go mod</code> 管理依赖</strong></h4>
       <p>• 使用 <code>go mod tidy</code> 清理未使用的依赖。</p>
 <hr>
 
-        <h3 id="9-2-使用静态分析工具"   >
-          <a href="#9-2-使用静态分析工具" class="heading-link"><i class="fas fa-link"></i></a><a href="#9-2-使用静态分析工具" class="headerlink" title="9.2 使用静态分析工具"></a><strong>9.2 使用静态分析工具</strong></h3>
+        <h4 id="9-2-使用静态分析工具"   >
+          <a href="#9-2-使用静态分析工具" class="heading-link"><i class="fas fa-link"></i></a><a href="#9-2-使用静态分析工具" class="headerlink" title="9.2 使用静态分析工具"></a><strong>9.2 使用静态分析工具</strong></h4>
       <p>• 使用 <code>golangci-lint</code> 等工具进行静态代码分析。</p>
 
         <h5 id="示例：-20"   >
@@ -297,21 +297,21 @@ window.CONFIG = CONFIG;</script><meta name="generator" content="Hexo 7.3.0"></he
 
 <hr>
 
-        <h3 id="9-3-使用-CI-CD-工具"   >
-          <a href="#9-3-使用-CI-CD-工具" class="heading-link"><i class="fas fa-link"></i></a><a href="#9-3-使用-CI-CD-工具" class="headerlink" title="9.3 使用 CI&#x2F;CD 工具"></a><strong>9.3 使用 CI&#x2F;CD 工具</strong></h3>
+        <h4 id="9-3-使用-CI-CD-工具"   >
+          <a href="#9-3-使用-CI-CD-工具" class="heading-link"><i class="fas fa-link"></i></a><a href="#9-3-使用-CI-CD-工具" class="headerlink" title="9.3 使用 CI&#x2F;CD 工具"></a><strong>9.3 使用 CI&#x2F;CD 工具</strong></h4>
       <p>• 配置 CI&#x2F;CD 流水线，自动运行测试、格式化和静态分析。</p>
 <hr>
 
-        <h2 id="10-其他最佳实践"   >
-          <a href="#10-其他最佳实践" class="heading-link"><i class="fas fa-link"></i></a><a href="#10-其他最佳实践" class="headerlink" title="10. 其他最佳实践"></a><strong>10. 其他最佳实践</strong></h2>
+        <h3 id="10-其他最佳实践"   >
+          <a href="#10-其他最佳实践" class="heading-link"><i class="fas fa-link"></i></a><a href="#10-其他最佳实践" class="headerlink" title="10. 其他最佳实践"></a><strong>10. 其他最佳实践</strong></h3>
       
-        <h3 id="10-1-避免全局变量"   >
-          <a href="#10-1-避免全局变量" class="heading-link"><i class="fas fa-link"></i></a><a href="#10-1-避免全局变量" class="headerlink" title="10.1 避免全局变量"></a><strong>10.1 避免全局变量</strong></h3>
+        <h4 id="10-1-避免全局变量"   >
+          <a href="#10-1-避免全局变量" class="heading-link"><i class="fas fa-link"></i></a><a href="#10-1-避免全局变量" class="headerlink" title="10.1 避免全局变量"></a><strong>10.1 避免全局变量</strong></h4>
       <p>• 尽量减少全局变量的使用，避免引入不可控的状态。</p>
 <hr>
 
-        <h3 id="10-2-使用切片代替数组"   >
-          <a href="#10-2-使用切片代替数组" class="heading-link"><i class="fas fa-link"></i></a><a href="#10-2-使用切片代替数组" class="headerlink" title="10.2 使用切片代替数组"></a><strong>10.2 使用切片代替数组</strong></h3>
+        <h4 id="10-2-使用切片代替数组"   >
+          <a href="#10-2-使用切片代替数组" class="heading-link"><i class="fas fa-link"></i></a><a href="#10-2-使用切片代替数组" class="headerlink" title="10.2 使用切片代替数组"></a><strong>10.2 使用切片代替数组</strong></h4>
       <p>• 切片比数组更灵活，适合大多数场景。</p>
 
         <h5 id="示例：-21"   >
@@ -320,8 +320,8 @@ window.CONFIG = CONFIG;</script><meta name="generator" content="Hexo 7.3.0"></he
 
 <hr>
 
-        <h3 id="10-3-使用-context-管理请求生命周期"   >
-          <a href="#10-3-使用-context-管理请求生命周期" class="heading-link"><i class="fas fa-link"></i></a><a href="#10-3-使用-context-管理请求生命周期" class="headerlink" title="10.3 使用 context 管理请求生命周期"></a><strong>10.3 使用 <code>context</code> 管理请求生命周期</strong></h3>
+        <h4 id="10-3-使用-context-管理请求生命周期"   >
+          <a href="#10-3-使用-context-管理请求生命周期" class="heading-link"><i class="fas fa-link"></i></a><a href="#10-3-使用-context-管理请求生命周期" class="headerlink" title="10.3 使用 context 管理请求生命周期"></a><strong>10.3 使用 <code>context</code> 管理请求生命周期</strong></h4>
       <p>• 在处理 HTTP 请求或其他需要超时控制的场景中，使用 <code>context</code>。</p>
 
         <h5 id="示例：-22"   >
@@ -330,8 +330,8 @@ window.CONFIG = CONFIG;</script><meta name="generator" content="Hexo 7.3.0"></he
 
 <hr>
 
-        <h2 id="总结"   >
-          <a href="#总结" class="heading-link"><i class="fas fa-link"></i></a><a href="#总结" class="headerlink" title="总结"></a><strong>总结</strong></h2>
+        <h3 id="总结"   >
+          <a href="#总结" class="heading-link"><i class="fas fa-link"></i></a><a href="#总结" class="headerlink" title="总结"></a><strong>总结</strong></h3>
       <p>Go 语言的最佳实践涵盖了代码设计、错误处理、并发、性能优化、测试、依赖管理等多个方面。以下是关键点：</p>
 <ol>
 <li><strong>简单性</strong>：保持代码简单，避免过度设计。</li>
@@ -342,68 +342,68 @@ window.CONFIG = CONFIG;</script><meta name="generator" content="Hexo 7.3.0"></he
 <li><strong>工具支持</strong>：使用 Go 的工具链（如 <code>gofmt</code>、<code>go vet</code>、<code>golangci-lint</code>）提高开发效率。</li>
 </ol>
 <p>通过遵循这些最佳实践，你的 Go 代码将更加高效、可靠和易于维护！ 🚀</p>
-</div><footer class="post-footer"><div class="post-ending ending"><div class="ending__text">------ 本文结束，感谢您的阅读 ------</div></div><div class="post-copyright copyright"><div class="copyright-author"><span class="copyright-author__name">本文作者: </span><span class="copyright-author__value"><a href="https://ljd0620.github.io">Liujiduo</a></span></div><div class="copyright-link"><span class="copyright-link__name">本文链接: </span><span class="copyright-link__value"><a href="https://ljd0620.github.io/2025/03/19/Go%E8%AF%AD%E8%A8%80%E7%BC%96%E7%A8%8B%E6%9C%80%E4%BD%B3%E5%AE%9E%E8%B7%B5/">https://ljd0620.github.io/2025/03/19/Go%E8%AF%AD%E8%A8%80%E7%BC%96%E7%A8%8B%E6%9C%80%E4%BD%B3%E5%AE%9E%E8%B7%B5/</a></span></div><div class="copyright-notice"><span class="copyright-notice__name">版权声明: </span><span class="copyright-notice__value">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en" rel="external nofollow" target="_blank">BY-NC-SA</a> 许可协议。转载请注明出处！</span></div></div><div class="post-tags"><span class="post-tags-item"><span class="post-tags-item__icon"><i class="fas fa-tag"></i></span><a class="post-tags-item__link" href="https://ljd0620.github.io/tags/Go/">Go</a></span></div><div class="post-reward reward"><div class="reward-button">请我喝杯咖啡~</div><div class="reward-qrcode"><span class="reward-qrcode-alipay"><img class="reward-qrcode-alipay__img" src="https://pub-dc7fa280ba2f4edea3f388602fa80bb0.r2.dev/alipay.jpg"><div class="reward-qrcode-alipay__text">支付宝打赏</div></span><span class="reward-qrcode-wechat"><img class="reward-qrcode-wechat__img" src="https://pub-dc7fa280ba2f4edea3f388602fa80bb0.r2.dev/wechat.jpg"><div class="reward-qrcode-wechat__text">微信打赏</div></span></div></div><nav class="post-paginator paginator"><div class="paginator-prev"><a class="paginator-prev__link" href="/2025/03/20/Java%E5%90%84%E4%B8%AA%E7%89%88%E6%9C%AC%E7%9A%84%E6%9B%B4%E6%96%B0%E7%89%B9%E6%80%A7%EF%BC%88%E6%8C%81%E7%BB%AD%E6%9B%B4%E6%96%B0%E2%80%A6%EF%BC%89/"><span class="paginator-prev__icon"><i class="fas fa-angle-left"></i></span><span class="paginator-prev__text">Java各个版本的更新特性（持续更新…）</span></a></div><div class="paginator-next"><a class="paginator-next__link" href="/2025/03/03/Go%E8%AF%AD%E8%A8%80panic%E5%87%BD%E6%95%B0%E7%94%A8%E6%B3%95/"><span class="paginator-prev__text">Go语言panic函数用法</span><span class="paginator-next__icon"><i class="fas fa-angle-right"></i></span></a></div></nav></footer></div></div></div><div class="sidebar-wrap" id="sidebar-wrap"><aside class="sidebar" id="sidebar"><div class="sidebar-nav"><span class="sidebar-nav-toc current">文章目录</span><span class="sidebar-nav-ov">站点概览</span></div><section class="sidebar-toc"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E4%BB%A3%E7%A0%81%E8%AE%BE%E8%AE%A1"><span class="toc-text">
-          1. 代码设计</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-1-%E5%8D%95%E4%B8%80%E8%81%8C%E8%B4%A3%E5%8E%9F%E5%88%99"><span class="toc-text">
+</div><footer class="post-footer"><div class="post-ending ending"><div class="ending__text">------ 本文结束，感谢您的阅读 ------</div></div><div class="post-copyright copyright"><div class="copyright-author"><span class="copyright-author__name">本文作者: </span><span class="copyright-author__value"><a href="https://ljd0620.github.io">Liujiduo</a></span></div><div class="copyright-link"><span class="copyright-link__name">本文链接: </span><span class="copyright-link__value"><a href="https://ljd0620.github.io/2025/03/19/Go%E8%AF%AD%E8%A8%80%E7%BC%96%E7%A8%8B%E6%9C%80%E4%BD%B3%E5%AE%9E%E8%B7%B5/">https://ljd0620.github.io/2025/03/19/Go%E8%AF%AD%E8%A8%80%E7%BC%96%E7%A8%8B%E6%9C%80%E4%BD%B3%E5%AE%9E%E8%B7%B5/</a></span></div><div class="copyright-notice"><span class="copyright-notice__name">版权声明: </span><span class="copyright-notice__value">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en" rel="external nofollow" target="_blank">BY-NC-SA</a> 许可协议。转载请注明出处！</span></div></div><div class="post-tags"><span class="post-tags-item"><span class="post-tags-item__icon"><i class="fas fa-tag"></i></span><a class="post-tags-item__link" href="https://ljd0620.github.io/tags/Go/">Go</a></span></div><div class="post-reward reward"><div class="reward-button">请我喝杯咖啡~</div><div class="reward-qrcode"><span class="reward-qrcode-alipay"><img class="reward-qrcode-alipay__img" src="https://pub-dc7fa280ba2f4edea3f388602fa80bb0.r2.dev/alipay.jpg"><div class="reward-qrcode-alipay__text">支付宝打赏</div></span><span class="reward-qrcode-wechat"><img class="reward-qrcode-wechat__img" src="https://pub-dc7fa280ba2f4edea3f388602fa80bb0.r2.dev/wechat.jpg"><div class="reward-qrcode-wechat__text">微信打赏</div></span></div></div><nav class="post-paginator paginator"><div class="paginator-prev"><a class="paginator-prev__link" href="/2025/03/20/Java%E5%90%84%E4%B8%AA%E7%89%88%E6%9C%AC%E7%9A%84%E6%9B%B4%E6%96%B0%E7%89%B9%E6%80%A7%EF%BC%88%E6%8C%81%E7%BB%AD%E6%9B%B4%E6%96%B0%E2%80%A6%EF%BC%89/"><span class="paginator-prev__icon"><i class="fas fa-angle-left"></i></span><span class="paginator-prev__text">Java各个版本的更新特性（持续更新…）</span></a></div><div class="paginator-next"><a class="paginator-next__link" href="/2025/03/03/Go%E8%AF%AD%E8%A8%80panic%E5%87%BD%E6%95%B0%E7%94%A8%E6%B3%95/"><span class="paginator-prev__text">Go语言panic函数用法</span><span class="paginator-next__icon"><i class="fas fa-angle-right"></i></span></a></div></nav></footer></div></div></div><div class="sidebar-wrap" id="sidebar-wrap"><aside class="sidebar" id="sidebar"><div class="sidebar-nav"><span class="sidebar-nav-toc current">文章目录</span><span class="sidebar-nav-ov">站点概览</span></div><section class="sidebar-toc"><ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E4%BB%A3%E7%A0%81%E8%AE%BE%E8%AE%A1"><span class="toc-text">
+          1. 代码设计</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-1-%E5%8D%95%E4%B8%80%E8%81%8C%E8%B4%A3%E5%8E%9F%E5%88%99"><span class="toc-text">
           1.1 单一职责原则</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E7%A4%BA%E4%BE%8B%EF%BC%9A"><span class="toc-text">
-          示例：</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-2-%E5%B0%81%E8%A3%85%E4%B8%8E%E6%8A%BD%E8%B1%A1"><span class="toc-text">
+          示例：</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-2-%E5%B0%81%E8%A3%85%E4%B8%8E%E6%8A%BD%E8%B1%A1"><span class="toc-text">
           1.2 封装与抽象</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E7%A4%BA%E4%BE%8B%EF%BC%9A-1"><span class="toc-text">
-          示例：</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-3-%E4%BD%BF%E7%94%A8%E6%9C%89%E6%84%8F%E4%B9%89%E7%9A%84%E5%91%BD%E5%90%8D"><span class="toc-text">
+          示例：</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-3-%E4%BD%BF%E7%94%A8%E6%9C%89%E6%84%8F%E4%B9%89%E7%9A%84%E5%91%BD%E5%90%8D"><span class="toc-text">
           1.3 使用有意义的命名</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E7%A4%BA%E4%BE%8B%EF%BC%9A-2"><span class="toc-text">
-          示例：</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-4-%E9%81%BF%E5%85%8D%E8%BF%87%E5%BA%A6%E8%AE%BE%E8%AE%A1"><span class="toc-text">
-          1.4 避免过度设计</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-%E9%94%99%E8%AF%AF%E5%A4%84%E7%90%86"><span class="toc-text">
-          2. 错误处理</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#2-1-%E6%98%BE%E5%BC%8F%E5%A4%84%E7%90%86%E9%94%99%E8%AF%AF"><span class="toc-text">
+          示例：</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-4-%E9%81%BF%E5%85%8D%E8%BF%87%E5%BA%A6%E8%AE%BE%E8%AE%A1"><span class="toc-text">
+          1.4 避免过度设计</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E9%94%99%E8%AF%AF%E5%A4%84%E7%90%86"><span class="toc-text">
+          2. 错误处理</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#2-1-%E6%98%BE%E5%BC%8F%E5%A4%84%E7%90%86%E9%94%99%E8%AF%AF"><span class="toc-text">
           2.1 显式处理错误</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E7%A4%BA%E4%BE%8B%EF%BC%9A-3"><span class="toc-text">
-          示例：</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-2-%E8%87%AA%E5%AE%9A%E4%B9%89%E9%94%99%E8%AF%AF%E7%B1%BB%E5%9E%8B"><span class="toc-text">
+          示例：</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-2-%E8%87%AA%E5%AE%9A%E4%B9%89%E9%94%99%E8%AF%AF%E7%B1%BB%E5%9E%8B"><span class="toc-text">
           2.2 自定义错误类型</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E7%A4%BA%E4%BE%8B%EF%BC%9A-4"><span class="toc-text">
-          示例：</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-3-%E4%BD%BF%E7%94%A8-errors-Is-%E5%92%8C-errors-As"><span class="toc-text">
+          示例：</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-3-%E4%BD%BF%E7%94%A8-errors-Is-%E5%92%8C-errors-As"><span class="toc-text">
           2.3 使用 errors.Is 和 errors.As</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E7%A4%BA%E4%BE%8B%EF%BC%9A-5"><span class="toc-text">
-          示例：</span></a></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B"><span class="toc-text">
-          3. 并发编程</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#3-1-%E4%BD%BF%E7%94%A8-Goroutine-%E5%92%8C-Channel"><span class="toc-text">
+          示例：</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B"><span class="toc-text">
+          3. 并发编程</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#3-1-%E4%BD%BF%E7%94%A8-Goroutine-%E5%92%8C-Channel"><span class="toc-text">
           3.1 使用 Goroutine 和 Channel</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E7%A4%BA%E4%BE%8B%EF%BC%9A-6"><span class="toc-text">
-          示例：</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-2-%E9%81%BF%E5%85%8D%E7%AB%9E%E6%80%81%E6%9D%A1%E4%BB%B6"><span class="toc-text">
+          示例：</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-2-%E9%81%BF%E5%85%8D%E7%AB%9E%E6%80%81%E6%9D%A1%E4%BB%B6"><span class="toc-text">
           3.2 避免竞态条件</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E7%A4%BA%E4%BE%8B%EF%BC%9A-7"><span class="toc-text">
-          示例：</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-3-%E4%BD%BF%E7%94%A8-sync-WaitGroup"><span class="toc-text">
+          示例：</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-3-%E4%BD%BF%E7%94%A8-sync-WaitGroup"><span class="toc-text">
           3.3 使用 sync.WaitGroup</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E7%A4%BA%E4%BE%8B%EF%BC%9A-8"><span class="toc-text">
-          示例：</span></a></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96"><span class="toc-text">
-          4. 性能优化</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#4-1-%E9%81%BF%E5%85%8D%E4%B8%8D%E5%BF%85%E8%A6%81%E7%9A%84%E5%86%85%E5%AD%98%E5%88%86%E9%85%8D"><span class="toc-text">
+          示例：</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96"><span class="toc-text">
+          4. 性能优化</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#4-1-%E9%81%BF%E5%85%8D%E4%B8%8D%E5%BF%85%E8%A6%81%E7%9A%84%E5%86%85%E5%AD%98%E5%88%86%E9%85%8D"><span class="toc-text">
           4.1 避免不必要的内存分配</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E7%A4%BA%E4%BE%8B%EF%BC%9A-9"><span class="toc-text">
-          示例：</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-2-%E4%BD%BF%E7%94%A8-strings-Builder"><span class="toc-text">
+          示例：</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-2-%E4%BD%BF%E7%94%A8-strings-Builder"><span class="toc-text">
           4.2 使用 strings.Builder</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E7%A4%BA%E4%BE%8B%EF%BC%9A-10"><span class="toc-text">
-          示例：</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-3-%E9%81%BF%E5%85%8D%E8%BF%87%E5%BA%A6%E4%BC%98%E5%8C%96"><span class="toc-text">
-          4.3 避免过度优化</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-%E6%B5%8B%E8%AF%95"><span class="toc-text">
-          5. 测试</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#5-1-%E7%BC%96%E5%86%99%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95"><span class="toc-text">
+          示例：</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-3-%E9%81%BF%E5%85%8D%E8%BF%87%E5%BA%A6%E4%BC%98%E5%8C%96"><span class="toc-text">
+          4.3 避免过度优化</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-%E6%B5%8B%E8%AF%95"><span class="toc-text">
+          5. 测试</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#5-1-%E7%BC%96%E5%86%99%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95"><span class="toc-text">
           5.1 编写单元测试</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E7%A4%BA%E4%BE%8B%EF%BC%9A-11"><span class="toc-text">
-          示例：</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-2-%E5%9F%BA%E5%87%86%E6%B5%8B%E8%AF%95"><span class="toc-text">
+          示例：</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#5-2-%E5%9F%BA%E5%87%86%E6%B5%8B%E8%AF%95"><span class="toc-text">
           5.2 基准测试</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E7%A4%BA%E4%BE%8B%EF%BC%9A-12"><span class="toc-text">
-          示例：</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-3-%E4%BD%BF%E7%94%A8-Mock-%E5%92%8C-Stub"><span class="toc-text">
+          示例：</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#5-3-%E4%BD%BF%E7%94%A8-Mock-%E5%92%8C-Stub"><span class="toc-text">
           5.3 使用 Mock 和 Stub</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E7%A4%BA%E4%BE%8B%EF%BC%9A-13"><span class="toc-text">
-          示例：</span></a></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#6-%E4%BE%9D%E8%B5%96%E7%AE%A1%E7%90%86"><span class="toc-text">
-          6. 依赖管理</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#6-1-%E4%BD%BF%E7%94%A8-Go-Modules"><span class="toc-text">
+          示例：</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-%E4%BE%9D%E8%B5%96%E7%AE%A1%E7%90%86"><span class="toc-text">
+          6. 依赖管理</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#6-1-%E4%BD%BF%E7%94%A8-Go-Modules"><span class="toc-text">
           6.1 使用 Go Modules</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E7%A4%BA%E4%BE%8B%EF%BC%9A-14"><span class="toc-text">
-          示例：</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-2-%E9%81%BF%E5%85%8D%E8%BF%87%E5%BA%A6%E4%BE%9D%E8%B5%96"><span class="toc-text">
-          6.2 避免过度依赖</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#7-%E4%BB%A3%E7%A0%81%E9%A3%8E%E6%A0%BC"><span class="toc-text">
-          7. 代码风格</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#7-1-%E4%BD%BF%E7%94%A8-gofmt-%E6%A0%BC%E5%BC%8F%E5%8C%96%E4%BB%A3%E7%A0%81"><span class="toc-text">
+          示例：</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#6-2-%E9%81%BF%E5%85%8D%E8%BF%87%E5%BA%A6%E4%BE%9D%E8%B5%96"><span class="toc-text">
+          6.2 避免过度依赖</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#7-%E4%BB%A3%E7%A0%81%E9%A3%8E%E6%A0%BC"><span class="toc-text">
+          7. 代码风格</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#7-1-%E4%BD%BF%E7%94%A8-gofmt-%E6%A0%BC%E5%BC%8F%E5%8C%96%E4%BB%A3%E7%A0%81"><span class="toc-text">
           7.1 使用 gofmt 格式化代码</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E7%A4%BA%E4%BE%8B%EF%BC%9A-15"><span class="toc-text">
-          示例：</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#7-2-%E4%BD%BF%E7%94%A8-golint-%E6%A3%80%E6%9F%A5%E4%BB%A3%E7%A0%81%E9%A3%8E%E6%A0%BC"><span class="toc-text">
+          示例：</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#7-2-%E4%BD%BF%E7%94%A8-golint-%E6%A3%80%E6%9F%A5%E4%BB%A3%E7%A0%81%E9%A3%8E%E6%A0%BC"><span class="toc-text">
           7.2 使用 golint 检查代码风格</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E7%A4%BA%E4%BE%8B%EF%BC%9A-16"><span class="toc-text">
-          示例：</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#7-3-%E4%BD%BF%E7%94%A8-go-vet-%E6%A3%80%E6%9F%A5%E6%BD%9C%E5%9C%A8%E9%97%AE%E9%A2%98"><span class="toc-text">
+          示例：</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#7-3-%E4%BD%BF%E7%94%A8-go-vet-%E6%A3%80%E6%9F%A5%E6%BD%9C%E5%9C%A8%E9%97%AE%E9%A2%98"><span class="toc-text">
           7.3 使用 go vet 检查潜在问题</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E7%A4%BA%E4%BE%8B%EF%BC%9A-17"><span class="toc-text">
-          示例：</span></a></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#8-%E6%96%87%E6%A1%A3%E4%B8%8E%E6%B3%A8%E9%87%8A"><span class="toc-text">
-          8. 文档与注释</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#8-1-%E5%8C%85%E6%B3%A8%E9%87%8A"><span class="toc-text">
+          示例：</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#8-%E6%96%87%E6%A1%A3%E4%B8%8E%E6%B3%A8%E9%87%8A"><span class="toc-text">
+          8. 文档与注释</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#8-1-%E5%8C%85%E6%B3%A8%E9%87%8A"><span class="toc-text">
           8.1 包注释</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E7%A4%BA%E4%BE%8B%EF%BC%9A-18"><span class="toc-text">
-          示例：</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#8-2-%E5%87%BD%E6%95%B0%E6%B3%A8%E9%87%8A"><span class="toc-text">
+          示例：</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#8-2-%E5%87%BD%E6%95%B0%E6%B3%A8%E9%87%8A"><span class="toc-text">
           8.2 函数注释</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E7%A4%BA%E4%BE%8B%EF%BC%9A-19"><span class="toc-text">
-          示例：</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#8-3-%E8%A1%8C%E5%86%85%E6%B3%A8%E9%87%8A"><span class="toc-text">
-          8.3 行内注释</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#9-%E5%B7%A5%E5%85%B7%E9%93%BE"><span class="toc-text">
-          9. 工具链</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#9-1-%E4%BD%BF%E7%94%A8-go-mod-%E7%AE%A1%E7%90%86%E4%BE%9D%E8%B5%96"><span class="toc-text">
-          9.1 使用 go mod 管理依赖</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#9-2-%E4%BD%BF%E7%94%A8%E9%9D%99%E6%80%81%E5%88%86%E6%9E%90%E5%B7%A5%E5%85%B7"><span class="toc-text">
+          示例：</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#8-3-%E8%A1%8C%E5%86%85%E6%B3%A8%E9%87%8A"><span class="toc-text">
+          8.3 行内注释</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#9-%E5%B7%A5%E5%85%B7%E9%93%BE"><span class="toc-text">
+          9. 工具链</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#9-1-%E4%BD%BF%E7%94%A8-go-mod-%E7%AE%A1%E7%90%86%E4%BE%9D%E8%B5%96"><span class="toc-text">
+          9.1 使用 go mod 管理依赖</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#9-2-%E4%BD%BF%E7%94%A8%E9%9D%99%E6%80%81%E5%88%86%E6%9E%90%E5%B7%A5%E5%85%B7"><span class="toc-text">
           9.2 使用静态分析工具</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E7%A4%BA%E4%BE%8B%EF%BC%9A-20"><span class="toc-text">
-          示例：</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#9-3-%E4%BD%BF%E7%94%A8-CI-CD-%E5%B7%A5%E5%85%B7"><span class="toc-text">
-          9.3 使用 CI&#x2F;CD 工具</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#10-%E5%85%B6%E4%BB%96%E6%9C%80%E4%BD%B3%E5%AE%9E%E8%B7%B5"><span class="toc-text">
-          10. 其他最佳实践</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#10-1-%E9%81%BF%E5%85%8D%E5%85%A8%E5%B1%80%E5%8F%98%E9%87%8F"><span class="toc-text">
-          10.1 避免全局变量</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#10-2-%E4%BD%BF%E7%94%A8%E5%88%87%E7%89%87%E4%BB%A3%E6%9B%BF%E6%95%B0%E7%BB%84"><span class="toc-text">
+          示例：</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#9-3-%E4%BD%BF%E7%94%A8-CI-CD-%E5%B7%A5%E5%85%B7"><span class="toc-text">
+          9.3 使用 CI&#x2F;CD 工具</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#10-%E5%85%B6%E4%BB%96%E6%9C%80%E4%BD%B3%E5%AE%9E%E8%B7%B5"><span class="toc-text">
+          10. 其他最佳实践</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#10-1-%E9%81%BF%E5%85%8D%E5%85%A8%E5%B1%80%E5%8F%98%E9%87%8F"><span class="toc-text">
+          10.1 避免全局变量</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#10-2-%E4%BD%BF%E7%94%A8%E5%88%87%E7%89%87%E4%BB%A3%E6%9B%BF%E6%95%B0%E7%BB%84"><span class="toc-text">
           10.2 使用切片代替数组</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E7%A4%BA%E4%BE%8B%EF%BC%9A-21"><span class="toc-text">
-          示例：</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#10-3-%E4%BD%BF%E7%94%A8-context-%E7%AE%A1%E7%90%86%E8%AF%B7%E6%B1%82%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F"><span class="toc-text">
+          示例：</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#10-3-%E4%BD%BF%E7%94%A8-context-%E7%AE%A1%E7%90%86%E8%AF%B7%E6%B1%82%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F"><span class="toc-text">
           10.3 使用 context 管理请求生命周期</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E7%A4%BA%E4%BE%8B%EF%BC%9A-22"><span class="toc-text">
-          示例：</span></a></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-text">
+          示例：</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-text">
           总结</span></a></li></ol></section><!-- ov = overview--><section class="sidebar-ov hide"><div class="sidebar-ov-author"><div class="sidebar-ov-author__avatar"><img class="sidebar-ov-author__avatar_img" src="https://pub-dc7fa280ba2f4edea3f388602fa80bb0.r2.dev/avatar.jpg" alt="avatar"></div><p class="sidebar-ov-author__text">Liujiduo's Blog</p></div><div class="sidebar-ov-feed"><span class="sidebar-ov-feed-email"><a class="sidebar-ov-feed-email__link" href="mailto:liujiduo@sina.com" target="_blank" rel="noopener"><span class="sidebar-ov-feed-email__icon"><i class="fas fa-envelope"></i></span><span>Email 订阅</span></a></span><span class="sidebar-ov-feed-rss"><a class="sidebar-ov-feed-rss__link" href="/atom.xml" target="_blank" rel="noopener"><span class="sidebar-ov-feed-rss__icon"><i class="fas fa-rss"></i></span><span>RSS 订阅</span></a></span></div><div class="sidebar-ov-state"><a class="sidebar-ov-state-item sidebar-ov-state-item--posts" href="/archives/"><div class="sidebar-ov-state-item__count">51</div><div class="sidebar-ov-state-item__name">归档</div></a><a class="sidebar-ov-state-item sidebar-ov-state-item--categories" href="/categories/"><div class="sidebar-ov-state-item__count">17</div><div class="sidebar-ov-state-item__name">分类</div></a><a class="sidebar-ov-state-item sidebar-ov-state-item--tags" href="/tags/"><div class="sidebar-ov-state-item__count">44</div><div class="sidebar-ov-state-item__name">标签</div></a></div><div class="sidebar-ov-cc"><a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en" target="_blank" rel="noopener" data-popover="知识共享许可协议" data-popover-pos="up"><img src="/images/cc-by-nc-sa.svg"></a></div></section><div class="sidebar-reading"><div class="sidebar-reading-info"><span class="sidebar-reading-info__text">你已阅读了 </span><span class="sidebar-reading-info__num">0</span><span class="sidebar-reading-info__perc">%</span></div><div class="sidebar-reading-line"></div></div></aside></div><div class="clearfix"></div></div></main><footer class="footer" id="footer"><div class="footer-inner"><div><span>Copyright © 2024~2025</span><span class="footer__icon"><i class="fas fa-heart"></i></span><span>Liujiduo All Rights Reserved</span></div><div class="busuanzi"></div></div></footer><div class="loading-bar" id="loading-bar"><div class="loading-bar__progress"></div></div><div class="back2top" id="back2top"><span class="back2top__icon"><i class="fas fa-rocket"></i></span></div></div><script src="https://cdn.jsdelivr.net/npm/jquery@v3.4.1/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/velocity-animate@1.5.2/velocity.min.js"></script><script src="https://cdn.jsdelivr.net/npm/velocity-animate@1.5.2/velocity.ui.min.js"></script><script src="https://cdn.jsdelivr.net/npm/ribbon.js@latest/dist/ribbon.min.js" size="120" alpha="0.6" zIndex="-1"></script><script src="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script><script src="/js/utils.js?v=2.8.0"></script><script src="/js/stun-boot.js?v=2.8.0"></script><script src="/js/scroll.js?v=2.8.0"></script><script src="/js/header.js?v=2.8.0"></script><script src="/js/sidebar.js?v=2.8.0"></script></body></html>
