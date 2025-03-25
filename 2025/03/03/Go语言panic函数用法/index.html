@@ -6,7 +6,7 @@
 <meta property="og:description" content="Go语言panic函数用法">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2025-03-03T08:09:09.000Z">
-<meta property="article:modified_time" content="2025-03-19T08:09:54.436Z">
+<meta property="article:modified_time" content="2025-03-25T08:09:26.669Z">
 <meta property="article:author" content="Liujiduo">
 <meta property="article:tag" content="Go">
 <meta name="twitter:card" content="summary"><title>Go语言panic函数用法 | Just Do IT.</title><link ref="canonical" href="https://ljd0620.github.io/2025/03/03/Go%E8%AF%AD%E8%A8%80panic%E5%87%BD%E6%95%B0%E7%94%A8%E6%B3%95/"><link rel="alternate" href="/atom.xml" type="application/atom+xml"><link rel="dns-prefetch" href="https://cdn.jsdelivr.net"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.12.1/css/all.min.css" type="text/css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" type="text/css"><link rel="stylesheet" href="/css/index.css?v=2.8.0"><script>var Stun = window.Stun || {};
@@ -45,13 +45,10 @@ window.CONFIG = CONFIG;</script><meta name="generator" content="Hexo 7.3.0"></he
 <figure class="highlight go"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">    <span class="built_in">panic</span>(<span class="string">&quot;something went wrong&quot;</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></div></figure>
 
 <ul>
-<li><p><strong>输出</strong>：<br>panic: something went wrong</p>
-<pre><code>goroutine 1 [running]:
-main.main()
-        /path/to/file.go:4 +0x27
-</code></pre>
-</li>
+<li><strong>输出</strong>：</li>
 </ul>
+<figure class="highlight plaintext"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">panic: something went wron</span><br><span class="line">    goroutine 1 [running]:</span><br><span class="line">    main.main()</span><br><span class="line">            /path/to/file.go:4 +0x27</span><br></pre></td></tr></table></div></figure>
+
 
         <h4 id="2-Panic-的传播"   >
           <a href="#2-Panic-的传播" class="heading-link"><i class="fas fa-link"></i></a><a href="#2-Panic-的传播" class="headerlink" title="2. Panic 的传播"></a><strong>2. Panic 的传播</strong></h4>
@@ -59,17 +56,10 @@ main.main()
 <figure class="highlight go"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">foo</span><span class="params">()</span></span> &#123;</span><br><span class="line">    <span class="built_in">panic</span>(<span class="string">&quot;error in foo&quot;</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">bar</span><span class="params">()</span></span> &#123;</span><br><span class="line">    foo()</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">    bar()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></div></figure>
 
 <ul>
-<li><p><strong>输出</strong>：<br>panic: error in foo</p>
-<pre><code>goroutine 1 [running]:
-main.foo()
-        /path/to/file.go:4 +0x27
-main.bar()
-        /path/to/file.go:8 +0x14
-main.main()
-        /path/to/file.go:12 +0x14
-</code></pre>
-</li>
+<li><strong>输出</strong>：</li>
 </ul>
+<figure class="highlight plaintext"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">panic: error in foo</span><br><span class="line">    goroutine 1 [running]:</span><br><span class="line">    main.foo()</span><br><span class="line">            /path/to/file.go:4 +0x27</span><br><span class="line">    main.bar()</span><br><span class="line">            /path/to/file.go:8 +0x14</span><br><span class="line">    main.main()</span><br><span class="line">            /path/to/file.go:12 +0x14</span><br></pre></td></tr></table></div></figure>
+
 <hr>
 
         <h3 id="二、Recover-捕获-Panic"   >
@@ -81,8 +71,10 @@ main.main()
 <figure class="highlight go"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">    <span class="keyword">defer</span> <span class="function"><span class="keyword">func</span><span class="params">()</span></span> &#123;</span><br><span class="line">        <span class="keyword">if</span> r := <span class="built_in">recover</span>(); r != <span class="literal">nil</span> &#123;</span><br><span class="line">            fmt.Println(<span class="string">&quot;Recovered from panic:&quot;</span>, r)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;()</span><br><span class="line">    <span class="built_in">panic</span>(<span class="string">&quot;something went wrong&quot;</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></div></figure>
 
 <ul>
-<li><strong>输出</strong>：<br>Recovered from panic: something went wrong</li>
+<li><strong>输出</strong>：</li>
 </ul>
+<figure class="highlight plaintext"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Recovered from panic: something went wrong</span><br></pre></td></tr></table></div></figure>
+
 
         <h4 id="2-Recover-的限制"   >
           <a href="#2-Recover-的限制" class="heading-link"><i class="fas fa-link"></i></a><a href="#2-Recover-的限制" class="headerlink" title="2. Recover 的限制"></a><strong>2. Recover 的限制</strong></h4>

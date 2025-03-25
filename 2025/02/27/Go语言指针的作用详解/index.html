@@ -6,7 +6,7 @@
 <meta property="og:description" content="Go语言指针的作用详解">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2025-02-27T08:08:16.000Z">
-<meta property="article:modified_time" content="2025-03-19T08:08:46.168Z">
+<meta property="article:modified_time" content="2025-03-25T08:12:17.436Z">
 <meta property="article:author" content="Liujiduo">
 <meta property="article:tag" content="Go">
 <meta name="twitter:card" content="summary"><title>Go语言指针的作用详解 | Just Do IT.</title><link ref="canonical" href="https://ljd0620.github.io/2025/02/27/Go%E8%AF%AD%E8%A8%80%E6%8C%87%E9%92%88%E7%9A%84%E4%BD%9C%E7%94%A8%E8%AF%A6%E8%A7%A3/"><link rel="alternate" href="/atom.xml" type="application/atom+xml"><link rel="dns-prefetch" href="https://cdn.jsdelivr.net"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.12.1/css/all.min.css" type="text/css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" type="text/css"><link rel="stylesheet" href="/css/index.css?v=2.8.0"><script>var Stun = window.Stun || {};
@@ -45,8 +45,8 @@ window.CONFIG = CONFIG;</script><meta name="generator" content="Hexo 7.3.0"></he
       <figure class="highlight go"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">    x := <span class="number">42</span>          <span class="comment">// 定义一个变量 x</span></span><br><span class="line">    p := &amp;x          <span class="comment">// p 是一个指针，存储 x 的地址</span></span><br><span class="line">    fmt.Println(*p)  <span class="comment">// 输出指针指向的值，即 x 的值：42</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></div></figure>
 
 <p>输出：</p>
-<pre><code>42
-</code></pre>
+<figure class="highlight plaintext"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">42</span><br></pre></td></tr></table></div></figure>
+
 <hr>
 
         <h3 id="2-指针的用处"   >
@@ -91,10 +91,8 @@ window.CONFIG = CONFIG;</script><meta name="generator" content="Hexo 7.3.0"></he
       <figure class="highlight go"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> Node <span class="keyword">struct</span> &#123;</span><br><span class="line">    value <span class="type">int</span></span><br><span class="line">    next  *Node <span class="comment">// 指向下一个节点</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">    <span class="comment">// 创建链表节点</span></span><br><span class="line">    head := &amp;Node&#123;value: <span class="number">1</span>&#125;</span><br><span class="line">    second := &amp;Node&#123;value: <span class="number">2</span>&#125;</span><br><span class="line">    third := &amp;Node&#123;value: <span class="number">3</span>&#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 连接节点</span></span><br><span class="line">    head.next = second</span><br><span class="line">    second.next = third</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 遍历链表</span></span><br><span class="line">    current := head</span><br><span class="line">    <span class="keyword">for</span> current != <span class="literal">nil</span> &#123;</span><br><span class="line">        fmt.Println(current.value)</span><br><span class="line">        current = current.next</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></div></figure>
 
 <p>输出：</p>
-<pre><code>1
-2
-3
-</code></pre>
+<figure class="highlight plaintext"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td></tr></table></div></figure>
+
 <hr>
 
         <h4 id="2-5-实现接口方法"   >
@@ -116,9 +114,8 @@ window.CONFIG = CONFIG;</script><meta name="generator" content="Hexo 7.3.0"></he
       <figure class="highlight go"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">    <span class="keyword">var</span> p *<span class="type">int</span> <span class="comment">// p 是一个指针，默认值为 nil</span></span><br><span class="line">    <span class="keyword">if</span> p == <span class="literal">nil</span> &#123;</span><br><span class="line">        fmt.Println(<span class="string">&quot;Pointer is nil&quot;</span>)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    x := <span class="number">42</span></span><br><span class="line">    p = &amp;x <span class="comment">// 指向 x</span></span><br><span class="line">    <span class="keyword">if</span> p != <span class="literal">nil</span> &#123;</span><br><span class="line">        fmt.Println(<span class="string">&quot;Pointer is not nil, value:&quot;</span>, *p)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></div></figure>
 
 <p>输出：</p>
-<pre><code>Pointer is nil
-Pointer is not nil, value: 42
-</code></pre>
+<figure class="highlight plaintext"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Pointer is nil</span><br><span class="line">Pointer is not nil, value: 42</span><br></pre></td></tr></table></div></figure>
+
 <hr>
 
         <h4 id="2-7-实现函数返回多个值"   >
