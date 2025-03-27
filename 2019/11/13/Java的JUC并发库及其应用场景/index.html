@@ -1,0 +1,321 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="format-detection" content="telephone=no"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black"><link rel="icon" href="https://pub-dc7fa280ba2f4edea3f388602fa80bb0.r2.dev/favicon.ico?v=2.8.0" type="image/png" sizes="16x16"><link rel="icon" href="https://pub-dc7fa280ba2f4edea3f388602fa80bb0.r2.dev/favicon.ico?v=2.8.0" type="image/png" sizes="32x32"><meta name="description" content="本文深入解析了Java的JUC并发库及其应用场景，包括主要JUC类及其应用场景的详细分类解析。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java的JUC并发库及其应用场景">
+<meta property="og:url" content="https://ljd0620.github.io/2019/11/13/Java%E7%9A%84JUC%E5%B9%B6%E5%8F%91%E5%BA%93%E5%8F%8A%E5%85%B6%E5%BA%94%E7%94%A8%E5%9C%BA%E6%99%AF/index.html">
+<meta property="og:site_name" content="Just Do IT.">
+<meta property="og:description" content="本文深入解析了Java的JUC并发库及其应用场景，包括主要JUC类及其应用场景的详细分类解析。">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2019-11-13T04:57:13.000Z">
+<meta property="article:modified_time" content="2025-03-27T06:58:44.730Z">
+<meta property="article:author" content="Liujiduo">
+<meta property="article:tag" content="Java">
+<meta property="article:tag" content="并发编程">
+<meta property="article:tag" content="JUC">
+<meta name="twitter:card" content="summary"><title>Java的JUC并发库及其应用场景 | Just Do IT.</title><link ref="canonical" href="https://ljd0620.github.io/2019/11/13/Java%E7%9A%84JUC%E5%B9%B6%E5%8F%91%E5%BA%93%E5%8F%8A%E5%85%B6%E5%BA%94%E7%94%A8%E5%9C%BA%E6%99%AF/"><link rel="alternate" href="/atom.xml" type="application/atom+xml"><link rel="dns-prefetch" href="https://cdn.jsdelivr.net"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.12.1/css/all.min.css" type="text/css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" type="text/css"><link rel="stylesheet" href="/css/index.css?v=2.8.0"><script>var Stun = window.Stun || {};
+var CONFIG = {
+  root: '/',
+  algolia: undefined,
+  assistSearch: undefined,
+  fontIcon: {"prompt":{"success":"fas fa-check-circle","info":"fas fa-arrow-circle-right","warning":"fas fa-exclamation-circle","error":"fas fa-times-circle"},"copyBtn":"fas fa-copy"},
+  sidebar: {"offsetTop":"20px","tocMaxDepth":6},
+  header: {"enable":true,"showOnPost":true,"scrollDownIcon":false},
+  postWidget: {"endText":true},
+  nightMode: {"enable":true},
+  back2top: {"enable":true},
+  codeblock: {"style":"carbon","highlight":"light","wordWrap":false},
+  reward: true,
+  fancybox: true,
+  zoomImage: {"gapAside":"20px"},
+  galleryWaterfall: undefined,
+  lazyload: false,
+  pjax: undefined,
+  externalLink: {"icon":{"enable":true,"name":"fas fa-external-link-alt"}},
+  shortcuts: undefined,
+  prompt: {"copyButton":"复制","copySuccess":"复制成功","copyError":"复制失败"},
+  sourcePath: {"js":"js","css":"css","images":"images"},
+};
+
+window.CONFIG = CONFIG;</script><meta name="generator" content="Hexo 7.3.0"></head><body><div class="container" id="container"><header class="header" id="header"><div class="header-inner"><nav class="header-nav header-nav--fixed"><div class="header-nav-inner"><div class="header-nav-menubtn"><i class="fas fa-bars"></i></div><div class="header-nav-menu"><div class="header-nav-menu-item"><a class="header-nav-menu-item__link" href="/"><span class="header-nav-menu-item__icon"><i class="fas fa-home"></i></span><span class="header-nav-menu-item__text">首页</span></a></div><div class="header-nav-menu-item"><a class="header-nav-menu-item__link" href="/archives/"><span class="header-nav-menu-item__icon"><i class="fas fa-folder-open"></i></span><span class="header-nav-menu-item__text">归档</span></a></div><div class="header-nav-menu-item"><a class="header-nav-menu-item__link" href="/categories/"><span class="header-nav-menu-item__icon"><i class="fas fa-layer-group"></i></span><span class="header-nav-menu-item__text">分类</span></a></div><div class="header-nav-menu-item"><a class="header-nav-menu-item__link" href="/tags/"><span class="header-nav-menu-item__icon"><i class="fas fa-tags"></i></span><span class="header-nav-menu-item__text">标签</span></a></div><div class="header-nav-menu-item"><a class="header-nav-menu-item__link" href="/about/"><span class="header-nav-menu-item__icon"><i class="fas fa-user"></i></span><span class="header-nav-menu-item__text">关于</span></a></div></div><div class="header-nav-mode"><div class="mode"><div class="mode-track"><span class="mode-track-moon"></span><span class="mode-track-sun"></span></div><div class="mode-thumb"></div></div></div></div></nav><div class="header-banner"><div class="header-banner-info"><div class="header-banner-info__title">Just Do IT.</div><div class="header-banner-info__subtitle">一个程序员的自我修养</div></div></div></div></header><main class="main" id="main"><div class="main-inner"><div class="content-wrap" id="content-wrap"><div class="content" id="content"><!-- Just used to judge whether it is an article page--><div id="is-post"></div><div class="post"><header class="post-header"><h1 class="post-title">Java的JUC并发库及其应用场景</h1><div class="post-meta"><span class="post-meta-item post-meta-item--createtime"><span class="post-meta-item__icon"><i class="far fa-calendar-plus"></i></span><span class="post-meta-item__info">发表于</span><span class="post-meta-item__value">2019-11-13</span></span><span class="post-meta-item post-meta-item--wordcount"><span class="post-meta-item__icon"><i class="far fa-file-word"></i></span><span class="post-meta-item__info">字数统计</span><span class="post-meta-item__value">1.2k</span></span><span class="post-meta-item post-meta-item--readtime"><span class="post-meta-item__icon"><i class="far fa-clock"></i></span><span class="post-meta-item__info">阅读时长</span><span class="post-meta-item__value">8分</span></span></div></header><div class="post-body"><p>Java 的 <strong>JUC（java.util.concurrent）</strong> 包是 Java 并发编程的核心工具集，提供了高性能、线程安全的并发类。以下是主要 JUC 类及其应用场景的详细分类解析：</p>
+<hr>
+
+        <h3 id="一、锁与同步工具"   >
+          <a href="#一、锁与同步工具" class="heading-link"><i class="fas fa-link"></i></a><a href="#一、锁与同步工具" class="headerlink" title="一、锁与同步工具"></a><strong>一、锁与同步工具</strong></h3>
+      
+        <h4 id="1-ReentrantLock"   >
+          <a href="#1-ReentrantLock" class="heading-link"><i class="fas fa-link"></i></a><a href="#1-ReentrantLock" class="headerlink" title="1. ReentrantLock"></a><strong>1. <code>ReentrantLock</code></strong></h4>
+      <ul>
+<li><strong>特点</strong>：可重入、支持公平&#x2F;非公平锁、可中断、超时尝试。</li>
+<li><strong>应用场景</strong>：<ul>
+<li>替代 <code>synchronized</code> 实现更灵活的锁控制。</li>
+<li>需要尝试获取锁或可中断锁的场景（如死锁恢复）。</li>
+</ul>
+</li>
+<li><strong>示例</strong>：<figure class="highlight java"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">ReentrantLock</span> <span class="variable">lock</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">ReentrantLock</span>();</span><br><span class="line">lock.lock();</span><br><span class="line"><span class="keyword">try</span> &#123;</span><br><span class="line">    <span class="comment">// 临界区代码</span></span><br><span class="line">&#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">    lock.unlock();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></div></figure></li>
+</ul>
+
+        <h4 id="2-ReentrantReadWriteLock"   >
+          <a href="#2-ReentrantReadWriteLock" class="heading-link"><i class="fas fa-link"></i></a><a href="#2-ReentrantReadWriteLock" class="headerlink" title="2. ReentrantReadWriteLock"></a><strong>2. <code>ReentrantReadWriteLock</code></strong></h4>
+      <ul>
+<li><strong>特点</strong>：读写分离，读锁共享，写锁独占。</li>
+<li><strong>应用场景</strong>：<ul>
+<li>读多写少的场景（如缓存系统）。</li>
+</ul>
+</li>
+<li><strong>示例</strong>：<figure class="highlight java"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">ReentrantReadWriteLock</span> <span class="variable">rwLock</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">ReentrantReadWriteLock</span>();</span><br><span class="line">rwLock.readLock().lock();  <span class="comment">// 读锁</span></span><br><span class="line">rwLock.writeLock().lock(); <span class="comment">// 写锁</span></span><br></pre></td></tr></table></div></figure></li>
+</ul>
+
+        <h4 id="3-StampedLock（JDK-8-）"   >
+          <a href="#3-StampedLock（JDK-8-）" class="heading-link"><i class="fas fa-link"></i></a><a href="#3-StampedLock（JDK-8-）" class="headerlink" title="3. StampedLock（JDK 8+）"></a><strong>3. <code>StampedLock</code></strong>（JDK 8+）</h4>
+      <ul>
+<li><strong>特点</strong>：乐观读锁、写锁可降级为读锁。</li>
+<li><strong>应用场景</strong>：<ul>
+<li>极高并发读写场景（比 <code>ReentrantReadWriteLock</code> 性能更高）。</li>
+</ul>
+</li>
+<li><strong>示例</strong>：<figure class="highlight java"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">StampedLock</span> <span class="variable">lock</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">StampedLock</span>();</span><br><span class="line"><span class="type">long</span> <span class="variable">stamp</span> <span class="operator">=</span> lock.tryOptimisticRead(); <span class="comment">// 乐观读</span></span><br><span class="line"><span class="keyword">if</span> (!lock.validate(stamp)) &#123;</span><br><span class="line">    stamp = lock.readLock(); <span class="comment">// 退化为悲观读</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></div></figure></li>
+</ul>
+<hr>
+
+        <h3 id="二、并发容器"   >
+          <a href="#二、并发容器" class="heading-link"><i class="fas fa-link"></i></a><a href="#二、并发容器" class="headerlink" title="二、并发容器"></a><strong>二、并发容器</strong></h3>
+      
+        <h4 id="1-ConcurrentHashMap"   >
+          <a href="#1-ConcurrentHashMap" class="heading-link"><i class="fas fa-link"></i></a><a href="#1-ConcurrentHashMap" class="headerlink" title="1. ConcurrentHashMap"></a><strong>1. <code>ConcurrentHashMap</code></strong></h4>
+      <ul>
+<li><strong>特点</strong>：分段锁（JDK 7）或 CAS + synchronized（JDK 8+），高并发读写。</li>
+<li><strong>应用场景</strong>：<ul>
+<li>高并发键值存储（如缓存、计数器）。</li>
+</ul>
+</li>
+<li><strong>示例</strong>：<figure class="highlight java"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ConcurrentHashMap&lt;String, Integer&gt; map = <span class="keyword">new</span> <span class="title class_">ConcurrentHashMap</span>&lt;&gt;();</span><br><span class="line">map.computeIfAbsent(<span class="string">&quot;key&quot;</span>, k -&gt; <span class="number">1</span>); <span class="comment">// 原子操作</span></span><br></pre></td></tr></table></div></figure></li>
+</ul>
+
+        <h4 id="2-CopyOnWriteArrayList"   >
+          <a href="#2-CopyOnWriteArrayList" class="heading-link"><i class="fas fa-link"></i></a><a href="#2-CopyOnWriteArrayList" class="headerlink" title="2. CopyOnWriteArrayList"></a><strong>2. <code>CopyOnWriteArrayList</code></strong></h4>
+      <ul>
+<li><strong>特点</strong>：写时复制，读操作无锁。</li>
+<li><strong>应用场景</strong>：<ul>
+<li>读多写少的列表（如监听器列表）。</li>
+</ul>
+</li>
+<li><strong>示例</strong>：<figure class="highlight java"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">CopyOnWriteArrayList&lt;String&gt; list = <span class="keyword">new</span> <span class="title class_">CopyOnWriteArrayList</span>&lt;&gt;();</span><br><span class="line">list.add(<span class="string">&quot;item&quot;</span>); <span class="comment">// 写操作复制整个数组</span></span><br></pre></td></tr></table></div></figure></li>
+</ul>
+
+        <h4 id="3-BlockingQueue-接口"   >
+          <a href="#3-BlockingQueue-接口" class="heading-link"><i class="fas fa-link"></i></a><a href="#3-BlockingQueue-接口" class="headerlink" title="3. BlockingQueue 接口"></a><strong>3. <code>BlockingQueue</code> 接口</strong></h4>
+      <ul>
+<li><strong>实现类</strong>：<ul>
+<li><code>ArrayBlockingQueue</code>：固定大小数组队列。</li>
+<li><code>LinkedBlockingQueue</code>：可选边界链表队列。</li>
+<li><code>PriorityBlockingQueue</code>：优先级阻塞队列。</li>
+</ul>
+</li>
+<li><strong>应用场景</strong>：<ul>
+<li>生产者-消费者模型（如线程池任务队列）。</li>
+</ul>
+</li>
+<li><strong>示例</strong>：<figure class="highlight java"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">BlockingQueue&lt;String&gt; queue = <span class="keyword">new</span> <span class="title class_">ArrayBlockingQueue</span>&lt;&gt;(<span class="number">10</span>);</span><br><span class="line">queue.put(<span class="string">&quot;item&quot;</span>); <span class="comment">// 阻塞插入</span></span><br><span class="line"><span class="type">String</span> <span class="variable">item</span> <span class="operator">=</span> queue.take(); <span class="comment">// 阻塞取出</span></span><br></pre></td></tr></table></div></figure></li>
+</ul>
+<hr>
+
+        <h3 id="三、线程协作工具"   >
+          <a href="#三、线程协作工具" class="heading-link"><i class="fas fa-link"></i></a><a href="#三、线程协作工具" class="headerlink" title="三、线程协作工具"></a><strong>三、线程协作工具</strong></h3>
+      
+        <h4 id="1-CountDownLatch"   >
+          <a href="#1-CountDownLatch" class="heading-link"><i class="fas fa-link"></i></a><a href="#1-CountDownLatch" class="headerlink" title="1. CountDownLatch"></a><strong>1. <code>CountDownLatch</code></strong></h4>
+      <ul>
+<li><strong>特点</strong>：一次性屏障，等待多个任务完成。</li>
+<li><strong>应用场景</strong>：<ul>
+<li>主线程等待所有子线程初始化完成。</li>
+</ul>
+</li>
+<li><strong>示例</strong>：<figure class="highlight java"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">CountDownLatch</span> <span class="variable">latch</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">CountDownLatch</span>(<span class="number">3</span>);</span><br><span class="line"><span class="comment">// 子线程</span></span><br><span class="line">latch.countDown();</span><br><span class="line"><span class="comment">// 主线程</span></span><br><span class="line">latch.await();</span><br></pre></td></tr></table></div></figure></li>
+</ul>
+
+        <h4 id="2-CyclicBarrier"   >
+          <a href="#2-CyclicBarrier" class="heading-link"><i class="fas fa-link"></i></a><a href="#2-CyclicBarrier" class="headerlink" title="2. CyclicBarrier"></a><strong>2. <code>CyclicBarrier</code></strong></h4>
+      <ul>
+<li><strong>特点</strong>：可重复使用的同步屏障。</li>
+<li><strong>应用场景</strong>：<ul>
+<li>多阶段任务同步（如并行计算分阶段汇总）。</li>
+</ul>
+</li>
+<li><strong>示例</strong>：<figure class="highlight java"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">CyclicBarrier</span> <span class="variable">barrier</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">CyclicBarrier</span>(<span class="number">3</span>, () -&gt; System.out.println(<span class="string">&quot;All threads reached barrier&quot;</span>));</span><br><span class="line">barrier.await(); <span class="comment">// 线程阻塞直到所有线程到达</span></span><br></pre></td></tr></table></div></figure></li>
+</ul>
+
+        <h4 id="3-Semaphore"   >
+          <a href="#3-Semaphore" class="heading-link"><i class="fas fa-link"></i></a><a href="#3-Semaphore" class="headerlink" title="3. Semaphore"></a><strong>3. <code>Semaphore</code></strong></h4>
+      <ul>
+<li><strong>特点</strong>：控制并发访问资源的线程数。</li>
+<li><strong>应用场景</strong>：<ul>
+<li>限流（如数据库连接池）。</li>
+</ul>
+</li>
+<li><strong>示例</strong>：<figure class="highlight java"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">Semaphore</span> <span class="variable">semaphore</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Semaphore</span>(<span class="number">5</span>); <span class="comment">// 允许5个线程并发</span></span><br><span class="line">semaphore.acquire(); <span class="comment">// 获取许可</span></span><br><span class="line">semaphore.release(); <span class="comment">// 释放许可</span></span><br></pre></td></tr></table></div></figure></li>
+</ul>
+
+        <h4 id="4-Phaser（JDK-7-）"   >
+          <a href="#4-Phaser（JDK-7-）" class="heading-link"><i class="fas fa-link"></i></a><a href="#4-Phaser（JDK-7-）" class="headerlink" title="4. Phaser（JDK 7+）"></a><strong>4. <code>Phaser</code></strong>（JDK 7+）</h4>
+      <ul>
+<li><strong>特点</strong>：动态调整的同步屏障，支持多阶段。</li>
+<li><strong>应用场景</strong>：<ul>
+<li>复杂分阶段任务（如游戏多关卡加载）。</li>
+</ul>
+</li>
+<li><strong>示例</strong>：<figure class="highlight java"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">Phaser</span> <span class="variable">phaser</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Phaser</span>(<span class="number">3</span>); <span class="comment">// 注册3个线程</span></span><br><span class="line">phaser.arriveAndAwaitAdvance(); <span class="comment">// 等待所有线程完成当前阶段</span></span><br></pre></td></tr></table></div></figure></li>
+</ul>
+<hr>
+
+        <h3 id="四、线程池与异步任务"   >
+          <a href="#四、线程池与异步任务" class="heading-link"><i class="fas fa-link"></i></a><a href="#四、线程池与异步任务" class="headerlink" title="四、线程池与异步任务"></a><strong>四、线程池与异步任务</strong></h3>
+      
+        <h4 id="1-ThreadPoolExecutor"   >
+          <a href="#1-ThreadPoolExecutor" class="heading-link"><i class="fas fa-link"></i></a><a href="#1-ThreadPoolExecutor" class="headerlink" title="1. ThreadPoolExecutor"></a><strong>1. <code>ThreadPoolExecutor</code></strong></h4>
+      <ul>
+<li><strong>核心参数</strong>：<ul>
+<li><code>corePoolSize</code>：核心线程数。</li>
+<li><code>maximumPoolSize</code>：最大线程数。</li>
+<li><code>keepAliveTime</code>：空闲线程存活时间。</li>
+<li><code>workQueue</code>：任务队列（如 <code>LinkedBlockingQueue</code>）。</li>
+</ul>
+</li>
+<li><strong>应用场景</strong>：<ul>
+<li>管理线程资源，避免频繁创建销毁线程。</li>
+</ul>
+</li>
+<li><strong>示例</strong>：<figure class="highlight java"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">ExecutorService</span> <span class="variable">executor</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">ThreadPoolExecutor</span>(</span><br><span class="line">    <span class="number">2</span>, <span class="number">10</span>, <span class="number">60</span>, TimeUnit.SECONDS, <span class="keyword">new</span> <span class="title class_">ArrayBlockingQueue</span>&lt;&gt;(<span class="number">100</span>)</span><br><span class="line">);</span><br><span class="line">executor.submit(() -&gt; System.out.println(<span class="string">&quot;Task executed&quot;</span>));</span><br></pre></td></tr></table></div></figure></li>
+</ul>
+
+        <h4 id="2-ForkJoinPool"   >
+          <a href="#2-ForkJoinPool" class="heading-link"><i class="fas fa-link"></i></a><a href="#2-ForkJoinPool" class="headerlink" title="2. ForkJoinPool"></a><strong>2. <code>ForkJoinPool</code></strong></h4>
+      <ul>
+<li><strong>特点</strong>：工作窃取算法，适合分治任务。</li>
+<li><strong>应用场景</strong>：<ul>
+<li>并行计算（如大规模数组排序）。</li>
+</ul>
+</li>
+<li><strong>示例</strong>：<figure class="highlight java"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">ForkJoinPool</span> <span class="variable">pool</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">ForkJoinPool</span>();</span><br><span class="line">pool.invoke(<span class="keyword">new</span> <span class="title class_">RecursiveTask</span>&lt;Integer&gt;() &#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">protected</span> Integer <span class="title function_">compute</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="comment">// 分治逻辑</span></span><br><span class="line">        <span class="keyword">return</span> <span class="literal">null</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></div></figure></li>
+</ul>
+
+        <h4 id="3-CompletableFuture（JDK-8-）"   >
+          <a href="#3-CompletableFuture（JDK-8-）" class="heading-link"><i class="fas fa-link"></i></a><a href="#3-CompletableFuture（JDK-8-）" class="headerlink" title="3. CompletableFuture（JDK 8+）"></a><strong>3. <code>CompletableFuture</code></strong>（JDK 8+）</h4>
+      <ul>
+<li><strong>特点</strong>：异步编程，支持链式调用和组合。</li>
+<li><strong>应用场景</strong>：<ul>
+<li>非阻塞异步任务编排（如微服务调用聚合）。</li>
+</ul>
+</li>
+<li><strong>示例</strong>：<figure class="highlight java"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">CompletableFuture.supplyAsync(() -&gt; <span class="string">&quot;Hello&quot;</span>)</span><br><span class="line">    .thenApplyAsync(s -&gt; s + <span class="string">&quot; World&quot;</span>)</span><br><span class="line">    .thenAccept(System.out::println);</span><br></pre></td></tr></table></div></figure></li>
+</ul>
+<hr>
+
+        <h3 id="五、原子操作类"   >
+          <a href="#五、原子操作类" class="heading-link"><i class="fas fa-link"></i></a><a href="#五、原子操作类" class="headerlink" title="五、原子操作类"></a><strong>五、原子操作类</strong></h3>
+      
+        <h4 id="1-AtomicInteger-AtomicLong"   >
+          <a href="#1-AtomicInteger-AtomicLong" class="heading-link"><i class="fas fa-link"></i></a><a href="#1-AtomicInteger-AtomicLong" class="headerlink" title="1. AtomicInteger&#x2F;AtomicLong"></a><strong>1. <code>AtomicInteger</code>&#x2F;<code>AtomicLong</code></strong></h4>
+      <ul>
+<li><strong>特点</strong>：CAS 实现原子操作。</li>
+<li><strong>应用场景</strong>：<ul>
+<li>计数器、序号生成。</li>
+</ul>
+</li>
+<li><strong>示例</strong>：<figure class="highlight java"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">AtomicInteger</span> <span class="variable">counter</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">AtomicInteger</span>(<span class="number">0</span>);</span><br><span class="line">counter.incrementAndGet(); <span class="comment">// 原子自增</span></span><br></pre></td></tr></table></div></figure></li>
+</ul>
+
+        <h4 id="2-AtomicReference"   >
+          <a href="#2-AtomicReference" class="heading-link"><i class="fas fa-link"></i></a><a href="#2-AtomicReference" class="headerlink" title="2. AtomicReference"></a><strong>2. <code>AtomicReference</code></strong></h4>
+      <ul>
+<li><strong>特点</strong>：原子更新对象引用。</li>
+<li><strong>应用场景</strong>：<ul>
+<li>无锁数据结构（如栈、队列）。</li>
+</ul>
+</li>
+<li><strong>示例</strong>：<figure class="highlight java"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">AtomicReference&lt;String&gt; ref = <span class="keyword">new</span> <span class="title class_">AtomicReference</span>&lt;&gt;(<span class="string">&quot;old&quot;</span>);</span><br><span class="line">ref.compareAndSet(<span class="string">&quot;old&quot;</span>, <span class="string">&quot;new&quot;</span>); <span class="comment">// CAS 更新</span></span><br></pre></td></tr></table></div></figure></li>
+</ul>
+
+        <h4 id="3-LongAdder（JDK-8-）"   >
+          <a href="#3-LongAdder（JDK-8-）" class="heading-link"><i class="fas fa-link"></i></a><a href="#3-LongAdder（JDK-8-）" class="headerlink" title="3. LongAdder（JDK 8+）"></a><strong>3. <code>LongAdder</code></strong>（JDK 8+）</h4>
+      <ul>
+<li><strong>特点</strong>：分段累加，高并发下性能优于 <code>AtomicLong</code>。</li>
+<li><strong>应用场景</strong>：<ul>
+<li>高频统计（如实时点击量计数）。</li>
+</ul>
+</li>
+<li><strong>示例</strong>：<figure class="highlight java"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">LongAdder</span> <span class="variable">adder</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">LongAdder</span>();</span><br><span class="line">adder.increment();</span><br></pre></td></tr></table></div></figure></li>
+</ul>
+<hr>
+
+        <h3 id="六、应用场景总结"   >
+          <a href="#六、应用场景总结" class="heading-link"><i class="fas fa-link"></i></a><a href="#六、应用场景总结" class="headerlink" title="六、应用场景总结"></a><strong>六、应用场景总结</strong></h3>
+      <div class="table-container"><table>
+<thead>
+<tr>
+<th><strong>场景</strong></th>
+<th><strong>推荐 JUC 类</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>高并发缓存</td>
+<td><code>ConcurrentHashMap</code></td>
+</tr>
+<tr>
+<td>生产者-消费者</td>
+<td><code>BlockingQueue</code></td>
+</tr>
+<tr>
+<td>任务并行执行</td>
+<td><code>ForkJoinPool</code></td>
+</tr>
+<tr>
+<td>多线程等待统一信号</td>
+<td><code>CountDownLatch</code>&#x2F;<code>CyclicBarrier</code></td>
+</tr>
+<tr>
+<td>资源池管理（如连接池）</td>
+<td><code>Semaphore</code></td>
+</tr>
+<tr>
+<td>无锁算法实现</td>
+<td><code>AtomicXXX</code> 系列</td>
+</tr>
+<tr>
+<td>异步任务编排</td>
+<td><code>CompletableFuture</code></td>
+</tr>
+</tbody></table></div>
+<hr>
+
+        <h3 id="七、最佳实践"   >
+          <a href="#七、最佳实践" class="heading-link"><i class="fas fa-link"></i></a><a href="#七、最佳实践" class="headerlink" title="七、最佳实践"></a><strong>七、最佳实践</strong></h3>
+      <ol>
+<li><strong>优先使用并发容器</strong>：替代 <code>Collections.synchronizedXXX()</code>。</li>
+<li><strong>避免过早优化</strong>：在确实需要时再使用低级工具（如 <code>AQS</code>）。</li>
+<li><strong>注意资源清理</strong>：线程池使用后调用 <code>shutdown()</code>。</li>
+<li><strong>合理设置线程池参数</strong>：根据任务类型（CPU&#x2F;IO 密集型）调整大小。</li>
+</ol>
+<p>通过合理选择 JUC 类，可以显著提升 Java 并发程序的性能和可维护性。</p>
+</div><footer class="post-footer"><div class="post-ending ending"><div class="ending__text">------ 本文结束，感谢您的阅读 ------</div></div><div class="post-copyright copyright"><div class="copyright-author"><span class="copyright-author__name">本文作者: </span><span class="copyright-author__value"><a href="https://ljd0620.github.io">Liujiduo</a></span></div><div class="copyright-link"><span class="copyright-link__name">本文链接: </span><span class="copyright-link__value"><a href="https://ljd0620.github.io/2019/11/13/Java%E7%9A%84JUC%E5%B9%B6%E5%8F%91%E5%BA%93%E5%8F%8A%E5%85%B6%E5%BA%94%E7%94%A8%E5%9C%BA%E6%99%AF/">https://ljd0620.github.io/2019/11/13/Java%E7%9A%84JUC%E5%B9%B6%E5%8F%91%E5%BA%93%E5%8F%8A%E5%85%B6%E5%BA%94%E7%94%A8%E5%9C%BA%E6%99%AF/</a></span></div><div class="copyright-notice"><span class="copyright-notice__name">版权声明: </span><span class="copyright-notice__value">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en" rel="external nofollow" target="_blank">BY-NC-SA</a> 许可协议。转载请注明出处！</span></div></div><div class="post-tags"><span class="post-tags-item"><span class="post-tags-item__icon"><i class="fas fa-tag"></i></span><a class="post-tags-item__link" href="https://ljd0620.github.io/tags/Java/">Java</a></span><span class="post-tags-item"><span class="post-tags-item__icon"><i class="fas fa-tag"></i></span><a class="post-tags-item__link" href="https://ljd0620.github.io/tags/%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/">并发编程</a></span><span class="post-tags-item"><span class="post-tags-item__icon"><i class="fas fa-tag"></i></span><a class="post-tags-item__link" href="https://ljd0620.github.io/tags/JUC/">JUC</a></span></div><div class="post-reward reward"><div class="reward-button">请我喝杯咖啡~</div><div class="reward-qrcode"><span class="reward-qrcode-alipay"><img class="reward-qrcode-alipay__img" src="https://pub-dc7fa280ba2f4edea3f388602fa80bb0.r2.dev/alipay.jpg"><div class="reward-qrcode-alipay__text">支付宝打赏</div></span><span class="reward-qrcode-wechat"><img class="reward-qrcode-wechat__img" src="https://pub-dc7fa280ba2f4edea3f388602fa80bb0.r2.dev/wechat.jpg"><div class="reward-qrcode-wechat__text">微信打赏</div></span></div></div><nav class="post-paginator paginator"><div class="paginator-prev"><a class="paginator-prev__link" href="/2019/12/27/Java%E7%9A%84AQS%E6%A1%86%E6%9E%B6%E8%AE%BE%E8%AE%A1%E5%8E%9F%E7%90%86/"><span class="paginator-prev__icon"><i class="fas fa-angle-left"></i></span><span class="paginator-prev__text">Java的AQS框架设计原理</span></a></div><div class="paginator-next"><a class="paginator-next__link" href="/2019/09/25/Redis%E5%BA%95%E5%B1%82%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/"><span class="paginator-prev__text">Redis底层数据结构</span><span class="paginator-next__icon"><i class="fas fa-angle-right"></i></span></a></div></nav></footer></div></div></div><div class="sidebar-wrap" id="sidebar-wrap"><aside class="sidebar" id="sidebar"><div class="sidebar-nav"><span class="sidebar-nav-toc current">文章目录</span><span class="sidebar-nav-ov">站点概览</span></div><section class="sidebar-toc"><ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%80%E3%80%81%E9%94%81%E4%B8%8E%E5%90%8C%E6%AD%A5%E5%B7%A5%E5%85%B7"><span class="toc-text">
+          一、锁与同步工具</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-ReentrantLock"><span class="toc-text">
+          1. ReentrantLock</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-ReentrantReadWriteLock"><span class="toc-text">
+          2. ReentrantReadWriteLock</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-StampedLock%EF%BC%88JDK-8-%EF%BC%89"><span class="toc-text">
+          3. StampedLock（JDK 8+）</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BA%8C%E3%80%81%E5%B9%B6%E5%8F%91%E5%AE%B9%E5%99%A8"><span class="toc-text">
+          二、并发容器</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-ConcurrentHashMap"><span class="toc-text">
+          1. ConcurrentHashMap</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-CopyOnWriteArrayList"><span class="toc-text">
+          2. CopyOnWriteArrayList</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-BlockingQueue-%E6%8E%A5%E5%8F%A3"><span class="toc-text">
+          3. BlockingQueue 接口</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%89%E3%80%81%E7%BA%BF%E7%A8%8B%E5%8D%8F%E4%BD%9C%E5%B7%A5%E5%85%B7"><span class="toc-text">
+          三、线程协作工具</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-CountDownLatch"><span class="toc-text">
+          1. CountDownLatch</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-CyclicBarrier"><span class="toc-text">
+          2. CyclicBarrier</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-Semaphore"><span class="toc-text">
+          3. Semaphore</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-Phaser%EF%BC%88JDK-7-%EF%BC%89"><span class="toc-text">
+          4. Phaser（JDK 7+）</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9B%9B%E3%80%81%E7%BA%BF%E7%A8%8B%E6%B1%A0%E4%B8%8E%E5%BC%82%E6%AD%A5%E4%BB%BB%E5%8A%A1"><span class="toc-text">
+          四、线程池与异步任务</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-ThreadPoolExecutor"><span class="toc-text">
+          1. ThreadPoolExecutor</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-ForkJoinPool"><span class="toc-text">
+          2. ForkJoinPool</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-CompletableFuture%EF%BC%88JDK-8-%EF%BC%89"><span class="toc-text">
+          3. CompletableFuture（JDK 8+）</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BA%94%E3%80%81%E5%8E%9F%E5%AD%90%E6%93%8D%E4%BD%9C%E7%B1%BB"><span class="toc-text">
+          五、原子操作类</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-AtomicInteger-AtomicLong"><span class="toc-text">
+          1. AtomicInteger&#x2F;AtomicLong</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-AtomicReference"><span class="toc-text">
+          2. AtomicReference</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-LongAdder%EF%BC%88JDK-8-%EF%BC%89"><span class="toc-text">
+          3. LongAdder（JDK 8+）</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%85%AD%E3%80%81%E5%BA%94%E7%94%A8%E5%9C%BA%E6%99%AF%E6%80%BB%E7%BB%93"><span class="toc-text">
+          六、应用场景总结</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%83%E3%80%81%E6%9C%80%E4%BD%B3%E5%AE%9E%E8%B7%B5"><span class="toc-text">
+          七、最佳实践</span></a></li></ol></section><!-- ov = overview--><section class="sidebar-ov hide"><div class="sidebar-ov-author"><div class="sidebar-ov-author__avatar"><img class="sidebar-ov-author__avatar_img" src="https://pub-dc7fa280ba2f4edea3f388602fa80bb0.r2.dev/avatar.jpg" alt="avatar"></div><p class="sidebar-ov-author__text">Liujiduo's Blog</p></div><div class="sidebar-ov-feed"><span class="sidebar-ov-feed-email"><a class="sidebar-ov-feed-email__link" href="mailto:liujiduo@sina.com" target="_blank" rel="noopener"><span class="sidebar-ov-feed-email__icon"><i class="fas fa-envelope"></i></span><span>Email 订阅</span></a></span><span class="sidebar-ov-feed-rss"><a class="sidebar-ov-feed-rss__link" href="/atom.xml" target="_blank" rel="noopener"><span class="sidebar-ov-feed-rss__icon"><i class="fas fa-rss"></i></span><span>RSS 订阅</span></a></span></div><div class="sidebar-ov-state"><a class="sidebar-ov-state-item sidebar-ov-state-item--posts" href="/archives/"><div class="sidebar-ov-state-item__count">53</div><div class="sidebar-ov-state-item__name">归档</div></a><a class="sidebar-ov-state-item sidebar-ov-state-item--categories" href="/categories/"><div class="sidebar-ov-state-item__count">21</div><div class="sidebar-ov-state-item__name">分类</div></a><a class="sidebar-ov-state-item sidebar-ov-state-item--tags" href="/tags/"><div class="sidebar-ov-state-item__count">48</div><div class="sidebar-ov-state-item__name">标签</div></a></div><div class="sidebar-ov-cc"><a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en" target="_blank" rel="noopener" data-popover="知识共享许可协议" data-popover-pos="up"><img src="/images/cc-by-nc-sa.svg"></a></div></section><div class="sidebar-reading"><div class="sidebar-reading-info"><span class="sidebar-reading-info__text">你已阅读了 </span><span class="sidebar-reading-info__num">0</span><span class="sidebar-reading-info__perc">%</span></div><div class="sidebar-reading-line"></div></div></aside></div><div class="clearfix"></div></div></main><footer class="footer" id="footer"><div class="footer-inner"><div><span>Copyright © 2024~2025</span><span class="footer__icon"><i class="fas fa-heart"></i></span><span>Liujiduo All Rights Reserved</span></div><div class="busuanzi"></div></div></footer><div class="loading-bar" id="loading-bar"><div class="loading-bar__progress"></div></div><div class="back2top" id="back2top"><span class="back2top__icon"><i class="fas fa-rocket"></i></span></div></div><script src="https://cdn.jsdelivr.net/npm/jquery@v3.4.1/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/velocity-animate@1.5.2/velocity.min.js"></script><script src="https://cdn.jsdelivr.net/npm/velocity-animate@1.5.2/velocity.ui.min.js"></script><script src="https://cdn.jsdelivr.net/npm/ribbon.js@latest/dist/ribbon.min.js" size="120" alpha="0.6" zIndex="-1"></script><script src="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script><script src="/js/utils.js?v=2.8.0"></script><script src="/js/stun-boot.js?v=2.8.0"></script><script src="/js/scroll.js?v=2.8.0"></script><script src="/js/header.js?v=2.8.0"></script><script src="/js/sidebar.js?v=2.8.0"></script></body></html>

@@ -1,0 +1,1029 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="format-detection" content="telephone=no"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black"><link rel="icon" href="https://pub-dc7fa280ba2f4edea3f388602fa80bb0.r2.dev/favicon.ico?v=2.8.0" type="image/png" sizes="16x16"><link rel="icon" href="https://pub-dc7fa280ba2f4edea3f388602fa80bb0.r2.dev/favicon.ico?v=2.8.0" type="image/png" sizes="32x32"><meta name="description" content="Java面试题整理合集">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java面试题整理合集">
+<meta property="og:url" content="https://ljd0620.github.io/2021/12/27/Java%E9%9D%A2%E8%AF%95%E9%A2%98%E6%95%B4%E7%90%86%E5%90%88%E9%9B%86/index.html">
+<meta property="og:site_name" content="Just Do IT.">
+<meta property="og:description" content="Java面试题整理合集">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2021-12-27T07:03:31.000Z">
+<meta property="article:modified_time" content="2025-03-27T07:26:23.118Z">
+<meta property="article:author" content="Liujiduo">
+<meta property="article:tag" content="Java">
+<meta property="article:tag" content="面试题">
+<meta name="twitter:card" content="summary"><title>Java面试题整理合集 | Just Do IT.</title><link ref="canonical" href="https://ljd0620.github.io/2021/12/27/Java%E9%9D%A2%E8%AF%95%E9%A2%98%E6%95%B4%E7%90%86%E5%90%88%E9%9B%86/"><link rel="alternate" href="/atom.xml" type="application/atom+xml"><link rel="dns-prefetch" href="https://cdn.jsdelivr.net"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.12.1/css/all.min.css" type="text/css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" type="text/css"><link rel="stylesheet" href="/css/index.css?v=2.8.0"><script>var Stun = window.Stun || {};
+var CONFIG = {
+  root: '/',
+  algolia: undefined,
+  assistSearch: undefined,
+  fontIcon: {"prompt":{"success":"fas fa-check-circle","info":"fas fa-arrow-circle-right","warning":"fas fa-exclamation-circle","error":"fas fa-times-circle"},"copyBtn":"fas fa-copy"},
+  sidebar: {"offsetTop":"20px","tocMaxDepth":6},
+  header: {"enable":true,"showOnPost":true,"scrollDownIcon":false},
+  postWidget: {"endText":true},
+  nightMode: {"enable":true},
+  back2top: {"enable":true},
+  codeblock: {"style":"carbon","highlight":"light","wordWrap":false},
+  reward: true,
+  fancybox: true,
+  zoomImage: {"gapAside":"20px"},
+  galleryWaterfall: undefined,
+  lazyload: false,
+  pjax: undefined,
+  externalLink: {"icon":{"enable":true,"name":"fas fa-external-link-alt"}},
+  shortcuts: undefined,
+  prompt: {"copyButton":"复制","copySuccess":"复制成功","copyError":"复制失败"},
+  sourcePath: {"js":"js","css":"css","images":"images"},
+};
+
+window.CONFIG = CONFIG;</script><meta name="generator" content="Hexo 7.3.0"></head><body><div class="container" id="container"><header class="header" id="header"><div class="header-inner"><nav class="header-nav header-nav--fixed"><div class="header-nav-inner"><div class="header-nav-menubtn"><i class="fas fa-bars"></i></div><div class="header-nav-menu"><div class="header-nav-menu-item"><a class="header-nav-menu-item__link" href="/"><span class="header-nav-menu-item__icon"><i class="fas fa-home"></i></span><span class="header-nav-menu-item__text">首页</span></a></div><div class="header-nav-menu-item"><a class="header-nav-menu-item__link" href="/archives/"><span class="header-nav-menu-item__icon"><i class="fas fa-folder-open"></i></span><span class="header-nav-menu-item__text">归档</span></a></div><div class="header-nav-menu-item"><a class="header-nav-menu-item__link" href="/categories/"><span class="header-nav-menu-item__icon"><i class="fas fa-layer-group"></i></span><span class="header-nav-menu-item__text">分类</span></a></div><div class="header-nav-menu-item"><a class="header-nav-menu-item__link" href="/tags/"><span class="header-nav-menu-item__icon"><i class="fas fa-tags"></i></span><span class="header-nav-menu-item__text">标签</span></a></div><div class="header-nav-menu-item"><a class="header-nav-menu-item__link" href="/about/"><span class="header-nav-menu-item__icon"><i class="fas fa-user"></i></span><span class="header-nav-menu-item__text">关于</span></a></div></div><div class="header-nav-mode"><div class="mode"><div class="mode-track"><span class="mode-track-moon"></span><span class="mode-track-sun"></span></div><div class="mode-thumb"></div></div></div></div></nav><div class="header-banner"><div class="header-banner-info"><div class="header-banner-info__title">Just Do IT.</div><div class="header-banner-info__subtitle">一个程序员的自我修养</div></div></div></div></header><main class="main" id="main"><div class="main-inner"><div class="content-wrap" id="content-wrap"><div class="content" id="content"><!-- Just used to judge whether it is an article page--><div id="is-post"></div><div class="post"><header class="post-header"><h1 class="post-title">Java面试题整理合集</h1><div class="post-meta"><span class="post-meta-item post-meta-item--createtime"><span class="post-meta-item__icon"><i class="far fa-calendar-plus"></i></span><span class="post-meta-item__info">发表于</span><span class="post-meta-item__value">2021-12-27</span></span><span class="post-meta-item post-meta-item--wordcount"><span class="post-meta-item__icon"><i class="far fa-file-word"></i></span><span class="post-meta-item__info">字数统计</span><span class="post-meta-item__value">19.3k</span></span><span class="post-meta-item post-meta-item--readtime"><span class="post-meta-item__icon"><i class="far fa-clock"></i></span><span class="post-meta-item__info">阅读时长</span><span class="post-meta-item__value">104分</span></span></div></header><div class="post-body">
+        <h3 id="一、Java基础面试题"   >
+          <a href="#一、Java基础面试题" class="heading-link"><i class="fas fa-link"></i></a><a href="#一、Java基础面试题" class="headerlink" title="一、Java基础面试题"></a>一、Java基础面试题</h3>
+      
+        <h4 id="1-JVM内存模型有哪些组成部分？"   >
+          <a href="#1-JVM内存模型有哪些组成部分？" class="heading-link"><i class="fas fa-link"></i></a><a href="#1-JVM内存模型有哪些组成部分？" class="headerlink" title="1. JVM内存模型有哪些组成部分？"></a>1. JVM内存模型有哪些组成部分？</h4>
+      <p>主要有堆、栈（包括虚拟机栈、本地方法栈）、方法区和PC寄存器几个部分组成。</p>
+
+        <h4 id="2-JVM常用的GC有哪些？"   >
+          <a href="#2-JVM常用的GC有哪些？" class="heading-link"><i class="fas fa-link"></i></a><a href="#2-JVM常用的GC有哪些？" class="headerlink" title="2. JVM常用的GC有哪些？"></a>2. JVM常用的GC有哪些？</h4>
+      <ul>
+<li><strong>G1 GC</strong>：适用于大型应用服务器，要求低延迟和高吞吐量的场景。</li>
+<li><strong>CMS GC</strong>：适用于对响应时间敏感的应用，如Web服务器和交互式应用程序。</li>
+<li><strong>Parallel Scavenge GC</strong>：适用于需要高吞吐量的后台任务和批处理应用。</li>
+</ul>
+
+        <h4 id="3-JVM的调优参数有哪些？"   >
+          <a href="#3-JVM的调优参数有哪些？" class="heading-link"><i class="fas fa-link"></i></a><a href="#3-JVM的调优参数有哪些？" class="headerlink" title="3. JVM的调优参数有哪些？"></a>3. JVM的调优参数有哪些？</h4>
+      <ul>
+<li><code>-Xms</code>：设置JVM堆内存的初始大小，例如<code>-Xms512m</code>表示初始堆内存为512MB。</li>
+<li><code>-Xmx</code>：设置JVM堆内存的最大大小，例如<code>-Xmx2g</code>表示最大堆内存为2GB。</li>
+<li><code>-Xmn</code>：设置年轻代内存的大小，例如<code>-Xmn256m</code>表示年轻代的大小为256MB。</li>
+<li><code>-Xss</code>：设置每个线程的栈大小，例如<code>-Xss512k</code>表示每个线程的栈大小为512KB。</li>
+<li><code>-XX:NewSize=1g</code> 设置年轻代的初始大小为1g。</li>
+<li><code>-XX:MaxNewSize=1g</code>：设置年轻代的最大大小为1g。</li>
+<li><code>-XX:NewRatio=4</code> 设置老年代和新生代的比例，默认为2。</li>
+<li><code>-XX:SurvivorRatio=8</code> 设置Eden区和s区的比例，默认为8。</li>
+<li><code>-XX:MetaspaceSize=256m</code>：设置元空间的初始大小为256m。</li>
+<li><code>-XX:MaxMetaspaceSize=256m</code>：设置元空间的最大大小为256m。</li>
+<li><code>-XX:+UseParallelGC</code>：选择并行垃圾回收器（Parallel GC），适用于多处理器环境。它在年轻代使用多线程进行垃圾回收，也称为吞吐量优先垃圾回收器。</li>
+<li><code>-XX:+UseParallelOldGC</code>：启用老年代的并行回收（Parallel Old GC），与Parallel GC配合使用，进一步提高垃圾回收的效率。</li>
+</ul>
+
+        <h4 id="4-什么是双亲委派模型？"   >
+          <a href="#4-什么是双亲委派模型？" class="heading-link"><i class="fas fa-link"></i></a><a href="#4-什么是双亲委派模型？" class="headerlink" title="4. 什么是双亲委派模型？"></a>4. 什么是双亲委派模型？</h4>
+      <p>双亲委派模型是Java类加载机制中的一种处理方式，它通过一种层次化的类加载机制来确保类的唯一性和安全性。当一个类加载器收到类加载请求时，它不会立即尝试加载该类，而是将请求委派给其父类加载器。父类加载器会继续向上委派，直到到达启动类加载器。如果父类加载器无法加载该类，子类加载器才会尝试自己加载。如果所有类加载器都无法加载该类，则抛出<code>ClassNotFoundException</code>异常。双亲委派模型保证了每个类只会被加载一次，避免了重复加载相同的类。</p>
+
+        <h4 id="5-多线程里的sleep和wait的区别是什么？"   >
+          <a href="#5-多线程里的sleep和wait的区别是什么？" class="heading-link"><i class="fas fa-link"></i></a><a href="#5-多线程里的sleep和wait的区别是什么？" class="headerlink" title="5. 多线程里的sleep和wait的区别是什么？"></a>5. 多线程里的sleep和wait的区别是什么？</h4>
+      <ul>
+<li><p>所属类和方法定义：</p>
+<ul>
+<li><code>sleep</code>：属于<code>Thread</code>类的方法，用于让当前线程暂停执行一段时间。调用时需要捕获<code>InterruptedException</code>异常。</li>
+<li><code>wait</code>：属于<code>Object</code>类的方法，用于线程间的通信和同步。调用wait方法前必须获取对象的锁，并且通常在<code>synchronized</code>块中使用。</li>
+</ul>
+</li>
+<li><p>唤醒方式：</p>
+<ul>
+<li><code>sleep</code>：线程会进入<code>TIMED_WAITING</code>状态，等待指定的时间后自动返回就绪状态，无需其他线程唤醒。</li>
+<li><code>wait</code>：线程会进入<code>WAITING</code>状态，等待其他线程调用<code>notify</code>或<code>notifyAll</code>方法唤醒。无参数的wait方法会永久等待，直到被唤醒。</li>
+</ul>
+</li>
+<li><p>释放锁资源：</p>
+<ul>
+<li><code>sleep</code>：不会释放锁，线程在休眠期间仍然持有锁。</li>
+<li><code>wait</code>：会释放锁，线程在调用<code>wait</code>方法后会释放持有的对象锁，其他线程可以获取该对象的锁。</li>
+</ul>
+</li>
+<li><p>使用场景：</p>
+<ul>
+<li><code>sleep</code>：通常用于当前线程需要暂停执行一段时间，比如模拟时间间隔、节流处理或简单的等待。</li>
+<li><code>wait</code>：多用于线程间的通信和同步，确保在特定条件满足时才继续执行。</li>
+</ul>
+</li>
+<li><p>异常处理：</p>
+<ul>
+<li><code>sleep</code>：调用时需要捕获<code>InterruptedException</code>异常。</li>
+<li><code>wait</code>：同样需要捕获<code>InterruptedException</code>异常，并且通常在<code>synchronized</code>块中使用。</li>
+</ul>
+</li>
+</ul>
+
+        <h4 id="6-什么是AQS？底层如何实现？"   >
+          <a href="#6-什么是AQS？底层如何实现？" class="heading-link"><i class="fas fa-link"></i></a><a href="#6-什么是AQS？底层如何实现？" class="headerlink" title="6. 什么是AQS？底层如何实现？"></a>6. 什么是AQS？底层如何实现？</h4>
+      <p>AQS（<code>AbstractQueuedSynchronizer</code>），即抽象队列同步器，是Java并发编程中的一个核心框架，用于构建各种同步器，如<code>ReentrantLock</code>、<code>CountDownLatch</code>、<code>Semaphore</code>等。</p>
+<p>AQS内部维护一个整数变量来表示同步状态，使用CAS原子操作保证了同步状态的原子性，通过先进先出（FIFO）的等待队列来管理同步状态，简化了同步器的实现，提高了代码的可靠性和可维护性。</p>
+
+        <h4 id="7-什么是CAS？底层如何实现？"   >
+          <a href="#7-什么是CAS？底层如何实现？" class="heading-link"><i class="fas fa-link"></i></a><a href="#7-什么是CAS？底层如何实现？" class="headerlink" title="7. 什么是CAS？底层如何实现？"></a>7. 什么是CAS？底层如何实现？</h4>
+      <p>CAS（Compare-And-Swap）是一种实现并发算法时常用的技术。它通过比较当前内存中的值与期望值，如果两者相等，则将内存中的值更新为新值，否则不进行任何操作或重新尝试。CAS操作是原子性的，意味着在执行过程中不会被线程调度机制打断，从而避免了传统锁机制带来的性能问题。</p>
+<p>CAS的底层实现依赖于硬件的原子性支持。在硬件层面，CAS是通过CPU的原子指令（如<code>cmpxchg</code>指令）实现的，这些指令保证了操作的原子性，不会造成数据不一致的问题。在Java中，CAS操作通常通过<code>sun.misc.Unsafe</code>类实现，该类提供了直接访问底层资源的方法，通过native方法调用硬件指令来完成CAS操作。</p>
+
+        <h4 id="8-synchronized和ReentrantLock的区别是什么？"   >
+          <a href="#8-synchronized和ReentrantLock的区别是什么？" class="heading-link"><i class="fas fa-link"></i></a><a href="#8-synchronized和ReentrantLock的区别是什么？" class="headerlink" title="8. synchronized和ReentrantLock的区别是什么？"></a>8. synchronized和ReentrantLock的区别是什么？</h4>
+      <p><strong>synchronized</strong> 是Java内置的关键字，用于修饰方法和代码块，通过隐式加锁和释放锁的方式实现线程同步，当线程进入<code>synchronized</code>代码块时会自动获取锁，离开时自动释放锁。它不支持中断和超时的操作，灵活性较低。</p>
+<p><strong>ReentrantLock</strong> 通过Java API实现，通过显式地创建锁对象并调用<code>lock</code>方法加锁，使用完毕后需要调用<code>unlock</code>方法释放锁，通常在finally块中释放锁以确保锁最终被释放。它提供了中断和超时的操作，使用起来更加灵活，适合更细粒度地并发控制。</p>
+
+        <h4 id="9-懒汉式加载中的双重检查以及synchronized关键字的作用是什么？"   >
+          <a href="#9-懒汉式加载中的双重检查以及synchronized关键字的作用是什么？" class="heading-link"><i class="fas fa-link"></i></a><a href="#9-懒汉式加载中的双重检查以及synchronized关键字的作用是什么？" class="headerlink" title="9. 懒汉式加载中的双重检查以及synchronized关键字的作用是什么？"></a>9. 懒汉式加载中的双重检查以及synchronized关键字的作用是什么？</h4>
+      <p>在Java中，懒汉式加载通常指的是单例模式的一种实现方式，其中双重检查（Double-Checked Locking）是一种优化技术，用于减少锁的使用频率，从而提高性能。<code>synchronized</code>关键字用于实现线程同步，确保在多线程环境下，<code>synchronized</code>代码段不被多个线程同时执行。</p>
+
+        <h4 id="10-异常机制中的finaly语句块一定会执行吗？"   >
+          <a href="#10-异常机制中的finaly语句块一定会执行吗？" class="heading-link"><i class="fas fa-link"></i></a><a href="#10-异常机制中的finaly语句块一定会执行吗？" class="headerlink" title="10. 异常机制中的finaly语句块一定会执行吗？"></a>10. 异常机制中的finaly语句块一定会执行吗？</h4>
+      <p>不一定。在大多数情况下，<code>finally</code>块中的代码会执行，但在某些特殊情况下可能不会执行，例如：</p>
+<ul>
+<li>如果在<code>finally</code>块之前调用<code>System.exit()</code>方法或<code>Runtime.getRuntime().halt()</code>方法，JVM会立即终止运行，<code>finally</code>块中的代码不会被执行。</li>
+<li>当发生<code>OutOfMemoryError</code>、<code>StackOverflowError</code>等严重错误导致JVM崩溃时，<code>finally</code>块中的代码也不会执行。</li>
+<li>使用<code>kill -9</code>命令强制终止进程，也会导致<code>finally</code>块中的代码不被执行。</li>
+<li>如果<code>finally</code>块在一个守护线程中执行，并且所有非守护线程都结束了，那么守护线程可能在执行<code>finally</code>块之前就被终止。</li>
+<li>如果<code>try</code>或<code>catch</code>块中有无限循环且未被打断，<code>finally</code>块将不会执行。</li>
+</ul>
+
+        <h4 id="11-JDK动态代理的三要素是什么？"   >
+          <a href="#11-JDK动态代理的三要素是什么？" class="heading-link"><i class="fas fa-link"></i></a><a href="#11-JDK动态代理的三要素是什么？" class="headerlink" title="11. JDK动态代理的三要素是什么？"></a>11. JDK动态代理的三要素是什么？</h4>
+      <p>JDK动态代理的三要素包括：原始对象、接口和<code>InvocationHandler</code>。原始对象是被代理的对象，通常是一个实现了特定接口的类实例，代理对象与被代理对象需要共同实现的接口。<code>InvocationHandler</code>是代理对象需要额外执行的逻辑，也就是代理的功能。</p>
+
+        <h4 id="12-Java-8有哪些新特性？"   >
+          <a href="#12-Java-8有哪些新特性？" class="heading-link"><i class="fas fa-link"></i></a><a href="#12-Java-8有哪些新特性？" class="headerlink" title="12. Java 8有哪些新特性？"></a>12. Java 8有哪些新特性？</h4>
+      <p>有Lamda表达式、函数式接口、接口的默认方法、Stream API、Optional类。</p>
+
+        <h4 id="13-什么是线程池？"   >
+          <a href="#13-什么是线程池？" class="heading-link"><i class="fas fa-link"></i></a><a href="#13-什么是线程池？" class="headerlink" title="13. 什么是线程池？"></a>13. 什么是线程池？</h4>
+      <p>线程池是一种用于管理和复用线程的机制，它包含一组预先创建的线程，用于执行提交的任务。线程池通过减少线程的创建和销毁开销，提高了系统的性能和资源管理效率。通过线程池，任务的提交和线程的管理被分离，有效地控制了线程的数量，避免了因线程过多导致的系统资源耗尽问题。</p>
+
+        <h4 id="14-创建线程池的几个参数是什么？"   >
+          <a href="#14-创建线程池的几个参数是什么？" class="heading-link"><i class="fas fa-link"></i></a><a href="#14-创建线程池的几个参数是什么？" class="headerlink" title="14. 创建线程池的几个参数是什么？"></a>14. 创建线程池的几个参数是什么？</h4>
+      <ul>
+<li><strong>corePoolSize</strong>：线程池中的常驻核心线程数。即使这些线程处于空闲状态，它们也不会被销毁，除非设置了<code>allowCoreThreadTimeOut</code>。这个参数确保了线程池中始终保持一定数量的线程，以应对持续的任务处理需求。</li>
+<li><strong>maximumPoolSize</strong>：线程池能够容纳的同时执行的最大线程数。当任务队列满且线程数达到最大值时，线程池将根据拒绝策略处理新提交的任务。</li>
+<li><strong>keepAliveTime</strong>：空闲线程的存活时间。当线程池中的线程数超过<code>corePoolSize</code>时，多余的空闲线程在达到<code>keepAliveTime</code>后将被销毁，直到线程数量恢复到<code>corePoolSize</code>为止。</li>
+<li><strong>unit</strong>：<code>keepAliveTime</code>的时间单位，如秒、毫秒等。</li>
+<li><strong>workQueue</strong>：任务队列，用于存储等待执行的任务。当任务队列满时，线程池会根据拒绝策略处理新提交的任务。</li>
+<li><strong>threadFactory</strong>：用于创建新线程的工厂，通常使用默认设置即可。</li>
+<li><strong>handler</strong>：拒绝策略，当任务队列满且线程数达到<code>maximumPoolSize</code>时，如何处理新提交的任务。</li>
+</ul>
+
+        <h4 id="15-谈谈创建线程池的四种方式？"   >
+          <a href="#15-谈谈创建线程池的四种方式？" class="heading-link"><i class="fas fa-link"></i></a><a href="#15-谈谈创建线程池的四种方式？" class="headerlink" title="15. 谈谈创建线程池的四种方式？"></a>15. 谈谈创建线程池的四种方式？</h4>
+      <ol>
+<li><p>使用Executors类创建线程池</p>
+<ul>
+<li><code>newFixedThreadPool</code>：创建一个固定大小的线程池，线程池的大小一旦创建后就不再改变。</li>
+<li><code>newCachedThreadPool</code>：创建一个可缓存的线程池，线程池的大小可根据需要动态调整。</li>
+<li><code>newScheduledThreadPool</code>：创建一个支持定时及周期性任务执行的线程池。</li>
+<li><code>newSingleThreadExecutor</code>：创建一个只包含一个线程的线程池。</li>
+<li><code>newSingleThreadScheduledExecutor</code>：创建一个单线程的执行器，支持定时及周期性任务。</li>
+</ul>
+</li>
+<li><p>使用<code>ThreadPoolExecutor</code>构造函数创建线程池</p>
+<p>可以根据需要设置核心线程数、最大线程数、非核心线程的存活时间、存活时间单位、任务队列、线程工厂和拒绝策略等参数，提供更精细的控制。</p>
+</li>
+<li><p>使用<code>Future</code>和<code>Callable</code></p>
+<p>Java 5 引入了 <code>Future</code> 和 <code>Callable</code>，用于创建异步任务并获取结果，使用 <code>ExecutorService.submit</code> 方法提交任务并获取 <code>Future</code> 对象。</p>
+</li>
+<li><p>使用Spring的<code>ThreadPoolTaskExecutor</code></p>
+<p>使用Spring框架提供的 <code>ThreadPoolTaskExecutor</code> 来创建并配置线程池。</p>
+</li>
+</ol>
+
+        <h4 id="16-线程池的工作队列有哪些？"   >
+          <a href="#16-线程池的工作队列有哪些？" class="heading-link"><i class="fas fa-link"></i></a><a href="#16-线程池的工作队列有哪些？" class="headerlink" title="16. 线程池的工作队列有哪些？"></a>16. 线程池的工作队列有哪些？</h4>
+      <ul>
+<li><strong>ArrayBlockingQueue</strong>：基于数组的有界阻塞队列，按FIFO排序。</li>
+<li><strong>LinkedBlockingQueue</strong>：基于链表的无界阻塞队列（可选容量），按FIFO排序。</li>
+<li><strong>PriorityBlockingQueue</strong>：具有优先级的无界阻塞队列，按优先级排序。</li>
+<li><strong>SynchronousQueue</strong>：不存储元素的阻塞队列，每个插入必须等待一个相应的移除，反之亦然。</li>
+<li><strong>DelayQueue</strong>：基于优先级的无界阻塞队列，只有在延迟期满时才能从中提取元素。</li>
+</ul>
+
+        <h4 id="17-线程池的拒绝策略有哪些？"   >
+          <a href="#17-线程池的拒绝策略有哪些？" class="heading-link"><i class="fas fa-link"></i></a><a href="#17-线程池的拒绝策略有哪些？" class="headerlink" title="17. 线程池的拒绝策略有哪些？"></a>17. 线程池的拒绝策略有哪些？</h4>
+      <ul>
+<li><strong>AbortPolicy</strong>：这是默认的拒绝策略。当线程池达到其最大容量，并且工作队列也满了时，使用<code>AbortPolicy</code>策略会直接抛出<code>RejectedExecutionException</code>异常。这个异常表明任务因为线程池的资源不足而被拒绝。适用于需要立即处理任务失败的情况，例如在电商平台高流量期间处理订单任务时，如果继续提交任务，系统会抛出异常。</li>
+<li><strong>CallerRunsPolicy</strong>：当任务无法被线程池执行时，会直接在调用者线程中运行这个任务。如果调用者线程正在执行一个任务，则会创建一个新线程来执行被拒绝的任务。适用于不允许任务失败但对性能要求不高的场景，因为调用者线程会处理被拒绝的任务，可能会导致调用者线程阻塞。</li>
+<li><strong>DiscardPolicy</strong>：当任务无法被线程池执行时，任务将被丢弃，不抛出异常也不执行任务。适用于任务不重要，可以忽略的情况。</li>
+<li><strong>DiscardOldestPolicy</strong>：当任务无法被线程池执行时，线程池会丢弃队列中最旧的任务，然后尝试再次提交当前任务。适用于允许丢弃最早进入队列的任务的场景。</li>
+</ul>
+<p>除了上述四种内置策略外，用户还可以自定义拒绝策略，通过实现<code>RejectedExecutionHandler</code>接口来定义自己的拒绝策略。</p>
+
+        <h4 id="18-如果一个线程池的核心线程数是10，最大线程数是20，工作队列长度是50，拒绝策略为直接丢弃，那么当同时提交了100个任务，线程池的大小是怎么变化的？有多少任务会被丢弃？"   >
+          <a href="#18-如果一个线程池的核心线程数是10，最大线程数是20，工作队列长度是50，拒绝策略为直接丢弃，那么当同时提交了100个任务，线程池的大小是怎么变化的？有多少任务会被丢弃？" class="heading-link"><i class="fas fa-link"></i></a><a href="#18-如果一个线程池的核心线程数是10，最大线程数是20，工作队列长度是50，拒绝策略为直接丢弃，那么当同时提交了100个任务，线程池的大小是怎么变化的？有多少任务会被丢弃？" class="headerlink" title="18. 如果一个线程池的核心线程数是10，最大线程数是20，工作队列长度是50，拒绝策略为直接丢弃，那么当同时提交了100个任务，线程池的大小是怎么变化的？有多少任务会被丢弃？"></a>18. 如果一个线程池的核心线程数是10，最大线程数是20，工作队列长度是50，拒绝策略为直接丢弃，那么当同时提交了100个任务，线程池的大小是怎么变化的？有多少任务会被丢弃？</h4>
+      <p>当同时提交了100个任务时，线程池的大小和任务处理情况会按以下步骤变化：</p>
+<ol>
+<li><p>提交任务初期：</p>
+<ul>
+<li>线程池首先会使用核心线程数处理任务，即最初会有10个线程同时运行任务。</li>
+</ul>
+</li>
+<li><p>工作队列填充：</p>
+<ul>
+<li>这10个线程在处理任务的同时，剩余的任务（100 - 10 &#x3D; 90个任务）会被放入工作队列中。</li>
+<li>工作队列可以容纳50个任务，因此前50个任务会成功进入队列等待执行，剩下40个任务（90 - 50 &#x3D; 40）仍需要处理。</li>
+</ul>
+</li>
+<li><p>线程池扩容：</p>
+<ul>
+<li>此时，核心线程数10个已满，工作队列也已满（50个任务），线程池会继续增加线程处理任务，直到达到最大线程数20。</li>
+<li>因此，线程池会再增加10个线程（达到最大线程数20），这10个线程会开始处理剩下的40个任务中的10个任务。</li>
+<li>到目前为止，共有20个线程正在运行任务，工作队列中有50个等待的任务，还剩下30个任务未被处理。</li>
+</ul>
+</li>
+<li><p>任务拒绝：</p>
+<ul>
+<li>剩下的30个任务由于已经超出了线程池的处理能力（20个线程正在运行，50个任务在队列中等待），会被直接丢弃（根据拒绝策略<code>DiscardPolicy</code>）。</li>
+</ul>
+</li>
+</ol>
+<p>因此，当同时提交了100个任务时，线程池会运行70个任务（10个初始任务 + 10个新增线程任务 + 50个队列任务），而剩下的30个任务会被直接丢弃。</p>
+
+        <h3 id="二、Spring面试题"   >
+          <a href="#二、Spring面试题" class="heading-link"><i class="fas fa-link"></i></a><a href="#二、Spring面试题" class="headerlink" title="二、Spring面试题"></a>二、Spring面试题</h3>
+      
+        <h4 id="1-什么是IoC？"   >
+          <a href="#1-什么是IoC？" class="heading-link"><i class="fas fa-link"></i></a><a href="#1-什么是IoC？" class="headerlink" title="1. 什么是IoC？"></a>1. 什么是IoC？</h4>
+      <p>IoC（Inversion of Control Container）是Spring控制反转的容器，用于管理对象的生命周期和依赖关系。它通过将对象的创建和管理过程从应用程序代码中分离出来，使得开发者可以专注于编写业务逻辑，而不必关心底层对象的创建和管理。</p>
+<p>IoC容器的核心思想是通过依赖注入（Dependency Injection）来实现组件之间的松耦合，从而提高代码的可维护性和可测试性。IoC容器可以自动完成对象的创建、初始化、注入等操作，简化开发流程，提高开发效率。</p>
+<p>通过IoC容器，开发者可以通过配置文件或注解的方式定义对象之间的关系，容器在运行时会自动处理这些依赖关系，确保对象能够正确地协作，从而减少手动编码的错误，提高系统的稳定性和可扩展性。</p>
+
+        <h4 id="2-什么是AOP？"   >
+          <a href="#2-什么是AOP？" class="heading-link"><i class="fas fa-link"></i></a><a href="#2-什么是AOP？" class="headerlink" title="2. 什么是AOP？"></a>2. 什么是AOP？</h4>
+      <p>AOP（Aspect-Oriented Programming）即面向切面编程，是一种编程范式。通过定义切面（Aspect），切面中包含了一系列的操作，这些操作会在特定的方法调用时自动执行。切面可以看作是一个特殊的类，它通过代理模式在运行时被插入到目标对象的方法调用前后。</p>
+<p>AOP的实现机制包括：</p>
+<ul>
+<li><strong>预编译方式</strong>：在编译时将切面逻辑织入程序。</li>
+<li><strong>动态代理</strong>：在运行时通过代理对象拦截方法调用，执行切面逻辑。</li>
+</ul>
+<p>AOP的应用场景包括：</p>
+<ul>
+<li><strong>日志操作</strong>：可以在业务方法前后自动记录日志，避免在每个业务方法中重复编写日志代码。</li>
+<li><strong>权限管理</strong>：在调用目标方法前进行权限验证。</li>
+<li><strong>事务管理</strong>：在调用业务方法前开启事务，方法执行完成后提交事务。</li>
+</ul>
+
+        <h4 id="3-BeanFactory和FactoryBean的区别是什么？"   >
+          <a href="#3-BeanFactory和FactoryBean的区别是什么？" class="heading-link"><i class="fas fa-link"></i></a><a href="#3-BeanFactory和FactoryBean的区别是什么？" class="headerlink" title="3. BeanFactory和FactoryBean的区别是什么？"></a>3. BeanFactory和FactoryBean的区别是什么？</h4>
+      <p><strong>BeanFactory</strong> 是Spring框架的核心接口，用于管理和获取Bean对象。它是一个容器，负责创建、配置和管理应用程序中的Bean。<code>BeanFactory</code>提供了基本的IOC容器功能，包括实例化、定位、配置应用程序中的对象及建立这些对象的依赖。</p>
+<p><strong>FactoryBean</strong> 是一个特殊的Bean，它本身也是一个<code>BeanFactory</code>，用于创建其他Bean。<code>FactoryBean</code>提供了一个灵活的方式来创建和配置复杂的Bean对象。通过实现<code>FactoryBean</code>接口，开发者可以自定义Bean的创建过程，从而控制Bean的创建逻辑。</p>
+
+        <h4 id="4-Bean的生命周期有哪些？"   >
+          <a href="#4-Bean的生命周期有哪些？" class="heading-link"><i class="fas fa-link"></i></a><a href="#4-Bean的生命周期有哪些？" class="headerlink" title="4. Bean的生命周期有哪些？"></a>4. Bean的生命周期有哪些？</h4>
+      <ol>
+<li><strong>实例化</strong>：Bean对象通过new关键字或反射机制创建，分配内存空间。</li>
+<li><strong>设置属性</strong>：在实例化后，通过依赖注入设置Bean的属性值。</li>
+<li><strong>初始化</strong>：在设置完属性后，执行初始化操作。可以通过配置文件中的<code>init-method</code>属性指定初始化方法，也可以通过实现<code>InitializingBean</code>接口的<code>afterPropertiesSet</code>方法进行初始化。</li>
+<li><strong>使用</strong>：初始化完成后，Bean可以被应用程序使用。</li>
+<li><strong>销毁</strong>：当Bean不再需要时，通过配置文件中的<code>destroy-method</code>属性指定的方法进行销毁操作，释放资源。</li>
+</ol>
+
+        <h4 id="5-Spring是如何解决循环依赖的？"   >
+          <a href="#5-Spring是如何解决循环依赖的？" class="heading-link"><i class="fas fa-link"></i></a><a href="#5-Spring是如何解决循环依赖的？" class="headerlink" title="5. Spring是如何解决循环依赖的？"></a>5. Spring是如何解决循环依赖的？</h4>
+      <p>Spring 使用三级缓存来解决循环依赖：</p>
+<ul>
+<li>单例工厂的早期引用缓存（<code>SingletonFactory</code>）</li>
+<li>单例工厂的晚期引用缓存（<code>ObjectFactory</code>）</li>
+<li>成品实例的缓存（<code>singletonObjects</code>）</li>
+</ul>
+<p>以下是解决循环依赖的大致步骤：</p>
+<ol>
+<li>当Spring容器启动，开始构造A，但是A中依赖B，所以转到构造B。</li>
+<li>构造B时发现依赖C，所以转到构造C。</li>
+<li>构造C时发现依赖A，但是A已经在构造中，所以Spring提前用一个代理对象（<code>ObjectFactory</code>）代替A，并将这个代理对象放入三级缓存中。</li>
+<li>构造C完成后，C被缓存。然后B可以使用代理的C。</li>
+<li>B构造完成后，B被缓存。A现在可以使用代理的B。</li>
+<li>A最后完成构造，此时A中依赖的B已经是完全初始化好的对象了。</li>
+</ol>
+<p>这样就解决了循环依赖的问题。</p>
+
+        <h4 id="6-Spring实现动态代理的方式是什么？"   >
+          <a href="#6-Spring实现动态代理的方式是什么？" class="heading-link"><i class="fas fa-link"></i></a><a href="#6-Spring实现动态代理的方式是什么？" class="headerlink" title="6. Spring实现动态代理的方式是什么？"></a>6. Spring实现动态代理的方式是什么？</h4>
+      <p>Spring实现动态代理的方式主要有两种：JDK动态代理和CGLIB代理。</p>
+<p>JDK动态代理是利用了JDK的反射机制，要求被代理的对象必须实现至少一个接口。</p>
+<p>CGLIB代理是利用字节码技术，可以在运行时动态地创建一个子类，覆盖需要代理的方法。与JDK动态代理不同，CGLIB代理不需要被代理对象实现任何接口。</p>
+
+        <h4 id="7-Spring声明式事务-Transactional注解在什么情况下会失效？"   >
+          <a href="#7-Spring声明式事务-Transactional注解在什么情况下会失效？" class="heading-link"><i class="fas fa-link"></i></a><a href="#7-Spring声明式事务-Transactional注解在什么情况下会失效？" class="headerlink" title="7. Spring声明式事务@Transactional注解在什么情况下会失效？"></a>7. Spring声明式事务@Transactional注解在什么情况下会失效？</h4>
+      <ul>
+<li><p><strong>没有被IOC容器管理</strong></p>
+<p>使用<code>@Transactional</code>进行事务管理时，Spring需要通过代理对象来管理事务。如果你的类没有被代理，则事务注解将无法生效。</p>
+</li>
+<li><p><strong>非public方法</strong></p>
+<p><code>@Transactional</code>只能用于 <code>public</code> 的方法上，否则事务不会失效，如果要用在非 <code>public</code> 方法上，可以开启AspectJ代理模式。</p>
+</li>
+<li><p><strong>内部方法调用</strong></p>
+<p>事务的生效是基于AOP代理的，如果在同一个类中的一个方法内调用同类中的另一个方法，事务注解可能不会起作用，因为代理机制不会被激活。</p>
+</li>
+<li><p><strong>发生异常且被捕获</strong></p>
+<p>如果在事务方法中捕获了异常并处理了它，但没有将其重新抛出，那么事务将不会回滚。</p>
+</li>
+<li><p><strong>非受检异常</strong></p>
+<p>Spring默认只会在遇到非受检异常（继承自<code>RuntimeException</code>）时回滚事务。如果你的事务方法抛出了受检异常（继承自<code>Exception</code>），则事务可能不会回滚。</p>
+</li>
+<li><p><strong>事务管理器配置问题</strong></p>
+<p>如果 Spring 配置文件中没有启用事务注解配置，或者配置不正确，事务不会生效。或者开启了多个事务管理器，而事务注解没有指定使用哪个事务管理器，事务注解可能无法生效。确保事务注解中指定了正确的事务管理器。</p>
+</li>
+<li><p><strong>数据库引擎不支持事务</strong></p>
+<p>某些数据库引擎不支持事务，例如<code>MyISAM</code>引擎，如果你使用这些引擎，则不能正确地使用<code>@Transactional</code>注解。</p>
+</li>
+</ul>
+
+        <h4 id="8-Spring事务的传播特性有哪些？"   >
+          <a href="#8-Spring事务的传播特性有哪些？" class="heading-link"><i class="fas fa-link"></i></a><a href="#8-Spring事务的传播特性有哪些？" class="headerlink" title="8. Spring事务的传播特性有哪些？"></a>8. Spring事务的传播特性有哪些？</h4>
+      <p>Spring事务的传播特性主要有七种，这些特性定义在<code>TransactionDefinition</code>接口中，具体如下：</p>
+<ol>
+<li><strong>PROPAGATION_REQUIRED</strong>：如果当前没有事务，则新创建一个事务；如果上下文存在事务，则加入到这个事务中。这是默认的传播特性。</li>
+<li><strong>PROPAGATION_SUPPORTS</strong>：如果当前上下文存在事务，则加入这个事务；如果上下文不存在事务，则使用无事务的方式执行。</li>
+<li><strong>PROPAGATION_MANDATORY</strong>：如果当前上下文存在事务，则加入这个事务；如果上下文不存在事务，则报错。</li>
+<li><strong>PROPAGATION_REQUIRES_NEW</strong>：每次都新创建一个事务。如果当前上下文有事务，则挂起上下文的事务，重新创建一个事务；如果当前上下文没有事务，则新创建一个事务。</li>
+<li><strong>PROPAGATION_NOT_SUPPORTED</strong>：不支持事务执行。如果当前上下文存在事务，则挂起上下文的事务。</li>
+<li><strong>PROPAGATION_NEVER</strong>：总是不开启事务；如果存在外层事务，则抛出异常。</li>
+<li><strong>PROPAGATION_NESTED</strong>：如果不存在外层事务，则主动创建事务；否则创建嵌套的子事务。</li>
+</ol>
+
+        <h4 id="9-Spring用到了哪些设计模式？"   >
+          <a href="#9-Spring用到了哪些设计模式？" class="heading-link"><i class="fas fa-link"></i></a><a href="#9-Spring用到了哪些设计模式？" class="headerlink" title="9. Spring用到了哪些设计模式？"></a>9. Spring用到了哪些设计模式？</h4>
+      <ul>
+<li><strong>控制反转（IoC）和依赖注入（DI）</strong>：IoC是Spring中的一个核心概念，通过IoC容器管理对象的创建和依赖关系，降低了代码之间的耦合度。DI是实现IoC的一种设计模式，通过依赖注入将实例变量传入到对象中。</li>
+<li><strong>工厂模式</strong>：Spring中的<code>BeanFactory</code>和<code>ApplicationContext</code>都是工厂模式的体现。<code>BeanFactory</code>是简单工厂模式的实现，根据传入的标识创建Bean对象。<code>ApplicationContext</code>则是工厂方法模式的实现，通过实现<code>FactoryBean</code>接口来创建和管理Bean对象。</li>
+<li><strong>单例模式</strong>：在Spring中，单例模式通过<code>scope=&quot;singleton&quot;</code>实现，确保整个应用中只有一个实例共享。</li>
+<li><strong>原型模式</strong>：通过<code>scope=&quot;prototype&quot;</code>实现，每次获取的都是通过克隆生成的新实例。</li>
+<li><strong>迭代器模式</strong>：Spring中的<code>CompositeIterator</code>实现了<code>Iterator</code>和<code>Iterable</code>接口，用于对象的迭代。</li>
+<li><strong>代理模式</strong>：Spring中的AOP（面向切面编程）通过动态代理实现，支持JDK动态代理和CGLIB动态代理。</li>
+<li><strong>适配器模式</strong>：在AOP中，<code>AdvisorAdapter</code>类根据不同的AOP配置使用对应的<code>Advice</code>，实现了适配器模式。</li>
+</ul>
+<p>这些设计模式在Spring中的应用不仅简化了对象的创建和管理，还提高了代码的复用性和系统的可维护性。</p>
+
+        <h3 id="三、Spring-Boot面试题"   >
+          <a href="#三、Spring-Boot面试题" class="heading-link"><i class="fas fa-link"></i></a><a href="#三、Spring-Boot面试题" class="headerlink" title="三、Spring Boot面试题"></a>三、Spring Boot面试题</h3>
+      
+        <h4 id="1-Spring-Boot是如何实现配置自动化的？"   >
+          <a href="#1-Spring-Boot是如何实现配置自动化的？" class="heading-link"><i class="fas fa-link"></i></a><a href="#1-Spring-Boot是如何实现配置自动化的？" class="headerlink" title="1. Spring Boot是如何实现配置自动化的？"></a>1. Spring Boot是如何实现配置自动化的？</h4>
+      <p>在Spring Boot应用程序启动时，自动配置流程如下：</p>
+<ol>
+<li>加载主配置类（标有<code>@SpringBootApplication</code>的类）。</li>
+<li>通过<code>@EnableAutoConfiguration</code>触发自动配置机制。</li>
+<li><code>AutoConfigurationImportSelector</code>加载并处理<code>META-INF/spring.factories</code>文件中定义的自动配置类。</li>
+<li>根据条件化配置的结果，创建和注册相应的Bean到Spring容器中。</li>
+<li>最终，应用程序获得了一个根据依赖和条件自动配置好的运行环境。</li>
+</ol>
+
+        <h4 id="2-Spring-Boot的常用注解有哪些？"   >
+          <a href="#2-Spring-Boot的常用注解有哪些？" class="heading-link"><i class="fas fa-link"></i></a><a href="#2-Spring-Boot的常用注解有哪些？" class="headerlink" title="2. Spring Boot的常用注解有哪些？"></a>2. Spring Boot的常用注解有哪些？</h4>
+      <p>Spring Boot的常用注解包括以下几种：</p>
+<ul>
+<li><strong>@SpringBootApplication</strong>：这是一个组合注解，包含了<code>@Configuration</code>、<code>@EnableAutoConfiguration</code>和<code>@ComponentScan</code>三个注解。它用于标识Spring Boot应用程序的入口类，简化配置和启动过程。</li>
+<li><strong>@Configuration</strong>：标注一个类作为配置类，相当于一个Spring XML配置文件。配置类可以包含一个或多个<code>@Bean</code>注解的方法，这些方法会返回要注册到Spring应用上下文中的Bean。</li>
+<li><strong>@EnableAutoConfiguration</strong>：启用Spring Boot的自动配置机制，根据项目中的依赖和应用上下文自动配置Spring应用程序。</li>
+<li><strong>@ComponentScan</strong>：自动扫描指定包及其子包中的Spring组件。</li>
+<li><strong>@RestController</strong>：与<code>@Controller</code>类似，但<code>@RestController</code>会自动将返回值转换为JSON格式。它用于标注一个类，表示这个类是一个RESTful风格的控制器，可以处理HTTP请求并返回JSON&#x2F;XML格式的响应。</li>
+</ul>
+
+        <h4 id="3-如何自定义一个Spring-Boot-Starter？"   >
+          <a href="#3-如何自定义一个Spring-Boot-Starter？" class="heading-link"><i class="fas fa-link"></i></a><a href="#3-如何自定义一个Spring-Boot-Starter？" class="headerlink" title="3. 如何自定义一个Spring Boot Starter？"></a>3. 如何自定义一个Spring Boot Starter？</h4>
+      <ol>
+<li>创建一个新的Maven项目，并在<code>pom.xml</code>中添加Spring Boot Starter起步依赖。</li>
+<li>创建一个自动配置类，例如<code>MyAutoConfiguration.java</code>。</li>
+<li>在<code>resources</code>目录下创建<code>META-INF/spring.factories</code>文件，并指定自动配置类。</li>
+<li>打包并发布你的Starter。</li>
+</ol>
+
+        <h4 id="4-ConditionOn注解的用途是什么？"   >
+          <a href="#4-ConditionOn注解的用途是什么？" class="heading-link"><i class="fas fa-link"></i></a><a href="#4-ConditionOn注解的用途是什么？" class="headerlink" title="4. @ConditionOn注解的用途是什么？"></a>4. @ConditionOn注解的用途是什么？</h4>
+      <p><code>@ConditionOn</code>注解主要用于在运行时根据特定的条件动态地决定是否创建和加载某个Bean。例如：</p>
+<p><code>@ConditionOnClass</code>注解通过判断类路径下是否存在给定的类，来决定一个Bean是否应该注入到Spring容器中。它接收Class对象或类的全类名字符串作为参数。</p>
+<p><code>@ConditionOnProperty</code>注解用于根据应用程序配置文件中的属性值来控制Bean的创建和加载。它通常用于需要基于属性值进行条件控制的场景，例如根据配置文件中的开关来决定是否启用某些功能。</p>
+
+        <h4 id="5-同一个类上有多个-ConditionOn注解时，它们之间是“或”的关系还是“且”的关系？"   >
+          <a href="#5-同一个类上有多个-ConditionOn注解时，它们之间是“或”的关系还是“且”的关系？" class="heading-link"><i class="fas fa-link"></i></a><a href="#5-同一个类上有多个-ConditionOn注解时，它们之间是“或”的关系还是“且”的关系？" class="headerlink" title="5. 同一个类上有多个@ConditionOn注解时，它们之间是“或”的关系还是“且”的关系？"></a>5. 同一个类上有多个@ConditionOn注解时，它们之间是“或”的关系还是“且”的关系？</h4>
+      <p>当同一个类上有多个<code>@ConditionOn</code>注解时，这些注解之间默认是逻辑“且”（AND）的关系，即所有条件都必须满足才会执行相应的配置。例如，如果一个类上同时使用了<code>@ConditionalOnClass</code>和<code>@ConditionalOnBean</code>注解，那么这两个条件都必须满足，相应的配置才会生效。</p>
+
+        <h3 id="四、Spring-Cloud面试题"   >
+          <a href="#四、Spring-Cloud面试题" class="heading-link"><i class="fas fa-link"></i></a><a href="#四、Spring-Cloud面试题" class="headerlink" title="四、Spring Cloud面试题"></a>四、Spring Cloud面试题</h3>
+      
+        <h4 id="1-你们项目里用到了哪些Spring-Cloud组件？"   >
+          <a href="#1-你们项目里用到了哪些Spring-Cloud组件？" class="heading-link"><i class="fas fa-link"></i></a><a href="#1-你们项目里用到了哪些Spring-Cloud组件？" class="headerlink" title="1. 你们项目里用到了哪些Spring Cloud组件？"></a>1. 你们项目里用到了哪些Spring Cloud组件？</h4>
+      <ul>
+<li><p><strong>Eureka 注册中心</strong></p>
+<p>Eureka是Spring Cloud的注册中心，负责服务的注册与发现。服务提供者会向Eureka注册自己的信息，而服务消费者可以从Eureka中获取服务提供者的信息，实现服务调用。Eureka通过心跳机制实现服务的注册与发现。</p>
+</li>
+<li><p><strong>Ribbon 负载均衡</strong></p>
+<p>Ribbon是一个客户端负载均衡器，提供多种负载均衡策略，可以根据需求进行定制化。它主要提供客户端的软件负载均衡算法，将负载均衡的逻辑封装在客户端，运行在客户端的进程中，可以很好地控制HTTP和TCP客户端的负载均衡行为。</p>
+</li>
+<li><p><strong>Hystrix 熔断降级</strong></p>
+<p>Hystrix是一个断路器组件，用于保护系统，控制故障范围。当服务出现异常或超时时，Hystrix会直接返回一个默认的结果，避免服务出现雪崩效应。它实现了断路器模式，防止分布式系统中的级联故障。</p>
+</li>
+<li><p><strong>Spring Cloud Gateway 网关路由</strong></p>
+<p>Spring Cloud Gateway是Spring Cloud生态系统中的一个API网关解决方案，专为微服务架构设计。它主要用于路由请求、处理流量转发、增强安全性、应用内的负载均衡等功能，旨在替代Netflix Zuul，提供更现代化和高效的服务。</p>
+</li>
+<li><p><strong>Spring Cloud Config 配置中心</strong></p>
+<p>Spring Cloud Config是配置中心组件，用于统一管理各微服务的配置。它提供了集中式的配置管理和分布式配置管理两种方式，适用于各种复杂的分布式应用场景。</p>
+</li>
+<li><p><strong>Spring Cloud Task 任务调度</strong></p>
+<p>Spring Cloud Task为微服务应用提供了任务调度和执行的功能。它支持定时任务和一次性任务，并且可以与Spring Boot应用无缝集成。</p>
+</li>
+</ul>
+
+        <h4 id="2-Ribbon的负载均衡策略有哪些？"   >
+          <a href="#2-Ribbon的负载均衡策略有哪些？" class="heading-link"><i class="fas fa-link"></i></a><a href="#2-Ribbon的负载均衡策略有哪些？" class="headerlink" title="2. Ribbon的负载均衡策略有哪些？"></a>2. Ribbon的负载均衡策略有哪些？</h4>
+      <ul>
+<li><strong>轮询策略（RoundRobinRule）</strong>：这是Ribbon的默认策略，按照固定的顺序将请求依次发送到每个服务实例，实现均衡负载。</li>
+<li><strong>随机策略（RandomRule）</strong>：从服务实例列表中随机选择一个实例来处理请求，这种策略可以带来更好的负载均衡效果，但可能导致某些服务实例接收到的请求数量不均匀。</li>
+<li><strong>最少活跃调用数策略（LeastActiveRule）</strong>：跟踪每个服务实例的活跃请求数，选择活跃请求数最少的服务实例来处理新的请求，这种策略可以使得各个服务实例的负载更加均衡。</li>
+<li><strong>响应时间加权策略（WeightedResponseTimeRule）</strong>：根据服务实例的响应时间来分配权重，响应时间越短的实例权重越大，被选中的概率也越高。</li>
+<li><strong>区域感知策略（ZoneAwareRoundRobinRule）</strong>：当服务实例部署在不同的区域时，优先选择与客户端处于同一区域的服务实例，以减少跨区域的网络延迟。</li>
+<li><strong>重试策略（RetryRule）</strong>：在请求失败时，该策略会尝试重新发送请求到另一个服务实例，增加系统的容错能力。</li>
+<li><strong>过滤性线性轮询策略（PredicateBasedRule）</strong>：通过内部定义的过滤器过滤出一部分服务实例清单，然后用线性轮询的方式从过滤出来的服务实例中选择一个服务实例。</li>
+<li><strong>可用性过滤策略（AvailabilityFilteringRule）</strong>：根据服务状态（如宕机或繁忙）来分配权重，过滤掉一直连接失败或高并发的服务实例。</li>
+<li><strong>区域感知轮询策略（ZoneAvoidanceRule）</strong>：以区域和可用性为基础，选择服务实例并对服务实例进行分类，优先选择与客户端处于同一区域的服务实例。</li>
+</ul>
+
+        <h4 id="3-Hystrix是如何实现熔断降级的？"   >
+          <a href="#3-Hystrix是如何实现熔断降级的？" class="heading-link"><i class="fas fa-link"></i></a><a href="#3-Hystrix是如何实现熔断降级的？" class="headerlink" title="3. Hystrix是如何实现熔断降级的？"></a>3. Hystrix是如何实现熔断降级的？</h4>
+      <ul>
+<li><strong>线程池隔离</strong>：Hystrix通过将每个依赖服务的调用放入独立的线程池中执行，实现对依赖服务的隔离。当某个依赖服务出现延迟或故障时，只会影响当前线程池的执行，不会影响整个系统的稳定性。</li>
+<li><strong>超时控制</strong>：Hystrix会为每个依赖服务设置一个超时时间，如果依赖服务的执行时间超过设定的超时时间，Hystrix会快速失败，防止长时间等待导致资源浪费。</li>
+<li><strong>熔断器</strong>：Hystrix通过熔断器（Circuit Breaker）监控依赖服务的调用情况，当调用失败次数达到设定阈值时，熔断器会打开，暂时阻止对该依赖服务的调用，避免连锁故障。在熔断器打开状态下，Hystrix会执行降级逻辑，返回默认值或者缓存数据。</li>
+<li><strong>降级逻辑</strong>：当熔断器打开后，Hystrix会执行预设的降级逻辑，返回备用数据或者默认值，保证系统的正常运行。降级逻辑可以是返回固定值、调用备用接口、返回缓存数据等。</li>
+<li><strong>缓存</strong>：Hystrix会对请求的结果进行缓存，避免重复调用相同的依赖服务。缓存可以减少对依赖服务的调用次数，提高系统性能。</li>
+</ul>
+
+        <h4 id="4-Hystrix的资源隔离实现方式有哪些？"   >
+          <a href="#4-Hystrix的资源隔离实现方式有哪些？" class="heading-link"><i class="fas fa-link"></i></a><a href="#4-Hystrix的资源隔离实现方式有哪些？" class="headerlink" title="4. Hystrix的资源隔离实现方式有哪些？"></a>4. Hystrix的资源隔离实现方式有哪些？</h4>
+      <ul>
+<li><p><strong>线程池隔离</strong></p>
+<p>线程池隔离是Hystrix的默认隔离方式。在这种方式下，每个依赖服务调用都会被分配到一个独立的线程池中执行。这种方式可以支持异步调用，支持超时调用，并且支持直接熔断。当某个服务的调用延迟或失败时，不会影响其他服务的线程资源，从而防止了“雪崩效应”。适用于需要异步执行、支持超时和熔断的场景，如网络请求。</p>
+</li>
+<li><p><strong>信号量隔离</strong></p>
+<p>信号量隔离则是在调用线程上直接执行，没有线程切换的开销，因此开销相对较小。这种方式适用于那些不需要异步执行且开销较小的场景。信号量隔离不支持超时调用和直接熔断，因为它是同步的请求模式。适用于不需要异步执行、开销较小的场景，如本地方法调用。</p>
+</li>
+</ul>
+
+        <h3 id="五、MySQL面试题"   >
+          <a href="#五、MySQL面试题" class="heading-link"><i class="fas fa-link"></i></a><a href="#五、MySQL面试题" class="headerlink" title="五、MySQL面试题"></a>五、MySQL面试题</h3>
+      
+        <h4 id="1-MySQl的索引有哪些？"   >
+          <a href="#1-MySQl的索引有哪些？" class="heading-link"><i class="fas fa-link"></i></a><a href="#1-MySQl的索引有哪些？" class="headerlink" title="1. MySQl的索引有哪些？"></a>1. MySQl的索引有哪些？</h4>
+      <ul>
+<li><strong>普通索引</strong>：最基本的索引类型，没有唯一性的限制。</li>
+<li><strong>唯一索引</strong>：与普通索引类似，但区别在于唯一索引列的每个值都必须是唯一的。</li>
+<li><strong>主键索引</strong>：特殊的唯一索引，不允许为空，常用于唯一标识表中的每一行。</li>
+<li><strong>组合索引</strong>：由多个列组合创建的索引，在使用查询时能够有效地利用索引提高效率。</li>
+<li><strong>全文索引</strong>：主要用于全文检索，可用于MyISAM和InnoDB引擎。</li>
+<li><strong>覆盖索引</strong>：索引包含查询所需的所有列，无需回表查询数据行。可以显著提高查询性能。</li>
+<li><strong>空间索引</strong>：MySQL在MySQL 5.7.6之后支持空间索引，主要用于GIS数据类型。</li>
+</ul>
+
+        <h4 id="2-哪些情况会导致索引失效？"   >
+          <a href="#2-哪些情况会导致索引失效？" class="heading-link"><i class="fas fa-link"></i></a><a href="#2-哪些情况会导致索引失效？" class="headerlink" title="2. 哪些情况会导致索引失效？"></a>2. 哪些情况会导致索引失效？</h4>
+      <ul>
+<li><strong>LIKE操作符的模糊查询</strong>：对于LIKE操作符进行的模糊查询，如果通配符放在索引列的开头，数据库无法利用索引，导致索引失效。</li>
+<li><strong>未使用索引字段进行过滤</strong>：如果查询条件没有使用到创建的索引字段，数据库可能不会使用该索引。</li>
+<li><strong>数据类型不匹配</strong>：如果查询条件的数据类型与索引字段的数据类型不匹配，数据库无法使用索引。</li>
+<li><strong>使用函数操作</strong>：如果查询条件中对字段进行了函数操作（如 <code>LOWER(column)</code>），索引可能失效，因为数据库无法直接使用索引。</li>
+<li><strong>使用OR运算</strong>：在OR运算中，如果其中一个条件使用了索引，而另一个条件没有使用索引，整个查询可能会导致索引失效。</li>
+<li><strong>使用NOT运算</strong>：NOT运算通常会使索引失效，因为数据库无法使用索引来高效处理NOT运算。</li>
+<li><strong>表连接中的索引失效</strong>：如果在表连接查询中，连接条件中的字段没有索引，可能导致索引失效。</li>
+<li><strong>使用不等于操作符</strong>：对于不等于操作符（!&#x3D; 或 &lt;&gt;），数据库通常无法利用索引进行加速查询，因为索引是按照排序顺序组织的，而不等于操作符无法利用索引的排序特性。</li>
+<li><strong>对索引列进行了数据类型转换</strong>：如果查询条件中对索引列进行了数据类型转换，数据库可能无法利用索引，导致索引失效。</li>
+<li><strong>联合索引的使用不当</strong>：在联合索引中，如果查询时的条件列不是联合索引中的第一个列，索引可能会失效。</li>
+<li><strong>MySQL优化器预估全表扫描更快</strong>：在某些情况下，MySQL优化器可能会预估全表扫描比使用索引更快，从而导致不使用索引。</li>
+</ul>
+
+        <h4 id="3-解决索引失效的方法有哪些？"   >
+          <a href="#3-解决索引失效的方法有哪些？" class="heading-link"><i class="fas fa-link"></i></a><a href="#3-解决索引失效的方法有哪些？" class="headerlink" title="3. 解决索引失效的方法有哪些？"></a>3. 解决索引失效的方法有哪些？</h4>
+      <ul>
+<li>确保查询条件中使用到创建的索引字段。</li>
+<li>保持数据类型的一致性，避免在查询条件中对索引列进行数据类型转换。</li>
+<li>避免在查询条件中对索引列使用函数操作。</li>
+<li>合理使用OR和NOT运算，尽量避免导致索引失效的情况。</li>
+<li>在进行模糊查询时，尽量避免前导通配符的使用。</li>
+<li>确保表连接查询中连接条件中的字段有索引。</li>
+<li>优化查询语句，使其尽可能满足联合索引的最佳左前缀法则。</li>
+</ul>
+
+        <h4 id="4-什么是回表查询？"   >
+          <a href="#4-什么是回表查询？" class="heading-link"><i class="fas fa-link"></i></a><a href="#4-什么是回表查询？" class="headerlink" title="4. 什么是回表查询？"></a>4. 什么是回表查询？</h4>
+      <p>回表查询是指在数据库查询过程中，当一个索引不能包含查询所需的所有列时，数据库需要先通过索引查找到相关的记录位置（通常是主键或行号），然后再回到表中读取完整的行数据。这种情况通常发生在查询语句中包含了索引无法覆盖的字段或者涉及到了复杂的查询条件时。</p>
+
+        <h4 id="5-什么是覆盖索引？"   >
+          <a href="#5-什么是覆盖索引？" class="heading-link"><i class="fas fa-link"></i></a><a href="#5-什么是覆盖索引？" class="headerlink" title="5. 什么是覆盖索引？"></a>5. 什么是覆盖索引？</h4>
+      <p>覆盖索引（Covering Index）是指一个索引包含了查询所需的所有字段，从而可以直接通过索引来获取查询结果，而不需要再回表（访问表中的数据行）。换句话说，覆盖索引能够“覆盖”查询中所有涉及的列，因此查询可以完全依赖索引，提高查询效率。</p>
+
+        <h4 id="6-Explain命令的输出有哪些关键字段？"   >
+          <a href="#6-Explain命令的输出有哪些关键字段？" class="heading-link"><i class="fas fa-link"></i></a><a href="#6-Explain命令的输出有哪些关键字段？" class="headerlink" title="6. Explain命令的输出有哪些关键字段？"></a>6. Explain命令的输出有哪些关键字段？</h4>
+      <ul>
+<li><strong>id</strong>：查询中每个选择表的标识符。如果id值相同，表示这些行是按顺序执行的；如果id不同，表示这些行是嵌套子查询或联合查询。</li>
+<li><strong>select_type</strong>：查询类型，包括SIMPLE（简单查询，不包括子查询或联合查询）、PRIMARY（主查询）、UNION（联合中的第二个或随后的查询）、DEPENDENT UNION（依赖于外部查询的联合中的第二个或随后的查询）、SUBQUERY（子查询）、DEPENDENT SUBQUERY（依赖于外部查询的子查询）等。</li>
+<li><strong>table</strong>：正在访问的表的名称。如果FROM子句中有子查询或UNION操作，table列会显示相应的标识。</li>
+<li><strong>type</strong>：表示MySQL在表中找到所需行的方式，从最优到最差依次为：system &gt; const &gt; eq_ref &gt; ref &gt; range &gt; index &gt; ALL。其中，const和eq_ref是最理想的，ALL表示全表扫描，通常是性能较差的标志。</li>
+<li><strong>possible_keys</strong>：显示了MySQL可以使用的索引选项，指示了可以在表中查找记录的索引。如果查询涉及到的列上有索引，则该索引将显示出来，但并不意味着会被查询使用。</li>
+<li><strong>key</strong>：显示MySQL实际决定使用的键。如果为NULL，表示没有使用索引。</li>
+<li><strong>key_len</strong>：使用索引的长度，可以帮助理解索引的选择性。</li>
+<li><strong>ref</strong>：显示哪些列或常量被用于与key列中列出的索引进行比较。</li>
+<li><strong>rows</strong>：预计要读取并检查的行数。越小越好。</li>
+<li><strong>filtered</strong>：表示MySQL通过条件过滤出的数据比例，值越接近100%越好。</li>
+<li><strong>Extra</strong>：提供额外的信息，比如是否使用了临时表、是否进行了文件排序、是否使用了覆盖索引等。</li>
+</ul>
+<p>优化SQL查询时，重点关注以下几个字段：</p>
+<ul>
+<li><strong>type</strong>：表示访问类型，最优的是<code>const</code>和<code>eq_ref</code>，最差的是<code>ALL</code>。确保查询达到<code>range</code>级别，最好达到<code>ref</code>级别。</li>
+<li><strong>possible_keys和key</strong>：查看可能使用的索引和实际使用的索引，优化索引选择。</li>
+<li><strong>Extra</strong>：查看是否使用了<code>Using filesort</code>或<code>Using index</code>，尽量通过<code>order by</code>和<code>where</code>配合，避免<code>Using filesort</code>。</li>
+</ul>
+
+        <h4 id="7-MySQL有哪几种锁？"   >
+          <a href="#7-MySQL有哪几种锁？" class="heading-link"><i class="fas fa-link"></i></a><a href="#7-MySQL有哪几种锁？" class="headerlink" title="7. MySQL有哪几种锁？"></a>7. MySQL有哪几种锁？</h4>
+      <p>MySQL的锁可以分成三类：总体、类型、粒度。</p>
+<ul>
+<li>总体上分成两种：乐观锁和悲观锁</li>
+<li>类型上也是两种：读锁（共享锁）和写锁（排它锁）</li>
+<li>锁的粒度上可以分成五种：表锁，行锁，页面锁，间隙锁，临键锁（Next Key锁）</li>
+</ul>
+
+        <h4 id="8-什么是共享锁和排它锁？"   >
+          <a href="#8-什么是共享锁和排它锁？" class="heading-link"><i class="fas fa-link"></i></a><a href="#8-什么是共享锁和排它锁？" class="headerlink" title="8. 什么是共享锁和排它锁？"></a>8. 什么是共享锁和排它锁？</h4>
+      <p><strong>共享锁</strong>，也称为读锁，允许多个事务同时获取锁，并发访问共享资源。它是一种乐观锁，适用于读操作。当一个事务对某个数据对象加上共享锁后，其他事务可以读取该数据，但不能对该数据对象进行修改。共享锁可以保证最大的并发性，任何数量的用户可以同时对相同的数据施加共享锁。</p>
+<p><strong>排它锁</strong>，也称为写锁或独占锁，每次只能有一个事务获得锁。当一个事务对某数据加上排它锁后，其他事务不得对该数据对象施加任何封锁，直到该事务完成操作并释放锁。排它锁适用于插入、删除或更新操作，确保数据的一致性和完整性。排它锁是一种悲观保守的加锁策略，避免了不必要的并发性，因为读操作不会影响数据的一致性。</p>
+
+        <h4 id="9-MySQL乐观锁有哪些实现方式？"   >
+          <a href="#9-MySQL乐观锁有哪些实现方式？" class="heading-link"><i class="fas fa-link"></i></a><a href="#9-MySQL乐观锁有哪些实现方式？" class="headerlink" title="9. MySQL乐观锁有哪些实现方式？"></a>9. MySQL乐观锁有哪些实现方式？</h4>
+      <ul>
+<li><strong>使用数据版本（Version）记录机制</strong>：这是最常用的实现方式。通过为数据库表增加一个数字类型的<code>version</code>字段来实现。当读取数据时，将<code>version</code>字段的值一同读出，数据每更新一次，对<code>version</code>字段加1。更新数据时，检查记录当前<code>version</code>是否与之前读取时的相同，只有相同才给予更新。</li>
+<li><strong>使用时间戳</strong>：另一种实现方式是为每条记录增加一个时间戳字段。每次更新时检查时间戳是否一致，如果一致则更新，否则表示其他事务已修改该记录，需要进行回滚或者重新尝试。</li>
+<li><strong>使用哈希值</strong>：还可以为每条记录增加一个哈希值字段，每次更新时重新计算哈希值并检查是否一致。如果一致则更新，否则表示其他事务已修改该记录，需要进行回滚或者重新尝试。</li>
+</ul>
+
+        <h4 id="10-事务的四个基本特性是什么？"   >
+          <a href="#10-事务的四个基本特性是什么？" class="heading-link"><i class="fas fa-link"></i></a><a href="#10-事务的四个基本特性是什么？" class="headerlink" title="10. 事务的四个基本特性是什么？"></a>10. 事务的四个基本特性是什么？</h4>
+      <ol>
+<li><strong>原子性（Atomicity）</strong>：原子性是指事务包含的所有操作要么全部成功，要么全部失败回滚。事务内的操作如果成功，则整个事务内的所有操作都会提交；如果失败，则所有操作都会撤销，不会对数据库造成任何影响。</li>
+<li><strong>一致性（Consistency）</strong>：一致性要求事务执行前后数据库的状态保持一致。事务的执行不能破坏数据库的完整性约束和规则。例如，在一个转账操作中，无论账户之间如何转账，最终所有账户的总金额应保持不变。</li>
+<li><strong>隔离性（Isolation）</strong>：隔离性是指在并发环境中，多个事务之间互相隔离，一个事务的执行不能被其他事务干扰。不同的事务并发操作相同的数据时，每个事务都有各自完整的数据空间，确保并发事务之间不会互相影响。</li>
+<li><strong>持久性（Durability）</strong>：持久性是指一个事务一旦提交，对数据库的更改就会永久保存，即使系统发生故障也不会丢失。一旦事务提交，其更改会永久反映在数据库中，系统故障不会导致数据丢失。</li>
+</ol>
+
+        <h4 id="11-什么是脏读、不可重复读、幻读？"   >
+          <a href="#11-什么是脏读、不可重复读、幻读？" class="heading-link"><i class="fas fa-link"></i></a><a href="#11-什么是脏读、不可重复读、幻读？" class="headerlink" title="11. 什么是脏读、不可重复读、幻读？"></a>11. 什么是脏读、不可重复读、幻读？</h4>
+      <p><strong>脏读</strong>是指一个事务读取了另一个事务尚未提交的数据。如果被读取的数据在后续被回滚，那么第一个事务读取的数据将是无效的。脏读会导致事务基于错误的数据做出决策，从而影响数据的正确性。为了避免脏读，可以使用锁机制确保事务在读取数据时，其他事务不能修改相同的数据。</p>
+<p><strong>不可重复读</strong>是指在同一个事务内，多次读取同一数据时，由于其他事务的修改，导致两次读取的结果不一致。例如，事务A读取某条记录后，事务B修改了这条记录，当事务A再次读取时，会发现数据已经改变。为了避免不可重复读，可以使用更严格的隔离级别，如可串行化隔离级别，或者使用行级锁或多版本并发控制（MVCC）。</p>
+<p><strong>幻读</strong>是指在同一个事务内，进行范围查询时，由于其他事务的插入操作，导致第二次查询的结果集与第一次不同。例如，事务A查询某个范围内的记录后，事务B插入了新的记录，当事务A再次查询时，会发现结果集中多了新的记录。幻读会破坏事务的一致性，因为它依赖于查询结果的变化。解决幻读的方法包括使用间隙锁或更严格的隔离级别。</p>
+
+        <h4 id="12-事务的隔离级别有哪些？"   >
+          <a href="#12-事务的隔离级别有哪些？" class="heading-link"><i class="fas fa-link"></i></a><a href="#12-事务的隔离级别有哪些？" class="headerlink" title="12. 事务的隔离级别有哪些？"></a>12. 事务的隔离级别有哪些？</h4>
+      <p>事务的隔离级别主要有四种，从低到高依次为：读未提交（Read Uncommitted）、读已提交（Read Committed）、可重复读（Repeatable Read）和序列化（Serializable）。</p>
+<p>各个隔离级别的定义和特性：</p>
+<ol>
+<li><p><strong>读未提交（Read Uncommitted）</strong></p>
+<ul>
+<li>最低的隔离级别。</li>
+<li>允许事务读取另一个事务尚未提交的数据，可能导致脏读、不可重复读和幻读。</li>
+<li>数据一致性无法保证，实际应用中很少使用。</li>
+</ul>
+</li>
+<li><p><strong>读已提交（Read Committed）</strong></p>
+<ul>
+<li>允许事务读取已经提交的数据，防止脏读。</li>
+<li>但可能发生不可重复读和幻读。</li>
+<li>常用的隔离级别，适用于需要数据一致性但不需要完全隔离的场景。</li>
+</ul>
+</li>
+<li><p><strong>可重复读（Repeatable Read）</strong></p>
+<ul>
+<li>保证在同一个事务中多次读取同一数据时结果一致。</li>
+<li>防止脏读和不可重复读，但可能发生幻读。</li>
+<li>适用于需要确保数据一致性但又不想引入过多并发开销的场景。</li>
+</ul>
+</li>
+<li><p><strong>序列化（Serializable）</strong></p>
+<ul>
+<li>最高的隔离级别，要求事务序列化执行。</li>
+<li>完全避免脏读、不可重复读和幻读。</li>
+<li>对系统性能影响较大，适用于对数据一致性要求极高的场景。</li>
+</ul>
+</li>
+</ol>
+
+        <h4 id="13-什么情况下会走行锁？什么情况下会走表锁？"   >
+          <a href="#13-什么情况下会走行锁？什么情况下会走表锁？" class="heading-link"><i class="fas fa-link"></i></a><a href="#13-什么情况下会走行锁？什么情况下会走表锁？" class="headerlink" title="13. 什么情况下会走行锁？什么情况下会走表锁？"></a>13. 什么情况下会走行锁？什么情况下会走表锁？</h4>
+      <p>走行锁的情况：</p>
+<ul>
+<li><strong>基于主键操作</strong>：对于基于主键<code>UPDATE</code>、<code>DELETE</code>和<code>INSERT</code>语句，MySQL会使用行锁，因为这些操作只涉及特定的数据行。</li>
+<li><strong>条件匹配索引</strong>：对于写入操作且<code>WHERE</code>条件匹配到索引时，MySQL也会使用行锁，因为InnoDB引擎会基于索引进行加锁。</li>
+</ul>
+<p>走表锁的情况：</p>
+<ul>
+<li><strong>没有索引或索引不匹配</strong>：如果SQL语句没有使用索引或者查询条件不明确，MySQL会进行全表扫描，此时会使用表锁。</li>
+<li><strong>执行DDL语句</strong>：在进行DDL操作（如修改表结构）时，MySQL会使用表锁，因为这些操作需要锁定整个表。</li>
+<li><strong>事务隔离级别设置不当</strong>：如果事务隔离级别设置过高，MySQL可能会自动将行锁升级为表锁，以确保数据的一致性。</li>
+</ul>
+
+        <h4 id="14-MySQL和PostgreSQL在使用场景上各有什么优势？"   >
+          <a href="#14-MySQL和PostgreSQL在使用场景上各有什么优势？" class="heading-link"><i class="fas fa-link"></i></a><a href="#14-MySQL和PostgreSQL在使用场景上各有什么优势？" class="headerlink" title="14. MySQL和PostgreSQL在使用场景上各有什么优势？"></a>14. MySQL和PostgreSQL在使用场景上各有什么优势？</h4>
+      <ul>
+<li><strong>MySQL</strong> 适用于需要处理大量读操作的应用，如 Web 应用程序、电子商务网站和博客平台等。它的简单性和高性能使得它成为许多小型和中型项目的首选。MySQL 还适用于需要大规模水平扩展和高可用性的应用场景。它的主从复制和分片技术可以提供更好的性能和容量。</li>
+<li><strong>PostgreSQL</strong> 适用于需要复杂数据类型和高级特性的应用，如地理信息系统 (GIS)、大数据分析和科学研究等。它的灵活性和丰富的功能使得它成为处理复杂数据和查询的首选。PostgreSQL 还适用于需要高度并发和可扩展性的应用场景，如金融交易系统、物联网应用和大型企业解决方案。</li>
+</ul>
+
+        <h3 id="六、Redis面试题"   >
+          <a href="#六、Redis面试题" class="heading-link"><i class="fas fa-link"></i></a><a href="#六、Redis面试题" class="headerlink" title="六、Redis面试题"></a>六、Redis面试题</h3>
+      
+        <h4 id="1-Redis的基本数据类型有哪些？"   >
+          <a href="#1-Redis的基本数据类型有哪些？" class="heading-link"><i class="fas fa-link"></i></a><a href="#1-Redis的基本数据类型有哪些？" class="headerlink" title="1. Redis的基本数据类型有哪些？"></a>1. Redis的基本数据类型有哪些？</h4>
+      <p>Redis的基本数据类型包括以下五种：</p>
+<ul>
+<li><strong>String（字符串）</strong>：String是Redis中最基本的数据类型，可以用来存储任何类型的数据，如字符串、整数、浮点数、图片（图片的base64编码或者解码或者图片的路径）、序列化后的对象等。String类型是二进制安全的，最大可以存储512MB的数据。</li>
+<li><strong>List（列表）</strong>：List是一个字符串元素按插入顺序排序的集合。它可以添加一个元素到列表的头部或尾部。List的底层实现依赖于LinkedList、ZipList或QuickList。在Redis 3.2之前，List的底层实现主要是LinkedList或ZipList；从Redis 3.2开始，QuickList成为主要的实现方式。</li>
+<li><strong>Set（集合）</strong>：Set是一个无序的字符串集合，集合中的元素是唯一的。Set通过哈希表实现，支持添加、删除和查找操作，复杂度为O(1)。Set的底层实现可以是Intset或哈希表。</li>
+<li><strong>Hash（散列）</strong>：Hash是一个键值对的集合，适合存储对象。每个Hash可以存储2^32-1个键值对。Hash的底层实现是哈希表。</li>
+<li><strong>Zset（有序集合）</strong>：Zset是一个字符串元素的集合，元素唯一且每个元素关联一个double类型的分数，用于从小到大排序。Zset的底层实现也是哈希表，支持添加、删除和查找操作，复杂度为O(1)。</li>
+</ul>
+<p>这些数据类型提供了丰富的功能，适用于不同的应用场景，如缓存、计数器、分布式session、分布式锁、限流等。</p>
+
+        <h4 id="2-什么情况下用Hash类型，为什么？"   >
+          <a href="#2-什么情况下用Hash类型，为什么？" class="heading-link"><i class="fas fa-link"></i></a><a href="#2-什么情况下用Hash类型，为什么？" class="headerlink" title="2. 什么情况下用Hash类型，为什么？"></a>2. 什么情况下用Hash类型，为什么？</h4>
+      <p>在需要存储对象信息或频繁更新的数据时，使用Hash类型更为合适。 Hash类型特别适合存储对象信息，例如用户信息、统计数据等。这是因为Hash类型可以方便地存储和查询对象的多个属性，而且在进行频繁更新时，其性能优于String类型。使用Hash类型可以避免使用多个String键来存储同一对象的多个属性，从而简化数据管理。</p>
+
+        <h4 id="3-Redis的事务支持回滚吗？"   >
+          <a href="#3-Redis的事务支持回滚吗？" class="heading-link"><i class="fas fa-link"></i></a><a href="#3-Redis的事务支持回滚吗？" class="headerlink" title="3. Redis的事务支持回滚吗？"></a>3. Redis的事务支持回滚吗？</h4>
+      <p>Redis事务不支持回滚。在Redis中，事务是一组命令的集合，这些命令会按照顺序依次执行，并且在执行过程中不会被其他客户端的命令打断，保证了事务的原子性、一致性和隔离性。然而，如果事务中的某个命令执行失败，Redis并不会自动回滚事务，而是会继续执行事务中的其他命令。</p>
+
+        <h4 id="4-Redis的持久化方式有哪些？"   >
+          <a href="#4-Redis的持久化方式有哪些？" class="heading-link"><i class="fas fa-link"></i></a><a href="#4-Redis的持久化方式有哪些？" class="headerlink" title="4. Redis的持久化方式有哪些？"></a>4. Redis的持久化方式有哪些？</h4>
+      <p>Redis的持久化方式主要有三种：RDB、AOF和混合持久化。</p>
+<div class="table-container"><table>
+<thead>
+<tr>
+<th align="left">持久化方式</th>
+<th align="left">定义</th>
+<th align="left">优点</th>
+<th align="left">缺点</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">RDB</td>
+<td align="left">快照式的持久化方法，通过定时生成内存中数据集的快照来实现持久化。</td>
+<td align="left">数据恢复速度快、占用内存小、配置简单</td>
+<td align="left">数据丢失风险、性能影响</td>
+</tr>
+<tr>
+<td align="left">AOF</td>
+<td align="left">通过记录每次写命令的方式来实现持久化。</td>
+<td align="left">数据安全性高、性能影响小</td>
+<td align="left">文件体积大、性能影响</td>
+</tr>
+<tr>
+<td align="left">混合持久化</td>
+<td align="left">在快照生成时使用RDB的方式，但在快照生成前后使用AOF的方式记录操作日志</td>
+<td align="left">减少数据丢失的风险，同时保持较高的启动速度和数据安全性</td>
+<td align="left"></td>
+</tr>
+</tbody></table></div>
+
+        <h4 id="5-Redis有哪几种淘汰策略？"   >
+          <a href="#5-Redis有哪几种淘汰策略？" class="heading-link"><i class="fas fa-link"></i></a><a href="#5-Redis有哪几种淘汰策略？" class="headerlink" title="5. Redis有哪几种淘汰策略？"></a>5. Redis有哪几种淘汰策略？</h4>
+      <p>Redis提供了8种淘汰策略，分别是：</p>
+<ol>
+<li><strong>noeviction</strong>：默认策略，当内存不足时，Redis会拒绝新的写入操作并返回错误，但不会淘汰任何数据。</li>
+<li><strong>volatile-lru</strong>：从设置了过期时间的key中基于LRU算法进行淘汰。</li>
+<li><strong>volatile-lfu</strong>：从设置了过期时间的key中基于LFU算法进行淘汰。</li>
+<li><strong>volatile-ttl</strong>：从设置了过期时间的key中，淘汰那些剩余过期时间最短的数据。</li>
+<li><strong>volatile-random</strong>：从设置了过期时间的key中随机选择数据进行淘汰。</li>
+<li><strong>allkeys-lru</strong>：从所有key中基于最近最少使用（LRU）算法进行淘汰。</li>
+<li><strong>allkeys-lfu</strong>：从所有key中基于最少频率使用（LFU）算法进行淘汰。</li>
+<li><strong>allkeys-random</strong>：从所有key中随机选择数据进行淘汰。</li>
+</ol>
+
+        <h4 id="6-说说Redis主从、哨兵、集群几种模式的区别？"   >
+          <a href="#6-说说Redis主从、哨兵、集群几种模式的区别？" class="heading-link"><i class="fas fa-link"></i></a><a href="#6-说说Redis主从、哨兵、集群几种模式的区别？" class="headerlink" title="6. 说说Redis主从、哨兵、集群几种模式的区别？"></a>6. 说说Redis主从、哨兵、集群几种模式的区别？</h4>
+      <ul>
+<li><strong>主从模式</strong>：主从模式是一种数据备份和读写分离的模式。在主从模式下，主节点负责处理所有的写操作，并将写操作记录在内存中的缓冲区。从节点从主节点获取这些写操作记录，并在自己的数据库上执行这些操作，从而保持与主节点的数据一致。此外，读请求可以在主节点和从节点上进行，从而实现读写分离，提高系统的读取性能。</li>
+<li><strong>哨兵模式</strong>：哨兵模式是在主从模式的基础上，增加了故障转移的功能。在哨兵模式下，除了主节点和从节点，还有一个或多个哨兵节点（Sentinel）。哨兵节点会定期检查主节点和从节点的运行状态。如果发现主节点发生故障，哨兵节点会在从节点中选举出一个新的主节点，并通知其他的从节点和哨兵节点。此外，哨兵节点还可以接收客户端的查询请求，返回当前的主节点信息，从而实现客户端的透明切换。</li>
+<li><strong>集群模式</strong>：集群模式是一种分布式的解决方案，它允许多个Redis节点（服务器）协同工作，提供更高的性能和可用性。在集群模式下，Redis使用一种叫做哈希槽的技术来实现数据的分片。整个哈希空间被分成16384个哈希槽，每个节点负责一部分哈希槽。当一个键需要被存储时，Redis会根据键的值计算出一个哈希值，然后根据哈希值决定将这个键存储在哪个节点上。这样，读写请求就可以在多个节点上并行处理，提高了系统的性能。</li>
+</ul>
+
+        <h4 id="7-如何保证Redis和数据库双写时的数据一致性？"   >
+          <a href="#7-如何保证Redis和数据库双写时的数据一致性？" class="heading-link"><i class="fas fa-link"></i></a><a href="#7-如何保证Redis和数据库双写时的数据一致性？" class="headerlink" title="7. 如何保证Redis和数据库双写时的数据一致性？"></a>7. 如何保证Redis和数据库双写时的数据一致性？</h4>
+      <p>采用延时双删策略，延时双删是一种用于解决在高并发场景下，由于网络延迟、并发控制等原因造成的数据库与缓存数据不一致问题的策略。</p>
+<p>基本思想是在更新数据库后，首先删除缓存，然后设置一个短暂的延迟后再进行第二次删除操作，以确保在数据库更新传播到所有节点，并且在缓存中的旧数据彻底过期失效之前，第二次删除操作可以消除缓存中可能存在的旧数据，从而提高数据一致性。</p>
+<p>具体实现步骤如下:</p>
+<ol>
+<li><strong>更新数据库</strong>：首先将数据更新到数据库中。</li>
+<li><strong>删除缓存</strong>：删除对应的缓存项，以确保后续的读请求会从数据库加载最新数据。</li>
+<li><strong>设置延迟</strong>：设定一段短暂的延迟时间，例如几百毫秒。</li>
+<li><strong>再次删除缓存</strong>：在延迟时间结束后，再次尝试删除缓存，以确保在数据库更新传播到所有节点，并且在缓存中的旧数据彻底过期失效之前，第二次删除操作可以消除缓存中可能存在的旧数据。</li>
+</ol>
+
+        <h4 id="8-说说缓存雪崩、缓存穿透和缓存击穿的区别及其应对方案？"   >
+          <a href="#8-说说缓存雪崩、缓存穿透和缓存击穿的区别及其应对方案？" class="heading-link"><i class="fas fa-link"></i></a><a href="#8-说说缓存雪崩、缓存穿透和缓存击穿的区别及其应对方案？" class="headerlink" title="8. 说说缓存雪崩、缓存穿透和缓存击穿的区别及其应对方案？"></a>8. 说说缓存雪崩、缓存穿透和缓存击穿的区别及其应对方案？</h4>
+      <p><strong>缓存雪崩</strong></p>
+<p>定义：缓存雪崩是指缓存中大量数据同时失效，导致所有请求都直接落到数据库上，造成数据库压力过大甚至崩溃。这通常是由于缓存服务器重启、故障或大量数据同时过期导致的。</p>
+<p>原因：缓存服务器重启、故障或大量数据同时过期，导致缓存失效，所有请求都直接落到数据库上。</p>
+<p>应对方案：</p>
+<ul>
+<li><strong>设置随机过期时间</strong>：避免大量数据同时过期。</li>
+<li><strong>使用分布式锁</strong>：在更新缓存时，使用分布式锁来避免多个请求同时更新缓存。</li>
+<li><strong>增加备用缓存</strong>：在主缓存失效时，使用备用缓存作为临时解决方案。</li>
+<li><strong>限流和降级</strong>：在缓存失效时，通过限流和降级策略减少对数据库的压力。</li>
+</ul>
+<p><strong>缓存穿透</strong></p>
+<p>定义：缓存穿透是指查询一个不存在的数据，导致每次请求都要去数据库查询。这通常是由于恶意攻击或程序错误导致的。</p>
+<p>原因：查询一个不存在的数据，缓存层和持久层都不会命中。恶意攻击者通过发送大量不存在的key请求，导致数据库压力过大。</p>
+<p>应对方案：</p>
+<ul>
+<li><strong>缓存空对象</strong>：在数据库中没有命中的情况下，将空值缓存起来，并设置较短的过期时间。</li>
+<li><strong>使用布隆过滤器</strong>：在访问数据库前，使用布隆过滤器拦截不存在的key，减少对数据库的查询。</li>
+</ul>
+<p><strong>缓存击穿</strong></p>
+<p>定义：缓存击穿是指热点数据在失效时，大量请求同时到达数据库，导致数据库压力过大。这通常发生在热点数据过期失效时。</p>
+<p>原因：热点数据在缓存中失效，大量请求同时到达数据库。</p>
+<p>应对方案：</p>
+<ul>
+<li><strong>设置热点数据永不过期</strong>：对于需要频繁访问的数据，设置永不过期。</li>
+<li><strong>定时更新</strong>：在热点数据过期前，通过定时任务更新缓存。</li>
+<li><strong>使用互斥锁</strong>：在更新缓存时使用互斥锁，避免多个请求同时更新缓存。</li>
+</ul>
+
+        <h4 id="9-什么是Redis的“脑裂”？"   >
+          <a href="#9-什么是Redis的“脑裂”？" class="heading-link"><i class="fas fa-link"></i></a><a href="#9-什么是Redis的“脑裂”？" class="headerlink" title="9. 什么是Redis的“脑裂”？"></a>9. 什么是Redis的“脑裂”？</h4>
+      <p>Redis脑裂是指在Redis集群中，由于网络分区或故障导致节点之间无法正常通信，从而出现数据不一致的现象。具体来说，当发生网络分区或故障时，Redis集群的某些节点可能会被切断，无法与其他节点进行通信，导致集群分裂成多个子集群。这种情况下，可能会出现两个或多个独立运行的部分，它们之间失去了通信和数据同步能力</p>
+
+        <h4 id="10-说说Redis集群的分片机制？"   >
+          <a href="#10-说说Redis集群的分片机制？" class="heading-link"><i class="fas fa-link"></i></a><a href="#10-说说Redis集群的分片机制？" class="headerlink" title="10. 说说Redis集群的分片机制？"></a>10. 说说Redis集群的分片机制？</h4>
+      <p>Redis Cluster 采用了 哈希槽 (hash slot) 的机制来实现数据的分片。Redis Cluster 有 16384 个哈希槽，每个 key 通过 <code>CRC16(key) mod 16384</code> 来计算它应该在哪个哈希槽中。</p>
+<p>Redis Cluster 中的每个 Redis 节点会负责管理一部分哈希槽。当集群中的节点数量发生变化时，负责的哈希槽和相关数据会根据集群的配置和规则进行重新分配。</p>
+<p>Redis Cluster 的分片机制保证了数据分布式存储在不同的节点上，同时也提供了数据读写的高可用性和扩展性。</p>
+
+        <h3 id="七、RabbitMQ面试题"   >
+          <a href="#七、RabbitMQ面试题" class="heading-link"><i class="fas fa-link"></i></a><a href="#七、RabbitMQ面试题" class="headerlink" title="七、RabbitMQ面试题"></a>七、RabbitMQ面试题</h3>
+      
+        <h4 id="1-如何保证消息不丢失？"   >
+          <a href="#1-如何保证消息不丢失？" class="heading-link"><i class="fas fa-link"></i></a><a href="#1-如何保证消息不丢失？" class="headerlink" title="1. 如何保证消息不丢失？"></a>1. 如何保证消息不丢失？</h4>
+      <p>RabbitMQ 提供了一些机制来确保消息不会丢失，包括持久化机制和消费者确认。</p>
+<ul>
+<li><p><strong>持久化机制</strong>：</p>
+<ul>
+<li>交换器持久化：在声明交换器时设置持久化标志，这样即使RabbitMQ重启，交换器也不会丢失。</li>
+<li>队列持久化：在声明队列时设置持久化标志，这样即使RabbitMQ重启，队列和它的内容也不会丢失。</li>
+<li>消息持久化：发布消息时设置持久化标志，这样消息会被写入磁盘，即使RabbitMQ服务器重启，消息也不会丢失。</li>
+</ul>
+</li>
+<li><p><strong>消费者确认</strong>：</p>
+<p>自动确认（auto_ack）设置为false，表示需要手动确认。当消费者处理完消息后，发送一个确认消息给RabbitMQ，这样即使消费者宕机，未确认的消息也会被重新投递。</p>
+</li>
+</ul>
+
+        <h4 id="2-如何保证消息消费的顺序性？"   >
+          <a href="#2-如何保证消息消费的顺序性？" class="heading-link"><i class="fas fa-link"></i></a><a href="#2-如何保证消息消费的顺序性？" class="headerlink" title="2. 如何保证消息消费的顺序性？"></a>2. 如何保证消息消费的顺序性？</h4>
+      <p>RabbitMQ 本身不保证消息的严格顺序性，但可以通过一些配置和策略来尽可能保证消息消费的顺序性。</p>
+<ul>
+<li><strong>单消费者模式</strong>：确保每个队列只有一个消费者，这样可以保证在单个消费者内消息的顺序性。</li>
+<li><strong>消息分片</strong>：将需要保持顺序的消息放入同一个队列中。</li>
+<li><strong>消息持久化</strong>：确保队列和消息都是持久化的，这样即使消费者下线，消息也不会丢失，但注意这会影响性能。</li>
+<li><strong>独立的队列</strong>：为每个消费者创建独立的队列，并确保队列名包含消费者的标识。</li>
+</ul>
+
+        <h4 id="3-如何解决消息积压问题？"   >
+          <a href="#3-如何解决消息积压问题？" class="heading-link"><i class="fas fa-link"></i></a><a href="#3-如何解决消息积压问题？" class="headerlink" title="3. 如何解决消息积压问题？"></a>3. 如何解决消息积压问题？</h4>
+      <p>RabbitMQ 消息积压问题通常是指生产者发送消息的速度超过了消费者处理消息的速度。为了解决这个问题，可以采取以下措施：</p>
+<ul>
+<li><strong>调整消费者的消费能力</strong>：增加消费者的数量，让他们处理更多的消息。</li>
+<li><strong>使用流量控制</strong>：通过调整<code>prefetchCount</code>设置，限制单个消费者可以处理的未确认消息的数量。</li>
+<li><strong>使用消息的TTL</strong>：设置消息的过期时间，自动删除过期的消息。</li>
+<li><strong>使用死信队列</strong>：当消息因为过期或者消费者拒绝而进入死信队列，可以考虑暂停或者减少消息生产。</li>
+<li><strong>监控系统</strong>：实时监控RabbitMQ的消息堆积情况，并采取相应的措施。</li>
+</ul>
+
+        <h3 id="八、Kafka面试题"   >
+          <a href="#八、Kafka面试题" class="heading-link"><i class="fas fa-link"></i></a><a href="#八、Kafka面试题" class="headerlink" title="八、Kafka面试题"></a>八、Kafka面试题</h3>
+      
+        <h4 id="1-kafka的消费者是pull-拉-还是push-推-模式，这种模式有什么好处？"   >
+          <a href="#1-kafka的消费者是pull-拉-还是push-推-模式，这种模式有什么好处？" class="heading-link"><i class="fas fa-link"></i></a><a href="#1-kafka的消费者是pull-拉-还是push-推-模式，这种模式有什么好处？" class="headerlink" title="1. kafka的消费者是pull(拉)还是push(推)模式，这种模式有什么好处？"></a>1. kafka的消费者是pull(拉)还是push(推)模式，这种模式有什么好处？</h4>
+      <p>Kafka 遵循了一种大部分消息系统共同的传统的设计：producer 将消息推送到 broker，consumer 从broker 拉取消息。<br><strong>优点</strong>：pull模式消费者自主决定是否批量从broker拉取数据，而push模式在无法知道消费者消费能力情况下，不易控制推送速度，太快可能造成消费者奔溃，太慢又可能造成浪费。<br><strong>缺点</strong>：如果 broker 没有可供消费的消息，将导致 consumer 不断在循环中轮询，直到新消息到到达。为了避免这点，Kafka 有个参数可以让 consumer阻塞直到新消息到达(当然也可以阻塞直到消息的数量达到某个特定的量这样就可以批量发送)。</p>
+
+        <h4 id="2-Kafka是如何跟踪消息的消费状态的？"   >
+          <a href="#2-Kafka是如何跟踪消息的消费状态的？" class="heading-link"><i class="fas fa-link"></i></a><a href="#2-Kafka是如何跟踪消息的消费状态的？" class="headerlink" title="2. Kafka是如何跟踪消息的消费状态的？"></a>2. Kafka是如何跟踪消息的消费状态的？</h4>
+      <p>Kafka中的Topic 被分成了若干分区，每个分区在同一时间只被一个 consumer 消费。然后再通过offset进行消息位置标记，通过位置偏移来跟踪消费状态。相比其他一些消息队列使用“一个消息被分发到consumer 后 broker 就马上进行标记或者等待 customer 的通知后进行标记”的优点是，避免了通信消息发送后，可能出现的程序奔溃而出现消息丢失或者重复消费的情况。同时也无需维护消息的状态，不用加锁，提高了吞吐量。</p>
+
+        <h4 id="3-Zookeeper对于Kafka的作用是什么？"   >
+          <a href="#3-Zookeeper对于Kafka的作用是什么？" class="heading-link"><i class="fas fa-link"></i></a><a href="#3-Zookeeper对于Kafka的作用是什么？" class="headerlink" title="3. Zookeeper对于Kafka的作用是什么？"></a>3. Zookeeper对于Kafka的作用是什么？</h4>
+      <p>Zookeeper 主要用于在集群中不同节点之间进行通信，在 Kafka 中，它被用于提交偏移量，因此如果节点在任何情况下都失败了，它都可以从之前提交的偏移量中获取，除此之外，它还执行其他活动，如: leader 检测、分布式同步、配置管理、识别新节点何时离开或连接、集群、节点实时状态等等。</p>
+
+        <h4 id="4-讲一讲Kafka的ack的三种机制？"   >
+          <a href="#4-讲一讲Kafka的ack的三种机制？" class="heading-link"><i class="fas fa-link"></i></a><a href="#4-讲一讲Kafka的ack的三种机制？" class="headerlink" title="4. 讲一讲Kafka的ack的三种机制？"></a>4. 讲一讲Kafka的ack的三种机制？</h4>
+      <p>Kafka的ack配置<code>request.required.acks</code>有三个值 0 1 -1(all)，具体如下：</p>
+<ul>
+<li><strong>0</strong>：生产者不会等待 broker 的 ack，这个延迟最低但是存储的保证最弱，当 server 挂掉的时候就会丢数据。</li>
+<li><strong>1</strong>：服务端会等待 ack 值，leader 副本确认接收到消息后发送 ack，但是如果 leader挂掉后他不确保是否复制完成，新 leader 也会导致数据丢失</li>
+<li><strong>-1</strong>(all)：服务端会等所有的 follower 的副本受到数据后才会收到 leader 发出的ack，这样数据不会丢失。</li>
+</ul>
+
+        <h4 id="5-kafka-如何保证消息的顺序消费"   >
+          <a href="#5-kafka-如何保证消息的顺序消费" class="heading-link"><i class="fas fa-link"></i></a><a href="#5-kafka-如何保证消息的顺序消费" class="headerlink" title="5. kafka 如何保证消息的顺序消费?"></a>5. kafka 如何保证消息的顺序消费?</h4>
+      <p>Kafka 发送消息的时候，可以指定(topic, partition, key) 3 个参数，partiton 和 key 是可选的。<br>Kafka 分布式的单位是 partition，同一个 partition 用一个 write ahead log 组织，所以可以保证FIFO 的顺序。不同 partition 之间不能保证顺序。因此你可以指定 partition，将相应的消息发往同 1个 partition，并且在消费端，Kafka 保证1 个 partition 只能被1 个 consumer 消费，就可以实现这些消息的顺序消费。<br>另外，也可以指定 key（比如 order id），具有同 1 个 key 的所有消息，会发往同 1 个partition，那这样也实现了消息的顺序消息。</p>
+
+        <h4 id="6-kafka-如何保证消息不被重复消费？"   >
+          <a href="#6-kafka-如何保证消息不被重复消费？" class="heading-link"><i class="fas fa-link"></i></a><a href="#6-kafka-如何保证消息不被重复消费？" class="headerlink" title="6. kafka 如何保证消息不被重复消费？"></a>6. kafka 如何保证消息不被重复消费？</h4>
+      <p>这个问题换种问法，就是kafka如何保证消息的幂等性。对于消息队列来说，出现重复消息的概率还是挺大的，不能完全依赖消息队列，而是应该在业务层进行数据的一致性幂等校验。比如你处理的数据要写库（mysql，redis等），你先根据主键查一下，如果这数据都有了，你就别插入了，进行一些消息登记或者update等其他操作。另外，数据库层面也可以设置唯一健，确保数据不要重复插入等 。一般这里要求生产者在发送消息的时候，携带全局的唯一id。</p>
+
+        <h4 id="7-Kafka-消费者端的-Rebalance-操作什么时候发生？"   >
+          <a href="#7-Kafka-消费者端的-Rebalance-操作什么时候发生？" class="heading-link"><i class="fas fa-link"></i></a><a href="#7-Kafka-消费者端的-Rebalance-操作什么时候发生？" class="headerlink" title="7. Kafka 消费者端的 Rebalance 操作什么时候发生？"></a>7. Kafka 消费者端的 Rebalance 操作什么时候发生？</h4>
+      <ul>
+<li>同一个消费者组中，新增了消费者进来，会执行 Rebalance 操作。</li>
+<li>消费者离开当期所属的消费者组，比如宕机。</li>
+<li>分区数量发生变化时(即 topic 的分区数量发生变化时)。</li>
+<li>消费者主动取消订阅。</li>
+</ul>
+
+        <h4 id="8-请简述下你在哪些场景下会选择-Kafka？"   >
+          <a href="#8-请简述下你在哪些场景下会选择-Kafka？" class="heading-link"><i class="fas fa-link"></i></a><a href="#8-请简述下你在哪些场景下会选择-Kafka？" class="headerlink" title="8. 请简述下你在哪些场景下会选择 Kafka？"></a>8. 请简述下你在哪些场景下会选择 Kafka？</h4>
+      <ul>
+<li>日志收集：一个公司可以用Kafka可以收集各种服务的log，通过kafka以统一接口服务的方式开放给各种consumer，例如hadoop、HBase、Solr等。</li>
+<li>消息系统：解耦和生产者和消费者、缓存消息等。</li>
+<li>用户活动跟踪：Kafka经常被用来记录web用户或者app用户的各种活动，如浏览网页、搜索、点击等活动，这些活动信息被各个服务器发布到kafka的topic中，然后订阅者通过订阅这些topic来做实时的监控分析，或者装载到hadoop、数据仓库中做离线分析和挖掘。</li>
+<li>运营指标：Kafka也经常用来记录运营监控数据。包括收集各种分布式应用的数据，生产各种操作的集中反馈，比如报警和报告。</li>
+</ul>
+
+        <h3 id="九、ElasticSearch面试题"   >
+          <a href="#九、ElasticSearch面试题" class="heading-link"><i class="fas fa-link"></i></a><a href="#九、ElasticSearch面试题" class="headerlink" title="九、ElasticSearch面试题"></a>九、ElasticSearch面试题</h3>
+      
+        <h4 id="1-什么是倒排索引（反向索引）？"   >
+          <a href="#1-什么是倒排索引（反向索引）？" class="heading-link"><i class="fas fa-link"></i></a><a href="#1-什么是倒排索引（反向索引）？" class="headerlink" title="1. 什么是倒排索引（反向索引）？"></a>1. 什么是倒排索引（反向索引）？</h4>
+      <p>在搜索引擎中，每个文档都有一个对应的文档 ID，文档内容被表示为一系列关键词的集合。例如，某个文档经过分词，提取了 20 个关键词，每个关键词都会记录它在文档中出现的次数和出现位置。那么，倒排索引就是 关键词到文档 ID 的映射，每个关键词都对应着一系列的文件，这些文件中都出现了该关键词。有了倒排索引，搜索引擎可以很方便地响应用户的查询。</p>
+<blockquote>
+<p>要注意倒排索引的两个重要细节：</p>
+</blockquote>
+<ul>
+<li>倒排索引中的所有词项对应一个或多个文档</li>
+<li>倒排索引中的词项根据字典顺序升序排列</li>
+</ul>
+
+        <h4 id="2-说说text和keyword类型的区别？"   >
+          <a href="#2-说说text和keyword类型的区别？" class="heading-link"><i class="fas fa-link"></i></a><a href="#2-说说text和keyword类型的区别？" class="headerlink" title="2. 说说text和keyword类型的区别？"></a>2. 说说text和keyword类型的区别？</h4>
+      <p>两个的区别主要分词的区别：<code>keyword</code>类型是不会分词的，直接根据字符串内容建立倒排索引，<code>keyword</code>类型的字段只能通过精确值搜索到；<code>text</code>类型在存入 Elasticsearch 的时候，会先分词，然后根据分词后的内容建立倒排索引。</p>
+
+        <h4 id="3-ES在高并发情况下如何保证读写一致性？"   >
+          <a href="#3-ES在高并发情况下如何保证读写一致性？" class="heading-link"><i class="fas fa-link"></i></a><a href="#3-ES在高并发情况下如何保证读写一致性？" class="headerlink" title="3. ES在高并发情况下如何保证读写一致性？"></a>3. ES在高并发情况下如何保证读写一致性？</h4>
+      <p><strong>更新操作</strong>：可以通过版本号使用乐观并发控制，以确保新版本不会被旧版本覆盖。</p>
+<blockquote>
+<p>每个文档都有一个<code>_version</code> 版本号，这个版本号在文档被改变时加一。Elasticsearch使用这个 <code>_version</code> 保证所有修改都被正确排序。当一个旧版本出现在新版本之后，它会被简单的忽略。<br>利用<code>_version</code>的这一优点确保数据不会因为修改冲突而丢失。比如指定文档的version来做更改。如果那个版本号不是现在的，我们的请求就失败了。</p>
+</blockquote>
+<p><strong>写操作</strong>：写操作，一致性级别支持 <code>quorum/one/all</code>，默认为 <code>quorum</code>，即只有当大多数分片可用时才允许写操作。但即使大多数可用，也可能存在因为网络等原因导致写入副本失败，这样该副本被认为故障，分片将会在一个不同的节点上重建。</p>
+<ul>
+<li><strong>one</strong>：要求我们这个写操作，只要有一个primary shard是active活跃可用的，就可以执行。</li>
+<li><strong>all</strong>：要求我们这个写操作，必须所有的primary shard和replica shard都是活跃的，才可以执行这个写操作。</li>
+<li><strong>quorum</strong>：默认的值，要求所有的shard中，必须是大部分的shard都是活跃的，可用的，才可以执行这个写操作。</li>
+</ul>
+<p><strong>读操作</strong>：可以设置 replication 为 sync(默认)，这使得操作在主分片和副本分片都完成后才会返回；如果设置replication 为 async 时，也可以通过设置搜索请求参数 <code>_preference</code> 为 primary 来查询主分片，确保文档是最新版本。</p>
+
+        <h4 id="4-ES建立索引阶段有哪些性能提升方法？"   >
+          <a href="#4-ES建立索引阶段有哪些性能提升方法？" class="heading-link"><i class="fas fa-link"></i></a><a href="#4-ES建立索引阶段有哪些性能提升方法？" class="headerlink" title="4. ES建立索引阶段有哪些性能提升方法？"></a>4. ES建立索引阶段有哪些性能提升方法？</h4>
+      <ul>
+<li>使用 SSD 存储介质。</li>
+<li>使用批量请求并调整其大小：每次批量数据 5–15 MB是个不错的起始点。</li>
+<li>如果你在做大批量导入，考虑通过设置 <code>index.number_of_replicas: 0</code> 关闭副本。</li>
+<li>如果你的搜索结果不需要近实时的准确度，考虑把每个索引的 <code>index.refresh_interval</code> 改到30s。</li>
+<li>增加 <code>index.translog.flush_threshold_size</code> 设置，从默认的 512 MB 到更大一些的值，比如 1 GB。</li>
+</ul>
+
+        <h3 id="十、应用安全性面试题"   >
+          <a href="#十、应用安全性面试题" class="heading-link"><i class="fas fa-link"></i></a><a href="#十、应用安全性面试题" class="headerlink" title="十、应用安全性面试题"></a>十、应用安全性面试题</h3>
+      
+        <h4 id="1-什么是JWT，有什么优势？"   >
+          <a href="#1-什么是JWT，有什么优势？" class="heading-link"><i class="fas fa-link"></i></a><a href="#1-什么是JWT，有什么优势？" class="headerlink" title="1. 什么是JWT，有什么优势？"></a>1. 什么是JWT，有什么优势？</h4>
+      <p>JWT(Json-Web-Token)是基于json形式的用于身份验证和授权机制的开放标准。</p>
+<p>JWT由三部分组成：</p>
+<ol>
+<li><strong>头部（Header）</strong>：包含关于生成该JWT的信息以及所使用的算法类型。</li>
+<li><strong>载荷（Payload）</strong>：包含要传递的数据，如身份信息和其他附属数据。官方规定了7个字段：iss（签发者）、sub（主题）、aud（接收者）、exp（过期时间）、nbf（生效时间）、iat（签发时间）、jti（JWT ID）。</li>
+<li><strong>签名（Signature）</strong>：使用密钥对头部和载荷进行签名，以验证其完整性。</li>
+</ol>
+<p>JWT相比于传统session有以下优势：</p>
+<ul>
+<li><strong>无状态</strong>：JWT的验证是基于密钥的，因此它不需要在服务端存储用户信息。这使得JWT可以作为一种无状态的身份认证机制，减轻服务端的压力，并适应微服务架构。</li>
+<li><strong>跨域支持</strong>：由于JWT包含了完整的认证和授权信息，因此可以轻松地在多个域之间传递和使用，实现跨域授权。</li>
+<li><strong>安全性高</strong>：JWT的载荷可以进行加密处理，并且签名机制能够保证数据的完整性和真实性。</li>
+<li><strong>适应微服务架构</strong>：在微服务架构中，使用JWT可以满足认证和授权的无状态性需求，每次请求携带JWT即可实现认证和授权。</li>
+<li><strong>跨语言支持</strong>：JWT的标准化和简单性质使得它可以在多种语言和平台之间使用。</li>
+</ul>
+
+        <h4 id="2-怎么解决跨域问题？"   >
+          <a href="#2-怎么解决跨域问题？" class="heading-link"><i class="fas fa-link"></i></a><a href="#2-怎么解决跨域问题？" class="headerlink" title="2. 怎么解决跨域问题？"></a>2. 怎么解决跨域问题？</h4>
+      <p>跨域是指浏览器在执行网页中的JavaScript代码时，由于同源策略的限制，只能访问与当前页面同源的资源，而不能访问其他源的资源。这种限制是为了保障用户数据的安全。同源策略要求协议、域名和端口号都相同，否则就会产生跨域问题。</p>
+<p>可以通过以下方式解决：</p>
+<ul>
+<li><strong>配置CORS</strong>：CORS是跨域资源共享，是一种基于 HTTP 头的机制，该机制通过允许服务器标示除了它自己以外的其它 origin（域，协议和端口），使得浏览器允许这些 origin 访问加载自己的资源。原理是通过在响应头中添加一些额外的字段，如<code>Access-Control-Allow-Origin</code>字段，添加允许跨域的源，类似于设置白名单之类的操作。使用 <code>@CrossOrigin</code> 注解、添加CORS配置类或 <code>CorsFilter</code> 过滤器等方式解决跨域问题。</li>
+<li><strong>Nginx代理</strong>：利用服务器请求服务器不受浏览器同源策略的限制，前端把请求发给nginx, nginx再把请求转发到后端的服务器，后端的服务器响应给nginx服务器，nginx服务器加上响应头以后，再返回给前端。</li>
+<li><strong>JSONP请求</strong>：利用<code>script</code>标签不受浏览器同源策略的限制，然后和后端一起配合来解决跨域问题的。原理是当通过<code>script</code>标签请求时，服务器端根据相应的参数<code>(json,handleResponse)</code>生成相应的json数据<code>(handleResponse(&#123;&quot;data&quot;: &quot;zhe&quot;&#125;))</code>，最后这个返回的json数据(代码)就会被放在当前js文件中被执行。</li>
+</ul>
+
+        <h4 id="3-什么是XSS和CSRF，它们有什么区别？"   >
+          <a href="#3-什么是XSS和CSRF，它们有什么区别？" class="heading-link"><i class="fas fa-link"></i></a><a href="#3-什么是XSS和CSRF，它们有什么区别？" class="headerlink" title="3. 什么是XSS和CSRF，它们有什么区别？"></a>3. 什么是XSS和CSRF，它们有什么区别？</h4>
+      <p>XSS是<strong>跨站脚本攻击</strong>（Cross Site Scripting)，是一种常见的网络安全漏洞，攻击者通过在目标网站上注入恶意脚本，使得这些脚本在其他用户的浏览器上执行，从而获取用户的敏感信息、劫持会话或进行其他恶意活动。</p>
+<p>CSRF是<strong>跨站请求伪造</strong>（Cross-site request forgery），是伪造请求，冒充用户在站内的正常操作。我们知道，绝大多数网站是通过 cookie 等方式辨识用户身份，再予以授权的。所以要伪造用户的正常操作，最好的方法是通过 XSS 或链接欺骗等途径，让用户在本机 （即拥有身份 cookie 的浏览器端）发起用户所不知道的请求。</p>
+<p>XSS和CSRF的区别：</p>
+<ul>
+<li>原理不同，CSRF是利用网站A本身的漏洞，去请求网站A的api；XSS是向目标网站注入JS代码，然后执行JS里的代码。</li>
+<li>CSRF需要用户先登录目标网站获取cookie，而XSS不需要登录。</li>
+<li>CSRF的目标是用户，XSS的目标是服务器。</li>
+<li>XSS是利用合法用户获取其信息，而CSRF是伪造成合法用户发起请求。</li>
+</ul>
+<p>防御XSS攻击的方法：</p>
+<ul>
+<li><strong>输入验证和过滤</strong>：网站应该对用户输入的数据进行验证和过滤，确保只接受预期的输入。例如，可以使用白名单过滤，只允许特定字符和标记，同时拒绝其他潜在的恶意脚本。</li>
+<li><strong>输出转义</strong>：在将用户输入的数据显示在网页中时，应该对其进行适当的输出转义，以确保浏览器将其视为纯文本而不是可执行的代码。这样可以防止恶意脚本在用户浏览器中执行。</li>
+<li><strong>使用安全的编程实践</strong>：开发人员应遵循安全的编程实践，如避免使用动态拼接 HTML 或 JavaScript 代码，而是使用安全的模板引擎或框架，以确保正确地处理用户输入数据。</li>
+<li><strong>使用内容安全策略（CSP）</strong>：CSP可以帮助检测和缓解XSS攻击，通过声明哪些外部资源可以被加载和执行，从而减少恶意代码的执行。</li>
+<li><strong>定期进行安全审计和代码审查</strong>：及时发现和处理潜在的安全漏洞，防止攻击者利用这些漏洞进行攻击。</li>
+</ul>
+<p>防御CSRF攻击的方法：</p>
+<ul>
+<li><strong>验证码</strong>：在关键操作中加入验证码，增加自动化攻击的难度。</li>
+<li><strong>Token验证</strong>：在每个请求中加入一个随机的token，并在服务器端验证该token的有效性，确保请求是由合法用户发起的。</li>
+<li><strong>HTTP Referer检查</strong>：检查请求的来源页面是否合法，防止外部链接伪造请求。</li>
+<li><strong>禁用长期授权</strong>：改用瞬时授权，例如在每个表单中提供隐藏的field，确保每次请求都是最新的授权。</li>
+</ul>
+</div><footer class="post-footer"><div class="post-ending ending"><div class="ending__text">------ 本文结束，感谢您的阅读 ------</div></div><div class="post-copyright copyright"><div class="copyright-author"><span class="copyright-author__name">本文作者: </span><span class="copyright-author__value"><a href="https://ljd0620.github.io">Liujiduo</a></span></div><div class="copyright-link"><span class="copyright-link__name">本文链接: </span><span class="copyright-link__value"><a href="https://ljd0620.github.io/2021/12/27/Java%E9%9D%A2%E8%AF%95%E9%A2%98%E6%95%B4%E7%90%86%E5%90%88%E9%9B%86/">https://ljd0620.github.io/2021/12/27/Java%E9%9D%A2%E8%AF%95%E9%A2%98%E6%95%B4%E7%90%86%E5%90%88%E9%9B%86/</a></span></div><div class="copyright-notice"><span class="copyright-notice__name">版权声明: </span><span class="copyright-notice__value">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en" rel="external nofollow" target="_blank">BY-NC-SA</a> 许可协议。转载请注明出处！</span></div></div><div class="post-tags"><span class="post-tags-item"><span class="post-tags-item__icon"><i class="fas fa-tag"></i></span><a class="post-tags-item__link" href="https://ljd0620.github.io/tags/Java/">Java</a></span><span class="post-tags-item"><span class="post-tags-item__icon"><i class="fas fa-tag"></i></span><a class="post-tags-item__link" href="https://ljd0620.github.io/tags/%E9%9D%A2%E8%AF%95%E9%A2%98/">面试题</a></span></div><div class="post-reward reward"><div class="reward-button">请我喝杯咖啡~</div><div class="reward-qrcode"><span class="reward-qrcode-alipay"><img class="reward-qrcode-alipay__img" src="https://pub-dc7fa280ba2f4edea3f388602fa80bb0.r2.dev/alipay.jpg"><div class="reward-qrcode-alipay__text">支付宝打赏</div></span><span class="reward-qrcode-wechat"><img class="reward-qrcode-wechat__img" src="https://pub-dc7fa280ba2f4edea3f388602fa80bb0.r2.dev/wechat.jpg"><div class="reward-qrcode-wechat__text">微信打赏</div></span></div></div><nav class="post-paginator paginator"><div class="paginator-prev"><a class="paginator-prev__link" href="/2022/03/18/%E5%A6%82%E4%BD%95%E9%83%A8%E7%BD%B2%E5%92%8C%E4%BD%BF%E7%94%A8ELK/"><span class="paginator-prev__icon"><i class="fas fa-angle-left"></i></span><span class="paginator-prev__text">如何部署和使用ELK</span></a></div><div class="paginator-next"><a class="paginator-next__link" href="/2021/11/03/MQTT%E5%8D%8F%E8%AE%AE%E5%8E%9F%E7%90%86%E5%8F%8A%E5%BA%94%E7%94%A8/"><span class="paginator-prev__text">MQTT协议原理及应用</span><span class="paginator-next__icon"><i class="fas fa-angle-right"></i></span></a></div></nav></footer></div></div></div><div class="sidebar-wrap" id="sidebar-wrap"><aside class="sidebar" id="sidebar"><div class="sidebar-nav"><span class="sidebar-nav-toc current">文章目录</span><span class="sidebar-nav-ov">站点概览</span></div><section class="sidebar-toc"><ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%80%E3%80%81Java%E5%9F%BA%E7%A1%80%E9%9D%A2%E8%AF%95%E9%A2%98"><span class="toc-text">
+          一、Java基础面试题</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-JVM%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B%E6%9C%89%E5%93%AA%E4%BA%9B%E7%BB%84%E6%88%90%E9%83%A8%E5%88%86%EF%BC%9F"><span class="toc-text">
+          1. JVM内存模型有哪些组成部分？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-JVM%E5%B8%B8%E7%94%A8%E7%9A%84GC%E6%9C%89%E5%93%AA%E4%BA%9B%EF%BC%9F"><span class="toc-text">
+          2. JVM常用的GC有哪些？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-JVM%E7%9A%84%E8%B0%83%E4%BC%98%E5%8F%82%E6%95%B0%E6%9C%89%E5%93%AA%E4%BA%9B%EF%BC%9F"><span class="toc-text">
+          3. JVM的调优参数有哪些？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-%E4%BB%80%E4%B9%88%E6%98%AF%E5%8F%8C%E4%BA%B2%E5%A7%94%E6%B4%BE%E6%A8%A1%E5%9E%8B%EF%BC%9F"><span class="toc-text">
+          4. 什么是双亲委派模型？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#5-%E5%A4%9A%E7%BA%BF%E7%A8%8B%E9%87%8C%E7%9A%84sleep%E5%92%8Cwait%E7%9A%84%E5%8C%BA%E5%88%AB%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9F"><span class="toc-text">
+          5. 多线程里的sleep和wait的区别是什么？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#6-%E4%BB%80%E4%B9%88%E6%98%AFAQS%EF%BC%9F%E5%BA%95%E5%B1%82%E5%A6%82%E4%BD%95%E5%AE%9E%E7%8E%B0%EF%BC%9F"><span class="toc-text">
+          6. 什么是AQS？底层如何实现？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#7-%E4%BB%80%E4%B9%88%E6%98%AFCAS%EF%BC%9F%E5%BA%95%E5%B1%82%E5%A6%82%E4%BD%95%E5%AE%9E%E7%8E%B0%EF%BC%9F"><span class="toc-text">
+          7. 什么是CAS？底层如何实现？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#8-synchronized%E5%92%8CReentrantLock%E7%9A%84%E5%8C%BA%E5%88%AB%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9F"><span class="toc-text">
+          8. synchronized和ReentrantLock的区别是什么？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#9-%E6%87%92%E6%B1%89%E5%BC%8F%E5%8A%A0%E8%BD%BD%E4%B8%AD%E7%9A%84%E5%8F%8C%E9%87%8D%E6%A3%80%E6%9F%A5%E4%BB%A5%E5%8F%8Asynchronized%E5%85%B3%E9%94%AE%E5%AD%97%E7%9A%84%E4%BD%9C%E7%94%A8%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9F"><span class="toc-text">
+          9. 懒汉式加载中的双重检查以及synchronized关键字的作用是什么？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#10-%E5%BC%82%E5%B8%B8%E6%9C%BA%E5%88%B6%E4%B8%AD%E7%9A%84finaly%E8%AF%AD%E5%8F%A5%E5%9D%97%E4%B8%80%E5%AE%9A%E4%BC%9A%E6%89%A7%E8%A1%8C%E5%90%97%EF%BC%9F"><span class="toc-text">
+          10. 异常机制中的finaly语句块一定会执行吗？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#11-JDK%E5%8A%A8%E6%80%81%E4%BB%A3%E7%90%86%E7%9A%84%E4%B8%89%E8%A6%81%E7%B4%A0%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9F"><span class="toc-text">
+          11. JDK动态代理的三要素是什么？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#12-Java-8%E6%9C%89%E5%93%AA%E4%BA%9B%E6%96%B0%E7%89%B9%E6%80%A7%EF%BC%9F"><span class="toc-text">
+          12. Java 8有哪些新特性？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#13-%E4%BB%80%E4%B9%88%E6%98%AF%E7%BA%BF%E7%A8%8B%E6%B1%A0%EF%BC%9F"><span class="toc-text">
+          13. 什么是线程池？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#14-%E5%88%9B%E5%BB%BA%E7%BA%BF%E7%A8%8B%E6%B1%A0%E7%9A%84%E5%87%A0%E4%B8%AA%E5%8F%82%E6%95%B0%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9F"><span class="toc-text">
+          14. 创建线程池的几个参数是什么？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#15-%E8%B0%88%E8%B0%88%E5%88%9B%E5%BB%BA%E7%BA%BF%E7%A8%8B%E6%B1%A0%E7%9A%84%E5%9B%9B%E7%A7%8D%E6%96%B9%E5%BC%8F%EF%BC%9F"><span class="toc-text">
+          15. 谈谈创建线程池的四种方式？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#16-%E7%BA%BF%E7%A8%8B%E6%B1%A0%E7%9A%84%E5%B7%A5%E4%BD%9C%E9%98%9F%E5%88%97%E6%9C%89%E5%93%AA%E4%BA%9B%EF%BC%9F"><span class="toc-text">
+          16. 线程池的工作队列有哪些？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#17-%E7%BA%BF%E7%A8%8B%E6%B1%A0%E7%9A%84%E6%8B%92%E7%BB%9D%E7%AD%96%E7%95%A5%E6%9C%89%E5%93%AA%E4%BA%9B%EF%BC%9F"><span class="toc-text">
+          17. 线程池的拒绝策略有哪些？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#18-%E5%A6%82%E6%9E%9C%E4%B8%80%E4%B8%AA%E7%BA%BF%E7%A8%8B%E6%B1%A0%E7%9A%84%E6%A0%B8%E5%BF%83%E7%BA%BF%E7%A8%8B%E6%95%B0%E6%98%AF10%EF%BC%8C%E6%9C%80%E5%A4%A7%E7%BA%BF%E7%A8%8B%E6%95%B0%E6%98%AF20%EF%BC%8C%E5%B7%A5%E4%BD%9C%E9%98%9F%E5%88%97%E9%95%BF%E5%BA%A6%E6%98%AF50%EF%BC%8C%E6%8B%92%E7%BB%9D%E7%AD%96%E7%95%A5%E4%B8%BA%E7%9B%B4%E6%8E%A5%E4%B8%A2%E5%BC%83%EF%BC%8C%E9%82%A3%E4%B9%88%E5%BD%93%E5%90%8C%E6%97%B6%E6%8F%90%E4%BA%A4%E4%BA%86100%E4%B8%AA%E4%BB%BB%E5%8A%A1%EF%BC%8C%E7%BA%BF%E7%A8%8B%E6%B1%A0%E7%9A%84%E5%A4%A7%E5%B0%8F%E6%98%AF%E6%80%8E%E4%B9%88%E5%8F%98%E5%8C%96%E7%9A%84%EF%BC%9F%E6%9C%89%E5%A4%9A%E5%B0%91%E4%BB%BB%E5%8A%A1%E4%BC%9A%E8%A2%AB%E4%B8%A2%E5%BC%83%EF%BC%9F"><span class="toc-text">
+          18. 如果一个线程池的核心线程数是10，最大线程数是20，工作队列长度是50，拒绝策略为直接丢弃，那么当同时提交了100个任务，线程池的大小是怎么变化的？有多少任务会被丢弃？</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BA%8C%E3%80%81Spring%E9%9D%A2%E8%AF%95%E9%A2%98"><span class="toc-text">
+          二、Spring面试题</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-%E4%BB%80%E4%B9%88%E6%98%AFIoC%EF%BC%9F"><span class="toc-text">
+          1. 什么是IoC？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-%E4%BB%80%E4%B9%88%E6%98%AFAOP%EF%BC%9F"><span class="toc-text">
+          2. 什么是AOP？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-BeanFactory%E5%92%8CFactoryBean%E7%9A%84%E5%8C%BA%E5%88%AB%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9F"><span class="toc-text">
+          3. BeanFactory和FactoryBean的区别是什么？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-Bean%E7%9A%84%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F%E6%9C%89%E5%93%AA%E4%BA%9B%EF%BC%9F"><span class="toc-text">
+          4. Bean的生命周期有哪些？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#5-Spring%E6%98%AF%E5%A6%82%E4%BD%95%E8%A7%A3%E5%86%B3%E5%BE%AA%E7%8E%AF%E4%BE%9D%E8%B5%96%E7%9A%84%EF%BC%9F"><span class="toc-text">
+          5. Spring是如何解决循环依赖的？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#6-Spring%E5%AE%9E%E7%8E%B0%E5%8A%A8%E6%80%81%E4%BB%A3%E7%90%86%E7%9A%84%E6%96%B9%E5%BC%8F%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9F"><span class="toc-text">
+          6. Spring实现动态代理的方式是什么？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#7-Spring%E5%A3%B0%E6%98%8E%E5%BC%8F%E4%BA%8B%E5%8A%A1-Transactional%E6%B3%A8%E8%A7%A3%E5%9C%A8%E4%BB%80%E4%B9%88%E6%83%85%E5%86%B5%E4%B8%8B%E4%BC%9A%E5%A4%B1%E6%95%88%EF%BC%9F"><span class="toc-text">
+          7. Spring声明式事务@Transactional注解在什么情况下会失效？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#8-Spring%E4%BA%8B%E5%8A%A1%E7%9A%84%E4%BC%A0%E6%92%AD%E7%89%B9%E6%80%A7%E6%9C%89%E5%93%AA%E4%BA%9B%EF%BC%9F"><span class="toc-text">
+          8. Spring事务的传播特性有哪些？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#9-Spring%E7%94%A8%E5%88%B0%E4%BA%86%E5%93%AA%E4%BA%9B%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%EF%BC%9F"><span class="toc-text">
+          9. Spring用到了哪些设计模式？</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%89%E3%80%81Spring-Boot%E9%9D%A2%E8%AF%95%E9%A2%98"><span class="toc-text">
+          三、Spring Boot面试题</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-Spring-Boot%E6%98%AF%E5%A6%82%E4%BD%95%E5%AE%9E%E7%8E%B0%E9%85%8D%E7%BD%AE%E8%87%AA%E5%8A%A8%E5%8C%96%E7%9A%84%EF%BC%9F"><span class="toc-text">
+          1. Spring Boot是如何实现配置自动化的？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-Spring-Boot%E7%9A%84%E5%B8%B8%E7%94%A8%E6%B3%A8%E8%A7%A3%E6%9C%89%E5%93%AA%E4%BA%9B%EF%BC%9F"><span class="toc-text">
+          2. Spring Boot的常用注解有哪些？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-%E5%A6%82%E4%BD%95%E8%87%AA%E5%AE%9A%E4%B9%89%E4%B8%80%E4%B8%AASpring-Boot-Starter%EF%BC%9F"><span class="toc-text">
+          3. 如何自定义一个Spring Boot Starter？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-ConditionOn%E6%B3%A8%E8%A7%A3%E7%9A%84%E7%94%A8%E9%80%94%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9F"><span class="toc-text">
+          4. @ConditionOn注解的用途是什么？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#5-%E5%90%8C%E4%B8%80%E4%B8%AA%E7%B1%BB%E4%B8%8A%E6%9C%89%E5%A4%9A%E4%B8%AA-ConditionOn%E6%B3%A8%E8%A7%A3%E6%97%B6%EF%BC%8C%E5%AE%83%E4%BB%AC%E4%B9%8B%E9%97%B4%E6%98%AF%E2%80%9C%E6%88%96%E2%80%9D%E7%9A%84%E5%85%B3%E7%B3%BB%E8%BF%98%E6%98%AF%E2%80%9C%E4%B8%94%E2%80%9D%E7%9A%84%E5%85%B3%E7%B3%BB%EF%BC%9F"><span class="toc-text">
+          5. 同一个类上有多个@ConditionOn注解时，它们之间是“或”的关系还是“且”的关系？</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9B%9B%E3%80%81Spring-Cloud%E9%9D%A2%E8%AF%95%E9%A2%98"><span class="toc-text">
+          四、Spring Cloud面试题</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-%E4%BD%A0%E4%BB%AC%E9%A1%B9%E7%9B%AE%E9%87%8C%E7%94%A8%E5%88%B0%E4%BA%86%E5%93%AA%E4%BA%9BSpring-Cloud%E7%BB%84%E4%BB%B6%EF%BC%9F"><span class="toc-text">
+          1. 你们项目里用到了哪些Spring Cloud组件？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-Ribbon%E7%9A%84%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1%E7%AD%96%E7%95%A5%E6%9C%89%E5%93%AA%E4%BA%9B%EF%BC%9F"><span class="toc-text">
+          2. Ribbon的负载均衡策略有哪些？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-Hystrix%E6%98%AF%E5%A6%82%E4%BD%95%E5%AE%9E%E7%8E%B0%E7%86%94%E6%96%AD%E9%99%8D%E7%BA%A7%E7%9A%84%EF%BC%9F"><span class="toc-text">
+          3. Hystrix是如何实现熔断降级的？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-Hystrix%E7%9A%84%E8%B5%84%E6%BA%90%E9%9A%94%E7%A6%BB%E5%AE%9E%E7%8E%B0%E6%96%B9%E5%BC%8F%E6%9C%89%E5%93%AA%E4%BA%9B%EF%BC%9F"><span class="toc-text">
+          4. Hystrix的资源隔离实现方式有哪些？</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BA%94%E3%80%81MySQL%E9%9D%A2%E8%AF%95%E9%A2%98"><span class="toc-text">
+          五、MySQL面试题</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-MySQl%E7%9A%84%E7%B4%A2%E5%BC%95%E6%9C%89%E5%93%AA%E4%BA%9B%EF%BC%9F"><span class="toc-text">
+          1. MySQl的索引有哪些？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-%E5%93%AA%E4%BA%9B%E6%83%85%E5%86%B5%E4%BC%9A%E5%AF%BC%E8%87%B4%E7%B4%A2%E5%BC%95%E5%A4%B1%E6%95%88%EF%BC%9F"><span class="toc-text">
+          2. 哪些情况会导致索引失效？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-%E8%A7%A3%E5%86%B3%E7%B4%A2%E5%BC%95%E5%A4%B1%E6%95%88%E7%9A%84%E6%96%B9%E6%B3%95%E6%9C%89%E5%93%AA%E4%BA%9B%EF%BC%9F"><span class="toc-text">
+          3. 解决索引失效的方法有哪些？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-%E4%BB%80%E4%B9%88%E6%98%AF%E5%9B%9E%E8%A1%A8%E6%9F%A5%E8%AF%A2%EF%BC%9F"><span class="toc-text">
+          4. 什么是回表查询？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#5-%E4%BB%80%E4%B9%88%E6%98%AF%E8%A6%86%E7%9B%96%E7%B4%A2%E5%BC%95%EF%BC%9F"><span class="toc-text">
+          5. 什么是覆盖索引？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#6-Explain%E5%91%BD%E4%BB%A4%E7%9A%84%E8%BE%93%E5%87%BA%E6%9C%89%E5%93%AA%E4%BA%9B%E5%85%B3%E9%94%AE%E5%AD%97%E6%AE%B5%EF%BC%9F"><span class="toc-text">
+          6. Explain命令的输出有哪些关键字段？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#7-MySQL%E6%9C%89%E5%93%AA%E5%87%A0%E7%A7%8D%E9%94%81%EF%BC%9F"><span class="toc-text">
+          7. MySQL有哪几种锁？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#8-%E4%BB%80%E4%B9%88%E6%98%AF%E5%85%B1%E4%BA%AB%E9%94%81%E5%92%8C%E6%8E%92%E5%AE%83%E9%94%81%EF%BC%9F"><span class="toc-text">
+          8. 什么是共享锁和排它锁？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#9-MySQL%E4%B9%90%E8%A7%82%E9%94%81%E6%9C%89%E5%93%AA%E4%BA%9B%E5%AE%9E%E7%8E%B0%E6%96%B9%E5%BC%8F%EF%BC%9F"><span class="toc-text">
+          9. MySQL乐观锁有哪些实现方式？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#10-%E4%BA%8B%E5%8A%A1%E7%9A%84%E5%9B%9B%E4%B8%AA%E5%9F%BA%E6%9C%AC%E7%89%B9%E6%80%A7%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9F"><span class="toc-text">
+          10. 事务的四个基本特性是什么？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#11-%E4%BB%80%E4%B9%88%E6%98%AF%E8%84%8F%E8%AF%BB%E3%80%81%E4%B8%8D%E5%8F%AF%E9%87%8D%E5%A4%8D%E8%AF%BB%E3%80%81%E5%B9%BB%E8%AF%BB%EF%BC%9F"><span class="toc-text">
+          11. 什么是脏读、不可重复读、幻读？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#12-%E4%BA%8B%E5%8A%A1%E7%9A%84%E9%9A%94%E7%A6%BB%E7%BA%A7%E5%88%AB%E6%9C%89%E5%93%AA%E4%BA%9B%EF%BC%9F"><span class="toc-text">
+          12. 事务的隔离级别有哪些？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#13-%E4%BB%80%E4%B9%88%E6%83%85%E5%86%B5%E4%B8%8B%E4%BC%9A%E8%B5%B0%E8%A1%8C%E9%94%81%EF%BC%9F%E4%BB%80%E4%B9%88%E6%83%85%E5%86%B5%E4%B8%8B%E4%BC%9A%E8%B5%B0%E8%A1%A8%E9%94%81%EF%BC%9F"><span class="toc-text">
+          13. 什么情况下会走行锁？什么情况下会走表锁？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#14-MySQL%E5%92%8CPostgreSQL%E5%9C%A8%E4%BD%BF%E7%94%A8%E5%9C%BA%E6%99%AF%E4%B8%8A%E5%90%84%E6%9C%89%E4%BB%80%E4%B9%88%E4%BC%98%E5%8A%BF%EF%BC%9F"><span class="toc-text">
+          14. MySQL和PostgreSQL在使用场景上各有什么优势？</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%85%AD%E3%80%81Redis%E9%9D%A2%E8%AF%95%E9%A2%98"><span class="toc-text">
+          六、Redis面试题</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-Redis%E7%9A%84%E5%9F%BA%E6%9C%AC%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B%E6%9C%89%E5%93%AA%E4%BA%9B%EF%BC%9F"><span class="toc-text">
+          1. Redis的基本数据类型有哪些？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-%E4%BB%80%E4%B9%88%E6%83%85%E5%86%B5%E4%B8%8B%E7%94%A8Hash%E7%B1%BB%E5%9E%8B%EF%BC%8C%E4%B8%BA%E4%BB%80%E4%B9%88%EF%BC%9F"><span class="toc-text">
+          2. 什么情况下用Hash类型，为什么？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-Redis%E7%9A%84%E4%BA%8B%E5%8A%A1%E6%94%AF%E6%8C%81%E5%9B%9E%E6%BB%9A%E5%90%97%EF%BC%9F"><span class="toc-text">
+          3. Redis的事务支持回滚吗？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-Redis%E7%9A%84%E6%8C%81%E4%B9%85%E5%8C%96%E6%96%B9%E5%BC%8F%E6%9C%89%E5%93%AA%E4%BA%9B%EF%BC%9F"><span class="toc-text">
+          4. Redis的持久化方式有哪些？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#5-Redis%E6%9C%89%E5%93%AA%E5%87%A0%E7%A7%8D%E6%B7%98%E6%B1%B0%E7%AD%96%E7%95%A5%EF%BC%9F"><span class="toc-text">
+          5. Redis有哪几种淘汰策略？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#6-%E8%AF%B4%E8%AF%B4Redis%E4%B8%BB%E4%BB%8E%E3%80%81%E5%93%A8%E5%85%B5%E3%80%81%E9%9B%86%E7%BE%A4%E5%87%A0%E7%A7%8D%E6%A8%A1%E5%BC%8F%E7%9A%84%E5%8C%BA%E5%88%AB%EF%BC%9F"><span class="toc-text">
+          6. 说说Redis主从、哨兵、集群几种模式的区别？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#7-%E5%A6%82%E4%BD%95%E4%BF%9D%E8%AF%81Redis%E5%92%8C%E6%95%B0%E6%8D%AE%E5%BA%93%E5%8F%8C%E5%86%99%E6%97%B6%E7%9A%84%E6%95%B0%E6%8D%AE%E4%B8%80%E8%87%B4%E6%80%A7%EF%BC%9F"><span class="toc-text">
+          7. 如何保证Redis和数据库双写时的数据一致性？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#8-%E8%AF%B4%E8%AF%B4%E7%BC%93%E5%AD%98%E9%9B%AA%E5%B4%A9%E3%80%81%E7%BC%93%E5%AD%98%E7%A9%BF%E9%80%8F%E5%92%8C%E7%BC%93%E5%AD%98%E5%87%BB%E7%A9%BF%E7%9A%84%E5%8C%BA%E5%88%AB%E5%8F%8A%E5%85%B6%E5%BA%94%E5%AF%B9%E6%96%B9%E6%A1%88%EF%BC%9F"><span class="toc-text">
+          8. 说说缓存雪崩、缓存穿透和缓存击穿的区别及其应对方案？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#9-%E4%BB%80%E4%B9%88%E6%98%AFRedis%E7%9A%84%E2%80%9C%E8%84%91%E8%A3%82%E2%80%9D%EF%BC%9F"><span class="toc-text">
+          9. 什么是Redis的“脑裂”？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#10-%E8%AF%B4%E8%AF%B4Redis%E9%9B%86%E7%BE%A4%E7%9A%84%E5%88%86%E7%89%87%E6%9C%BA%E5%88%B6%EF%BC%9F"><span class="toc-text">
+          10. 说说Redis集群的分片机制？</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%83%E3%80%81RabbitMQ%E9%9D%A2%E8%AF%95%E9%A2%98"><span class="toc-text">
+          七、RabbitMQ面试题</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-%E5%A6%82%E4%BD%95%E4%BF%9D%E8%AF%81%E6%B6%88%E6%81%AF%E4%B8%8D%E4%B8%A2%E5%A4%B1%EF%BC%9F"><span class="toc-text">
+          1. 如何保证消息不丢失？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-%E5%A6%82%E4%BD%95%E4%BF%9D%E8%AF%81%E6%B6%88%E6%81%AF%E6%B6%88%E8%B4%B9%E7%9A%84%E9%A1%BA%E5%BA%8F%E6%80%A7%EF%BC%9F"><span class="toc-text">
+          2. 如何保证消息消费的顺序性？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-%E5%A6%82%E4%BD%95%E8%A7%A3%E5%86%B3%E6%B6%88%E6%81%AF%E7%A7%AF%E5%8E%8B%E9%97%AE%E9%A2%98%EF%BC%9F"><span class="toc-text">
+          3. 如何解决消息积压问题？</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%85%AB%E3%80%81Kafka%E9%9D%A2%E8%AF%95%E9%A2%98"><span class="toc-text">
+          八、Kafka面试题</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-kafka%E7%9A%84%E6%B6%88%E8%B4%B9%E8%80%85%E6%98%AFpull-%E6%8B%89-%E8%BF%98%E6%98%AFpush-%E6%8E%A8-%E6%A8%A1%E5%BC%8F%EF%BC%8C%E8%BF%99%E7%A7%8D%E6%A8%A1%E5%BC%8F%E6%9C%89%E4%BB%80%E4%B9%88%E5%A5%BD%E5%A4%84%EF%BC%9F"><span class="toc-text">
+          1. kafka的消费者是pull(拉)还是push(推)模式，这种模式有什么好处？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-Kafka%E6%98%AF%E5%A6%82%E4%BD%95%E8%B7%9F%E8%B8%AA%E6%B6%88%E6%81%AF%E7%9A%84%E6%B6%88%E8%B4%B9%E7%8A%B6%E6%80%81%E7%9A%84%EF%BC%9F"><span class="toc-text">
+          2. Kafka是如何跟踪消息的消费状态的？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-Zookeeper%E5%AF%B9%E4%BA%8EKafka%E7%9A%84%E4%BD%9C%E7%94%A8%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9F"><span class="toc-text">
+          3. Zookeeper对于Kafka的作用是什么？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-%E8%AE%B2%E4%B8%80%E8%AE%B2Kafka%E7%9A%84ack%E7%9A%84%E4%B8%89%E7%A7%8D%E6%9C%BA%E5%88%B6%EF%BC%9F"><span class="toc-text">
+          4. 讲一讲Kafka的ack的三种机制？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#5-kafka-%E5%A6%82%E4%BD%95%E4%BF%9D%E8%AF%81%E6%B6%88%E6%81%AF%E7%9A%84%E9%A1%BA%E5%BA%8F%E6%B6%88%E8%B4%B9"><span class="toc-text">
+          5. kafka 如何保证消息的顺序消费?</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#6-kafka-%E5%A6%82%E4%BD%95%E4%BF%9D%E8%AF%81%E6%B6%88%E6%81%AF%E4%B8%8D%E8%A2%AB%E9%87%8D%E5%A4%8D%E6%B6%88%E8%B4%B9%EF%BC%9F"><span class="toc-text">
+          6. kafka 如何保证消息不被重复消费？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#7-Kafka-%E6%B6%88%E8%B4%B9%E8%80%85%E7%AB%AF%E7%9A%84-Rebalance-%E6%93%8D%E4%BD%9C%E4%BB%80%E4%B9%88%E6%97%B6%E5%80%99%E5%8F%91%E7%94%9F%EF%BC%9F"><span class="toc-text">
+          7. Kafka 消费者端的 Rebalance 操作什么时候发生？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#8-%E8%AF%B7%E7%AE%80%E8%BF%B0%E4%B8%8B%E4%BD%A0%E5%9C%A8%E5%93%AA%E4%BA%9B%E5%9C%BA%E6%99%AF%E4%B8%8B%E4%BC%9A%E9%80%89%E6%8B%A9-Kafka%EF%BC%9F"><span class="toc-text">
+          8. 请简述下你在哪些场景下会选择 Kafka？</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B9%9D%E3%80%81ElasticSearch%E9%9D%A2%E8%AF%95%E9%A2%98"><span class="toc-text">
+          九、ElasticSearch面试题</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-%E4%BB%80%E4%B9%88%E6%98%AF%E5%80%92%E6%8E%92%E7%B4%A2%E5%BC%95%EF%BC%88%E5%8F%8D%E5%90%91%E7%B4%A2%E5%BC%95%EF%BC%89%EF%BC%9F"><span class="toc-text">
+          1. 什么是倒排索引（反向索引）？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-%E8%AF%B4%E8%AF%B4text%E5%92%8Ckeyword%E7%B1%BB%E5%9E%8B%E7%9A%84%E5%8C%BA%E5%88%AB%EF%BC%9F"><span class="toc-text">
+          2. 说说text和keyword类型的区别？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-ES%E5%9C%A8%E9%AB%98%E5%B9%B6%E5%8F%91%E6%83%85%E5%86%B5%E4%B8%8B%E5%A6%82%E4%BD%95%E4%BF%9D%E8%AF%81%E8%AF%BB%E5%86%99%E4%B8%80%E8%87%B4%E6%80%A7%EF%BC%9F"><span class="toc-text">
+          3. ES在高并发情况下如何保证读写一致性？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-ES%E5%BB%BA%E7%AB%8B%E7%B4%A2%E5%BC%95%E9%98%B6%E6%AE%B5%E6%9C%89%E5%93%AA%E4%BA%9B%E6%80%A7%E8%83%BD%E6%8F%90%E5%8D%87%E6%96%B9%E6%B3%95%EF%BC%9F"><span class="toc-text">
+          4. ES建立索引阶段有哪些性能提升方法？</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8D%81%E3%80%81%E5%BA%94%E7%94%A8%E5%AE%89%E5%85%A8%E6%80%A7%E9%9D%A2%E8%AF%95%E9%A2%98"><span class="toc-text">
+          十、应用安全性面试题</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-%E4%BB%80%E4%B9%88%E6%98%AFJWT%EF%BC%8C%E6%9C%89%E4%BB%80%E4%B9%88%E4%BC%98%E5%8A%BF%EF%BC%9F"><span class="toc-text">
+          1. 什么是JWT，有什么优势？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-%E6%80%8E%E4%B9%88%E8%A7%A3%E5%86%B3%E8%B7%A8%E5%9F%9F%E9%97%AE%E9%A2%98%EF%BC%9F"><span class="toc-text">
+          2. 怎么解决跨域问题？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-%E4%BB%80%E4%B9%88%E6%98%AFXSS%E5%92%8CCSRF%EF%BC%8C%E5%AE%83%E4%BB%AC%E6%9C%89%E4%BB%80%E4%B9%88%E5%8C%BA%E5%88%AB%EF%BC%9F"><span class="toc-text">
+          3. 什么是XSS和CSRF，它们有什么区别？</span></a></li></ol></li></ol></section><!-- ov = overview--><section class="sidebar-ov hide"><div class="sidebar-ov-author"><div class="sidebar-ov-author__avatar"><img class="sidebar-ov-author__avatar_img" src="https://pub-dc7fa280ba2f4edea3f388602fa80bb0.r2.dev/avatar.jpg" alt="avatar"></div><p class="sidebar-ov-author__text">Liujiduo's Blog</p></div><div class="sidebar-ov-feed"><span class="sidebar-ov-feed-email"><a class="sidebar-ov-feed-email__link" href="mailto:liujiduo@sina.com" target="_blank" rel="noopener"><span class="sidebar-ov-feed-email__icon"><i class="fas fa-envelope"></i></span><span>Email 订阅</span></a></span><span class="sidebar-ov-feed-rss"><a class="sidebar-ov-feed-rss__link" href="/atom.xml" target="_blank" rel="noopener"><span class="sidebar-ov-feed-rss__icon"><i class="fas fa-rss"></i></span><span>RSS 订阅</span></a></span></div><div class="sidebar-ov-state"><a class="sidebar-ov-state-item sidebar-ov-state-item--posts" href="/archives/"><div class="sidebar-ov-state-item__count">53</div><div class="sidebar-ov-state-item__name">归档</div></a><a class="sidebar-ov-state-item sidebar-ov-state-item--categories" href="/categories/"><div class="sidebar-ov-state-item__count">21</div><div class="sidebar-ov-state-item__name">分类</div></a><a class="sidebar-ov-state-item sidebar-ov-state-item--tags" href="/tags/"><div class="sidebar-ov-state-item__count">48</div><div class="sidebar-ov-state-item__name">标签</div></a></div><div class="sidebar-ov-cc"><a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en" target="_blank" rel="noopener" data-popover="知识共享许可协议" data-popover-pos="up"><img src="/images/cc-by-nc-sa.svg"></a></div></section><div class="sidebar-reading"><div class="sidebar-reading-info"><span class="sidebar-reading-info__text">你已阅读了 </span><span class="sidebar-reading-info__num">0</span><span class="sidebar-reading-info__perc">%</span></div><div class="sidebar-reading-line"></div></div></aside></div><div class="clearfix"></div></div></main><footer class="footer" id="footer"><div class="footer-inner"><div><span>Copyright © 2024~2025</span><span class="footer__icon"><i class="fas fa-heart"></i></span><span>Liujiduo All Rights Reserved</span></div><div class="busuanzi"></div></div></footer><div class="loading-bar" id="loading-bar"><div class="loading-bar__progress"></div></div><div class="back2top" id="back2top"><span class="back2top__icon"><i class="fas fa-rocket"></i></span></div></div><script src="https://cdn.jsdelivr.net/npm/jquery@v3.4.1/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/velocity-animate@1.5.2/velocity.min.js"></script><script src="https://cdn.jsdelivr.net/npm/velocity-animate@1.5.2/velocity.ui.min.js"></script><script src="https://cdn.jsdelivr.net/npm/ribbon.js@latest/dist/ribbon.min.js" size="120" alpha="0.6" zIndex="-1"></script><script src="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script><script src="/js/utils.js?v=2.8.0"></script><script src="/js/stun-boot.js?v=2.8.0"></script><script src="/js/scroll.js?v=2.8.0"></script><script src="/js/header.js?v=2.8.0"></script><script src="/js/sidebar.js?v=2.8.0"></script></body></html>

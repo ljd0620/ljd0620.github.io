@@ -1,0 +1,229 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="format-detection" content="telephone=no"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black"><link rel="icon" href="https://pub-dc7fa280ba2f4edea3f388602fa80bb0.r2.dev/favicon.ico?v=2.8.0" type="image/png" sizes="16x16"><link rel="icon" href="https://pub-dc7fa280ba2f4edea3f388602fa80bb0.r2.dev/favicon.ico?v=2.8.0" type="image/png" sizes="32x32"><meta name="description" content="本文深入解析了Java的AQS框架设计原理，包括其核心设计思想、核心数据结构、核心方法及流程，以及关键机制解析。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java的AQS框架设计原理">
+<meta property="og:url" content="https://ljd0620.github.io/2019/12/27/Java%E7%9A%84AQS%E6%A1%86%E6%9E%B6%E8%AE%BE%E8%AE%A1%E5%8E%9F%E7%90%86/index.html">
+<meta property="og:site_name" content="Just Do IT.">
+<meta property="og:description" content="本文深入解析了Java的AQS框架设计原理，包括其核心设计思想、核心数据结构、核心方法及流程，以及关键机制解析。">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2019-12-27T06:31:19.000Z">
+<meta property="article:modified_time" content="2025-03-27T06:33:49.155Z">
+<meta property="article:author" content="Liujiduo">
+<meta property="article:tag" content="Java">
+<meta property="article:tag" content="并发编程">
+<meta property="article:tag" content="AQS">
+<meta name="twitter:card" content="summary"><title>Java的AQS框架设计原理 | Just Do IT.</title><link ref="canonical" href="https://ljd0620.github.io/2019/12/27/Java%E7%9A%84AQS%E6%A1%86%E6%9E%B6%E8%AE%BE%E8%AE%A1%E5%8E%9F%E7%90%86/"><link rel="alternate" href="/atom.xml" type="application/atom+xml"><link rel="dns-prefetch" href="https://cdn.jsdelivr.net"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.12.1/css/all.min.css" type="text/css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" type="text/css"><link rel="stylesheet" href="/css/index.css?v=2.8.0"><script>var Stun = window.Stun || {};
+var CONFIG = {
+  root: '/',
+  algolia: undefined,
+  assistSearch: undefined,
+  fontIcon: {"prompt":{"success":"fas fa-check-circle","info":"fas fa-arrow-circle-right","warning":"fas fa-exclamation-circle","error":"fas fa-times-circle"},"copyBtn":"fas fa-copy"},
+  sidebar: {"offsetTop":"20px","tocMaxDepth":6},
+  header: {"enable":true,"showOnPost":true,"scrollDownIcon":false},
+  postWidget: {"endText":true},
+  nightMode: {"enable":true},
+  back2top: {"enable":true},
+  codeblock: {"style":"carbon","highlight":"light","wordWrap":false},
+  reward: true,
+  fancybox: true,
+  zoomImage: {"gapAside":"20px"},
+  galleryWaterfall: undefined,
+  lazyload: false,
+  pjax: undefined,
+  externalLink: {"icon":{"enable":true,"name":"fas fa-external-link-alt"}},
+  shortcuts: undefined,
+  prompt: {"copyButton":"复制","copySuccess":"复制成功","copyError":"复制失败"},
+  sourcePath: {"js":"js","css":"css","images":"images"},
+};
+
+window.CONFIG = CONFIG;</script><meta name="generator" content="Hexo 7.3.0"></head><body><div class="container" id="container"><header class="header" id="header"><div class="header-inner"><nav class="header-nav header-nav--fixed"><div class="header-nav-inner"><div class="header-nav-menubtn"><i class="fas fa-bars"></i></div><div class="header-nav-menu"><div class="header-nav-menu-item"><a class="header-nav-menu-item__link" href="/"><span class="header-nav-menu-item__icon"><i class="fas fa-home"></i></span><span class="header-nav-menu-item__text">首页</span></a></div><div class="header-nav-menu-item"><a class="header-nav-menu-item__link" href="/archives/"><span class="header-nav-menu-item__icon"><i class="fas fa-folder-open"></i></span><span class="header-nav-menu-item__text">归档</span></a></div><div class="header-nav-menu-item"><a class="header-nav-menu-item__link" href="/categories/"><span class="header-nav-menu-item__icon"><i class="fas fa-layer-group"></i></span><span class="header-nav-menu-item__text">分类</span></a></div><div class="header-nav-menu-item"><a class="header-nav-menu-item__link" href="/tags/"><span class="header-nav-menu-item__icon"><i class="fas fa-tags"></i></span><span class="header-nav-menu-item__text">标签</span></a></div><div class="header-nav-menu-item"><a class="header-nav-menu-item__link" href="/about/"><span class="header-nav-menu-item__icon"><i class="fas fa-user"></i></span><span class="header-nav-menu-item__text">关于</span></a></div></div><div class="header-nav-mode"><div class="mode"><div class="mode-track"><span class="mode-track-moon"></span><span class="mode-track-sun"></span></div><div class="mode-thumb"></div></div></div></div></nav><div class="header-banner"><div class="header-banner-info"><div class="header-banner-info__title">Just Do IT.</div><div class="header-banner-info__subtitle">一个程序员的自我修养</div></div></div></div></header><main class="main" id="main"><div class="main-inner"><div class="content-wrap" id="content-wrap"><div class="content" id="content"><!-- Just used to judge whether it is an article page--><div id="is-post"></div><div class="post"><header class="post-header"><h1 class="post-title">Java的AQS框架设计原理</h1><div class="post-meta"><span class="post-meta-item post-meta-item--createtime"><span class="post-meta-item__icon"><i class="far fa-calendar-plus"></i></span><span class="post-meta-item__info">发表于</span><span class="post-meta-item__value">2019-12-27</span></span><span class="post-meta-item post-meta-item--wordcount"><span class="post-meta-item__icon"><i class="far fa-file-word"></i></span><span class="post-meta-item__info">字数统计</span><span class="post-meta-item__value">1.1k</span></span><span class="post-meta-item post-meta-item--readtime"><span class="post-meta-item__icon"><i class="far fa-clock"></i></span><span class="post-meta-item__info">阅读时长</span><span class="post-meta-item__value">7分</span></span></div></header><div class="post-body"><p>Java 的 <strong>AQS（AbstractQueuedSynchronizer）</strong> 是并发包（<code>java.util.concurrent.locks</code>）的核心框架，为构建锁和同步器提供了底层支持。以下是其核心原理和实现机制的深度解析：</p>
+<hr>
+
+        <h3 id="一、AQS-核心设计思想"   >
+          <a href="#一、AQS-核心设计思想" class="heading-link"><i class="fas fa-link"></i></a><a href="#一、AQS-核心设计思想" class="headerlink" title="一、AQS 核心设计思想"></a><strong>一、AQS 核心设计思想</strong></h3>
+      <ol>
+<li><p><strong>模板方法模式</strong><br>AQS 是一个抽象类，定义了同步器的骨架（如获取&#x2F;释放资源的流程），具体实现由子类完成（如 <code>ReentrantLock</code>、<code>Semaphore</code>）。</p>
+</li>
+<li><p><strong>CLH 变种队列</strong><br>通过 <strong>双向链表</strong> 实现的等待队列（FIFO），存储被阻塞的线程。</p>
+</li>
+<li><p><strong>状态管理</strong><br>使用 <code>volatile int state</code> 表示共享资源状态（如锁的重入次数、信号量的许可数）。</p>
+</li>
+</ol>
+<hr>
+
+        <h3 id="二、核心数据结构"   >
+          <a href="#二、核心数据结构" class="heading-link"><i class="fas fa-link"></i></a><a href="#二、核心数据结构" class="headerlink" title="二、核心数据结构"></a><strong>二、核心数据结构</strong></h3>
+      <figure class="highlight java"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// AQS 内部类 Node 表示等待线程</span></span><br><span class="line"><span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">class</span> <span class="title class_">Node</span> &#123;</span><br><span class="line">    <span class="keyword">volatile</span> <span class="type">int</span> waitStatus;      <span class="comment">// 等待状态（CANCELLED、SIGNAL等）</span></span><br><span class="line">    <span class="keyword">volatile</span> Node prev;           <span class="comment">// 前驱节点</span></span><br><span class="line">    <span class="keyword">volatile</span> Node next;           <span class="comment">// 后继节点</span></span><br><span class="line">    <span class="keyword">volatile</span> Thread thread;       <span class="comment">// 关联的线程</span></span><br><span class="line">    Node nextWaiter;              <span class="comment">// 条件队列专用</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// AQS 关键字段</span></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">transient</span> <span class="keyword">volatile</span> Node head;  <span class="comment">// 队列头节点</span></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">transient</span> <span class="keyword">volatile</span> Node tail;  <span class="comment">// 队列尾节点</span></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">volatile</span> <span class="type">int</span> state;            <span class="comment">// 同步状态</span></span><br></pre></td></tr></table></div></figure>
+
+<hr>
+
+        <h3 id="三、核心方法及流程"   >
+          <a href="#三、核心方法及流程" class="heading-link"><i class="fas fa-link"></i></a><a href="#三、核心方法及流程" class="headerlink" title="三、核心方法及流程"></a><strong>三、核心方法及流程</strong></h3>
+      
+        <h4 id="1-独占模式（如-ReentrantLock）"   >
+          <a href="#1-独占模式（如-ReentrantLock）" class="heading-link"><i class="fas fa-link"></i></a><a href="#1-独占模式（如-ReentrantLock）" class="headerlink" title="1. 独占模式（如 ReentrantLock）"></a><strong>1. 独占模式（如 ReentrantLock）</strong></h4>
+      <ul>
+<li><p><strong>获取资源 (<code>acquire</code>)</strong></p>
+<figure class="highlight java"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">void</span> <span class="title function_">acquire</span><span class="params">(<span class="type">int</span> arg)</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> (!tryAcquire(arg) &amp;&amp;       <span class="comment">// 子类实现尝试获取资源</span></span><br><span class="line">        acquireQueued(addWaiter(Node.EXCLUSIVE), arg)) <span class="comment">// 加入队列并阻塞</span></span><br><span class="line">        selfInterrupt();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></div></figure>
+<ul>
+<li><strong><code>tryAcquire(arg)</code></strong>：子类实现（如 <code>ReentrantLock</code> 判断当前线程是否可获取锁）。</li>
+<li><strong><code>addWaiter()</code></strong>：将线程包装为 Node 加入队列尾部。</li>
+<li><strong><code>acquireQueued()</code></strong>：自旋尝试获取资源，失败后调用 <code>LockSupport.park()</code> 阻塞。</li>
+</ul>
+</li>
+<li><p><strong>释放资源 (<code>release</code>)</strong></p>
+<figure class="highlight java"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">final</span> <span class="type">boolean</span> <span class="title function_">release</span><span class="params">(<span class="type">int</span> arg)</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> (tryRelease(arg)) &#123;        <span class="comment">// 子类实现释放资源</span></span><br><span class="line">        <span class="type">Node</span> <span class="variable">h</span> <span class="operator">=</span> head;</span><br><span class="line">        <span class="keyword">if</span> (h != <span class="literal">null</span> &amp;&amp; h.waitStatus != <span class="number">0</span>)</span><br><span class="line">            unparkSuccessor(h);   <span class="comment">// 唤醒后继节点</span></span><br><span class="line">        <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></div></figure></li>
+</ul>
+
+        <h4 id="2-共享模式（如-Semaphore）"   >
+          <a href="#2-共享模式（如-Semaphore）" class="heading-link"><i class="fas fa-link"></i></a><a href="#2-共享模式（如-Semaphore）" class="headerlink" title="2. 共享模式（如 Semaphore）"></a><strong>2. 共享模式（如 Semaphore）</strong></h4>
+      <ul>
+<li><strong>获取资源 (<code>acquireShared</code>)</strong><figure class="highlight java"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">void</span> <span class="title function_">acquireShared</span><span class="params">(<span class="type">int</span> arg)</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> (tryAcquireShared(arg) &lt; <span class="number">0</span>) <span class="comment">// 子类实现尝试获取共享资源</span></span><br><span class="line">        doAcquireShared(arg);      <span class="comment">// 加入队列并阻塞</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></div></figure></li>
+<li><strong>释放资源 (<code>releaseShared</code>)</strong><figure class="highlight java"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">final</span> <span class="type">boolean</span> <span class="title function_">releaseShared</span><span class="params">(<span class="type">int</span> arg)</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> (tryReleaseShared(arg)) &#123;   <span class="comment">// 子类实现释放共享资源</span></span><br><span class="line">        doReleaseShared();        <span class="comment">// 唤醒后续共享节点</span></span><br><span class="line">        <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></div></figure></li>
+</ul>
+<hr>
+
+        <h3 id="四、关键机制解析"   >
+          <a href="#四、关键机制解析" class="heading-link"><i class="fas fa-link"></i></a><a href="#四、关键机制解析" class="headerlink" title="四、关键机制解析"></a><strong>四、关键机制解析</strong></h3>
+      
+        <h4 id="1-线程阻塞与唤醒"   >
+          <a href="#1-线程阻塞与唤醒" class="heading-link"><i class="fas fa-link"></i></a><a href="#1-线程阻塞与唤醒" class="headerlink" title="1. 线程阻塞与唤醒"></a><strong>1. 线程阻塞与唤醒</strong></h4>
+      <ul>
+<li><strong>阻塞</strong>：通过 <code>LockSupport.park()</code> 挂起线程。</li>
+<li><strong>唤醒</strong>：前驱节点释放资源时，调用 <code>unparkSuccessor()</code> 唤醒后继节点。</li>
+</ul>
+
+        <h4 id="2-公平性与非公平性"   >
+          <a href="#2-公平性与非公平性" class="heading-link"><i class="fas fa-link"></i></a><a href="#2-公平性与非公平性" class="headerlink" title="2. 公平性与非公平性"></a><strong>2. 公平性与非公平性</strong></h4>
+      <ul>
+<li><strong>公平锁</strong>：严格按队列顺序获取资源（检查队列是否有等待线程）。</li>
+<li><strong>非公平锁</strong>：新线程直接尝试抢锁（<code>ReentrantLock</code> 默认非公平）。</li>
+</ul>
+
+        <h4 id="3-可重入实现"   >
+          <a href="#3-可重入实现" class="heading-link"><i class="fas fa-link"></i></a><a href="#3-可重入实现" class="headerlink" title="3. 可重入实现"></a><strong>3. 可重入实现</strong></h4>
+      <ul>
+<li><code>state</code> 记录重入次数：<figure class="highlight java"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// ReentrantLock.Sync 的实现</span></span><br><span class="line"><span class="keyword">protected</span> <span class="keyword">final</span> <span class="type">boolean</span> <span class="title function_">tryAcquire</span><span class="params">(<span class="type">int</span> acquires)</span> &#123;</span><br><span class="line">    <span class="type">Thread</span> <span class="variable">current</span> <span class="operator">=</span> Thread.currentThread();</span><br><span class="line">    <span class="type">int</span> <span class="variable">c</span> <span class="operator">=</span> getState();</span><br><span class="line">    <span class="keyword">if</span> (c == <span class="number">0</span>) &#123;</span><br><span class="line">        <span class="keyword">if</span> (!hasQueuedPredecessors() &amp;&amp; compareAndSetState(<span class="number">0</span>, acquires)) &#123;</span><br><span class="line">            setExclusiveOwnerThread(current);</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span> (current == getExclusiveOwnerThread()) &#123; <span class="comment">// 重入逻辑</span></span><br><span class="line">        <span class="type">int</span> <span class="variable">nextc</span> <span class="operator">=</span> c + acquires;</span><br><span class="line">        setState(nextc);</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></div></figure></li>
+</ul>
+
+        <h4 id="4-条件变量（Condition）"   >
+          <a href="#4-条件变量（Condition）" class="heading-link"><i class="fas fa-link"></i></a><a href="#4-条件变量（Condition）" class="headerlink" title="4. 条件变量（Condition）"></a><strong>4. 条件变量（Condition）</strong></h4>
+      <ul>
+<li><strong><code>ConditionObject</code></strong>：AQS 的内部类，实现条件等待队列。</li>
+<li><strong><code>await()</code></strong>：释放锁并加入条件队列，阻塞当前线程。</li>
+<li><strong><code>signal()</code></strong>：将条件队列中的线程转移到同步队列，等待获取锁。</li>
+</ul>
+<hr>
+
+        <h3 id="五、AQS-在-JUC-中的应用"   >
+          <a href="#五、AQS-在-JUC-中的应用" class="heading-link"><i class="fas fa-link"></i></a><a href="#五、AQS-在-JUC-中的应用" class="headerlink" title="五、AQS 在 JUC 中的应用"></a><strong>五、AQS 在 JUC 中的应用</strong></h3>
+      <div class="table-container"><table>
+<thead>
+<tr>
+<th><strong>同步器</strong></th>
+<th><strong>AQS 使用方式</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>ReentrantLock</code></td>
+<td>独占模式，<code>state</code> 记录重入次数</td>
+</tr>
+<tr>
+<td><code>Semaphore</code></td>
+<td>共享模式，<code>state</code> 记录剩余许可数</td>
+</tr>
+<tr>
+<td><code>CountDownLatch</code></td>
+<td>共享模式，<code>state</code> 初始为计数</td>
+</tr>
+<tr>
+<td><code>ReentrantReadWriteLock</code></td>
+<td>高16位读锁，低16位写锁</td>
+</tr>
+</tbody></table></div>
+<hr>
+
+        <h3 id="六、源码级执行流程（以-ReentrantLock-为例）"   >
+          <a href="#六、源码级执行流程（以-ReentrantLock-为例）" class="heading-link"><i class="fas fa-link"></i></a><a href="#六、源码级执行流程（以-ReentrantLock-为例）" class="headerlink" title="六、源码级执行流程（以 ReentrantLock 为例）"></a><strong>六、源码级执行流程（以 ReentrantLock 为例）</strong></h3>
+      <ol>
+<li><strong>线程 T1 获取锁</strong>：<ul>
+<li><code>lock()</code> → <code>tryAcquire(1)</code> 成功（<code>state=1</code>），直接获得锁。</li>
+</ul>
+</li>
+<li><strong>线程 T2 竞争锁</strong>：<ul>
+<li><code>tryAcquire(1)</code> 失败 → <code>addWaiter(Node.EXCLUSIVE)</code> 加入队列尾部。</li>
+<li><code>acquireQueued()</code> 自旋尝试获取锁，失败后阻塞。</li>
+</ul>
+</li>
+<li><strong>T1 释放锁</strong>：<ul>
+<li><code>unlock()</code> → <code>tryRelease(1)</code> 设置 <code>state=0</code>。</li>
+<li><code>unparkSuccessor()</code> 唤醒 T2。</li>
+</ul>
+</li>
+</ol>
+<hr>
+
+        <h3 id="七、AQS-的优劣分析"   >
+          <a href="#七、AQS-的优劣分析" class="heading-link"><i class="fas fa-link"></i></a><a href="#七、AQS-的优劣分析" class="headerlink" title="七、AQS 的优劣分析"></a><strong>七、AQS 的优劣分析</strong></h3>
+      <div class="table-container"><table>
+<thead>
+<tr>
+<th><strong>优势</strong></th>
+<th><strong>局限性</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>灵活支持多种同步器（锁、信号量等）</td>
+<td>需要深入理解才能正确实现子类</td>
+</tr>
+<tr>
+<td>高性能（CAS + CLH 队列优化）</td>
+<td>不直接支持超时中断以外的复杂条件</td>
+</tr>
+<tr>
+<td>避免优先级反转（FIFO 队列）</td>
+<td>调试复杂（需分析队列和状态变化）</td>
+</tr>
+</tbody></table></div>
+<hr>
+
+        <h3 id="八、关键面试问题"   >
+          <a href="#八、关键面试问题" class="heading-link"><i class="fas fa-link"></i></a><a href="#八、关键面试问题" class="headerlink" title="八、关键面试问题"></a><strong>八、关键面试问题</strong></h3>
+      <ol>
+<li><p><strong>为什么 AQS 使用双向链表？</strong>  </p>
+<ul>
+<li>便于处理取消节点（<code>CANCELLED</code> 状态）时快速断开链接。</li>
+</ul>
+</li>
+<li><p><strong><code>state</code> 为什么用 volatile？</strong>  </p>
+<ul>
+<li>保证多线程间的可见性，CAS 操作依赖于此。</li>
+</ul>
+</li>
+<li><p><strong>如何实现非公平锁？</strong>  </p>
+<ul>
+<li>新线程直接尝试 CAS 修改 <code>state</code>，不检查队列是否有等待线程。</li>
+</ul>
+</li>
+<li><p><strong>AQS 和 Synchronized 的区别？</strong>  </p>
+<ul>
+<li>AQS 更灵活（可中断、超时、公平性控制），Synchronized 由 JVM 优化（锁升级）。</li>
+</ul>
+</li>
+</ol>
+<hr>
+<p>通过理解 AQS 的底层机制，可以更高效地使用 JUC 工具，并能自定义符合特定需求的同步器。</p>
+</div><footer class="post-footer"><div class="post-ending ending"><div class="ending__text">------ 本文结束，感谢您的阅读 ------</div></div><div class="post-copyright copyright"><div class="copyright-author"><span class="copyright-author__name">本文作者: </span><span class="copyright-author__value"><a href="https://ljd0620.github.io">Liujiduo</a></span></div><div class="copyright-link"><span class="copyright-link__name">本文链接: </span><span class="copyright-link__value"><a href="https://ljd0620.github.io/2019/12/27/Java%E7%9A%84AQS%E6%A1%86%E6%9E%B6%E8%AE%BE%E8%AE%A1%E5%8E%9F%E7%90%86/">https://ljd0620.github.io/2019/12/27/Java%E7%9A%84AQS%E6%A1%86%E6%9E%B6%E8%AE%BE%E8%AE%A1%E5%8E%9F%E7%90%86/</a></span></div><div class="copyright-notice"><span class="copyright-notice__name">版权声明: </span><span class="copyright-notice__value">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en" rel="external nofollow" target="_blank">BY-NC-SA</a> 许可协议。转载请注明出处！</span></div></div><div class="post-tags"><span class="post-tags-item"><span class="post-tags-item__icon"><i class="fas fa-tag"></i></span><a class="post-tags-item__link" href="https://ljd0620.github.io/tags/Java/">Java</a></span><span class="post-tags-item"><span class="post-tags-item__icon"><i class="fas fa-tag"></i></span><a class="post-tags-item__link" href="https://ljd0620.github.io/tags/%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/">并发编程</a></span><span class="post-tags-item"><span class="post-tags-item__icon"><i class="fas fa-tag"></i></span><a class="post-tags-item__link" href="https://ljd0620.github.io/tags/AQS/">AQS</a></span></div><div class="post-reward reward"><div class="reward-button">请我喝杯咖啡~</div><div class="reward-qrcode"><span class="reward-qrcode-alipay"><img class="reward-qrcode-alipay__img" src="https://pub-dc7fa280ba2f4edea3f388602fa80bb0.r2.dev/alipay.jpg"><div class="reward-qrcode-alipay__text">支付宝打赏</div></span><span class="reward-qrcode-wechat"><img class="reward-qrcode-wechat__img" src="https://pub-dc7fa280ba2f4edea3f388602fa80bb0.r2.dev/wechat.jpg"><div class="reward-qrcode-wechat__text">微信打赏</div></span></div></div><nav class="post-paginator paginator"><div class="paginator-prev"><a class="paginator-prev__link" href="/2020/01/27/MySQL%E7%9A%84%E9%94%81%E6%9C%BA%E5%88%B6/"><span class="paginator-prev__icon"><i class="fas fa-angle-left"></i></span><span class="paginator-prev__text">MySQL的锁机制</span></a></div><div class="paginator-next"><a class="paginator-next__link" href="/2019/11/13/Java%E7%9A%84JUC%E5%B9%B6%E5%8F%91%E5%BA%93%E5%8F%8A%E5%85%B6%E5%BA%94%E7%94%A8%E5%9C%BA%E6%99%AF/"><span class="paginator-prev__text">Java的JUC并发库及其应用场景</span><span class="paginator-next__icon"><i class="fas fa-angle-right"></i></span></a></div></nav></footer></div></div></div><div class="sidebar-wrap" id="sidebar-wrap"><aside class="sidebar" id="sidebar"><div class="sidebar-nav"><span class="sidebar-nav-toc current">文章目录</span><span class="sidebar-nav-ov">站点概览</span></div><section class="sidebar-toc"><ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%80%E3%80%81AQS-%E6%A0%B8%E5%BF%83%E8%AE%BE%E8%AE%A1%E6%80%9D%E6%83%B3"><span class="toc-text">
+          一、AQS 核心设计思想</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BA%8C%E3%80%81%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84"><span class="toc-text">
+          二、核心数据结构</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%89%E3%80%81%E6%A0%B8%E5%BF%83%E6%96%B9%E6%B3%95%E5%8F%8A%E6%B5%81%E7%A8%8B"><span class="toc-text">
+          三、核心方法及流程</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-%E7%8B%AC%E5%8D%A0%E6%A8%A1%E5%BC%8F%EF%BC%88%E5%A6%82-ReentrantLock%EF%BC%89"><span class="toc-text">
+          1. 独占模式（如 ReentrantLock）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-%E5%85%B1%E4%BA%AB%E6%A8%A1%E5%BC%8F%EF%BC%88%E5%A6%82-Semaphore%EF%BC%89"><span class="toc-text">
+          2. 共享模式（如 Semaphore）</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9B%9B%E3%80%81%E5%85%B3%E9%94%AE%E6%9C%BA%E5%88%B6%E8%A7%A3%E6%9E%90"><span class="toc-text">
+          四、关键机制解析</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-%E7%BA%BF%E7%A8%8B%E9%98%BB%E5%A1%9E%E4%B8%8E%E5%94%A4%E9%86%92"><span class="toc-text">
+          1. 线程阻塞与唤醒</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-%E5%85%AC%E5%B9%B3%E6%80%A7%E4%B8%8E%E9%9D%9E%E5%85%AC%E5%B9%B3%E6%80%A7"><span class="toc-text">
+          2. 公平性与非公平性</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-%E5%8F%AF%E9%87%8D%E5%85%A5%E5%AE%9E%E7%8E%B0"><span class="toc-text">
+          3. 可重入实现</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-%E6%9D%A1%E4%BB%B6%E5%8F%98%E9%87%8F%EF%BC%88Condition%EF%BC%89"><span class="toc-text">
+          4. 条件变量（Condition）</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BA%94%E3%80%81AQS-%E5%9C%A8-JUC-%E4%B8%AD%E7%9A%84%E5%BA%94%E7%94%A8"><span class="toc-text">
+          五、AQS 在 JUC 中的应用</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%85%AD%E3%80%81%E6%BA%90%E7%A0%81%E7%BA%A7%E6%89%A7%E8%A1%8C%E6%B5%81%E7%A8%8B%EF%BC%88%E4%BB%A5-ReentrantLock-%E4%B8%BA%E4%BE%8B%EF%BC%89"><span class="toc-text">
+          六、源码级执行流程（以 ReentrantLock 为例）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%83%E3%80%81AQS-%E7%9A%84%E4%BC%98%E5%8A%A3%E5%88%86%E6%9E%90"><span class="toc-text">
+          七、AQS 的优劣分析</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%85%AB%E3%80%81%E5%85%B3%E9%94%AE%E9%9D%A2%E8%AF%95%E9%97%AE%E9%A2%98"><span class="toc-text">
+          八、关键面试问题</span></a></li></ol></section><!-- ov = overview--><section class="sidebar-ov hide"><div class="sidebar-ov-author"><div class="sidebar-ov-author__avatar"><img class="sidebar-ov-author__avatar_img" src="https://pub-dc7fa280ba2f4edea3f388602fa80bb0.r2.dev/avatar.jpg" alt="avatar"></div><p class="sidebar-ov-author__text">Liujiduo's Blog</p></div><div class="sidebar-ov-feed"><span class="sidebar-ov-feed-email"><a class="sidebar-ov-feed-email__link" href="mailto:liujiduo@sina.com" target="_blank" rel="noopener"><span class="sidebar-ov-feed-email__icon"><i class="fas fa-envelope"></i></span><span>Email 订阅</span></a></span><span class="sidebar-ov-feed-rss"><a class="sidebar-ov-feed-rss__link" href="/atom.xml" target="_blank" rel="noopener"><span class="sidebar-ov-feed-rss__icon"><i class="fas fa-rss"></i></span><span>RSS 订阅</span></a></span></div><div class="sidebar-ov-state"><a class="sidebar-ov-state-item sidebar-ov-state-item--posts" href="/archives/"><div class="sidebar-ov-state-item__count">53</div><div class="sidebar-ov-state-item__name">归档</div></a><a class="sidebar-ov-state-item sidebar-ov-state-item--categories" href="/categories/"><div class="sidebar-ov-state-item__count">21</div><div class="sidebar-ov-state-item__name">分类</div></a><a class="sidebar-ov-state-item sidebar-ov-state-item--tags" href="/tags/"><div class="sidebar-ov-state-item__count">48</div><div class="sidebar-ov-state-item__name">标签</div></a></div><div class="sidebar-ov-cc"><a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en" target="_blank" rel="noopener" data-popover="知识共享许可协议" data-popover-pos="up"><img src="/images/cc-by-nc-sa.svg"></a></div></section><div class="sidebar-reading"><div class="sidebar-reading-info"><span class="sidebar-reading-info__text">你已阅读了 </span><span class="sidebar-reading-info__num">0</span><span class="sidebar-reading-info__perc">%</span></div><div class="sidebar-reading-line"></div></div></aside></div><div class="clearfix"></div></div></main><footer class="footer" id="footer"><div class="footer-inner"><div><span>Copyright © 2024~2025</span><span class="footer__icon"><i class="fas fa-heart"></i></span><span>Liujiduo All Rights Reserved</span></div><div class="busuanzi"></div></div></footer><div class="loading-bar" id="loading-bar"><div class="loading-bar__progress"></div></div><div class="back2top" id="back2top"><span class="back2top__icon"><i class="fas fa-rocket"></i></span></div></div><script src="https://cdn.jsdelivr.net/npm/jquery@v3.4.1/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/velocity-animate@1.5.2/velocity.min.js"></script><script src="https://cdn.jsdelivr.net/npm/velocity-animate@1.5.2/velocity.ui.min.js"></script><script src="https://cdn.jsdelivr.net/npm/ribbon.js@latest/dist/ribbon.min.js" size="120" alpha="0.6" zIndex="-1"></script><script src="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script><script src="/js/utils.js?v=2.8.0"></script><script src="/js/stun-boot.js?v=2.8.0"></script><script src="/js/scroll.js?v=2.8.0"></script><script src="/js/header.js?v=2.8.0"></script><script src="/js/sidebar.js?v=2.8.0"></script></body></html>
