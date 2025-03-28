@@ -1,0 +1,267 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="format-detection" content="telephone=no"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black"><link rel="icon" href="https://pub-dc7fa280ba2f4edea3f388602fa80bb0.r2.dev/favicon.ico?v=2.8.0" type="image/png" sizes="16x16"><link rel="icon" href="https://pub-dc7fa280ba2f4edea3f388602fa80bb0.r2.dev/favicon.ico?v=2.8.0" type="image/png" sizes="32x32"><meta name="description" content="Quarkus云原生框架介绍">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Quarkus云原生框架介绍">
+<meta property="og:url" content="https://ljd0620.github.io/2025/03/28/Quarkus%E4%BA%91%E5%8E%9F%E7%94%9F%E6%A1%86%E6%9E%B6%E4%BB%8B%E7%BB%8D/index.html">
+<meta property="og:site_name" content="Just Do IT.">
+<meta property="og:description" content="Quarkus云原生框架介绍">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2025-03-28T04:15:42.000Z">
+<meta property="article:modified_time" content="2025-03-28T02:22:07.461Z">
+<meta property="article:author" content="Liujiduo">
+<meta property="article:tag" content="Java">
+<meta property="article:tag" content="Quarkus">
+<meta property="article:tag" content="云原生">
+<meta name="twitter:card" content="summary"><title>Quarkus云原生框架介绍 | Just Do IT.</title><link ref="canonical" href="https://ljd0620.github.io/2025/03/28/Quarkus%E4%BA%91%E5%8E%9F%E7%94%9F%E6%A1%86%E6%9E%B6%E4%BB%8B%E7%BB%8D/"><link rel="alternate" href="/atom.xml" type="application/atom+xml"><link rel="dns-prefetch" href="https://cdn.jsdelivr.net"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.12.1/css/all.min.css" type="text/css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" type="text/css"><link rel="stylesheet" href="/css/index.css?v=2.8.0"><script>var Stun = window.Stun || {};
+var CONFIG = {
+  root: '/',
+  algolia: undefined,
+  assistSearch: undefined,
+  fontIcon: {"prompt":{"success":"fas fa-check-circle","info":"fas fa-arrow-circle-right","warning":"fas fa-exclamation-circle","error":"fas fa-times-circle"},"copyBtn":"fas fa-copy"},
+  sidebar: {"offsetTop":"20px","tocMaxDepth":6},
+  header: {"enable":true,"showOnPost":true,"scrollDownIcon":false},
+  postWidget: {"endText":true},
+  nightMode: {"enable":true},
+  back2top: {"enable":true},
+  codeblock: {"style":"carbon","highlight":"light","wordWrap":false},
+  reward: true,
+  fancybox: true,
+  zoomImage: {"gapAside":"20px"},
+  galleryWaterfall: undefined,
+  lazyload: false,
+  pjax: undefined,
+  externalLink: {"icon":{"enable":true,"name":"fas fa-external-link-alt"}},
+  shortcuts: undefined,
+  prompt: {"copyButton":"复制","copySuccess":"复制成功","copyError":"复制失败"},
+  sourcePath: {"js":"js","css":"css","images":"images"},
+};
+
+window.CONFIG = CONFIG;</script><meta name="generator" content="Hexo 7.3.0"></head><body><div class="container" id="container"><header class="header" id="header"><div class="header-inner"><nav class="header-nav header-nav--fixed"><div class="header-nav-inner"><div class="header-nav-menubtn"><i class="fas fa-bars"></i></div><div class="header-nav-menu"><div class="header-nav-menu-item"><a class="header-nav-menu-item__link" href="/"><span class="header-nav-menu-item__icon"><i class="fas fa-home"></i></span><span class="header-nav-menu-item__text">首页</span></a></div><div class="header-nav-menu-item"><a class="header-nav-menu-item__link" href="/archives/"><span class="header-nav-menu-item__icon"><i class="fas fa-folder-open"></i></span><span class="header-nav-menu-item__text">归档</span></a></div><div class="header-nav-menu-item"><a class="header-nav-menu-item__link" href="/categories/"><span class="header-nav-menu-item__icon"><i class="fas fa-layer-group"></i></span><span class="header-nav-menu-item__text">分类</span></a></div><div class="header-nav-menu-item"><a class="header-nav-menu-item__link" href="/tags/"><span class="header-nav-menu-item__icon"><i class="fas fa-tags"></i></span><span class="header-nav-menu-item__text">标签</span></a></div><div class="header-nav-menu-item"><a class="header-nav-menu-item__link" href="/about/"><span class="header-nav-menu-item__icon"><i class="fas fa-user"></i></span><span class="header-nav-menu-item__text">关于</span></a></div></div><div class="header-nav-mode"><div class="mode"><div class="mode-track"><span class="mode-track-moon"></span><span class="mode-track-sun"></span></div><div class="mode-thumb"></div></div></div></div></nav><div class="header-banner"><div class="header-banner-info"><div class="header-banner-info__title">Just Do IT.</div><div class="header-banner-info__subtitle">一个程序员的自我修养</div></div></div></div></header><main class="main" id="main"><div class="main-inner"><div class="content-wrap" id="content-wrap"><div class="content" id="content"><!-- Just used to judge whether it is an article page--><div id="is-post"></div><div class="post"><header class="post-header"><h1 class="post-title">Quarkus云原生框架介绍</h1><div class="post-meta"><span class="post-meta-item post-meta-item--createtime"><span class="post-meta-item__icon"><i class="far fa-calendar-plus"></i></span><span class="post-meta-item__info">发表于</span><span class="post-meta-item__value">2025-03-28</span></span><span class="post-meta-item post-meta-item--wordcount"><span class="post-meta-item__icon"><i class="far fa-file-word"></i></span><span class="post-meta-item__info">字数统计</span><span class="post-meta-item__value">1.1k</span></span><span class="post-meta-item post-meta-item--readtime"><span class="post-meta-item__icon"><i class="far fa-clock"></i></span><span class="post-meta-item__info">阅读时长</span><span class="post-meta-item__value">6分</span></span></div></header><div class="post-body"><p><strong>Quarkus</strong> 是一款专为 <strong>云原生（Cloud-Native）</strong> 和 <strong>容器化环境</strong> 设计的全栈 Java 框架，由 Red Hat 主导开发。它聚焦于 <strong>极低内存占用</strong>、<strong>极速启动时间</strong> 和 <strong>高效的资源利用率</strong>，旨在解决传统 Java 应用在容器化、微服务和无服务器（Serverless）场景下的性能瓶颈问题。</p>
+<hr>
+
+        <h3 id="一、Quarkus-的核心设计目标"   >
+          <a href="#一、Quarkus-的核心设计目标" class="heading-link"><i class="fas fa-link"></i></a><a href="#一、Quarkus-的核心设计目标" class="headerlink" title="一、Quarkus 的核心设计目标"></a><strong>一、Quarkus 的核心设计目标</strong></h3>
+      <ol>
+<li><strong>云原生优先</strong>  <ul>
+<li>原生支持 Kubernetes、OpenShift 等容器编排平台。</li>
+<li>自动生成 Kubernetes 部署文件（YAML）。</li>
+</ul>
+</li>
+<li><strong>极致性能</strong>  <ul>
+<li><strong>编译时优化</strong>：通过提前编译（AOT）减少运行时开销。</li>
+<li><strong>低内存占用</strong>：优化内存使用，适合高密度部署。</li>
+<li><strong>快速启动</strong>：毫秒级启动（冷启动优化，适合 Serverless）。</li>
+</ul>
+</li>
+<li><strong>开发者友好</strong>  <ul>
+<li><strong>实时编码（Live Coding）</strong>：代码修改后无需重启，立即生效。</li>
+<li><strong>统一配置</strong>：通过 <code>application.properties</code> 管理所有组件配置。</li>
+<li><strong>丰富的扩展生态</strong>：集成数据库、消息队列、安全等常用组件。</li>
+</ul>
+</li>
+</ol>
+<hr>
+
+        <h3 id="二、Quarkus-的核心技术"   >
+          <a href="#二、Quarkus-的核心技术" class="heading-link"><i class="fas fa-link"></i></a><a href="#二、Quarkus-的核心技术" class="headerlink" title="二、Quarkus 的核心技术"></a><strong>二、Quarkus 的核心技术</strong></h3>
+      
+        <h4 id="1-基于-GraalVM-的-Native-Image"   >
+          <a href="#1-基于-GraalVM-的-Native-Image" class="heading-link"><i class="fas fa-link"></i></a><a href="#1-基于-GraalVM-的-Native-Image" class="headerlink" title="1. 基于 GraalVM 的 Native Image"></a><strong>1. 基于 GraalVM 的 Native Image</strong></h4>
+      <ul>
+<li><strong>AOT 编译</strong>：将 Java 应用编译为原生机器码（Native Image），显著减少启动时间和内存占用。</li>
+<li><strong>示例性能对比</strong>：<div class="table-container"><table>
+<thead>
+<tr>
+<th><strong>指标</strong></th>
+<th>传统 JVM 模式</th>
+<th>Native Image 模式</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>启动时间</strong></td>
+<td>1.2s</td>
+<td>0.02s</td>
+</tr>
+<tr>
+<td><strong>内存占用</strong></td>
+<td>120MB</td>
+<td>25MB</td>
+</tr>
+</tbody></table></div>
+</li>
+</ul>
+
+        <h4 id="2-响应式编程支持"   >
+          <a href="#2-响应式编程支持" class="heading-link"><i class="fas fa-link"></i></a><a href="#2-响应式编程支持" class="headerlink" title="2. 响应式编程支持"></a><strong>2. 响应式编程支持</strong></h4>
+      <ul>
+<li><strong>响应式引擎</strong>：基于 <strong>Vert.x</strong> 和 <strong>Mutiny</strong> 实现非阻塞 I&#x2F;O。</li>
+<li><strong>混合编程模型</strong>：支持同步（Imperative）和异步（Reactive）混合开发。</li>
+</ul>
+
+        <h4 id="3-编译时增强（Compile-Time-Augmentation）"   >
+          <a href="#3-编译时增强（Compile-Time-Augmentation）" class="heading-link"><i class="fas fa-link"></i></a><a href="#3-编译时增强（Compile-Time-Augmentation）" class="headerlink" title="3. 编译时增强（Compile-Time Augmentation）"></a><strong>3. 编译时增强（Compile-Time Augmentation）</strong></h4>
+      <ul>
+<li><strong>减少反射和动态类加载</strong>：在编译时生成元数据，避免运行时反射开销。</li>
+<li><strong>依赖注入优化</strong>：基于 <strong>CDI（Contexts and Dependency Injection）</strong> 实现轻量级 DI。</li>
+</ul>
+<hr>
+
+        <h3 id="三、Quarkus-的适用场景"   >
+          <a href="#三、Quarkus-的适用场景" class="heading-link"><i class="fas fa-link"></i></a><a href="#三、Quarkus-的适用场景" class="headerlink" title="三、Quarkus 的适用场景"></a><strong>三、Quarkus 的适用场景</strong></h3>
+      <div class="table-container"><table>
+<thead>
+<tr>
+<th><strong>场景</strong></th>
+<th><strong>传统框架痛点</strong></th>
+<th><strong>Quarkus 解决方案</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>微服务</strong></td>
+<td>启动慢、内存高</td>
+<td>毫秒级启动，低内存占用</td>
+</tr>
+<tr>
+<td><strong>Serverless</strong></td>
+<td>冷启动延迟高</td>
+<td>Native Image 减少冷启动时间</td>
+</tr>
+<tr>
+<td><strong>高密度部署</strong></td>
+<td>单节点容器部署实例少</td>
+<td>低内存消耗支持更多实例</td>
+</tr>
+<tr>
+<td><strong>边缘计算</strong></td>
+<td>资源受限（CPU&#x2F;内存）</td>
+<td>极致轻量化，适应边缘设备</td>
+</tr>
+</tbody></table></div>
+<hr>
+
+        <h3 id="四、Quarkus-的主要特性"   >
+          <a href="#四、Quarkus-的主要特性" class="heading-link"><i class="fas fa-link"></i></a><a href="#四、Quarkus-的主要特性" class="headerlink" title="四、Quarkus 的主要特性"></a><strong>四、Quarkus 的主要特性</strong></h3>
+      
+        <h4 id="1-开发体验优化"   >
+          <a href="#1-开发体验优化" class="heading-link"><i class="fas fa-link"></i></a><a href="#1-开发体验优化" class="headerlink" title="1. 开发体验优化"></a><strong>1. 开发体验优化</strong></h4>
+      <ul>
+<li><strong>实时编码（Live Coding）</strong>：<figure class="highlight bash"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mvn quarkus:dev  <span class="comment"># 启动开发模式，修改代码自动热更新</span></span><br></pre></td></tr></table></div></figure></li>
+<li><strong>统一扩展管理</strong>：<figure class="highlight bash"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mvn quarkus:list-extensions  <span class="comment"># 查看可用扩展</span></span><br><span class="line">mvn quarkus:add-extension -Dextensions=<span class="string">&quot;quarkus-resteasy&quot;</span>  <span class="comment"># 添加扩展</span></span><br></pre></td></tr></table></div></figure></li>
+</ul>
+
+        <h4 id="2-集成主流技术栈"   >
+          <a href="#2-集成主流技术栈" class="heading-link"><i class="fas fa-link"></i></a><a href="#2-集成主流技术栈" class="headerlink" title="2. 集成主流技术栈"></a><strong>2. 集成主流技术栈</strong></h4>
+      <ul>
+<li><strong>Web 服务</strong>：RESTEasy（JAX-RS）、Spring Web 兼容层。</li>
+<li><strong>数据访问</strong>：Hibernate ORM、Panache（简化 JPA）、Reactive SQL 驱动。</li>
+<li><strong>消息队列</strong>：Apache Kafka、AMQP（RabbitMQ）。</li>
+<li><strong>安全</strong>：Keycloak、OAuth2、JWT。</li>
+<li><strong>监控</strong>：Micrometer、Prometheus、Grafana。</li>
+</ul>
+
+        <h4 id="3-原生-Kubernetes-集成"   >
+          <a href="#3-原生-Kubernetes-集成" class="heading-link"><i class="fas fa-link"></i></a><a href="#3-原生-Kubernetes-集成" class="headerlink" title="3. 原生 Kubernetes 集成"></a><strong>3. 原生 Kubernetes 集成</strong></h4>
+      <ul>
+<li>自动生成 Deployment、Service、ConfigMap 等资源文件：<figure class="highlight bash"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mvn quarkus:kubernetes  <span class="comment"># 生成 Kubernetes YAML</span></span><br></pre></td></tr></table></div></figure></li>
+</ul>
+<hr>
+
+        <h3 id="五、Quarkus-vs-Spring-Boot"   >
+          <a href="#五、Quarkus-vs-Spring-Boot" class="heading-link"><i class="fas fa-link"></i></a><a href="#五、Quarkus-vs-Spring-Boot" class="headerlink" title="五、Quarkus vs Spring Boot"></a><strong>五、Quarkus vs Spring Boot</strong></h3>
+      <div class="table-container"><table>
+<thead>
+<tr>
+<th><strong>维度</strong></th>
+<th><strong>Quarkus</strong></th>
+<th><strong>Spring Boot</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>启动速度</strong></td>
+<td>毫秒级（Native Image）</td>
+<td>秒级（依赖 JVM 启动）</td>
+</tr>
+<tr>
+<td><strong>内存占用</strong></td>
+<td>20~50MB（Native）</td>
+<td>100~300MB</td>
+</tr>
+<tr>
+<td><strong>云原生支持</strong></td>
+<td>原生 Kubernetes 集成</td>
+<td>需额外配置（如 Spring Cloud）</td>
+</tr>
+<tr>
+<td><strong>编程模型</strong></td>
+<td>同步 + 响应式混合</td>
+<td>以同步为主（WebFlux 支持响应式）</td>
+</tr>
+<tr>
+<td><strong>社区生态</strong></td>
+<td>快速成长，Red Hat 支持</td>
+<td>成熟，生态庞大</td>
+</tr>
+</tbody></table></div>
+<hr>
+
+        <h3 id="六、快速入门示例"   >
+          <a href="#六、快速入门示例" class="heading-link"><i class="fas fa-link"></i></a><a href="#六、快速入门示例" class="headerlink" title="六、快速入门示例"></a><strong>六、快速入门示例</strong></h3>
+      
+        <h4 id="1-创建项目"   >
+          <a href="#1-创建项目" class="heading-link"><i class="fas fa-link"></i></a><a href="#1-创建项目" class="headerlink" title="1. 创建项目"></a><strong>1. 创建项目</strong></h4>
+      <figure class="highlight bash"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">mvn io.quarkus:quarkus-maven-plugin:create \</span><br><span class="line">    -DprojectGroupId=com.example \</span><br><span class="line">    -DprojectArtifactId=quarkus-demo \</span><br><span class="line">    -Dextensions=<span class="string">&quot;resteasy&quot;</span></span><br></pre></td></tr></table></div></figure>
+
+
+        <h4 id="2-编写-REST-接口"   >
+          <a href="#2-编写-REST-接口" class="heading-link"><i class="fas fa-link"></i></a><a href="#2-编写-REST-接口" class="headerlink" title="2. 编写 REST 接口"></a><strong>2. 编写 REST 接口</strong></h4>
+      <figure class="highlight java"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Path(&quot;/hello&quot;)</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">HelloResource</span> &#123;</span><br><span class="line">    <span class="meta">@GET</span></span><br><span class="line">    <span class="meta">@Produces(MediaType.TEXT_PLAIN)</span></span><br><span class="line">    <span class="keyword">public</span> String <span class="title function_">hello</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">&quot;Hello Quarkus!&quot;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></div></figure>
+
+
+        <h4 id="3-启动应用"   >
+          <a href="#3-启动应用" class="heading-link"><i class="fas fa-link"></i></a><a href="#3-启动应用" class="headerlink" title="3. 启动应用"></a><strong>3. 启动应用</strong></h4>
+      <figure class="highlight bash"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mvn quarkus:dev  <span class="comment"># 开发模式（支持热更新）</span></span><br></pre></td></tr></table></div></figure>
+
+
+        <h4 id="4-构建-Native-Image"   >
+          <a href="#4-构建-Native-Image" class="heading-link"><i class="fas fa-link"></i></a><a href="#4-构建-Native-Image" class="headerlink" title="4. 构建 Native Image"></a><strong>4. 构建 Native Image</strong></h4>
+      <figure class="highlight bash"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mvn package -Pnative  <span class="comment"># 生成原生可执行文件（需 GraalVM）</span></span><br></pre></td></tr></table></div></figure>
+
+<hr>
+
+        <h3 id="七、Quarkus-的适用对象"   >
+          <a href="#七、Quarkus-的适用对象" class="heading-link"><i class="fas fa-link"></i></a><a href="#七、Quarkus-的适用对象" class="headerlink" title="七、Quarkus 的适用对象"></a><strong>七、Quarkus 的适用对象</strong></h3>
+      <ol>
+<li><strong>云原生开发者</strong>：需要快速构建高效微服务。</li>
+<li><strong>Serverless 开发者</strong>：关注冷启动性能和资源成本。</li>
+<li><strong>传统 Java 开发者</strong>：希望平滑迁移到云原生架构。</li>
+<li><strong>运维团队</strong>：追求高密度部署和低资源消耗。</li>
+</ol>
+<hr>
+
+        <h3 id="八、总结"   >
+          <a href="#八、总结" class="heading-link"><i class="fas fa-link"></i></a><a href="#八、总结" class="headerlink" title="八、总结"></a><strong>八、总结</strong></h3>
+      <p><strong>Quarkus</strong> 重新定义了 Java 在云原生时代的可能性，其核心价值在于：</p>
+<ul>
+<li><strong>极致性能</strong>：通过 Native Image 和编译时优化突破 JVM 传统限制。</li>
+<li><strong>开发者效率</strong>：实时编码和统一配置提升开发体验。</li>
+<li><strong>云原生集成</strong>：开箱即用的 Kubernetes 支持降低运维复杂度。</li>
+</ul>
+<p>对于追求 <strong>高性能</strong>、<strong>低资源消耗</strong> 和 <strong>快速迭代</strong> 的云原生项目，Quarkus 是比 Spring Boot 更具竞争力的选择。</p>
+</div><footer class="post-footer"><div class="post-ending ending"><div class="ending__text">------ 本文结束，感谢您的阅读 ------</div></div><div class="post-copyright copyright"><div class="copyright-author"><span class="copyright-author__name">本文作者: </span><span class="copyright-author__value"><a href="https://ljd0620.github.io">Liujiduo</a></span></div><div class="copyright-link"><span class="copyright-link__name">本文链接: </span><span class="copyright-link__value"><a href="https://ljd0620.github.io/2025/03/28/Quarkus%E4%BA%91%E5%8E%9F%E7%94%9F%E6%A1%86%E6%9E%B6%E4%BB%8B%E7%BB%8D/">https://ljd0620.github.io/2025/03/28/Quarkus%E4%BA%91%E5%8E%9F%E7%94%9F%E6%A1%86%E6%9E%B6%E4%BB%8B%E7%BB%8D/</a></span></div><div class="copyright-notice"><span class="copyright-notice__name">版权声明: </span><span class="copyright-notice__value">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en" rel="external nofollow" target="_blank">BY-NC-SA</a> 许可协议。转载请注明出处！</span></div></div><div class="post-tags"><span class="post-tags-item"><span class="post-tags-item__icon"><i class="fas fa-tag"></i></span><a class="post-tags-item__link" href="https://ljd0620.github.io/tags/Java/">Java</a></span><span class="post-tags-item"><span class="post-tags-item__icon"><i class="fas fa-tag"></i></span><a class="post-tags-item__link" href="https://ljd0620.github.io/tags/Quarkus/">Quarkus</a></span><span class="post-tags-item"><span class="post-tags-item__icon"><i class="fas fa-tag"></i></span><a class="post-tags-item__link" href="https://ljd0620.github.io/tags/%E4%BA%91%E5%8E%9F%E7%94%9F/">云原生</a></span></div><div class="post-reward reward"><div class="reward-button">请我喝杯咖啡~</div><div class="reward-qrcode"><span class="reward-qrcode-alipay"><img class="reward-qrcode-alipay__img" src="https://pub-dc7fa280ba2f4edea3f388602fa80bb0.r2.dev/alipay.jpg"><div class="reward-qrcode-alipay__text">支付宝打赏</div></span><span class="reward-qrcode-wechat"><img class="reward-qrcode-wechat__img" src="https://pub-dc7fa280ba2f4edea3f388602fa80bb0.r2.dev/wechat.jpg"><div class="reward-qrcode-wechat__text">微信打赏</div></span></div></div><nav class="post-paginator paginator"><div class="paginator-next"><a class="paginator-next__link" href="/2025/03/27/%E6%B7%B1%E5%BA%A6%E5%89%96%E6%9E%90Java%E8%99%9A%E6%8B%9F%E7%BA%BF%E7%A8%8B%E6%8A%80%E6%9C%AF/"><span class="paginator-prev__text">深度剖析Java虚拟线程技术</span><span class="paginator-next__icon"><i class="fas fa-angle-right"></i></span></a></div></nav></footer></div></div></div><div class="sidebar-wrap" id="sidebar-wrap"><aside class="sidebar" id="sidebar"><div class="sidebar-nav"><span class="sidebar-nav-toc current">文章目录</span><span class="sidebar-nav-ov">站点概览</span></div><section class="sidebar-toc"><ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%80%E3%80%81Quarkus-%E7%9A%84%E6%A0%B8%E5%BF%83%E8%AE%BE%E8%AE%A1%E7%9B%AE%E6%A0%87"><span class="toc-text">
+          一、Quarkus 的核心设计目标</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BA%8C%E3%80%81Quarkus-%E7%9A%84%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF"><span class="toc-text">
+          二、Quarkus 的核心技术</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-%E5%9F%BA%E4%BA%8E-GraalVM-%E7%9A%84-Native-Image"><span class="toc-text">
+          1. 基于 GraalVM 的 Native Image</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-%E5%93%8D%E5%BA%94%E5%BC%8F%E7%BC%96%E7%A8%8B%E6%94%AF%E6%8C%81"><span class="toc-text">
+          2. 响应式编程支持</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-%E7%BC%96%E8%AF%91%E6%97%B6%E5%A2%9E%E5%BC%BA%EF%BC%88Compile-Time-Augmentation%EF%BC%89"><span class="toc-text">
+          3. 编译时增强（Compile-Time Augmentation）</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%89%E3%80%81Quarkus-%E7%9A%84%E9%80%82%E7%94%A8%E5%9C%BA%E6%99%AF"><span class="toc-text">
+          三、Quarkus 的适用场景</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9B%9B%E3%80%81Quarkus-%E7%9A%84%E4%B8%BB%E8%A6%81%E7%89%B9%E6%80%A7"><span class="toc-text">
+          四、Quarkus 的主要特性</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-%E5%BC%80%E5%8F%91%E4%BD%93%E9%AA%8C%E4%BC%98%E5%8C%96"><span class="toc-text">
+          1. 开发体验优化</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-%E9%9B%86%E6%88%90%E4%B8%BB%E6%B5%81%E6%8A%80%E6%9C%AF%E6%A0%88"><span class="toc-text">
+          2. 集成主流技术栈</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-%E5%8E%9F%E7%94%9F-Kubernetes-%E9%9B%86%E6%88%90"><span class="toc-text">
+          3. 原生 Kubernetes 集成</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BA%94%E3%80%81Quarkus-vs-Spring-Boot"><span class="toc-text">
+          五、Quarkus vs Spring Boot</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%85%AD%E3%80%81%E5%BF%AB%E9%80%9F%E5%85%A5%E9%97%A8%E7%A4%BA%E4%BE%8B"><span class="toc-text">
+          六、快速入门示例</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-%E5%88%9B%E5%BB%BA%E9%A1%B9%E7%9B%AE"><span class="toc-text">
+          1. 创建项目</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-%E7%BC%96%E5%86%99-REST-%E6%8E%A5%E5%8F%A3"><span class="toc-text">
+          2. 编写 REST 接口</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-%E5%90%AF%E5%8A%A8%E5%BA%94%E7%94%A8"><span class="toc-text">
+          3. 启动应用</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-%E6%9E%84%E5%BB%BA-Native-Image"><span class="toc-text">
+          4. 构建 Native Image</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%83%E3%80%81Quarkus-%E7%9A%84%E9%80%82%E7%94%A8%E5%AF%B9%E8%B1%A1"><span class="toc-text">
+          七、Quarkus 的适用对象</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%85%AB%E3%80%81%E6%80%BB%E7%BB%93"><span class="toc-text">
+          八、总结</span></a></li></ol></section><!-- ov = overview--><section class="sidebar-ov hide"><div class="sidebar-ov-author"><div class="sidebar-ov-author__avatar"><img class="sidebar-ov-author__avatar_img" src="https://pub-dc7fa280ba2f4edea3f388602fa80bb0.r2.dev/avatar.jpg" alt="avatar"></div><p class="sidebar-ov-author__text">Liujiduo's Blog</p></div><div class="sidebar-ov-feed"><span class="sidebar-ov-feed-email"><a class="sidebar-ov-feed-email__link" href="mailto:liujiduo@sina.com" target="_blank" rel="noopener"><span class="sidebar-ov-feed-email__icon"><i class="fas fa-envelope"></i></span><span>Email 订阅</span></a></span><span class="sidebar-ov-feed-rss"><a class="sidebar-ov-feed-rss__link" href="/atom.xml" target="_blank" rel="noopener"><span class="sidebar-ov-feed-rss__icon"><i class="fas fa-rss"></i></span><span>RSS 订阅</span></a></span></div><div class="sidebar-ov-state"><a class="sidebar-ov-state-item sidebar-ov-state-item--posts" href="/archives/"><div class="sidebar-ov-state-item__count">55</div><div class="sidebar-ov-state-item__name">归档</div></a><a class="sidebar-ov-state-item sidebar-ov-state-item--categories" href="/categories/"><div class="sidebar-ov-state-item__count">17</div><div class="sidebar-ov-state-item__name">分类</div></a><a class="sidebar-ov-state-item sidebar-ov-state-item--tags" href="/tags/"><div class="sidebar-ov-state-item__count">50</div><div class="sidebar-ov-state-item__name">标签</div></a></div><div class="sidebar-ov-cc"><a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en" target="_blank" rel="noopener" data-popover="知识共享许可协议" data-popover-pos="up"><img src="/images/cc-by-nc-sa.svg"></a></div></section><div class="sidebar-reading"><div class="sidebar-reading-info"><span class="sidebar-reading-info__text">你已阅读了 </span><span class="sidebar-reading-info__num">0</span><span class="sidebar-reading-info__perc">%</span></div><div class="sidebar-reading-line"></div></div></aside></div><div class="clearfix"></div></div></main><footer class="footer" id="footer"><div class="footer-inner"><div><span>Copyright © 2024~2025</span><span class="footer__icon"><i class="fas fa-heart"></i></span><span>Liujiduo All Rights Reserved</span></div><div class="busuanzi"></div></div></footer><div class="loading-bar" id="loading-bar"><div class="loading-bar__progress"></div></div><div class="back2top" id="back2top"><span class="back2top__icon"><i class="fas fa-rocket"></i></span></div></div><script src="https://cdn.jsdelivr.net/npm/jquery@v3.4.1/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/velocity-animate@1.5.2/velocity.min.js"></script><script src="https://cdn.jsdelivr.net/npm/velocity-animate@1.5.2/velocity.ui.min.js"></script><script src="https://cdn.jsdelivr.net/npm/ribbon.js@latest/dist/ribbon.min.js" size="120" alpha="0.6" zIndex="-1"></script><script src="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script><script src="/js/utils.js?v=2.8.0"></script><script src="/js/stun-boot.js?v=2.8.0"></script><script src="/js/scroll.js?v=2.8.0"></script><script src="/js/header.js?v=2.8.0"></script><script src="/js/sidebar.js?v=2.8.0"></script></body></html>
