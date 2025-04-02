@@ -2675,12 +2675,12 @@ kbd {
   font-size: 0.9em;
   color: #999;
 }
-@media (min-width: 490%) {
+@media (min-width: 1610px) {
   .header-nav-inner {
-    width: 490%;
+    width: 1610px;
   }
   .main-inner {
-    width: 490%;
+    width: 1610px;
   }
 }
 @media (min-width: 991.98px) {
