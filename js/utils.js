@@ -557,11 +557,7 @@ Stun.utils = Stun.$u = {
         '</div>'
     )
 
-    if (type === 'simple' || type === 'carbon') {
-      btnContainer += '.highlight figcaption:not(".custom")'
-    } else {
-      btnContainer += '.highlight figcaption'
-    }
+    btnContainer += '.highlight figcaption'
     // Add a copy button to the selected elements.
     $(btnContainer).append($copyIcon)
   },
