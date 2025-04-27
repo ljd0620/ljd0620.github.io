@@ -1519,6 +1519,7 @@ kbd {
 }
 .tagcloud-item a {
   margin: 0 0.4rem;
+  white-space: nowrap;
   -webkit-transition: color 0.2s ease;
   -moz-transition: color 0.2s ease;
   -o-transition: color 0.2s ease;
