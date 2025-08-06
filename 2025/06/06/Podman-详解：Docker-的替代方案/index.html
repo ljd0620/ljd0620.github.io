@@ -1,0 +1,243 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="renderer" content="webkit"><meta name="force-rendering" content="webkit"><script>if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMode)) {
+  window.location.href = 'https://support.dmeng.net/upgrade-your-browser.html';
+}</script><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="format-detection" content="telephone=no"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black"><link rel="icon" href="https://pub-dc7fa280ba2f4edea3f388602fa80bb0.r2.dev/favicon.ico?v=2.8.0" type="image/png" sizes="16x16"><link rel="icon" href="https://pub-dc7fa280ba2f4edea3f388602fa80bb0.r2.dev/favicon.ico?v=2.8.0" type="image/png" sizes="32x32"><meta name="description" content="Podman 详解：Docker 的替代方案">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Podman 详解：Docker 的替代方案">
+<meta property="og:url" content="https://ljd0620.github.io/2025/06/06/Podman-%E8%AF%A6%E8%A7%A3%EF%BC%9ADocker-%E7%9A%84%E6%9B%BF%E4%BB%A3%E6%96%B9%E6%A1%88/index.html">
+<meta property="og:site_name" content="Just Do IT.">
+<meta property="og:description" content="Podman 详解：Docker 的替代方案">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2025-06-06T06:38:52.000Z">
+<meta property="article:modified_time" content="2025-08-06T06:43:27.807Z">
+<meta property="article:author" content="Liujiduo">
+<meta property="article:tag" content="Podman">
+<meta property="article:tag" content="Docker">
+<meta name="twitter:card" content="summary"><title>Podman 详解：Docker 的替代方案 | Just Do IT.</title><link ref="canonical" href="https://ljd0620.github.io/2025/06/06/Podman-%E8%AF%A6%E8%A7%A3%EF%BC%9ADocker-%E7%9A%84%E6%9B%BF%E4%BB%A3%E6%96%B9%E6%A1%88/"><link rel="alternate" href="/atom.xml" type="application/atom+xml"><link rel="dns-prefetch" href="https://cdn.jsdelivr.net"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.12.1/css/all.min.css" type="text/css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" type="text/css"><link rel="stylesheet" href="/css/index.css?v=2.8.0"><script>var Stun = window.Stun || {};
+var CONFIG = {
+  root: '/',
+  algolia: undefined,
+  assistSearch: undefined,
+  fontIcon: {"prompt":{"success":"fas fa-check-circle","info":"fas fa-arrow-circle-right","warning":"fas fa-exclamation-circle","error":"fas fa-times-circle"},"copyBtn":"fas fa-copy"},
+  sidebar: {"offsetTop":"20px","tocMaxDepth":6},
+  header: {"enable":true,"showOnPost":true,"scrollDownIcon":false},
+  postWidget: {"endText":true},
+  nightMode: {"enable":true},
+  back2top: undefined,
+  codeblock: {"style":"carbon","highlight":"light","wordWrap":false},
+  reward: true,
+  fancybox: true,
+  zoomImage: undefined,
+  galleryWaterfall: {"colWidth":"270px","gapX":"10px"},
+  lazyload: false,
+  pjax: undefined,
+  externalLink: {"icon":{"enable":true,"name":"fas fa-external-link-alt"}},
+  shortcuts: undefined,
+  prompt: {"copyButton":"复制","copySuccess":"复制成功","copyError":"复制失败"},
+  sourcePath: {"js":"js","css":"css","images":"images"},
+};
+
+window.CONFIG = CONFIG;</script><meta name="generator" content="Hexo 7.3.0"></head><body><div class="container" id="container"><header class="header" id="header"><div class="header-inner"><nav class="header-nav header-nav--fixed"><div class="header-nav-inner"><div class="header-nav-menubtn"><i class="fas fa-bars"></i></div><div class="header-nav-menu"><div class="header-nav-menu-item"><a class="header-nav-menu-item__link" href="/"><span class="header-nav-menu-item__icon"><i class="fas fa-home"></i></span><span class="header-nav-menu-item__text">首页</span></a></div><div class="header-nav-menu-item"><a class="header-nav-menu-item__link" href="/archives/"><span class="header-nav-menu-item__icon"><i class="fas fa-folder-open"></i></span><span class="header-nav-menu-item__text">归档</span></a></div><div class="header-nav-menu-item"><a class="header-nav-menu-item__link" href="/categories/"><span class="header-nav-menu-item__icon"><i class="fas fa-layer-group"></i></span><span class="header-nav-menu-item__text">分类</span></a></div><div class="header-nav-menu-item"><a class="header-nav-menu-item__link" href="/tags/"><span class="header-nav-menu-item__icon"><i class="fas fa-tags"></i></span><span class="header-nav-menu-item__text">标签</span></a></div><div class="header-nav-menu-item"><a class="header-nav-menu-item__link" href="/photos/"><span class="header-nav-menu-item__icon"><i class="fas fa-images"></i></span><span class="header-nav-menu-item__text">相册</span></a></div><div class="header-nav-menu-item"><a class="header-nav-menu-item__link" href="/about/"><span class="header-nav-menu-item__icon"><i class="fas fa-user"></i></span><span class="header-nav-menu-item__text">关于</span></a></div></div><div class="header-nav-mode"><div class="mode"><div class="mode-track"><span class="mode-track-moon"></span><span class="mode-track-sun"></span></div><div class="mode-thumb"></div></div></div></div></nav><div class="header-banner"><div class="header-banner-info"><div class="header-banner-info__title">Just Do IT.</div><div class="header-banner-info__subtitle">一个程序员的自我修养</div></div></div></div></header><main class="main" id="main"><div class="main-inner"><div class="content-wrap" id="content-wrap"><div class="content" id="content"><!-- Just used to judge whether it is an article page--><div id="is-post"></div><div class="post"><header class="post-header"><h1 class="post-title">Podman 详解：Docker 的替代方案</h1><div class="post-meta"><span class="post-meta-item post-meta-item--createtime"><span class="post-meta-item__icon"><i class="far fa-calendar-plus"></i></span><span class="post-meta-item__info">发表于</span><span class="post-meta-item__value">2025-06-06</span></span><span class="post-meta-item post-meta-item--wordcount"><span class="post-meta-item__icon"><i class="far fa-file-word"></i></span><span class="post-meta-item__info">字数统计</span><span class="post-meta-item__value">660</span></span><span class="post-meta-item post-meta-item--readtime"><span class="post-meta-item__icon"><i class="far fa-clock"></i></span><span class="post-meta-item__info">阅读时长</span><span class="post-meta-item__value">4分</span></span></div></header><div class="post-body"><p>Podman（<strong>Pod Manager</strong>）是一个开源的容器引擎，由 Red Hat 开发，用于管理容器和容器镜像。它与 Docker 兼容，但采用 <strong>无守护进程（daemonless）</strong> 架构，更轻量、更安全，并支持 <strong>rootless 容器</strong>（普通用户可直接运行容器）。</p>
+<hr>
+
+        <h2 id="1-Podman-vs-Docker"   >
+          <a href="#1-Podman-vs-Docker" class="heading-link"><i class="fas fa-link"></i></a><a href="#1-Podman-vs-Docker" class="headerlink" title="1. Podman vs Docker"></a><strong>1. Podman vs Docker</strong></h2>
+      <div class="table-container"><table>
+<thead>
+<tr>
+<th>特性</th>
+<th>Podman</th>
+<th>Docker</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>架构</strong></td>
+<td>无守护进程（直接调用 runC）</td>
+<td>依赖 <code>dockerd</code> 守护进程</td>
+</tr>
+<tr>
+<td><strong>Rootless 支持</strong></td>
+<td>✅ 默认支持</td>
+<td>❌ 需要额外配置</td>
+</tr>
+<tr>
+<td><strong>Systemd 集成</strong></td>
+<td>✅ 原生支持</td>
+<td>❌ 需要第三方工具</td>
+</tr>
+<tr>
+<td><strong>兼容性</strong></td>
+<td>兼容 Docker CLI 和镜像</td>
+<td>不兼容 Podman 特有功能</td>
+</tr>
+<tr>
+<td><strong>安全性</strong></td>
+<td>更安全（无特权进程）</td>
+<td>依赖 <code>dockerd</code>（有风险）</td>
+</tr>
+</tbody></table></div>
+<span id="more"></span>
+<hr>
+
+        <h2 id="2-Podman-核心功能"   >
+          <a href="#2-Podman-核心功能" class="heading-link"><i class="fas fa-link"></i></a><a href="#2-Podman-核心功能" class="headerlink" title="2. Podman 核心功能"></a><strong>2. Podman 核心功能</strong></h2>
+      
+        <h3 id="1-安装-Podman"   >
+          <a href="#1-安装-Podman" class="heading-link"><i class="fas fa-link"></i></a><a href="#1-安装-Podman" class="headerlink" title="(1) 安装 Podman"></a><strong>(1) 安装 Podman</strong></h3>
+      <ul>
+<li><strong>Linux (Ubuntu&#x2F;Debian)</strong><figure class="highlight bash"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> apt update &amp;&amp; <span class="built_in">sudo</span> apt install podman</span><br></pre></td></tr></table></div></figure></li>
+<li><strong>Mac (通过 Homebrew)</strong><figure class="highlight bash"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">brew install podman</span><br><span class="line">podman machine init</span><br><span class="line">podman machine start</span><br></pre></td></tr></table></div></figure></li>
+<li><strong>Windows (WSL2)</strong><figure class="highlight bash"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">wsl --install</span><br><span class="line"><span class="built_in">sudo</span> apt install podman</span><br></pre></td></tr></table></div></figure></li>
+</ul>
+
+        <h3 id="2-基本命令（兼容-Docker）"   >
+          <a href="#2-基本命令（兼容-Docker）" class="heading-link"><i class="fas fa-link"></i></a><a href="#2-基本命令（兼容-Docker）" class="headerlink" title="(2) 基本命令（兼容 Docker）"></a><strong>(2) 基本命令（兼容 Docker）</strong></h3>
+      <div class="table-container"><table>
+<thead>
+<tr>
+<th>功能</th>
+<th>命令示例</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>拉取镜像</td>
+<td><code>podman pull nginx</code></td>
+</tr>
+<tr>
+<td>运行容器</td>
+<td><code>podman run -d --name web nginx</code></td>
+</tr>
+<tr>
+<td>列出容器</td>
+<td><code>podman ps -a</code></td>
+</tr>
+<tr>
+<td>进入容器</td>
+<td><code>podman exec -it web bash</code></td>
+</tr>
+<tr>
+<td>构建镜像</td>
+<td><code>podman build -t myapp .</code></td>
+</tr>
+<tr>
+<td>删除容器</td>
+<td><code>podman rm web</code></td>
+</tr>
+<tr>
+<td>删除镜像</td>
+<td><code>podman rmi nginx</code></td>
+</tr>
+</tbody></table></div>
+
+        <h3 id="3-Rootless-容器（无需-root-权限）"   >
+          <a href="#3-Rootless-容器（无需-root-权限）" class="heading-link"><i class="fas fa-link"></i></a><a href="#3-Rootless-容器（无需-root-权限）" class="headerlink" title="(3) Rootless 容器（无需 root 权限）"></a><strong>(3) Rootless 容器（无需 root 权限）</strong></h3>
+      <figure class="highlight bash"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 普通用户直接运行容器</span></span><br><span class="line">podman run -d -p 8080:80 nginx</span><br></pre></td></tr></table></div></figure>
+<p>Podman 默认使用 <strong>用户命名空间</strong>，避免提权风险。</p>
+<hr>
+
+        <h2 id="3-Podman-高级用法"   >
+          <a href="#3-Podman-高级用法" class="heading-link"><i class="fas fa-link"></i></a><a href="#3-Podman-高级用法" class="headerlink" title="3. Podman 高级用法"></a><strong>3. Podman 高级用法</strong></h2>
+      
+        <h3 id="1-Pod-管理（类似-Kubernetes-Pod）"   >
+          <a href="#1-Pod-管理（类似-Kubernetes-Pod）" class="heading-link"><i class="fas fa-link"></i></a><a href="#1-Pod-管理（类似-Kubernetes-Pod）" class="headerlink" title="(1) Pod 管理（类似 Kubernetes Pod）"></a><strong>(1) Pod 管理（类似 Kubernetes Pod）</strong></h3>
+      <figure class="highlight bash"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 创建一个 Pod（包含多个容器）</span></span><br><span class="line">podman pod create --name mypod</span><br><span class="line">podman run -d --pod mypod nginx</span><br><span class="line">podman run -d --pod mypod redis</span><br></pre></td></tr></table></div></figure>
+<ul>
+<li>适用于微服务场景（多个容器共享网络）。</li>
+</ul>
+
+        <h3 id="2-Systemd-集成"   >
+          <a href="#2-Systemd-集成" class="heading-link"><i class="fas fa-link"></i></a><a href="#2-Systemd-集成" class="headerlink" title="(2) Systemd 集成"></a><strong>(2) Systemd 集成</strong></h3>
+      <figure class="highlight bash"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 生成 systemd 服务文件</span></span><br><span class="line">podman generate systemd --name web &gt; /etc/systemd/system/web.service</span><br><span class="line"></span><br><span class="line"><span class="comment"># 启动服务</span></span><br><span class="line">systemctl <span class="built_in">enable</span> --now web.service</span><br></pre></td></tr></table></div></figure>
+<ul>
+<li>适合生产环境管理容器。</li>
+</ul>
+
+        <h3 id="3-兼容-Docker-Compose"   >
+          <a href="#3-兼容-Docker-Compose" class="heading-link"><i class="fas fa-link"></i></a><a href="#3-兼容-Docker-Compose" class="headerlink" title="(3) 兼容 Docker Compose"></a><strong>(3) 兼容 Docker Compose</strong></h3>
+      <figure class="highlight bash"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 安装 podman-compose</span></span><br><span class="line">pip install podman-compose</span><br><span class="line"></span><br><span class="line"><span class="comment"># 使用 docker-compose.yml</span></span><br><span class="line">podman-compose up -d</span><br></pre></td></tr></table></div></figure>
+
+<hr>
+
+        <h2 id="4-Podman-适用场景"   >
+          <a href="#4-Podman-适用场景" class="heading-link"><i class="fas fa-link"></i></a><a href="#4-Podman-适用场景" class="headerlink" title="4. Podman 适用场景"></a><strong>4. Podman 适用场景</strong></h2>
+      <ol>
+<li><p><strong>开发环境</strong>  </p>
+<ul>
+<li>更轻量，无守护进程，启动更快。</li>
+<li>适合 CI&#x2F;CD（如 GitHub Actions）。</li>
+</ul>
+</li>
+<li><p><strong>安全敏感场景</strong>  </p>
+<ul>
+<li>Rootless 容器减少攻击面。</li>
+<li>适用于云原生（OpenShift 默认使用 Podman）。</li>
+</ul>
+</li>
+<li><p><strong>Kubernetes 本地测试</strong>  </p>
+<ul>
+<li>可用 <code>podman play kube</code> 运行 <code>kubectl</code> YAML。</li>
+</ul>
+</li>
+</ol>
+<hr>
+
+        <h2 id="5-常见问题"   >
+          <a href="#5-常见问题" class="heading-link"><i class="fas fa-link"></i></a><a href="#5-常见问题" class="headerlink" title="5. 常见问题"></a><strong>5. 常见问题</strong></h2>
+      
+        <h3 id="1-Podman-能完全替代-Docker-吗？"   >
+          <a href="#1-Podman-能完全替代-Docker-吗？" class="heading-link"><i class="fas fa-link"></i></a><a href="#1-Podman-能完全替代-Docker-吗？" class="headerlink" title="(1) Podman 能完全替代 Docker 吗？"></a><strong>(1) Podman 能完全替代 Docker 吗？</strong></h3>
+      <p>✅ <strong>可以</strong>，但需注意：</p>
+<ul>
+<li>部分 Docker 插件（如 <code>docker buildx</code>）不支持。</li>
+<li>企业版 Docker（如 Docker Desktop）提供额外功能（如 Kubernetes 集成）。</li>
+</ul>
+
+        <h3 id="2-Podman-性能如何？"   >
+          <a href="#2-Podman-性能如何？" class="heading-link"><i class="fas fa-link"></i></a><a href="#2-Podman-性能如何？" class="headerlink" title="(2) Podman 性能如何？"></a><strong>(2) Podman 性能如何？</strong></h3>
+      <ul>
+<li>容器启动速度 <strong>比 Docker 快</strong>（无 <code>dockerd</code> 开销）。</li>
+<li>镜像拉取速度接近 Docker。</li>
+</ul>
+
+        <h3 id="3-如何迁移-Docker-到-Podman？"   >
+          <a href="#3-如何迁移-Docker-到-Podman？" class="heading-link"><i class="fas fa-link"></i></a><a href="#3-如何迁移-Docker-到-Podman？" class="headerlink" title="(3) 如何迁移 Docker 到 Podman？"></a><strong>(3) 如何迁移 Docker 到 Podman？</strong></h3>
+      <figure class="highlight bash"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">alias</span> docker=podman  <span class="comment"># 直接替换 CLI</span></span><br><span class="line"><span class="built_in">export</span> DOCKER_HOST=unix:///tmp/podman.sock</span><br></pre></td></tr></table></div></figure>
+<ul>
+<li>大部分 <code>docker</code> 命令可直接换成 <code>podman</code>。</li>
+</ul>
+<hr>
+
+        <h2 id="6-总结"   >
+          <a href="#6-总结" class="heading-link"><i class="fas fa-link"></i></a><a href="#6-总结" class="headerlink" title="6. 总结"></a><strong>6. 总结</strong></h2>
+      <div class="table-container"><table>
+<thead>
+<tr>
+<th><strong>推荐选择</strong></th>
+<th><strong>场景</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Podman</strong></td>
+<td>安全、轻量、Kubernetes 兼容</td>
+</tr>
+<tr>
+<td><strong>Docker</strong></td>
+<td>需要完整生态（如 Docker Desktop）</td>
+</tr>
+</tbody></table></div>
+<p>Podman 是 <strong>未来趋势</strong>，特别适合云原生和安全性要求高的场景！ 🚀</p>
+</div><footer class="post-footer"><div class="post-ending ending"><div class="ending__text">------ 本文结束，感谢您的阅读 ------</div></div><div class="post-copyright copyright"><div class="copyright-author"><span class="copyright-author__name">本文作者: </span><span class="copyright-author__value"><a href="https://ljd0620.github.io">Liujiduo</a></span></div><div class="copyright-link"><span class="copyright-link__name">本文链接: </span><span class="copyright-link__value"><a href="https://ljd0620.github.io/2025/06/06/Podman-%E8%AF%A6%E8%A7%A3%EF%BC%9ADocker-%E7%9A%84%E6%9B%BF%E4%BB%A3%E6%96%B9%E6%A1%88/">https://ljd0620.github.io/2025/06/06/Podman-%E8%AF%A6%E8%A7%A3%EF%BC%9ADocker-%E7%9A%84%E6%9B%BF%E4%BB%A3%E6%96%B9%E6%A1%88/</a></span></div><div class="copyright-notice"><span class="copyright-notice__name">版权声明: </span><span class="copyright-notice__value">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en" rel="external nofollow" target="_blank">BY-NC-SA</a> 许可协议。转载请注明出处！</span></div></div><div class="post-tags"><span class="post-tags-item"><span class="post-tags-item__icon"><i class="fas fa-tag"></i></span><a class="post-tags-item__link" href="https://ljd0620.github.io/tags/Podman/">Podman</a></span><span class="post-tags-item"><span class="post-tags-item__icon"><i class="fas fa-tag"></i></span><a class="post-tags-item__link" href="https://ljd0620.github.io/tags/Docker/">Docker</a></span></div><div class="post-reward reward"><div class="reward-button">请我喝杯咖啡~</div><div class="reward-qrcode"><span class="reward-qrcode-alipay"><img class="reward-qrcode-alipay__img" src="https://pub-dc7fa280ba2f4edea3f388602fa80bb0.r2.dev/alipay.jpg"><div class="reward-qrcode-alipay__text">支付宝打赏</div></span><span class="reward-qrcode-wechat"><img class="reward-qrcode-wechat__img" src="https://pub-dc7fa280ba2f4edea3f388602fa80bb0.r2.dev/wechat.jpg"><div class="reward-qrcode-wechat__text">微信打赏</div></span></div></div><nav class="post-paginator paginator"><div class="paginator-next"><a class="paginator-next__link" href="/2025/04/06/Serverless%E6%9E%B6%E6%9E%84%E6%8A%80%E6%9C%AF%E5%88%86%E6%9E%90/"><span class="paginator-prev__text">Serverless架构技术分析</span><span class="paginator-next__icon"><i class="fas fa-angle-right"></i></span></a></div></nav></footer></div></div></div><div class="sidebar-wrap" id="sidebar-wrap"><aside class="sidebar" id="sidebar"><div class="sidebar-nav"><span class="sidebar-nav-toc current">文章目录</span><span class="sidebar-nav-ov">站点概览</span></div><section class="sidebar-toc"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-Podman-vs-Docker"><span class="toc-text">
+          1. Podman vs Docker</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-Podman-%E6%A0%B8%E5%BF%83%E5%8A%9F%E8%83%BD"><span class="toc-text">
+          2. Podman 核心功能</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E5%AE%89%E8%A3%85-Podman"><span class="toc-text">
+          (1) 安装 Podman</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E5%9F%BA%E6%9C%AC%E5%91%BD%E4%BB%A4%EF%BC%88%E5%85%BC%E5%AE%B9-Docker%EF%BC%89"><span class="toc-text">
+          (2) 基本命令（兼容 Docker）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-Rootless-%E5%AE%B9%E5%99%A8%EF%BC%88%E6%97%A0%E9%9C%80-root-%E6%9D%83%E9%99%90%EF%BC%89"><span class="toc-text">
+          (3) Rootless 容器（无需 root 权限）</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-Podman-%E9%AB%98%E7%BA%A7%E7%94%A8%E6%B3%95"><span class="toc-text">
+          3. Podman 高级用法</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-Pod-%E7%AE%A1%E7%90%86%EF%BC%88%E7%B1%BB%E4%BC%BC-Kubernetes-Pod%EF%BC%89"><span class="toc-text">
+          (1) Pod 管理（类似 Kubernetes Pod）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-Systemd-%E9%9B%86%E6%88%90"><span class="toc-text">
+          (2) Systemd 集成</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%E5%85%BC%E5%AE%B9-Docker-Compose"><span class="toc-text">
+          (3) 兼容 Docker Compose</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-Podman-%E9%80%82%E7%94%A8%E5%9C%BA%E6%99%AF"><span class="toc-text">
+          4. Podman 适用场景</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98"><span class="toc-text">
+          5. 常见问题</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-Podman-%E8%83%BD%E5%AE%8C%E5%85%A8%E6%9B%BF%E4%BB%A3-Docker-%E5%90%97%EF%BC%9F"><span class="toc-text">
+          (1) Podman 能完全替代 Docker 吗？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-Podman-%E6%80%A7%E8%83%BD%E5%A6%82%E4%BD%95%EF%BC%9F"><span class="toc-text">
+          (2) Podman 性能如何？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%E5%A6%82%E4%BD%95%E8%BF%81%E7%A7%BB-Docker-%E5%88%B0-Podman%EF%BC%9F"><span class="toc-text">
+          (3) 如何迁移 Docker 到 Podman？</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#6-%E6%80%BB%E7%BB%93"><span class="toc-text">
+          6. 总结</span></a></li></ol></section><!-- ov = overview--><section class="sidebar-ov hide"><div class="sidebar-ov-author"><div class="sidebar-ov-author__avatar"><img class="sidebar-ov-author__avatar_img" src="https://pub-dc7fa280ba2f4edea3f388602fa80bb0.r2.dev/avatar.jpg" alt="avatar"></div><p class="sidebar-ov-author__text">Liujiduo's Blog</p></div><div class="sidebar-ov-feed"><span class="sidebar-ov-feed-email"><a class="sidebar-ov-feed-email__link" href="mailto:liujiduo@sina.com" target="_blank" rel="noopener"><span class="sidebar-ov-feed-email__icon"><i class="fas fa-envelope"></i></span><span>Email 订阅</span></a></span><span class="sidebar-ov-feed-rss"><a class="sidebar-ov-feed-rss__link" href="/atom.xml" target="_blank" rel="noopener"><span class="sidebar-ov-feed-rss__icon"><i class="fas fa-rss"></i></span><span>RSS 订阅</span></a></span></div><div class="sidebar-ov-state"><a class="sidebar-ov-state-item sidebar-ov-state-item--posts" href="/archives/"><div class="sidebar-ov-state-item__count">60</div><div class="sidebar-ov-state-item__name">归档</div></a><a class="sidebar-ov-state-item sidebar-ov-state-item--categories" href="/categories/"><div class="sidebar-ov-state-item__count">19</div><div class="sidebar-ov-state-item__name">分类</div></a><a class="sidebar-ov-state-item sidebar-ov-state-item--tags" href="/tags/"><div class="sidebar-ov-state-item__count">57</div><div class="sidebar-ov-state-item__name">标签</div></a></div><div class="sidebar-ov-cc"><a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en" target="_blank" rel="noopener" data-popover="知识共享许可协议" data-popover-pos="up"><img src="/images/cc-by-nc-sa.svg"></a></div></section><div class="sidebar-reading"><div class="sidebar-reading-info"><span class="sidebar-reading-info__text">你已阅读了 </span><span class="sidebar-reading-info__num">0</span><span class="sidebar-reading-info__perc">%</span></div><div class="sidebar-reading-line"></div></div></aside></div><div class="clearfix"></div></div></main><footer class="footer" id="footer"><div class="footer-inner"><div><span>Copyright © 2025</span><span class="footer__icon"><i class="fas fa-heart"></i></span><span>All Rights Reserved</span></div><div>—— 只要思想不滑坡，办法总比困难多 ——</div></div></footer><div class="loading-bar" id="loading-bar"><div class="loading-bar__progress"></div></div></div><script src="https://cdn.jsdelivr.net/npm/jquery@v3.4.1/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/velocity-animate@1.5.2/velocity.min.js"></script><script src="https://cdn.jsdelivr.net/npm/velocity-animate@1.5.2/velocity.ui.min.js"></script><script src="https://cdn.jsdelivr.net/npm/ribbon.js@latest/dist/ribbon.min.js" size="120" alpha="0.6" zIndex="-1"></script><script src="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script><script src="https://cdn.jsdelivr.net/npm/masonry-layout@4.2.2/dist/masonry.pkgd.min.js"></script><script src="/js/utils.js?v=2.8.0"></script><script src="/js/stun-boot.js?v=2.8.0"></script><script src="/js/scroll.js?v=2.8.0"></script><script src="/js/header.js?v=2.8.0"></script><script src="/js/sidebar.js?v=2.8.0"></script></body></html>
